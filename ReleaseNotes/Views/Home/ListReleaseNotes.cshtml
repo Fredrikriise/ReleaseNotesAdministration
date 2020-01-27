@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ReleaseNotes.Models.releaseNotes>
+
+@{
+    ViewData["Title"] = "ListReleaseNotes";
+}
+
+<h1>Release notes</h1>
+                @Html.DisplayNameFor(model => model.title)
+            
+                @Html.DisplayNameFor(model => model.bodytext)
+           
+                @Html.DisplayNameFor(model => model.id)
+          
+                @Html.DisplayNameFor(model => model.productId)
+            
+                @Html.DisplayNameFor(model => model.createdBy)
+        
+                @Html.DisplayNameFor(model => model.createdDate)
+  
+                @Html.DisplayNameFor(model => model.lastUpdatedBy)
+  
+                @Html.DisplayNameFor(model => model.lastUpdatedDate)
+
+
+@foreach (var item in Model)
+{
+
+                @Html.DisplayFor(modelItem => item.title)
+
+                @Html.DisplayFor(modelItem => item.bodytext)
+
+                @Html.DisplayFor(modelItem => item.id)
+
+                @Html.DisplayFor(modelItem => item.productId)
+
+                @Html.DisplayFor(modelItem => item.createdBy)
+
+                @Html.DisplayFor(modelItem => item.createdDate)
+
+                @Html.DisplayFor(modelItem => item.lastUpdatedBy)
+
+                @Html.DisplayFor(modelItem => item.lastUpdatedDate)
+
+}
+ 

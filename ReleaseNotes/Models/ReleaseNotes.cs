@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReleaseNotes.Models
 {
-    public class ReleaseNotes
+    public class releaseNotes
     {
         [Display(Name = "Title")]
         public string title { get; set; }
