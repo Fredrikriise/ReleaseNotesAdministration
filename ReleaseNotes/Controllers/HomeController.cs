@@ -23,7 +23,7 @@ namespace ReleaseNotes.Controllers
             return View();
         }
 
-        public IActionResult Contact()
+        public IActionResult LatestRelease()
         {
             return View();
         }
