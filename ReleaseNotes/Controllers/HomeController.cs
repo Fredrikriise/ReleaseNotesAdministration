@@ -23,7 +23,7 @@ namespace ReleaseNotes.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Contact()
         {
             return View();
         }
@@ -33,5 +33,7 @@ namespace ReleaseNotes.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public 
     }
 }
