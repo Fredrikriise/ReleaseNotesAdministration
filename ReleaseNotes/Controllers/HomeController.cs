@@ -48,7 +48,18 @@ namespace ReleaseNotes.Controllers
                     createdBy = "Fredrik Svevad Riise",
                     createdDate = DateTime.ParseExact("27/01/2020", "dd/MM/yyyy", null),
                     lastUpdatedBy = "",
-                    lastUpdatedDate = DateTime.ParseExact("20/02/2002", "dd/MM/yyyy", null),
+                    lastUpdatedDate = null,
+                },
+                 
+                new releaseNotes {
+                    title = "Release note 0.93 - Manager",
+                    bodytext = "Fixed log in errors",
+                    id = 2,
+                    productId = 2,
+                    createdBy = "Felix Thu Falkendal Nilsen",
+                    createdDate = DateTime.ParseExact("28/01/2020", "dd/MM/yyyy", null),
+                    lastUpdatedBy = "",
+                    lastUpdatedDate = null,
                 }
             };
 

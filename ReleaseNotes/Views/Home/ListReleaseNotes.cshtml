@@ -5,41 +5,63 @@
 }
 
 <h1>Release notes</h1>
-                @Html.DisplayNameFor(model => model.title)
-            
-                @Html.DisplayNameFor(model => model.bodytext)
-           
-                @Html.DisplayNameFor(model => model.id)
-          
-                @Html.DisplayNameFor(model => model.productId)
-            
-                @Html.DisplayNameFor(model => model.createdBy)
-        
-                @Html.DisplayNameFor(model => model.createdDate)
-  
-                @Html.DisplayNameFor(model => model.lastUpdatedBy)
-  
-                @Html.DisplayNameFor(model => model.lastUpdatedDate)
-
-
+<!--
 @foreach (var item in Model)
 {
 
-                @Html.DisplayFor(modelItem => item.title)
-
-                @Html.DisplayFor(modelItem => item.bodytext)
-
-                @Html.DisplayFor(modelItem => item.id)
-
-                @Html.DisplayFor(modelItem => item.productId)
-
-                @Html.DisplayFor(modelItem => item.createdBy)
-
-                @Html.DisplayFor(modelItem => item.createdDate)
-
-                @Html.DisplayFor(modelItem => item.lastUpdatedBy)
-
-                @Html.DisplayFor(modelItem => item.lastUpdatedDate)
-
+    @Html.DisplayNameFor(model => model.title)
+    <br>
+    @Html.DisplayNameFor(model => model.bodytext)
+    <br>
+    @Html.DisplayNameFor(model => model.id)
+    <br>
+    @Html.DisplayNameFor(model => model.productId)
+    <br>
+    @Html.DisplayNameFor(model => model.createdBy)
+    <br>
+    @Html.DisplayNameFor(model => model.createdDate)
+    <br>
+    @Html.DisplayNameFor(model => model.lastUpdatedBy)
+    <br>
+    @Html.DisplayNameFor(model => model.lastUpdatedDate)
 }
- 
+-->
+@foreach (var item in Model)
+{
+    <!-- Bør unngå inline style, fiks i css senere -->
+    <div style=font-weight:bold>
+        @Html.DisplayNameFor(model => model.title)
+    </div>
+    @Html.DisplayFor(modelItem => item.bodytext)
+
+    <!--
+    @Html.DisplayFor(modelItem => item.id)
+    <br>
+    @Html.DisplayFor(modelItem => item.productId)
+    -->
+    <br>
+    <div style=font-weight:bold>
+        @Html.DisplayNameFor(model => model.createdBy)
+    </div>
+    @Html.DisplayFor(modelItem => item.createdBy)
+    <br>
+    <div style=font-weight:bold>
+        @Html.DisplayNameFor(model => model.createdDate)
+    </div>
+    @Html.DisplayFor(modelItem => item.createdDate)
+    <br>
+    <!-- if loop to check if the releasenotes hanst been updated -->
+    @if (item.lastUpdatedBy.Length != 0)
+    {
+        @Html.DisplayNameFor(model => model.lastUpdatedBy)
+        <br>
+        @Html.DisplayFor(modelItem => item.lastUpdatedBy)
+        <br>
+        <br>
+
+        @Html.DisplayNameFor(model => model.lastUpdatedDate)
+        @Html.DisplayFor(modelItem => item.lastUpdatedDate)
+    }
+    <br>
+    <br>
+}
