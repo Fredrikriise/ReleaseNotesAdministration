@@ -4,7 +4,30 @@
     ViewData["Title"] = "ListReleaseNotes";
 }
 
-<h1>Release notes</h1>
+<style>
+    #headerTitle {
+        font-size: 250%;
+        margin-bottom: 2.5%;
+    }
+
+    #releaseNoteTitle {
+        font-weight: bold;
+        font-size: 125%;
+    }
+
+    #creatorName {
+        font-weight: bold;
+        font-style: italic;
+    }
+
+    #hrTag {
+        margin-bottom: -1.5%;
+    }
+</style>
+
+
+
+<h1 id="headerTitle">Release notes</h1>
 <!--
 @foreach (var item in Model)
 {
@@ -28,10 +51,14 @@
 -->
 @foreach (var item in Model)
 {
-    <!-- Bør unngå inline style, fiks i css senere -->
-    <div style=font-weight:bold>
-        @Html.DisplayNameFor(model => model.title)
+    <div id="releaseNoteTitle">
+        <!--@Html.DisplayNameFor(model => model.title)-->
+        @Html.DisplayFor(modelItem => item.title)
     </div>
+
+    @Html.DisplayNameFor(model => model.createdBy) <span id="creatorName">@Html.DisplayFor(modelItem => item.createdBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.createdDate)
+    <hr id="hrTag" />
+    <br>
     @Html.DisplayFor(modelItem => item.bodytext)
 
     <!--
@@ -40,16 +67,13 @@
     @Html.DisplayFor(modelItem => item.productId)
     -->
     <br>
-    <div style=font-weight:bold>
-        @Html.DisplayNameFor(model => model.createdBy)
-    </div>
-    @Html.DisplayFor(modelItem => item.createdBy)
-    <br>
+    <!--
     <div style=font-weight:bold>
         @Html.DisplayNameFor(model => model.createdDate)
     </div>
     @Html.DisplayFor(modelItem => item.createdDate)
-    <br>
+    <br> -->
+
     <!-- if loop to check if the releasenotes hanst been updated -->
     @if (item.lastUpdatedBy.Length != 0)
     {
@@ -65,3 +89,6 @@
     <br>
     <br>
 }
+
+
+
