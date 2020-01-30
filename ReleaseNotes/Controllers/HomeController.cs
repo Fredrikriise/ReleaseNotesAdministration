@@ -57,29 +57,27 @@ namespace ReleaseNotes.Controllers
                 }
             };
 
-            for(var i = 0; i < releaseNotesList.Count; i++)
+            DateTime? val1 = DateTime.MinValue;
+
+            for (var i = 0; i < releaseNotesList.Count; i++)
             {
-                var val1 = 0;
-                if(releaseNotesList[i].id > val1 || releaseNotesList[i].id == val1)
+                if (releaseNotesList[i].createdDate > val1 || releaseNotesList[i].createdDate == val1)
                 {
-                    val1 = releaseNotesList[i].id;
-                }
-                //Currently it gets the release note that was last put in the mock data/data base, maybe change it to the newest date?
-                foreach (var item in releaseNotesList.Where(n => n.id == val1))
-                {
+                    val1 = releaseNotesList[i].createdDate;
+
                     List<releaseNotes> releaseNotesListNew = new List<releaseNotes>
-                        {
-                            new releaseNotes {
-                                title = item.title,
-                                bodytext = item.bodytext,
-                                id = item.id,
-                                productId = item.productId,
-                                createdBy = item.createdBy,
-                                createdDate = item.createdDate,
-                                lastUpdatedBy = item.lastUpdatedBy,
-                                lastUpdatedDate = item.lastUpdatedDate,
-                            }
-                        };
+                    {
+                        new releaseNotes {
+                            title = releaseNotesList[i].title,
+                            bodytext = releaseNotesList[i].bodytext,
+                            id = releaseNotesList[i].id,
+                            productId = releaseNotesList[i].productId,
+                            createdBy = releaseNotesList[i].createdBy,
+                            createdDate = releaseNotesList[i].createdDate,
+                            lastUpdatedBy = releaseNotesList[i].lastUpdatedBy,
+                            lastUpdatedDate = releaseNotesList[i].lastUpdatedDate,
+                        }
+                    };
                     ViewData.Model = releaseNotesListNew;
                 }
             }
