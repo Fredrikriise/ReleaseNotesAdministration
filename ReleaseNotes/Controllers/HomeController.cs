@@ -52,8 +52,8 @@ namespace ReleaseNotes.Controllers
                     productId = 2,
                     createdBy = "Felix Thu Falkendal Nilsen",
                     createdDate = DateTime.ParseExact("28/01/2020", "dd/MM/yyyy", null),
-                    lastUpdatedBy = "",
-                    lastUpdatedDate = null,
+                    lastUpdatedBy = "Felix Thu Falkendal Nilsen",
+                    lastUpdatedDate = DateTime.ParseExact("31/01/2020", "dd/MM/yyyy", null),
                 }
             };
 

@@ -15,7 +15,7 @@
         font-size: 125%;
     }
 
-    #creatorName {
+    #creatorName, #updateName {
         font-weight: bold;
         font-style: italic;
     }
@@ -23,8 +23,12 @@
     #hrTag {
         margin-bottom: -1.5%;
     }
-</style>
 
+    #updatedText {
+        margin-top: 1.25%;
+        margin-bottom: -1%;
+    }
+</style>
 
 
 <h1 id="headerTitle">Release notes</h1>
@@ -77,15 +81,11 @@
     <!-- if loop to check if the releasenotes hanst been updated -->
     @if (item.lastUpdatedBy.Length != 0)
     {
-        @Html.DisplayNameFor(model => model.lastUpdatedBy)
-        <br>
-        @Html.DisplayFor(modelItem => item.lastUpdatedBy)
-        <br>
-        <br>
-
-        @Html.DisplayNameFor(model => model.lastUpdatedDate)
-        @Html.DisplayFor(modelItem => item.lastUpdatedDate)
+        <div id="updatedText">
+            @Html.DisplayNameFor(model => model.lastUpdatedBy) @Html.Raw(" ") <span id="updateName">@Html.DisplayFor(modelItem => item.lastUpdatedBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.lastUpdatedDate)
+        </div>
     }
+    <hr />
     <br>
     <br>
 }
