@@ -1,8 +1,11 @@
 ﻿@model IEnumerable<ReleaseNotes.Models.releaseNotes>
 
+
+
 @{
-    ViewData["Title"] = "ListReleaseNotes";
+    ViewData["Title"] = "ListLatestReleaseNote";
 }
+
 
 <style>
     #headerTitle {
@@ -27,7 +30,7 @@
 
 
 
-<h1 id="headerTitle">Release notes</h1>
+<h1 id="headerTitle">Newest published release note</h1>
 <!--
 @foreach (var item in Model)
 {
@@ -89,5 +92,3 @@
     <br>
     <br>
 }
-
-
