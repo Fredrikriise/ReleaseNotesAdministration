@@ -28,6 +28,10 @@
         margin-top: 1.25%;
         margin-bottom: -1%;
     }
+
+    #submitButton {
+        margin-top: 0.25%;
+    }
 </style>
 
 
@@ -53,7 +57,6 @@
     @Html.DisplayNameFor(model => model.lastUpdatedDate)
 }
 -->
-
 <!-- Foreach loop results in the span, hr, div etc to have the same id - any fix?-->
 @foreach (var item in Model)
 {
@@ -88,8 +91,14 @@
         </div>
     }
     <hr />
+    @Html.TextBox("userEmail", null, new { @class = "form-control", @placeholder = "Would you like to subscribe to updates? Enter your email!"})
+    @using (Html.BeginForm("action", "Home"))
+    {
+        <div id="submitButton"><input type="submit" value="Subscribe" /></div>
+    }
     <br>
     <br>
+
 }
 
 

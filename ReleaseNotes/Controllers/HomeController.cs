@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -123,6 +124,10 @@ namespace ReleaseNotes.Controllers
 
             ViewData.Model = releaseNotesList;
 
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+            SmtpServer.Port = 587;
+            SmtpServer.Credentials = new System.Net.NetworkCredential("username", "password");
+            //http://csharp.net-informations.com/communications/csharp-smtp-mail.htm
             return View();
         } 
     } 
