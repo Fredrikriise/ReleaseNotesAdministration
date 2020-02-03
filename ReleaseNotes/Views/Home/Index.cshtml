@@ -2,49 +2,27 @@
     ViewData["Title"] = "Home Page";
 }
 
+@model IEnumerable<ReleaseNotes.Models.Product>
+
 <div class="text-center">
-        <h1 class="display-4">Talentech - Release Notes</h1>
+    <h1 class="display-4">Talentech - Release Notes</h1>
     <hr />
     <h3>Which product would you like to view release notes from?</h3>
     <!-- CARDS -->
     <div class="row mt-4 col-12">
-        <!-- Recruiter -->
+        @foreach (var item in Model)
+        {
         <div class="col-4">
-            <div class="card">
+            <div class="card" id="@Html.DisplayFor(modelItem => item.productID)">
                 <div class="card-body">
                     <a asp-controller="" asp-action="">
-                        <img src="~/pic-recruiter.png" alt="talent recruiter logo/icon" />
+                        <img src="@Html.DisplayFor(modelItem => item.productImage)"/>
                         <hr />
-                        <h4 class="card-title">Talent Recruiter</h4>
+                        <h4 class="card-title">@Html.DisplayFor(modelItem => item.productName)</h4>
                     </a>
                 </div>
             </div>
         </div>
-
-        <!-- Onboarding -->
-        <div class="col-4">
-            <div class="card">
-                <div class="card-body">
-                    <a asp-controller="" asp-action="">
-                        <img src="~/pic-onboarding.png" alt="talent onboarding logo/icon" />
-                        <hr />
-                        <h4 class="card-title">Talent Onboarding</h4>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Manager -->
-        <div class="col-4">
-            <div class="card">
-                <div class="card-body">
-                    <a asp-controller="" asp-action="">
-                        <img src="~/pic-manager.png" alt="talent manager logo/icon"/>
-                        <hr />
-                        <h4 class="card-title">Talent Manager</h4>
-                    </a>
-                </div>
-            </div>
-        </div>
+        }
     </div>
 </div>
