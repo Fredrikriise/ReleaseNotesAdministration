@@ -21,6 +21,30 @@ namespace ReleaseNotes.Controllers
 
         public IActionResult Index()
         {
+            List<Product> productList = new List<Product>
+            {
+                new Product
+                {
+                    productID = 1,
+                    productName = "Talent Recruiter",
+                    productImage = "pic-recruiter.png"
+                },
+                new Product
+                {
+                    productID = 2,
+                    productName = "Talent Onboarding",
+                    productImage = "pic-onboarding.png"
+                },
+                new Product
+                {
+                    productID = 3,
+                    productName = "Talent Manager",
+                    productImage = "pic-manager.png"
+                }
+            };
+
+            ViewData.Model = productList;
+
             return View();
         }
 
