@@ -37,31 +37,10 @@
 
 
 <h1 id="headerTitle">Newest published release note</h1>
-<!--
-@foreach (var item in Model)
-{
 
-    @Html.DisplayNameFor(model => model.title)
-    <br>
-    @Html.DisplayNameFor(model => model.bodytext)
-    <br>
-    @Html.DisplayNameFor(model => model.id)
-    <br>
-    @Html.DisplayNameFor(model => model.productId)
-    <br>
-    @Html.DisplayNameFor(model => model.createdBy)
-    <br>
-    @Html.DisplayNameFor(model => model.createdDate)
-    <br>
-    @Html.DisplayNameFor(model => model.lastUpdatedBy)
-    <br>
-    @Html.DisplayNameFor(model => model.lastUpdatedDate)
-}
--->
 @foreach (var item in Model)
 {
     <div id="releaseNoteTitle">
-        <!--@Html.DisplayNameFor(model => model.title)-->
         @Html.DisplayFor(modelItem => item.title)
     </div>
 
@@ -70,18 +49,7 @@
     <br>
     @Html.DisplayFor(modelItem => item.bodytext)
 
-    <!--
-    @Html.DisplayFor(modelItem => item.id)
-    <br>
-    @Html.DisplayFor(modelItem => item.productId)
-    -->
-    <br>
-    <!--
-    <div style=font-weight:bold>
-        @Html.DisplayNameFor(model => model.createdDate)
-    </div>
-    @Html.DisplayFor(modelItem => item.createdDate)
-    <br> -->
+
 
     <!-- if loop to check if the releasenotes hanst been updated -->
     @if (item.lastUpdatedBy.Length != 0)
