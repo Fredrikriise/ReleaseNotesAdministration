@@ -15,7 +15,7 @@
         font-size: 125%;
     }
 
-    .creatorName, #updateName {
+    .creatorName, .updateName {
         font-weight: bold;
         font-style: italic;
     }
@@ -42,32 +42,25 @@
         @Html.DisplayFor(modelItem => item.Title)
     </div>
 
-    @Html.DisplayNameFor(model => model.CreatedBy) <span class="creatorName">@Html.DisplayFor(modelItem => item.CreatedBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.createdDate)
+    <label>Posted by </label> <span class="creatorName">@Html.DisplayFor(modelItem => item.CreatedBy)</span> <label>on </label> @Html.DisplayFor(modelItem => item.CreatedDate)
     <hr class="hrTag" />
     <br>
     @Html.DisplayFor(modelItem => item.Bodytext)
     <br>
 
-    <!-- if loop to check if the releasenotes hanst been updated -->
+    <!-- if loop to check if the releasenotes has been updated -->
     @if (item.LastUpdatedBy != null)
     {
-<div class="updatedText">
-    @Html.DisplayNameFor(model => model.LastUpdatedBy) @Html.Raw(" ") <span class="updateName">@Html.DisplayFor(modelItem => item.LastUpdatedBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.LastUpdatedDate)
-    Last updated by + <span class="updateName"> <label asp-for="ReleaseNotes."></label> @Html.DisplayFor(modelItem => item.LastUpdatedBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.LastUpdatedDate)
-
-    <label asp-for="ReleaseNotes."></label>
-</div>
+        <div class="updatedText">
+            <label>Last updated by </label> <span class="updateName">@Html.DisplayFor(modelItem => item.LastUpdatedBy)</span> <label> on </label> @Html.DisplayFor(modelItem => item.LastUpdatedDate)
+        </div>
     }
     <hr />
 
 <form asp-controller="Home" asp-action="action" method="post">
     <input placeholder="Would you like to subscribe to updates? Enter your email!" /> <!--asp-for="UserEmail"-->
     <div class="submitButton"><input type="submit" value="Subscribe" /></div>
-</form>
- 
-    <br>
-    <br>
-
+</form> <br><br>
 }
 
 

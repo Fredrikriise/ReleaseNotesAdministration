@@ -2,7 +2,7 @@
     ViewData["Title"] = "Home Page";
 }
 
-@model IEnumerable<ReleaseNotes.Models.Product>
+@model IEnumerable<ReleaseNotes.ViewModels.ProductViewModel>
 
 <div class="text-center">
     <h1 class="display-4">Talentech - Release Notes</h1>
@@ -13,12 +13,12 @@
         @foreach (var item in Model)
         {
         <div class="col-4">
-            <div class="card" id="@Html.DisplayFor(modelItem => item.productID)">
+            <div class="card" id="@Html.DisplayFor(modelItem => item.ProductID)">
                 <div class="card-body">
                     <a asp-controller="Home" asp-action="@item.ProductDescription">
-                        <img src="@Html.DisplayFor(modelItem => item.productImage)" alt="product icon"/>
+                        <img src="@Html.DisplayFor(modelItem => item.ProductImage)" alt="product icon"/>
                         <hr />
-                        <h4 class="card-title">@Html.DisplayFor(modelItem => item.productName)</h4>
+                        <h4 class="card-title">@Html.DisplayFor(modelItem => item.ProductName)</h4>
                     </a>
                 </div>
             </div>

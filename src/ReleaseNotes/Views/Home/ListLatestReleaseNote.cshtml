@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ReleaseNotes.Models.releaseNotes>
+﻿@model IEnumerable<ReleaseNotes.ViewModels.ReleaseNoteViewModel>
 
 
 
@@ -41,21 +41,21 @@
 @foreach (var item in Model)
 {
     <div id="releaseNoteTitle">
-        @Html.DisplayFor(modelItem => item.title)
+        @Html.DisplayFor(modelItem => item.Title)
     </div>
 
-    @Html.DisplayNameFor(model => model.createdBy) <span id="creatorName">@Html.DisplayFor(modelItem => item.createdBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.createdDate)
+    @Html.DisplayNameFor(model => model.CreatedBy) <span id="creatorName">@Html.DisplayFor(modelItem => item.CreatedBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.CreatedDate)
     <hr id="hrTag" />
     <br>
-    @Html.DisplayFor(modelItem => item.bodytext)
+    @Html.DisplayFor(modelItem => item.Bodytext)
 
 
 
     <!-- if loop to check if the releasenotes hanst been updated -->
-    @if (item.lastUpdatedBy.Length != 0)
+    @if (item.LastUpdatedBy.Length != 0)
     {
         <div id="updatedText">
-            @Html.DisplayNameFor(model => model.lastUpdatedBy) @Html.Raw(" ") <span id="updateName">@Html.DisplayFor(modelItem => item.lastUpdatedBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.lastUpdatedDate)
+            @Html.DisplayNameFor(model => model.LastUpdatedBy) @Html.Raw(" ") <span id="updateName">@Html.DisplayFor(modelItem => item.LastUpdatedBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.LastUpdatedDate)
         </div>
     }
     <hr />
