@@ -1,0 +1,69 @@
+﻿@model IEnumerable<ReleaseNotes.Models.releaseNotes>
+
+@{
+    ViewData["Title"] = "TalentRecruiterReleaseNotes";
+}
+
+<style>
+    .headerTitle {
+        font-size: 250%;
+        margin-bottom: 2.5%;
+    }
+
+    .releaseNoteTitle {
+        font-weight: bold;
+        font-size: 125%;
+    }
+
+    .creatorName, #updateName {
+        font-weight: bold;
+        font-style: italic;
+    }
+
+    .hrTag {
+        margin-bottom: -1.5%;
+    }
+
+    .updatedText {
+        margin-top: 1.25%;
+        margin-bottom: -1%;
+    }
+
+    .submitButton {
+        margin-top: 0.25%;
+    }
+</style>
+
+
+<h1 class="headerTitle">Release notes for Talent Recruiter</h1>
+@foreach (var item in Model)
+{
+    <div class="releaseNoteTitle">
+        @Html.DisplayFor(modelItem => item.title)
+    </div>
+
+    @Html.DisplayNameFor(model => model.createdBy) <span class="creatorName">@Html.DisplayFor(modelItem => item.createdBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.createdDate)
+    <hr class="hrTag" />
+    <br>
+    @Html.DisplayFor(modelItem => item.bodytext)
+    <br>
+
+    <!-- if loop to check if the releasenotes hanst been updated -->
+    @if (item.lastUpdatedBy != null)
+    {
+        <div class="updatedText">
+            @Html.DisplayNameFor(model => model.lastUpdatedBy) @Html.Raw(" ") <span class="updateName">@Html.DisplayFor(modelItem => item.lastUpdatedBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.lastUpdatedDate)
+        </div>
+    } 
+    <hr />
+    @Html.TextBox("userEmail", null, new { @class = "form-control", @placeholder = "Would you like to subscribe to updates? Enter your email!" })
+    @using (Html.BeginForm("action", "Home"))
+    {
+        <div class="submitButton"><input type="submit" value="Subscribe" /></div>
+    }
+    <br>
+    <br>
+
+}
+
+

@@ -12,8 +12,8 @@ namespace ReleaseNotes.Models
         public string title { get; set; }
         public string bodytext { get; set; }
         [Key]
-        public int id { get; set; }
-        public int productId { get; set; }
+        public int? id { get; set; }
+        public int? productId { get; set; }
         [Display(Name = "Posted by")]
         public string createdBy { get; set; }
         [Display(Name = "Date published")]

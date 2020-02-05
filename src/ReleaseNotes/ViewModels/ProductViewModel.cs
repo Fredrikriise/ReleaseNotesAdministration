@@ -4,14 +4,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ReleaseNotes.Models
+namespace ReleaseNotes.ViewModels
 {
-    public class Product
+    public class ProductViewModel
     {
         [Key]
-        public int productID { get; set; }
-        public string productName { get; set; }
-        public string productImage { get; set; }
+        public int ProductID { get; set; }
+        public string ProductName { get; set; }
+        public string ProductImage { get; set; }
         public string ProductDescription { get; set; }
     }
 }

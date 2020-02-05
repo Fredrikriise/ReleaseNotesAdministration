@@ -28,19 +28,22 @@ namespace ReleaseNotes.Controllers
                 {
                     productID = 1,
                     productName = "Talent Recruiter",
-                    productImage = "pic-recruiter.png"
+                    productImage = "pic-recruiter.png",
+                    ProductDescription = "TalentRecruiter"
                 },
                 new Product
                 {
                     productID = 2,
                     productName = "Talent Onboarding",
-                    productImage = "pic-onboarding.png"
+                    productImage = "pic-onboarding.png",
+                    ProductDescription = "TalentOnboarding"
                 },
                 new Product
                 {
                     productID = 3,
                     productName = "Talent Manager",
-                    productImage = "pic-manager.png"
+                    productImage = "pic-manager.png",
+                    ProductDescription = "TalentManager"
                 }
             };
 
@@ -48,6 +51,129 @@ namespace ReleaseNotes.Controllers
 
             return View();
         }
+
+        public IActionResult TalentRecruiter()
+        {
+            var Connection = new DBContext();
+            List<releaseNotes> InReleaseNotes = Connection.MockDataList();
+
+            var TargetId = 1;
+
+            for (var i = 0; i < InReleaseNotes.Count; i++)
+            {
+                if (InReleaseNotes[i].productId == TargetId)
+                {
+                    List<releaseNotes> releaseNotesListNew = new List<releaseNotes>
+                    {
+                        new releaseNotes {
+                            title = InReleaseNotes[i].title,
+                            bodytext = InReleaseNotes[i].bodytext,
+                            id = InReleaseNotes[i].id,
+                            productId = InReleaseNotes[i].productId,
+                            createdBy = InReleaseNotes[i].createdBy,
+                            createdDate = InReleaseNotes[i].createdDate,
+                            lastUpdatedBy = InReleaseNotes[i].lastUpdatedBy,
+                            lastUpdatedDate = InReleaseNotes[i].lastUpdatedDate,
+                        }
+                    };
+                    ViewData.Model = releaseNotesListNew;
+                }
+            }
+            return View();
+        }
+
+        public IActionResult TalentOnboarding()
+        {
+
+            var viewModel = new HomeControllerViewModel { ReleaseNotes = new List<ReleaseNoteViewModel>() };
+
+            // Call API
+
+           /* for(var i = 0; i< 10; i++)
+            {
+                viewModel.ReleaseNotes.Add(new ReleaseNoteViewModel { Title = "Blah" });
+            } */
+
+           var Connection = new DBContext();
+           List<releaseNotes> InReleaseNotes = Connection.MockDataList();
+
+           //var TargetId = 2;
+
+           var talentOnboardingReleaseNotes = InReleaseNotes.Where(x => x.productId == 3).ToList();
+            /*
+           for (var i = 0; i < InReleaseNotes.Count; i++)
+           {
+               if (InReleaseNotes[i].productId == TargetId)
+               {
+                   List<releaseNotes> releaseNotesListNew = new List<releaseNotes>
+                   {
+                       new releaseNotes {
+                           title = InReleaseNotes[i].title,
+                           bodytext = InReleaseNotes[i].bodytext,
+                           id = InReleaseNotes[i].id,
+                           productId = InReleaseNotes[i].productId,
+                           createdBy = InReleaseNotes[i].createdBy,
+                           createdDate = InReleaseNotes[i].createdDate,
+                           lastUpdatedBy = InReleaseNotes[i].lastUpdatedBy,
+                           lastUpdatedDate = InReleaseNotes[i].lastUpdatedDate,
+                       }
+                   };
+                   ViewData.Model = releaseNotesListNew;
+               }
+           } */
+            ViewData.Model = talentOnboardingReleaseNotes;
+
+            return View(viewModel);
+        }
+
+        public IActionResult TalentManager()
+        {
+            var Connection = new DBContext();
+            List<releaseNotes> InReleaseNotes = Connection.MockDataList();
+
+            var TargetId = 3;
+
+            List<releaseNotes> releaseNotesListNew = new List<releaseNotes>();
+
+            for (var i = 0; i < InReleaseNotes.Count; i++)
+            {
+                if (InReleaseNotes[i].productId == TargetId)
+                {
+                    releaseNotesListNew.Add( new releaseNotes
+                    {
+                        title = InReleaseNotes[i].title,
+                        bodytext = InReleaseNotes[i].bodytext,
+                        id = InReleaseNotes[i].id,
+                        productId = InReleaseNotes[i].productId,
+                        createdBy = InReleaseNotes[i].createdBy,
+                        createdDate = InReleaseNotes[i].createdDate,
+                        lastUpdatedBy = InReleaseNotes[i].lastUpdatedBy,
+                        lastUpdatedDate = InReleaseNotes[i].lastUpdatedDate
+                    });
+                } 
+
+                if(releaseNotesListNew.Count < 1)
+                {
+                    var TargetNotFound = "There is currently no release notes published for this product.";
+
+                    releaseNotesListNew.Add(new releaseNotes
+                    {
+                        title = "",
+                        bodytext = TargetNotFound,
+                        id = null,
+                        productId = null,
+                        createdBy = InReleaseNotes[i].createdBy,
+                        createdDate = InReleaseNotes[i].createdDate,
+                        lastUpdatedBy = InReleaseNotes[i].lastUpdatedBy,
+                        lastUpdatedDate = InReleaseNotes[i].lastUpdatedDate
+                    });
+                }
+
+                ViewData.Model = releaseNotesListNew;
+            }
+            return View();
+        }
+
 
         public IActionResult LatestRelease()
         {

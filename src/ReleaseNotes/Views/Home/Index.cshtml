@@ -15,8 +15,8 @@
         <div class="col-4">
             <div class="card" id="@Html.DisplayFor(modelItem => item.productID)">
                 <div class="card-body">
-                    <a asp-controller="" asp-action="">
-                        <img src="@Html.DisplayFor(modelItem => item.productImage)"/>
+                    <a asp-controller="Home" asp-action="@item.ProductDescription">
+                        <img src="@Html.DisplayFor(modelItem => item.productImage)" alt="product icon"/>
                         <hr />
                         <h4 class="card-title">@Html.DisplayFor(modelItem => item.productName)</h4>
                     </a>
