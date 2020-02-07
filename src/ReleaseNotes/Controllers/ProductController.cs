@@ -19,34 +19,33 @@ namespace ReleaseNotes.Controllers
         {
             _httpClientFactory = httpClientFactory;
 
-            _productsClient = _httpClientFactory.CreateClient("ProductApiClient");
+            _productsClient = _httpClientFactory.CreateClient("ReleaseNotesApiClient");
         }
 
         public async Task<IActionResult> TalentRecruiter()
         {
             //Skal vi bare hardkode produktid'en i "url"'en?
-            var releaseNotesResult = await _productsClient.GetAsync("/Product/1");
-            var list = new List<ProductViewModel>();
+            var productResult = await _productsClient.GetAsync("/Product/1");
+            var productList = new List<ProductViewModel>();
 
-            if (releaseNotesResult.IsSuccessStatusCode)
+            if (productResult.IsSuccessStatusCode)
             {
-                var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
-                var releaseNotes = JsonConvert.DeserializeObject<ProductList>(responseStream);
+                var responseStream = await productResult.Content.ReadAsStringAsync();
+                var products = JsonConvert.DeserializeObject<ProductList>(responseStream);
 
-                foreach (var releaseNote in releaseNotes.Products)
+                foreach (var product in products.Products)
                 {
-                    var releaseNoteVm = new ProductViewModel()
+                    var productVm = new ProductViewModel()
                     {
-                        ProductId = releaseNote.ProductId,
-                        ProductName = releaseNote.ProductName,
-                        ProductImage = releaseNote.ProductImage,
-                        ProductDescription = releaseNote.ProductDescription
+                        ProductId = product.ProductId,
+                        ProductName = product.ProductName,
+                        ProductImage = product.ProductImage,
+                        ProductDescription = product.ProductDescription
                     };
-
-                    list.Add(releaseNoteVm);
+                    productList.Add(productVm);
 
                     // For debug
-                    Console.WriteLine(releaseNote);
+                    Console.WriteLine(product);
                 }
             }
             else
@@ -54,7 +53,7 @@ namespace ReleaseNotes.Controllers
 
             }
 
-            return View(list);
+            return View(productList);
         }
     }
 }
