@@ -13,7 +13,7 @@
         @foreach (var item in Model)
         {
             <div class="col-12 col-sm-4" >
-                <div class="card mb-3" id="@Html.DisplayFor(modelItem => item.ProductID)">
+                <div class="card mb-3" id="@Html.DisplayFor(modelItem => item.ProductId)">
                     <div class="card-body">
                             <a asp-controller="Home" asp-action="@item.ProductDescription">
                                 <img src="@Html.DisplayFor(modelItem => item.ProductImage)" alt="product icon" />

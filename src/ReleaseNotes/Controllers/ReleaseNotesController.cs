@@ -45,8 +45,8 @@ namespace ReleaseNotes.Controllers
                         ProductId = releaseNote.ProductId,
                         CreatedBy = releaseNote.CreatedBy,
                         CreatedDate = releaseNote.CreatedDate,
-                        LastUpdatedBy = releaseNote.lastUpdatedBy,
-                        LastUpdatedDate = releaseNote.lasteUpdatedDate
+                        LastUpdatedBy = releaseNote.LastUpdatedBy,
+                        LastUpdatedDate = releaseNote.LasteUpdatedDate
                     };
 
                     list.Add(releaseNoteVm);

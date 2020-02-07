@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ReleaseNotes.ViewModels
+namespace ReleaseNotes.Models
 {
-    public class ProductViewModel
+    public class ProductApiModel
     {
-        [Key]
         public int? ProductId { get; set; }
         public string ProductName { get; set; }
         public string ProductImage { get; set; }

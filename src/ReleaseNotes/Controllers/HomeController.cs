@@ -26,21 +26,21 @@ namespace ReleaseNotes.Controllers
             {
                 new ProductViewModel
                 {
-                    ProductID = 1,
+                    ProductId = 1,
                     ProductName = "Talent Recruiter",
                     ProductImage = "pic-recruiter.png",
                     ProductDescription = "TalentRecruiter"
                 },
                 new ProductViewModel
                 {
-                    ProductID = 2,
+                    ProductId = 2,
                     ProductName = "Talent Onboarding",
                     ProductImage = "pic-onboarding.png",
                     ProductDescription = "TalentOnboarding"
                 },
                 new ProductViewModel
                 {
-                    ProductID = 3,
+                    ProductId = 3,
                     ProductName = "Talent Manager",
                     ProductImage = "pic-manager.png",
                     ProductDescription = "TalentManager"

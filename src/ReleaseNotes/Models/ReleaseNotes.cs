@@ -9,25 +9,25 @@ namespace ReleaseNotes.Models
     public class releaseNotes
     {
         [Display(Name = "Title")]
-        public string title { get; set; }
-        public string bodytext { get; set; }
+        public string Title { get; set; }
+        public string Bodytext { get; set; }
         [Key]
-        public int? id { get; set; }
-        public int? productId { get; set; }
+        public int? Id { get; set; }
+        public int? ProductId { get; set; }
         [Display(Name = "Posted by")]
-        public string createdBy { get; set; }
+        public string CreatedBy { get; set; }
         [Display(Name = "Date published")]
         //Formats the datetime to only show day, month and year
         //ApplyFormatInEditMode is used when entering a date, or picking a date, so unless we will use either of those features then we can remove "ApplyFormatInEditMode"
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
-        public DateTime? createdDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         [Display(Name = "Last updated by")]
-        public string lastUpdatedBy { get; set; }
+        public string LastUpdatedBy { get; set; }
         [Display(Name = "Last updated")]
         //Formats the datetime to only show day, month and year
         //ApplyFormatInEditMode is used when entering a date, or picking a date, so unless we will use either of those features then we can remove "ApplyFormatInEditMode"
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
-        public DateTime? lastUpdatedDate { get; set; }
+        public DateTime? LastUpdatedDate { get; set; }
 
     }
 }
