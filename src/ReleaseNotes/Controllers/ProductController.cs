@@ -20,13 +20,13 @@ namespace ReleaseNotes.Controllers
         {
             _httpClientFactory = httpClientFactory;
 
-            _productsClient = _httpClientFactory.CreateClient("ReleaseNotesApiClient");
+            _productsClient = _httpClientFactory.CreateClient("ProductApiClient");
         }
 
         public async Task<IActionResult> Index()
         {
             //Skal vi bare hardkode produktid'en i "url"'en?
-            var productResult = await _productsClient.GetAsync("/Product/Index");
+            var productResult = await _productsClient.GetAsync("/Product/");
             var productList = new List<ProductViewModel>();
 
             if (productResult.IsSuccessStatusCode)

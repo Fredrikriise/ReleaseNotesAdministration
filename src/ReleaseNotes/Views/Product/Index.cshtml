@@ -18,14 +18,11 @@
                         <a asp-controller="Home" asp-action="@item.ProductDescription">
                             <img src="@item.ProductImage" alt="product icon" />
                             <hr />
-                            <h4 class="card-title"><label asp-for="@item.ProductName"></label></h4>
+                            <h4 class="card-title"><label asp-for="@item.ProductName">@item.ProductName</label></h4>
                         </a>
                     </div>
                 </div>
             </div>
-
-            @item.ProductName
-
         }
     </div>
 </div>
