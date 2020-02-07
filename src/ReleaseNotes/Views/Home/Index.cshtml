@@ -9,20 +9,20 @@
     <hr />
     <h3>Which product would you like to view release notes from?</h3>
     <!-- CARDS -->
-    <div class="row mt-4 col-12">
+    <div class="row mt-4 col-12 pr-0" >
         @foreach (var item in Model)
         {
-        <div class="col-4">
-            <div class="card" id="@Html.DisplayFor(modelItem => item.ProductID)">
-                <div class="card-body">
-                    <a asp-controller="Home" asp-action="@item.ProductDescription">
-                        <img src="@Html.DisplayFor(modelItem => item.ProductImage)" alt="product icon"/>
-                        <hr />
-                        <h4 class="card-title">@Html.DisplayFor(modelItem => item.ProductName)</h4>
-                    </a>
+            <div class="col-12 col-sm-4" >
+                <div class="card mb-3" id="@Html.DisplayFor(modelItem => item.ProductID)">
+                    <div class="card-body">
+                            <a asp-controller="Home" asp-action="@item.ProductDescription">
+                                <img src="@Html.DisplayFor(modelItem => item.ProductImage)" alt="product icon" />
+                                <hr />
+                                <h4 class="card-title">@Html.DisplayFor(modelItem => item.ProductName)</h4>
+                            </a>
+                    </div>
                 </div>
             </div>
-        </div>
         }
     </div>
 </div>

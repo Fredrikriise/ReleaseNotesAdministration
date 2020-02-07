@@ -36,6 +36,8 @@
 
 
 <h1 class="headerTitle">Release notes for Talent Recruiter</h1>
+@{bool ObjectFound = false; }
+
 @foreach (var item in Model)
 {
     <div class="releaseNoteTitle">
@@ -57,9 +59,14 @@
     } 
     <hr />
     <form asp-controller="Home" asp-action="action" method="post">
-        <input placeholder="Would you like to subscribe to updates? Enter your email!" /> <!--asp-for="UserEmail"-->
+        <input class="col-6" placeholder="Would you like to subscribe to updates? Enter your email!" /> <!--asp-for="UserEmail"-->
         <div class="submitButton"><input type="submit" value="Subscribe" /></div>
     </form><br><br>
+
+    ObjectFound = true;
 }
 
-
+@if(!ObjectFound)
+{
+    <label>There is currently no release notes published for this product.</label>
+}

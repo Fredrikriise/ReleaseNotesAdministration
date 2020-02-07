@@ -47,6 +47,5 @@ namespace ReleaseNotes
             };
             return releaseNotesList;
         }
-        
     }
 }
