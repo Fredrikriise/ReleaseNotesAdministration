@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ReleaseNotes.Models;
 using ReleaseNotes.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace ReleaseNotes.Controllers
 {
@@ -20,7 +18,7 @@ namespace ReleaseNotes.Controllers
         {
             _httpClientFactory = httpClientFactory;
 
-           _releaseNotesClient = _httpClientFactory.CreateClient("ReleaseNotesApiClient");
+            _releaseNotesClient = _httpClientFactory.CreateClient("ReleaseNotesApiClient");
         }
 
         public async Task<IActionResult> Index()
@@ -30,12 +28,12 @@ namespace ReleaseNotes.Controllers
 
             if (releaseNotesResult.IsSuccessStatusCode)
             {
-                
+
                 var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
                 var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
 
 
-                foreach(var releaseNote in releaseNotes.ReleaseNotes)
+                foreach (var releaseNote in releaseNotes.ReleaseNotes)
                 {
                     var releaseNoteVm = new ReleaseNoteViewModel()
                     {
@@ -54,9 +52,10 @@ namespace ReleaseNotes.Controllers
                     // For debug
                     Console.WriteLine(releaseNote);
                 }
-            } else
+            }
+            else
             {
-                
+
             }
 
             return View(list);

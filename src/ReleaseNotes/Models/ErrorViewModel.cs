@@ -1,5 +1,3 @@
-using System;
-
 namespace ReleaseNotes.Models
 {
     public class ErrorViewModel
