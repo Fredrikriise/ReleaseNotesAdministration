@@ -56,7 +56,138 @@ namespace ReleaseNotes.Controllers
                 }
             } else
             {
-                
+                //Error melding
+            }
+
+            return View(list);
+        }
+
+        public async Task<IActionResult> TalentManager()
+        {
+            var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
+            var list = new List<ReleaseNoteViewModel>();
+
+            if (releaseNotesResult.IsSuccessStatusCode)
+            {
+
+                var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+                var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
+
+
+
+                var TargetProductId = 1;
+
+                List<ReleaseNoteViewModel> releaseNotesListNew = new List<ReleaseNoteViewModel>();
+
+                for (var i = 0; i < releaseNotesListNew.Count; i++)
+                {
+                    if (releaseNotesListNew[i].ProductId == TargetProductId)
+                    {
+                        releaseNotesListNew.Add(new ReleaseNoteViewModel
+                        {
+                            Title = releaseNotesListNew[i].Title,
+                            Bodytext = releaseNotesListNew[i].Bodytext,
+                            Id = releaseNotesListNew[i].Id,
+                            ProductId = releaseNotesListNew[i].ProductId,
+                            CreatedBy = releaseNotesListNew[i].CreatedBy,
+                            CreatedDate = releaseNotesListNew[i].CreatedDate,
+                            LastUpdatedBy = releaseNotesListNew[i].LastUpdatedBy,
+                            LastUpdatedDate = releaseNotesListNew[i].LastUpdatedDate
+                        });
+
+                    }
+                    ViewData.Model = releaseNotesListNew;
+                }
+            }
+            else
+            {
+                //Error melding
+            }
+
+            return View();
+        }
+
+        public async Task<IActionResult> TalentRecruiter()
+        {
+            var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
+            var list = new List<ReleaseNoteViewModel>();
+
+            if (releaseNotesResult.IsSuccessStatusCode)
+            {
+
+                var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+                var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
+
+
+
+                var TargetProductId = 1;
+
+                List<ReleaseNoteViewModel> releaseNotesListNew = new List<ReleaseNoteViewModel>();
+
+                for (var i = 0; i < releaseNotesListNew.Count; i++)
+                {
+                    if (releaseNotesListNew[i].ProductId == TargetProductId)
+                    {
+                        releaseNotesListNew.Add(new ReleaseNoteViewModel
+                        {
+                            Title = releaseNotesListNew[i].Title,
+                            Bodytext = releaseNotesListNew[i].Bodytext,
+                            Id = releaseNotesListNew[i].Id,
+                            ProductId = releaseNotesListNew[i].ProductId,
+                            CreatedBy = releaseNotesListNew[i].CreatedBy,
+                            CreatedDate = releaseNotesListNew[i].CreatedDate,
+                            LastUpdatedBy = releaseNotesListNew[i].LastUpdatedBy,
+                            LastUpdatedDate = releaseNotesListNew[i].LastUpdatedDate
+                        });
+                    }
+                    ViewData.Model = releaseNotesListNew;
+                }
+            }
+            else
+            {
+                //Error melding
+            }
+
+            return View(list);
+        }
+
+        public async Task<IActionResult> TalentOnboarding()
+        {
+            var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
+            var list = new List<ReleaseNoteViewModel>();
+
+            if (releaseNotesResult.IsSuccessStatusCode)
+            {
+
+                var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+                var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
+
+                var TargetProductId = 1;
+
+                List<ReleaseNoteViewModel> releaseNotesListNew = new List<ReleaseNoteViewModel>();
+
+                for (var i = 0; i < releaseNotesListNew.Count; i++)
+                {
+                    if (releaseNotesListNew[i].ProductId == TargetProductId)
+                    {
+                        releaseNotesListNew.Add(new ReleaseNoteViewModel
+                        {
+                            Title = releaseNotesListNew[i].Title,
+                            Bodytext = releaseNotesListNew[i].Bodytext,
+                            Id = releaseNotesListNew[i].Id,
+                            ProductId = releaseNotesListNew[i].ProductId,
+                            CreatedBy = releaseNotesListNew[i].CreatedBy,
+                            CreatedDate = releaseNotesListNew[i].CreatedDate,
+                            LastUpdatedBy = releaseNotesListNew[i].LastUpdatedBy,
+                            LastUpdatedDate = releaseNotesListNew[i].LastUpdatedDate
+                        });
+                    }
+                    ViewData.Model = releaseNotesListNew;
+                }
+            }
+            else
+            {
+                //Error melding
             }
 
             return View(list);

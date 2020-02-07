@@ -45,6 +45,7 @@
 {
     <div class="releaseNoteTitle">
         @Html.DisplayFor(modelItem => item.Title)
+        <label asp-for="@item.Title">@item.Title</label>
     </div>
 
     <label>Posted by </label> <span class="creatorName">@Html.DisplayFor(modelItem => item.CreatedBy)</span> <label> on </label> @Html.DisplayFor(modelItem => item.CreatedDate)

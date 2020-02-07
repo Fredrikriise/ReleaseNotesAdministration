@@ -15,7 +15,7 @@
             <div class="col-12 col-sm-4">
                 <div class="card mb-3" id="@item.ProductId">
                     <div class="card-body">
-                        <a asp-controller="Home" asp-action="@item.ProductDescription">
+                        <a asp-controller="ReleaseNotes" asp-action="@item.ProductDescription">
                             <img src="@item.ProductImage" alt="product icon" />
                             <hr />
                             <h4 class="card-title"><label asp-for="@item.ProductName">@item.ProductName</label></h4>
