@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Api.Models
+namespace ReleaseNotes.Models
 {
-    public class ReleaseNotesModel
+    public class ReleaseNoteApiModel
     {
         public string Title { get; set; }
         public string BodyText { get; set; }

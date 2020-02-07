@@ -1,0 +1,15 @@
+﻿@model IEnumerable<ReleaseNotes.ViewModels.ReleaseNoteViewModel>
+
+<h1>Test med API</h1>
+
+@foreach (var releaseNote in Model)
+{
+    <span>@releaseNote.Title</span>
+    <span>@releaseNote.Bodytext</span>
+    <span>@releaseNote.Id</span>
+    <span>@releaseNote.ProductId</span>
+    <span>@releaseNote.CreatedBy</span>
+    <span>@releaseNote.CreatedDate</span>
+    <span>@releaseNote.LastUpdatedBy</span>
+    <span>@releaseNote.LastUpdatedDate</span>
+}

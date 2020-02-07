@@ -7,7 +7,7 @@ namespace ReleaseNotes
 {
     public class QuestionsAndToDo
     {
-        //Skal createdDate og updatedDate ha med klokkeslett?
+        // Skal createdDate og updatedDate ha med klokkeslett? Nei.
 
     }
 }
