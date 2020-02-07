@@ -8,48 +8,55 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ReleaseNotes.ViewModels;
 using ReleaseNotes.Models;
+using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace ReleaseNotes.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IHttpClientFactory _httpClientFactory;
+        private HttpClient _productsClient;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IHttpClientFactory httpClientFactory)
         {
-            _logger = logger;
+            _httpClientFactory = httpClientFactory;
+
+            _productsClient = _httpClientFactory.CreateClient("ReleaseNotesApiClient");
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<ProductViewModel> productList = new List<ProductViewModel>
+            //Skal vi bare hardkode produktid'en i "url"'en?
+            var productResult = await _productsClient.GetAsync("/Home/Index");
+            var productList = new List<ProductViewModel>();
+
+            if (productResult.IsSuccessStatusCode)
             {
-                new ProductViewModel
+                var responseStream = await productResult.Content.ReadAsStringAsync();
+                var products = JsonConvert.DeserializeObject<ProductList>(responseStream);
+
+                foreach (var product in products.Products)
                 {
-                    ProductId = 1,
-                    ProductName = "Talent Recruiter",
-                    ProductImage = "pic-recruiter.png",
-                    ProductDescription = "TalentRecruiter"
-                },
-                new ProductViewModel
-                {
-                    ProductId = 2,
-                    ProductName = "Talent Onboarding",
-                    ProductImage = "pic-onboarding.png",
-                    ProductDescription = "TalentOnboarding"
-                },
-                new ProductViewModel
-                {
-                    ProductId = 3,
-                    ProductName = "Talent Manager",
-                    ProductImage = "pic-manager.png",
-                    ProductDescription = "TalentManager"
+                    var productVm = new ProductViewModel()
+                    {
+                        ProductId = product.ProductId,
+                        ProductName = product.ProductName,
+                        ProductImage = product.ProductImage,
+                        ProductDescription = product.ProductDescription
+                    };
+                    productList.Add(productVm);
+
+                    // For debug
+                    Console.WriteLine(product);
                 }
-            };
+            }
+            else
+            {
 
-            ViewData.Model = productList;
+            }
 
-            return View();
+            return View(productList);
         }
 
         public IActionResult TalentRecruiter()

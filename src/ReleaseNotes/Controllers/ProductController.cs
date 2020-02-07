@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ReleaseNotes.Models;
 using ReleaseNotes.ViewModels;
+
 namespace ReleaseNotes.Controllers
 {
     public class ProductController : Controller
@@ -22,10 +23,10 @@ namespace ReleaseNotes.Controllers
             _productsClient = _httpClientFactory.CreateClient("ReleaseNotesApiClient");
         }
 
-        public async Task<IActionResult> TalentRecruiter()
+        public async Task<IActionResult> Index()
         {
             //Skal vi bare hardkode produktid'en i "url"'en?
-            var productResult = await _productsClient.GetAsync("/Product/1");
+            var productResult = await _productsClient.GetAsync("/Product/Index");
             var productList = new List<ProductViewModel>();
 
             if (productResult.IsSuccessStatusCode)

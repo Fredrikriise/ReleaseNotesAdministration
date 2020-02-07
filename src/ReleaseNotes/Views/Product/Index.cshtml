@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model IEnumerable<ReleaseNotes.ViewModels.ProductViewModel>
+
+<div class="text-center">
+    <h1 class="display-4">Talentech - Release Notes</h1>
+    <hr />
+    <h3>Which product would you like to view release notes from?</h3>
+    <!-- CARDS -->
+    <div class="row mt-4 col-12 pr-0">
+        @foreach (var item in Model)
+        {
+            <div class="col-12 col-sm-4">
+                <div class="card mb-3" id="@item.ProductId">
+                    <div class="card-body">
+                        <a asp-controller="Home" asp-action="@item.ProductDescription">
+                            <img src="@item.ProductImage" alt="product icon" />
+                            <hr />
+                            <h4 class="card-title"><label asp-for="@item.ProductName"></label></h4>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            @item.ProductName
+
+        }
+    </div>
+</div>
