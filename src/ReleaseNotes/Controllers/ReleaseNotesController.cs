@@ -43,8 +43,8 @@ namespace ReleaseNotes.Controllers
                         ProductId = releaseNote.ProductId,
                         CreatedBy = releaseNote.CreatedBy,
                         CreatedDate = releaseNote.CreatedDate,
-                        LastUpdatedBy = releaseNote.lastUpdatedBy,
-                        LastUpdatedDate = releaseNote.lasteUpdatedDate
+                        LastUpdatedBy = releaseNote.LastUpdatedBy,
+                        LastUpdatedDate = releaseNote.LastUpdatedDate
                     };
 
                     list.Add(releaseNoteVm);
@@ -55,9 +55,130 @@ namespace ReleaseNotes.Controllers
             }
             else
             {
-
+                //Error melding
             }
 
+            return View(list);
+        }
+
+        public async Task<IActionResult> TalentManager()
+        {
+            var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
+            var list = new List<ReleaseNoteViewModel>();
+
+            if (releaseNotesResult.IsSuccessStatusCode)
+            {
+
+                var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+                var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
+
+
+                var TargetProductId = 3;
+
+                foreach (var releaseNote in releaseNotes.ReleaseNotes)
+                {
+                    if (releaseNote.ProductId == TargetProductId)
+                    {
+                        var releaseNoteVM = new ReleaseNoteViewModel
+                        {
+                            Title = releaseNote.Title,
+                            Bodytext = releaseNote.BodyText,
+                            Id = releaseNote.Id,
+                            ProductId = releaseNote.ProductId,
+                            CreatedBy = releaseNote.CreatedBy,
+                            CreatedDate = releaseNote.CreatedDate,
+                            LastUpdatedBy = releaseNote.LastUpdatedBy,
+                            LastUpdatedDate = releaseNote.LastUpdatedDate
+                        };
+                        list.Add(releaseNoteVM);
+                    }
+                }
+            }
+            else
+            {
+                //Error melding
+            }
+            return View(list);
+        }
+
+        public async Task<IActionResult> TalentRecruiter()
+        {
+            var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
+            var list = new List<ReleaseNoteViewModel>();
+
+            if (releaseNotesResult.IsSuccessStatusCode)
+            {
+
+                var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+                var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
+
+                var TargetProductId = 1;
+
+                //var talentRecruiterReleaseNotes = releaseNotes.ReleaseNotes.Where(x => x.ProductId == TargetProductId);
+                
+                foreach (var releaseNote in releaseNotes.ReleaseNotes)
+                {
+                    if (releaseNote.ProductId == TargetProductId)
+                    {
+                        var releaseNoteVM = new ReleaseNoteViewModel
+                        {
+                            Title = releaseNote.Title,
+                            Bodytext = releaseNote.BodyText,
+                            Id = releaseNote.Id,
+                            ProductId = releaseNote.ProductId,
+                            CreatedBy = releaseNote.CreatedBy,
+                            CreatedDate = releaseNote.CreatedDate,
+                            LastUpdatedBy = releaseNote.LastUpdatedBy,
+                            LastUpdatedDate = releaseNote.LastUpdatedDate
+                        };
+                        list.Add(releaseNoteVM);
+                    }
+                } 
+            }
+            else
+            {
+                //Error melding
+            }
+     
+            return View();
+        }
+
+        public async Task<IActionResult> TalentOnboarding()
+        {
+            var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
+            var list = new List<ReleaseNoteViewModel>();
+
+            if (releaseNotesResult.IsSuccessStatusCode)
+            {
+
+                var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+                var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
+
+                var TargetProductId = 2;
+
+                foreach (var releaseNote in releaseNotes.ReleaseNotes)
+                {
+                    if (releaseNote.ProductId == TargetProductId)
+                    {
+                        var releaseNoteVM = new ReleaseNoteViewModel
+                        {
+                            Title = releaseNote.Title,
+                            Bodytext = releaseNote.BodyText,
+                            Id = releaseNote.Id,
+                            ProductId = releaseNote.ProductId,
+                            CreatedBy = releaseNote.CreatedBy,
+                            CreatedDate = releaseNote.CreatedDate,
+                            LastUpdatedBy = releaseNote.LastUpdatedBy,
+                            LastUpdatedDate = releaseNote.LastUpdatedDate
+                        };
+                        list.Add(releaseNoteVM);
+                    }
+                }
+            }
+            else
+            {
+                //Error melding
+            }
             return View(list);
         }
     }

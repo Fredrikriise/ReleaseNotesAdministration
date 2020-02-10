@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<ReleaseNotes.ViewModels.ReleaseNoteViewModel>
-
 @{
-    ViewData["Title"] = "TalentManagerReleaseNotes";
+    ViewData["Title"] = "TalentOnboardingReleaseNotes";
 }
 
 <style>
@@ -32,12 +31,10 @@
     .submitButton {
         margin-top: 0.25%;
     }
-
- 
 </style>
 
 
-<h1 class="headerTitle">Release notes for Talent Manager</h1>
+<h1 class="headerTitle">Release notes for Talent Onboarding</h1>
 
 @{bool ObjectFound = false; }
 
@@ -47,13 +44,13 @@
         @Html.DisplayFor(modelItem => item.Title)
     </div>
 
-    <label>Posted by </label> <span class="creatorName">@Html.DisplayFor(modelItem => item.CreatedBy)</span> <label> on </label> @Html.DisplayFor(modelItem => item.CreatedDate)
+    <label>Posted by </label> <span class="creatorName">@Html.DisplayFor(modelItem => item.CreatedBy)</span> <label>on </label> @Html.DisplayFor(modelItem => item.CreatedDate)
     <hr class="hrTag" />
     <br>
     @Html.DisplayFor(modelItem => item.Bodytext)
     <br>
 
-    <!-- if loop to check if the releasenotes hanst been updated -->
+    <!-- if loop to check if the releasenotes has been updated -->
     @if (item.LastUpdatedBy != null)
     {
         <div class="updatedText">
@@ -61,6 +58,7 @@
         </div>
     }
     <hr />
+
     <form asp-controller="Home" asp-action="action" method="post">
         <input class="col-6" placeholder="Would you like to subscribe to updates? Enter your email!" /> <!--asp-for="UserEmail"-->
         <div class="submitButton"><input type="submit" value="Subscribe" /></div>
@@ -74,3 +72,5 @@
 {
     <label>There is currently no release notes published for this product.</label>
 }
+
+
