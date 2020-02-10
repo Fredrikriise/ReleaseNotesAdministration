@@ -74,11 +74,7 @@ namespace ReleaseNotes.Controllers
                 var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
 
 
-
                 var TargetProductId = 3;
-
-
-                //List<ReleaseNoteViewModel> releaseNotesListNew = new List<ReleaseNoteViewModel>();
 
                 foreach (var releaseNote in releaseNotes.ReleaseNotes)
                 {
@@ -117,13 +113,10 @@ namespace ReleaseNotes.Controllers
                 var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
                 var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
 
-
-
                 var TargetProductId = 1;
 
-
-                //List<ReleaseNoteViewModel> releaseNotesListNew = new List<ReleaseNoteViewModel>();
-
+                //var talentRecruiterReleaseNotes = releaseNotes.ReleaseNotes.Where(x => x.ProductId == TargetProductId);
+                
                 foreach (var releaseNote in releaseNotes.ReleaseNotes)
                 {
                     if (releaseNote.ProductId == TargetProductId)
@@ -141,13 +134,14 @@ namespace ReleaseNotes.Controllers
                         };
                         list.Add(releaseNoteVM);
                     }
-                }
+                } 
             }
             else
             {
                 //Error melding
             }
-            return View(list);
+     
+            return View();
         }
 
         public async Task<IActionResult> TalentOnboarding()
@@ -161,12 +155,7 @@ namespace ReleaseNotes.Controllers
                 var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
                 var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
 
-
-
                 var TargetProductId = 2;
-
-
-                //List<ReleaseNoteViewModel> releaseNotesListNew = new List<ReleaseNoteViewModel>();
 
                 foreach (var releaseNote in releaseNotes.ReleaseNotes)
                 {
