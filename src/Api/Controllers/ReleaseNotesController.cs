@@ -35,7 +35,7 @@ namespace Api.Controllers
                     ProductId = 2,
                     CreatedBy = "Fredrik Svevad Riise",
                     CreatedDate = DateTime.ParseExact("27/01/2020", "dd/MM/yyyy", null),
-                    LastUpdatedBy = "",
+                    LastUpdatedBy = null,
                     LastUpdatedDate = null
                 },
                 new ReleaseNotesModel

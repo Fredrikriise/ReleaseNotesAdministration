@@ -8,10 +8,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using ReleaseNotes.ViewModels;
-using ReleaseNotes.Models;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace ReleaseNotes.Controllers
 {

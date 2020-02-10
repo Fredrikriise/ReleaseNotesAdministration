@@ -140,7 +140,7 @@ namespace ReleaseNotes.Controllers
                 //Error melding
             }
      
-            return View();
+            return View(list);
         }
 
         public async Task<IActionResult> TalentOnboarding()
