@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ReleaseNotes.Models;
 using ReleaseNotes.ViewModels;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace ReleaseNotes.Controllers
 {
@@ -20,41 +17,31 @@ namespace ReleaseNotes.Controllers
         {
             _httpClientFactory = httpClientFactory;
 
-            _productsClient = _httpClientFactory.CreateClient("ProductApiClient");
+            _productsClient = _httpClientFactory.CreateClient("ReleaseNotesApiClient");
         }
 
+        // Loading all products for Talentech on the front-page
         public async Task<IActionResult> Index()
         {
-            //Skal vi bare hardkode produktid'en i "url"'en?
             var productResult = await _productsClient.GetAsync("/Product/");
-            var productList = new List<ProductViewModel>();
 
-            if (productResult.IsSuccessStatusCode)
+            if (!productResult.IsSuccessStatusCode)
             {
-                var responseStream = await productResult.Content.ReadAsStringAsync();
-                var products = JsonConvert.DeserializeObject<ProductList>(responseStream);
-
-                foreach (var product in products.Products)
-                {
-                    var productVm = new ProductViewModel()
-                    {
-                        ProductId = product.ProductId,
-                        ProductName = product.ProductName,
-                        ProductImage = product.ProductImage,
-                        ProductDescription = product.ProductDescription
-                    };
-                    productList.Add(productVm);
-
-                    // For debug
-                    Console.WriteLine(product);
-                }
-            }
-            else
-            {
-
+                // Error
             }
 
-            return View(productList);
+            var responseStream = await productResult.Content.ReadAsStringAsync();
+            var products = JsonConvert.DeserializeObject<ProductList>(responseStream);
+
+            var productsList = products.Products.Select(x => new ProductViewModel
+            {
+                ProductId = x.ProductId,
+                ProductName = x.ProductName,
+                ProductImage = x.ProductImage,
+                ProductDescription = x.ProductDescription
+            }).ToList();
+
+            return View(productsList);
         }
     }
 }

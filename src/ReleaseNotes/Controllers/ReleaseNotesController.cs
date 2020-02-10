@@ -2,8 +2,8 @@
 using Newtonsoft.Json;
 using ReleaseNotes.Models;
 using ReleaseNotes.ViewModels;
-using System;
-using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -21,165 +21,188 @@ namespace ReleaseNotes.Controllers
             _releaseNotesClient = _httpClientFactory.CreateClient("ReleaseNotesApiClient");
         }
 
+        // Loading all release notes for all products
         public async Task<IActionResult> Index()
         {
             var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
-            var list = new List<ReleaseNoteViewModel>();
 
-            if (releaseNotesResult.IsSuccessStatusCode)
+            if (!releaseNotesResult.IsSuccessStatusCode)
             {
-
-                var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
-                var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
-
-
-                foreach (var releaseNote in releaseNotes.ReleaseNotes)
-                {
-                    var releaseNoteVm = new ReleaseNoteViewModel()
-                    {
-                        Title = releaseNote.Title,
-                        Bodytext = releaseNote.BodyText,
-                        Id = releaseNote.Id,
-                        ProductId = releaseNote.ProductId,
-                        CreatedBy = releaseNote.CreatedBy,
-                        CreatedDate = releaseNote.CreatedDate,
-                        LastUpdatedBy = releaseNote.LastUpdatedBy,
-                        LastUpdatedDate = releaseNote.LastUpdatedDate
-                    };
-
-                    list.Add(releaseNoteVm);
-
-                    // For debug
-                    Console.WriteLine(releaseNote);
-                }
-            }
-            else
-            {
-                //Error melding
+                // Error
             }
 
-            return View(list);
+            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+            var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
+
+            var releaseNotesList = releaseNotes.ReleaseNotes.Select(x => new ReleaseNoteViewModel
+            {
+                Title = x.Title,
+                Bodytext = x.BodyText,
+                Id = x.Id,
+                ProductId = x.ProductId,
+                CreatedBy = x.CreatedBy,
+                CreatedDate = x.CreatedDate,
+                LastUpdatedBy = x.LastUpdatedBy,
+                LastUpdatedDate = x.LastUpdatedDate
+            }).ToList();
+
+            return View(releaseNotesList);
         }
 
+        // Loading release notes for talent manager
         public async Task<IActionResult> TalentManager()
         {
             var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
-            var list = new List<ReleaseNoteViewModel>();
 
-            if (releaseNotesResult.IsSuccessStatusCode)
+            if (!releaseNotesResult.IsSuccessStatusCode)
             {
-
-                var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
-                var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
-
-
-                var TargetProductId = 3;
-
-                foreach (var releaseNote in releaseNotes.ReleaseNotes)
-                {
-                    if (releaseNote.ProductId == TargetProductId)
-                    {
-                        var releaseNoteVM = new ReleaseNoteViewModel
-                        {
-                            Title = releaseNote.Title,
-                            Bodytext = releaseNote.BodyText,
-                            Id = releaseNote.Id,
-                            ProductId = releaseNote.ProductId,
-                            CreatedBy = releaseNote.CreatedBy,
-                            CreatedDate = releaseNote.CreatedDate,
-                            LastUpdatedBy = releaseNote.LastUpdatedBy,
-                            LastUpdatedDate = releaseNote.LastUpdatedDate
-                        };
-                        list.Add(releaseNoteVM);
-                    }
-                }
+                // Error
             }
-            else
+
+            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+            var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
+
+            var TargetProductId = 3;
+
+            var talentManagerReleaseNotes = releaseNotes.ReleaseNotes.Where(x => x.ProductId == TargetProductId).Select(x => new ReleaseNoteViewModel
             {
-                //Error melding
-            }
-            return View(list);
+                Title = x.Title,
+                Bodytext = x.BodyText,
+                Id = x.Id,
+                ProductId = x.ProductId,
+                CreatedBy = x.CreatedBy,
+                CreatedDate = x.CreatedDate,
+                LastUpdatedBy = x.LastUpdatedBy,
+                LastUpdatedDate = x.LastUpdatedDate
+            }).ToList();
+
+            return View(talentManagerReleaseNotes);
         }
 
+        // Loading release notes for talent recruiter
         public async Task<IActionResult> TalentRecruiter()
         {
             var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
-            var list = new List<ReleaseNoteViewModel>();
 
-            if (releaseNotesResult.IsSuccessStatusCode)
+            if (!releaseNotesResult.IsSuccessStatusCode)
             {
-
-                var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
-                var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
-
-                var TargetProductId = 1;
-
-                //var talentRecruiterReleaseNotes = releaseNotes.ReleaseNotes.Where(x => x.ProductId == TargetProductId);
-                
-                foreach (var releaseNote in releaseNotes.ReleaseNotes)
-                {
-                    if (releaseNote.ProductId == TargetProductId)
-                    {
-                        var releaseNoteVM = new ReleaseNoteViewModel
-                        {
-                            Title = releaseNote.Title,
-                            Bodytext = releaseNote.BodyText,
-                            Id = releaseNote.Id,
-                            ProductId = releaseNote.ProductId,
-                            CreatedBy = releaseNote.CreatedBy,
-                            CreatedDate = releaseNote.CreatedDate,
-                            LastUpdatedBy = releaseNote.LastUpdatedBy,
-                            LastUpdatedDate = releaseNote.LastUpdatedDate
-                        };
-                        list.Add(releaseNoteVM);
-                    }
-                } 
+                // Error
             }
-            else
+
+            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+            var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
+
+            var TargetProductId = 1;
+
+            var talentRecruiterReleaseNotes = releaseNotes.ReleaseNotes.Where(x => x.ProductId == TargetProductId).Select(x => new ReleaseNoteViewModel
             {
-                //Error melding
-            }
-     
-            return View(list);
+                Title = x.Title,
+                Bodytext = x.BodyText,
+                Id = x.Id,
+                ProductId = x.ProductId,
+                CreatedBy = x.CreatedBy,
+                CreatedDate = x.CreatedDate,
+                LastUpdatedBy = x.LastUpdatedBy,
+                LastUpdatedDate = x.LastUpdatedDate
+            }).ToList();
+
+            return View(talentRecruiterReleaseNotes);
         }
 
+        // Loading release notes for talent onboarding
         public async Task<IActionResult> TalentOnboarding()
         {
             var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
-            var list = new List<ReleaseNoteViewModel>();
 
-            if (releaseNotesResult.IsSuccessStatusCode)
+            if (!releaseNotesResult.IsSuccessStatusCode)
             {
+                // Error
+            }
 
-                var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
-                var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
+            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+            var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
 
-                var TargetProductId = 2;
+            var TargetProductId = 2;
 
-                foreach (var releaseNote in releaseNotes.ReleaseNotes)
+            var talentOnboardingReleaseNotes = releaseNotes.ReleaseNotes.Where(x => x.ProductId == TargetProductId).Select(x => new ReleaseNoteViewModel
+            {
+                Title = x.Title,
+                Bodytext = x.BodyText,
+                Id = x.Id,
+                ProductId = x.ProductId,
+                CreatedBy = x.CreatedBy,
+                CreatedDate = x.CreatedDate,
+                LastUpdatedBy = x.LastUpdatedBy,
+                LastUpdatedDate = x.LastUpdatedDate
+            }).ToList();
+
+            return View(talentOnboardingReleaseNotes);
+        }
+
+        /*
+        // Har denne her, i tilfelle vi trenger noen lignende metode senere. 
+        public IActionResult ListLatestReleaseNote()
+        {
+            var BodytextData = "Lorem ipsum dolor sit amet, in nonummy lectus venenatis posuere risus ipsum, nulla vel lorem vitae bibendum sed, elit lacinia urna convallis eget placerat, duis wisi mauris nullam mauris, nulla vitae eu nunc nisl est.Odio justo dui ut nulla proin turpis, facere varius dolor eu ipsum congue orci, dolor lorem facilisis mauris euismod, viverra ipsum eros conubia tellus habitant. Mauris fusce egestas sodales rutrum, tellus odio tortor donec justo nec, aptent dictum dui elit mi dui, diam aliquam suscipit placerat, justo turpis integer sed.Leo ac eros ullamcorper eum sapien quam, ut quis felis, magna senectus fringilla eu ultricies vel, ac arcu sodales at urna sit mattis, nulla imperdiet quisque pede sit rutrum.Suscipit suspendisse. In hendrerit ipsum pellentesque aptent sollicitudin sapien, donec magna in cras in pulvinar quisque, eros adipiscing dui cursus hendrerit. Diam quam. Nunc elit elit semper in, nulla nam eros nonummy vestibulum suscipit, sed vitae. Vulputate ac sagittis amet nulla, ipsum aenean ante quis id duis, nisl nulla risus.";
+
+            List<ReleaseNoteViewModel> releaseNotesList = new List<ReleaseNoteViewModel>
+            {
+                new ReleaseNoteViewModel {
+                    Title = "Release note 0.1 - Onboarding",
+                    Bodytext = BodytextData,
+                    Id = 1,
+                    ProductId = 1,
+                    CreatedBy = "Fredrik Svevad Riise",
+                    CreatedDate = DateTime.ParseExact("27/01/2020", "dd/MM/yyyy", null),
+                    LastUpdatedBy = "",
+                    LastUpdatedDate = null,
+                },
+
+                new ReleaseNoteViewModel {
+                    Title = "Release note 0.93 - Manager",
+                    Bodytext = BodytextData,
+                    Id = 2,
+                    ProductId = 2,
+                    CreatedBy = "Felix Thu Falkendal Nilsen",
+                    CreatedDate = DateTime.ParseExact("28/01/2020", "dd/MM/yyyy", null),
+                    LastUpdatedBy = "Felix Thu Falkendal Nilsen",
+                    LastUpdatedDate = DateTime.ParseExact("31/01/2020", "dd/MM/yyyy", null),
+                }
+            };
+
+            DateTime? val1 = DateTime.MinValue;
+
+            for (var i = 0; i < releaseNotesList.Count; i++)
+            {
+                if (releaseNotesList[i].CreatedDate > val1 || releaseNotesList[i].CreatedDate == val1)
                 {
-                    if (releaseNote.ProductId == TargetProductId)
+                    val1 = releaseNotesList[i].CreatedDate;
+
+                    List<ReleaseNoteViewModel> releaseNotesListNew = new List<ReleaseNoteViewModel>
                     {
-                        var releaseNoteVM = new ReleaseNoteViewModel
-                        {
-                            Title = releaseNote.Title,
-                            Bodytext = releaseNote.BodyText,
-                            Id = releaseNote.Id,
-                            ProductId = releaseNote.ProductId,
-                            CreatedBy = releaseNote.CreatedBy,
-                            CreatedDate = releaseNote.CreatedDate,
-                            LastUpdatedBy = releaseNote.LastUpdatedBy,
-                            LastUpdatedDate = releaseNote.LastUpdatedDate
-                        };
-                        list.Add(releaseNoteVM);
-                    }
+                        new ReleaseNoteViewModel {
+                            Title = releaseNotesList[i].Title,
+                            Bodytext = releaseNotesList[i].Bodytext,
+                            Id = releaseNotesList[i].Id,
+                            ProductId = releaseNotesList[i].ProductId,
+                            CreatedBy = releaseNotesList[i].CreatedBy,
+                            CreatedDate = releaseNotesList[i].CreatedDate,
+                            LastUpdatedBy = releaseNotesList[i].LastUpdatedBy,
+                            LastUpdatedDate = releaseNotesList[i].LastUpdatedDate,
+                        }
+                    };
+                    ViewData.Model = releaseNotesListNew;
                 }
             }
-            else
-            {
-                //Error melding
-            }
-            return View(list);
+            return View();
+        }
+        */
+
+        // Error
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

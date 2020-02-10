@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Products";
 }
 
 @model IEnumerable<ReleaseNotes.ViewModels.ProductViewModel>
@@ -10,19 +10,26 @@
     <h3>Which product would you like to view release notes from?</h3>
     <!-- CARDS -->
     <div class="row mt-4 col-12 pr-0">
+        @{bool ProductFound = false; }
         @foreach (var item in Model)
         {
             <div class="col-12 col-sm-4">
                 <div class="card mb-3" id="@item.ProductId">
                     <div class="card-body">
                         <a asp-controller="ReleaseNotes" asp-action="@item.ProductDescription">
-                            <img src="@item.ProductImage" alt="product icon" />
+                            <img src="@item.ProductImage" alt="@item.ProductDescription product icon" />
                             <hr />
                             <h4 class="card-title"><label asp-for="@item.ProductName">@item.ProductName</label></h4>
                         </a>
                     </div>
                 </div>
             </div>
+            ProductFound = true;
+        }
+
+        @if (!ProductFound)
+        {
+            <label>There is currently no products published.</label>
         }
     </div>
 </div>

@@ -35,6 +35,7 @@
     <h1 id="headerTitle">Release notes</h1>
 
     <div>
+        @{bool ReleaseNoteFound = false; }
         <!-- Foreach loop results in the span, hr, div etc to have the same id - any fix?-->
         @foreach (var item in Model)
         {
@@ -49,7 +50,7 @@
             <br>
 
             <!-- if loop to check if the releasenotes hanst been updated -->
-            @if (item.LastUpdatedBy.Length != 0)
+            @if (item.LastUpdatedBy != null)
             {
                 <div id="updatedText">
                     @Html.DisplayNameFor(model => model.LastUpdatedBy) @Html.Raw(" ") <span id="updateName">@Html.DisplayFor(modelItem => item.LastUpdatedBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.LastUpdatedDate)
@@ -63,7 +64,13 @@
             }
             <br>
             <br>
-
+            ReleaseNoteFound = true;
         }
+
+        @if (!ReleaseNoteFound)
+        {
+            <label>There is currently no release notes published for this product.</label>
+        }
+
     </div>
 </div>

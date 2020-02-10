@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ReleaseNotes.ViewModels.ReleaseNoteViewModel>
 
 @{
-    ViewData["Title"] = "TalentManagerReleaseNotes";
+    ViewData["Title"] = "Talent Manager";
 }
 
 <style>
@@ -39,7 +39,7 @@
 
 <h1 class="headerTitle">Release notes for Talent Manager</h1>
 
-@{bool ObjectFound = false; }
+@{bool ReleaseNoteFound = false; }
 
 @foreach (var item in Model)
 {
@@ -68,10 +68,10 @@
     </form>
     <br>
     <br>
-    ObjectFound = true;
+    ReleaseNoteFound = true;
 }
 
-@if (!ObjectFound)
+@if (!ReleaseNoteFound)
 {
     <label>There is currently no release notes published for this product.</label>
 }

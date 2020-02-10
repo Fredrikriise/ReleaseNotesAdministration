@@ -20,14 +20,17 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse col-8">
                     <ul class="navbar-nav flex-grow-1 justify-content-end">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ReleaseNotes" asp-action="Index">List releasenotes</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ReleaseNotes" asp-action="Index">All release notes</a>
                         </li>
+                        <!-- Tilhører ListLatestReleaseNote metode som er kommentert ut i ReleaseNote-Controller -->
+                        <!--
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ListLatestReleaseNote">Latest release note</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ReleaseNotes" asp-action="ListLatestReleaseNote">Latest release note</a>
                         </li>
+                        -->
                     </ul>
                 </div>
             </div>

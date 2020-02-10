@@ -22,13 +22,7 @@ namespace ReleaseNotes
             services.AddControllersWithViews();
             services.AddHttpClient("ReleaseNotesApiClient", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:44392");
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            });
-
-            services.AddHttpClient("ProductApiClient", client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:44392");
+                client.BaseAddress = new Uri("https://localhost:44364");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
         }
@@ -42,7 +36,7 @@ namespace ReleaseNotes
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/ReleaseNotes/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
