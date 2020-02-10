@@ -46,7 +46,7 @@ namespace ReleaseNotes.Controllers
                         CreatedBy = releaseNote.CreatedBy,
                         CreatedDate = releaseNote.CreatedDate,
                         LastUpdatedBy = releaseNote.LastUpdatedBy,
-                        LastUpdatedDate = releaseNote.LasteUpdatedDate
+                        LastUpdatedDate = releaseNote.LastUpdatedDate
                     };
 
                     list.Add(releaseNoteVm);
@@ -75,36 +75,35 @@ namespace ReleaseNotes.Controllers
 
 
 
-                var TargetProductId = 1;
+                var TargetProductId = 3;
 
-                List<ReleaseNoteViewModel> releaseNotesListNew = new List<ReleaseNoteViewModel>();
 
-                for (var i = 0; i < releaseNotesListNew.Count; i++)
+                //List<ReleaseNoteViewModel> releaseNotesListNew = new List<ReleaseNoteViewModel>();
+
+                foreach (var releaseNote in releaseNotes.ReleaseNotes)
                 {
-                    if (releaseNotesListNew[i].ProductId == TargetProductId)
+                    if (releaseNote.ProductId == TargetProductId)
                     {
-                        releaseNotesListNew.Add(new ReleaseNoteViewModel
+                        var releaseNoteVM = new ReleaseNoteViewModel
                         {
-                            Title = releaseNotesListNew[i].Title,
-                            Bodytext = releaseNotesListNew[i].Bodytext,
-                            Id = releaseNotesListNew[i].Id,
-                            ProductId = releaseNotesListNew[i].ProductId,
-                            CreatedBy = releaseNotesListNew[i].CreatedBy,
-                            CreatedDate = releaseNotesListNew[i].CreatedDate,
-                            LastUpdatedBy = releaseNotesListNew[i].LastUpdatedBy,
-                            LastUpdatedDate = releaseNotesListNew[i].LastUpdatedDate
-                        });
-
+                            Title = releaseNote.Title,
+                            Bodytext = releaseNote.BodyText,
+                            Id = releaseNote.Id,
+                            ProductId = releaseNote.ProductId,
+                            CreatedBy = releaseNote.CreatedBy,
+                            CreatedDate = releaseNote.CreatedDate,
+                            LastUpdatedBy = releaseNote.LastUpdatedBy,
+                            LastUpdatedDate = releaseNote.LastUpdatedDate
+                        };
+                        list.Add(releaseNoteVM);
                     }
-                    ViewData.Model = releaseNotesListNew;
                 }
             }
             else
             {
                 //Error melding
             }
-
-            return View();
+            return View(list);
         }
 
         public async Task<IActionResult> TalentRecruiter()
@@ -122,32 +121,32 @@ namespace ReleaseNotes.Controllers
 
                 var TargetProductId = 1;
 
-                List<ReleaseNoteViewModel> releaseNotesListNew = new List<ReleaseNoteViewModel>();
 
-                for (var i = 0; i < releaseNotesListNew.Count; i++)
+                //List<ReleaseNoteViewModel> releaseNotesListNew = new List<ReleaseNoteViewModel>();
+
+                foreach (var releaseNote in releaseNotes.ReleaseNotes)
                 {
-                    if (releaseNotesListNew[i].ProductId == TargetProductId)
+                    if (releaseNote.ProductId == TargetProductId)
                     {
-                        releaseNotesListNew.Add(new ReleaseNoteViewModel
+                        var releaseNoteVM = new ReleaseNoteViewModel
                         {
-                            Title = releaseNotesListNew[i].Title,
-                            Bodytext = releaseNotesListNew[i].Bodytext,
-                            Id = releaseNotesListNew[i].Id,
-                            ProductId = releaseNotesListNew[i].ProductId,
-                            CreatedBy = releaseNotesListNew[i].CreatedBy,
-                            CreatedDate = releaseNotesListNew[i].CreatedDate,
-                            LastUpdatedBy = releaseNotesListNew[i].LastUpdatedBy,
-                            LastUpdatedDate = releaseNotesListNew[i].LastUpdatedDate
-                        });
+                            Title = releaseNote.Title,
+                            Bodytext = releaseNote.BodyText,
+                            Id = releaseNote.Id,
+                            ProductId = releaseNote.ProductId,
+                            CreatedBy = releaseNote.CreatedBy,
+                            CreatedDate = releaseNote.CreatedDate,
+                            LastUpdatedBy = releaseNote.LastUpdatedBy,
+                            LastUpdatedDate = releaseNote.LastUpdatedDate
+                        };
+                        list.Add(releaseNoteVM);
                     }
-                    ViewData.Model = releaseNotesListNew;
                 }
             }
             else
             {
                 //Error melding
             }
-
             return View(list);
         }
 
@@ -162,34 +161,36 @@ namespace ReleaseNotes.Controllers
                 var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
                 var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
 
-                var TargetProductId = 1;
 
-                List<ReleaseNoteViewModel> releaseNotesListNew = new List<ReleaseNoteViewModel>();
 
-                for (var i = 0; i < releaseNotesListNew.Count; i++)
+                var TargetProductId = 2;
+
+
+                //List<ReleaseNoteViewModel> releaseNotesListNew = new List<ReleaseNoteViewModel>();
+
+                foreach (var releaseNote in releaseNotes.ReleaseNotes)
                 {
-                    if (releaseNotesListNew[i].ProductId == TargetProductId)
+                    if (releaseNote.ProductId == TargetProductId)
                     {
-                        releaseNotesListNew.Add(new ReleaseNoteViewModel
+                        var releaseNoteVM = new ReleaseNoteViewModel
                         {
-                            Title = releaseNotesListNew[i].Title,
-                            Bodytext = releaseNotesListNew[i].Bodytext,
-                            Id = releaseNotesListNew[i].Id,
-                            ProductId = releaseNotesListNew[i].ProductId,
-                            CreatedBy = releaseNotesListNew[i].CreatedBy,
-                            CreatedDate = releaseNotesListNew[i].CreatedDate,
-                            LastUpdatedBy = releaseNotesListNew[i].LastUpdatedBy,
-                            LastUpdatedDate = releaseNotesListNew[i].LastUpdatedDate
-                        });
+                            Title = releaseNote.Title,
+                            Bodytext = releaseNote.BodyText,
+                            Id = releaseNote.Id,
+                            ProductId = releaseNote.ProductId,
+                            CreatedBy = releaseNote.CreatedBy,
+                            CreatedDate = releaseNote.CreatedDate,
+                            LastUpdatedBy = releaseNote.LastUpdatedBy,
+                            LastUpdatedDate = releaseNote.LastUpdatedDate
+                        };
+                        list.Add(releaseNoteVM);
                     }
-                    ViewData.Model = releaseNotesListNew;
                 }
             }
             else
             {
                 //Error melding
             }
-
             return View(list);
         }
     }

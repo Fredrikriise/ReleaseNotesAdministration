@@ -1,5 +1,4 @@
-﻿@model ReleaseNotes.ViewModels.HomeControllerViewModel
-
+﻿@model IEnumerable<ReleaseNotes.ViewModels.ReleaseNoteViewModel>
 @{
     ViewData["Title"] = "TalentOnboardingReleaseNotes";
 }
@@ -39,7 +38,7 @@
 
 @{bool ObjectFound = false; }
 
-@foreach (var item in Model.ReleaseNotes)
+@foreach (var item in Model)
 {
     <div class="releaseNoteTitle">
         @Html.DisplayFor(modelItem => item.Title)
