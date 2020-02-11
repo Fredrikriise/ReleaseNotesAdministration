@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Services.Repository.Config
 {
-    class SqlConnection
+    public class SqlDbConnection
     {
         public string ConnectionString { get; set; }
     }
