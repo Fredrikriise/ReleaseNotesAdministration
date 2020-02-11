@@ -1,9 +1,4 @@
-﻿using Api.Models;
-using AutoMapper;
-using Services.Repository.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Services.Repository.Models;
 using System.Threading.Tasks;
 
 namespace Services.Repository.Interfaces

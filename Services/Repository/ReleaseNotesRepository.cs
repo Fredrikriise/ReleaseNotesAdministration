@@ -4,11 +4,9 @@ using Services.Repository.Config;
 using Services.Repository.Interfaces;
 using Services.Repository.Models;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
-using System.Collections.Generic;
 using Services.Repository.Models.DatabaseModels;
+using System.Data.SqlClient;
 using Dapper;
 
 namespace Services

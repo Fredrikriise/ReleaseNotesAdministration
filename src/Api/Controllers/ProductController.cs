@@ -1,9 +1,10 @@
 ﻿using Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Services.Repository.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Services.Repository.ProductsRepository;
+using AutoMapper;
 
 namespace Api.Controllers
 {
@@ -11,11 +12,14 @@ namespace Api.Controllers
     [Route("[Controller]")]
     public class ProductController : Controller
     {
+        private readonly IMapper _mapper;
+        private readonly IProductsRepository _productRepo;
         private readonly ILogger<ProductController> _logger;
 
-        public ProductController(ILogger<ProductController> logger)
+        public ProductController(ILogger<ProductController> logger, IProductsRepository productsRepository)
         {
             _logger = logger;
+            _productRepo = productsRepository;
         }
 
         [HttpGet]
@@ -53,14 +57,18 @@ namespace Api.Controllers
         }
 
         [HttpGet("{productId}")]
-        public async Task<IActionResult> GetProductByProductId (int? ProductId)
+        public async Task<IActionResult> GetAllProducts()
         {
-            if(!ProductId.HasValue)
-            {
-                _logger.LogWarning($"The {nameof(ProductId)} : {ProductId} is not a valid parameter value");
-            }
 
-            var product = await GetProduct(ProductId);
+            //if(!ProductId.HasValue)
+            //{
+            //    _logger.LogWarning($"The {nameof(ProductId)} : {ProductId} is not a valid parameter value");
+            //}
+
+            var returnedProducts = await _productRepo.GetAllProducts();
+            var mappedProducts = _mapper.Map<List<Services.Repository.Models.DatabaseModels.Product>>(returnedProducts);
+            return Ok(mappedProducts);
+
         }
     }
 }

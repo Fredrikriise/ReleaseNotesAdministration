@@ -13,5 +13,6 @@ namespace Services.Repository.Interfaces
         Task<ProductDto> GetProduct(int? productId);
         Task<ProductDto> UpdateProduct(int? ProductId, ProductDto product);
         Task<bool> Delete(int? productId);
+        Task<ProductDto> GetAllProducts();
     }
 }
