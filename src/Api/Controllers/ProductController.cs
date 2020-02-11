@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Services.Repository.ProductsRepository;
 
 namespace Api.Controllers
 {
@@ -48,6 +50,17 @@ namespace Api.Controllers
             {
                 Products = productList
             };
+        }
+
+        [HttpGet("{productId}")]
+        public async Task<IActionResult> GetProductByProductId (int? ProductId)
+        {
+            if(!ProductId.HasValue)
+            {
+                _logger.LogWarning($"The {nameof(ProductId)} : {ProductId} is not a valid parameter value");
+            }
+
+            var product = await GetProduct(ProductId);
         }
     }
 }
