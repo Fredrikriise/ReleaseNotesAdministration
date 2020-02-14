@@ -21,52 +21,52 @@ namespace Api.Controllers
             _logger = logger;
             _productRepo = productsRepository;
         }
+        
+        //[HttpGet]
+        //public ProductList Get()
+        //{
+            //var productList = new List<ProductModel>
+            //{
+                //new ProductModel
+                //{
+                    //ProductId = 1,
+                    //ProductName = "Talent Recruiter",
+                    //ProductImage = "pic-recruiter.png",
+                    //ProductDescription = "TalentRecruiter"
+                //},
+                //new ProductModel
+                //{
+                    //ProductId = 2,
+                    //ProductName = "Talent Onboarding",
+                    //ProductImage = "pic-onboarding.png",
+                    //ProductDescription = "TalentOnboarding"
+                //},
+                //new ProductModel
+                //{
+                    //ProductId = 3,
+                    //ProductName = "Talent Manager",
+                    //ProductImage = "pic-manager.png",
+                    //ProductDescription = "TalentManager"
+                //}
+            //};
+
+            //return new ProductList()
+            //{
+                //Products = productList
+            //};
+        //}
 
         [HttpGet]
-        public ProductList Get()
-        {
-            var productList = new List<ProductModel>
-            {
-                new ProductModel
-                {
-                    ProductId = 1,
-                    ProductName = "Talent Recruiter",
-                    ProductImage = "pic-recruiter.png",
-                    ProductDescription = "TalentRecruiter"
-                },
-                new ProductModel
-                {
-                    ProductId = 2,
-                    ProductName = "Talent Onboarding",
-                    ProductImage = "pic-onboarding.png",
-                    ProductDescription = "TalentOnboarding"
-                },
-                new ProductModel
-                {
-                    ProductId = 3,
-                    ProductName = "Talent Manager",
-                    ProductImage = "pic-manager.png",
-                    ProductDescription = "TalentManager"
-                }
-            };
-
-            return new ProductList()
-            {
-                Products = productList
-            };
-        }
-
-        [HttpGet("{productId}")]
         public async Task<IActionResult> GetAllProducts()
         {
-
             //if(!ProductId.HasValue)
             //{
             //    _logger.LogWarning($"The {nameof(ProductId)} : {ProductId} is not a valid parameter value");
             //}
 
             var returnedProducts = await _productRepo.GetAllProducts();
-            var mappedProducts = _mapper.Map<List<Services.Repository.Models.DatabaseModels.Product>>(returnedProducts);
+
+            var mappedProducts = _mapper.Map<List<ProductList>>(returnedProducts);
             return Ok(mappedProducts);
 
         }
