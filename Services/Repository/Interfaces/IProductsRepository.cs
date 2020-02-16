@@ -9,10 +9,10 @@ namespace Services.Repository.Interfaces
 {
     public interface IProductsRepository
     {
-        Task<int?> Create(int? ProductId, ProductDto productDto);
+        Task<int?> CreateProduct(ProductDto productDto);
         Task<ProductDto> GetProduct(int? productId);
         Task<ProductDto> UpdateProduct(int? ProductId, ProductDto product);
-        Task<bool> Delete(int? productId);
+        Task<bool> DeleteProduct(int? productId);
         Task<ProductDto> GetAllProducts();
     }
 }

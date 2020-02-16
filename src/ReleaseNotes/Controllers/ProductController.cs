@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using ReleaseNotes.Models;
 using ReleaseNotes.ViewModels;
+using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace ReleaseNotes.Controllers
             }
 
             var responseStream = await productResult.Content.ReadAsStringAsync();
+            Console.WriteLine(responseStream);
             var products = JsonConvert.DeserializeObject<ProductList>(responseStream);
 
             var productsList = products.Products.Select(x => new ProductViewModel

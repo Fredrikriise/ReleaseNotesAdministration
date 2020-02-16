@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 
+
 namespace ReleaseNotes
 {
     public class Startup
@@ -22,9 +23,10 @@ namespace ReleaseNotes
             services.AddControllersWithViews();
             services.AddHttpClient("ReleaseNotesApiClient", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:44392");
+                client.BaseAddress = new Uri("https://localhost:44346");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

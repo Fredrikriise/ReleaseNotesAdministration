@@ -22,12 +22,11 @@ namespace Services.Repository
             _mapper = mapper;
         }
 
-        public async Task<int?> Create(int? ProductId, ProductDto productDto)
+        public async Task<int?> CreateProduct(ProductDto productDto)
         {
             try
             {
                 var product = _mapper.Map<Product>(productDto);
-                product.ProductId = ProductId;
 
                 using (var connection = new SqlConnection(_connectionString))
                 {
@@ -109,7 +108,7 @@ namespace Services.Repository
             }
         }
 
-        public async Task<bool> Delete(int? productId)
+        public async Task<bool> DeleteProduct(int? productId)
         {
             try
             {
