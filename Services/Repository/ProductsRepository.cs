@@ -26,7 +26,7 @@ namespace Services.Repository
             _mapper = mapper;
         }
 
-        public async Task<int?> CreateProduct(ProductDto productDto)
+        public async Task CreateProduct(ProductDto productDto)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace Services.Repository
 
                 using (var connection = new SqlConnection(_connectionString))
                 {
-                    var insert = @"INSERT INTO [ProductDb]
+                    var insert = @"INSERT INTO [ProductsDb]
                                 (
                                     [ProductId],
                                     [ProductName],
@@ -49,8 +49,7 @@ namespace Services.Repository
                                     @ProductDescription
                                 )
                                 SELECT [Id] FROM [ReleaseNotesDb] WHERE [Id] = @Id AND [ProductId] = @ProductId";
-                    var returnResult = await connection.QueryFirstAsync<int?>(insert, product);
-                    return returnResult;
+                    await connection.ExecuteAsync(insert, product);
                 }
             }
             catch (NullReferenceException ex)
@@ -59,12 +58,12 @@ namespace Services.Repository
             }
         }
 
-        public async Task<ProductDto> GetProduct(int? productId)
+        public async Task<ProductDto> GetProductById(int? productId)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 string query = @"SELECT *
-                FROM [ProductDb]
+                FROM [ProductsDb]
                 WHERE [ProductId] = @ProductId";
 
                 var product = await connection.QueryFirstOrDefaultAsync<Product>(query, new { @ProductId = productId });
@@ -75,17 +74,13 @@ namespace Services.Repository
 
         public async Task<List<ProductDto>> GetAllProducts()
         {
-            Console.WriteLine(_connectionString);
             using (var connection = new SqlConnection(_connectionString))
             {
-                Console.WriteLine(connection);
                 var query = @"SELECT *
                 FROM [ProductsDb]";
 
                 var product = await connection.QueryAsync<Product>(query);
-                Console.WriteLine(product);
                 var productMapped = _mapper.Map<List<ProductDto>>(product);
-                Console.WriteLine(productMapped);
                 return productMapped;
             }
         }
@@ -96,7 +91,7 @@ namespace Services.Repository
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
-                    var updateDb = @"UPDATE [ProductDb]
+                    var updateDb = @"UPDATE [ProductsDb]
                     SET
                         [ProductId] = @ProductId, 
                         [ProductName] = @ProductName,

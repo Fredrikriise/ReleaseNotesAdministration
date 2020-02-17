@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using ReleaseNotes.Models;
 using ReleaseNotes.ViewModels;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
@@ -32,9 +33,9 @@ namespace ReleaseNotes.Controllers
             }
 
             var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
-            var releaseNotes = JsonConvert.DeserializeObject<ReleaseNoteList>(responseStream);
+            var releaseNotes = JsonConvert.DeserializeObject<List<ReleaseNoteApiModel>>(responseStream);
 
-            var releaseNotesList = releaseNotes.ReleaseNotes.Select(x => new ReleaseNoteViewModel
+            var releaseNotesList = releaseNotes.Select(x => new ReleaseNoteViewModel
             {
                 Title = x.Title,
                 Bodytext = x.BodyText,

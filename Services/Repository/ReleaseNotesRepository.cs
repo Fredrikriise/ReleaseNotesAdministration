@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Services.Repository.Models.DatabaseModels;
 using System.Data.SqlClient;
 using Dapper;
+using System.Collections.Generic;
 
 namespace Services
 {
@@ -22,13 +23,11 @@ namespace Services
             _mapper = mapper;
         }
 
-        public async Task<int?> Create(int? Id, int ProductId, ReleaseNoteDto releaseNoteDto)
+        public async Task<int?> CreateReleaseNote(ReleaseNoteDto releaseNoteDto)
         {
             try
             {
                 var releaseNote = _mapper.Map<ReleaseNote>(releaseNoteDto);
-                releaseNote.Id = Id;
-                releaseNote.ProductId = ProductId;
 
                 using (var connection = new SqlConnection(_connectionString))
                 {
@@ -65,7 +64,7 @@ namespace Services
             }
         }
 
-        public async Task<ReleaseNoteDto> GetReleaseNote(int? Id, int ProductId)
+        public async Task<ReleaseNoteDto> GetReleaseNoteById(int? Id)
         {
             using(var connection = new SqlConnection(_connectionString))
             {
@@ -73,7 +72,7 @@ namespace Services
                 FROM [ReleaseNotesDb]
                 WHERE [Id] = @Id AND [ProductId] = @ProductId";
 
-                var releaseNote = await connection.QueryFirstOrDefaultAsync<ReleaseNote>(query, new { @Id = Id, @ProductId = ProductId });
+                var releaseNote = await connection.QueryFirstOrDefaultAsync<ReleaseNote>(query, new { @Id = Id });
                 var mappedReleaseNote = _mapper.Map<ReleaseNoteDto>(releaseNote);
                 return mappedReleaseNote;
             }
@@ -108,13 +107,13 @@ namespace Services
             }
         }
 
-        public async Task<bool> Delete(int? id, int productId)
+        public async Task<bool> DeleteReleaseNote(int? id, int productId)
         {
             try
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
-                    var Delete = "DELETE FROM ReleaseNotesDb WHERE Id = @Id and ProductId = @ProductId";
+                    var Delete = "DELETE FROM [ReleaseNotesDb] WHERE Id = @Id and ProductId = @ProductId";
                     var returnedReleaseNote = await connection.ExecuteAsync(Delete, new { @Id = id, @ProductId = productId });
                     bool success = returnedReleaseNote > 0;
                     return success;
@@ -122,6 +121,19 @@ namespace Services
             } catch (NullReferenceException ex)
             {
                 throw new NullReferenceException(ex.Message);
+            }
+        }
+
+        public async Task<List<ReleaseNoteDto>> GetAllReleaseNotes()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var query = @"SELECT *
+                FROM [ReleaseNotesDb]";
+
+                var releaseNote = await connection.QueryAsync<ReleaseNote>(query);
+                var releaseNoteMapped = _mapper.Map<List<ReleaseNoteDto>>(releaseNote);
+                return releaseNoteMapped;
             }
         }
     }
