@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Services.Repository.Models;
 using Services.Repository.Models.DatabaseModels;
 using Services.Repository.Models.DataTransferObjects;
 using System;
@@ -15,6 +16,8 @@ namespace Api
             CreateMap<Product, ProductDto>();
             CreateMap<ProductDto, Product>();
             CreateMap<List<ProductDto>, Product>();
+            CreateMap<ReleaseNote, ReleaseNoteDto>();
+            CreateMap<ReleaseNoteDto, ReleaseNote>();
         }
         
 

@@ -71,6 +71,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
+        [Route("/releasenotes/{Id}")]
         public async Task<IActionResult> GetReleaseNoteById(int? Id)
         {
             var releaseNote = await _releaseNoteRepo.GetReleaseNoteById(Id);

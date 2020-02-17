@@ -37,7 +37,6 @@ namespace Api.Controllers
 
             var returnedProducts = await _productRepo.GetAllProducts();
             var mappedProducts = _mapper.Map<List<Product>>(returnedProducts);
-            Console.WriteLine(mappedProducts);
             return Ok(mappedProducts);
         }
 
@@ -71,7 +70,8 @@ namespace Api.Controllers
             }
         }
 
-        [HttpGet("{productId}")]
+        [HttpGet]
+        [Route("product/{productId}")]
         public async Task<IActionResult> GetProductById(int? productId)
         {
             var product = await _productRepo.GetProductById(productId);

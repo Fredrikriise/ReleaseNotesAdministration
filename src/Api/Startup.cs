@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Services;
 using Services.Repository;
 using Services.Repository.Config;
 using Services.Repository.Interfaces;
@@ -26,6 +27,7 @@ namespace Api
             services.AddOptions();
             services.AddControllers();
             services.AddScoped<IProductsRepository, ProductsRepository>();
+            services.AddScoped<IReleaseNotesRepository, ReleaseNotesRepository>();
             services.Configure<SqlDbConnection>(Configuration.GetSection("SqlDbConfiguration"));
             services.AddAutoMapper(typeof(Startup), typeof(Services.Repository.Models.DatabaseModels.Product));
         }

@@ -70,7 +70,7 @@ namespace Services
             {
                 string query = @"SELECT *
                 FROM [ReleaseNotesDb]
-                WHERE [Id] = @Id AND [ProductId] = @ProductId";
+                WHERE [Id] = @Id";
 
                 var releaseNote = await connection.QueryFirstOrDefaultAsync<ReleaseNote>(query, new { @Id = Id });
                 var mappedReleaseNote = _mapper.Map<ReleaseNoteDto>(releaseNote);
