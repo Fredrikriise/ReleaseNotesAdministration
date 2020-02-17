@@ -8,7 +8,9 @@ using Microsoft.Extensions.Hosting;
 using Services.Logic;
 using Services.Logic.Interfaces;
 using Services.Repository;
+using Services.Repository.Config;
 using Services.Repository.Interfaces;
+
 
 namespace Api
 {
@@ -24,12 +26,15 @@ namespace Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
             services.AddControllers();
-            services.AddScoped<IProductLogic, ProductLogic>();
+            //services.AddScoped<IProductLogic, ProductLogic>();
             services.AddScoped<IProductsRepository, ProductsRepository>();
-            services.Configure<SqlConnection>(Configuration.GetSection("SqlConnection"));
+            //services.Configure<SqlDbConnection>(options => { options.ConnectionString = "blah"; });
+            services.Configure<SqlDbConnection>(Configuration.GetSection("SqlDbConfiguration"));
 
             services.AddAutoMapper(typeof(Startup), typeof(Services.Repository.Models.DatabaseModels.Product));
+
 
             //var mappingConfig = new MapperConfiguration(mc =>
             //{

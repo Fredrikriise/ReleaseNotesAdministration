@@ -12,6 +12,6 @@ namespace Services.Logic.Interfaces
         Task<Product> GetProduct(int? productId);
         Task<Product> UpdateProduct(int? ProductId, Product productDto);
         Task<bool> DeleteProduct(int? productId);
-        Task<List<Product>> GetAllProducts();
+        Task<Product> GetAllProducts();
     }
 }

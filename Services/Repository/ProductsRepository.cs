@@ -4,10 +4,12 @@ using Services.Repository.Config;
 using Services.Repository.Interfaces;
 using System;
 using System.Threading.Tasks;
-using Services.Repository.Models.DatabaseModels;
+using Services.Repository.Models;
 using Services.Repository.Models.DataTransferObjects;
 using System.Data.SqlClient;
 using Dapper;
+using System.Collections.Generic;
+using Services.Repository.Models.DatabaseModels;
 
 namespace Services.Repository
 {
@@ -18,6 +20,8 @@ namespace Services.Repository
 
         public ProductsRepository(IOptions<SqlDbConnection> sqlDbConnection, IMapper mapper)
         {
+
+            
             _connectionString = sqlDbConnection.Value.ConnectionString;
             _mapper = mapper;
         }
@@ -69,16 +73,20 @@ namespace Services.Repository
             }
         }
 
-        public async Task<ProductDto> GetAllProducts()
+        public async Task<List<ProductDto>> GetAllProducts()
         {
+            Console.WriteLine(_connectionString);
             using (var connection = new SqlConnection(_connectionString))
             {
-                string query = @"SELECT *
-                FROM [ProductDb]";
+                Console.WriteLine(connection);
+                var query = @"SELECT *
+                FROM [ProductsDb]";
 
-                var product = await connection.QueryFirstOrDefaultAsync<Product>(query);
-                var mappedProduct = _mapper.Map<ProductDto>(product);
-                return mappedProduct;
+                var product = await connection.QueryAsync<Product>(query);
+                Console.WriteLine(product);
+                var productMapped = _mapper.Map<List<ProductDto>>(product);
+                Console.WriteLine(productMapped);
+                return productMapped;
             }
         }
 

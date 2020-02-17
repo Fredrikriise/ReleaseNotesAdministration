@@ -14,6 +14,7 @@ namespace Api
         {
             CreateMap<Product, ProductDto>();
             CreateMap<ProductDto, Product>();
+            CreateMap<List<ProductDto>, Product>();
         }
         
 
