@@ -71,7 +71,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        [Route("product/{productId}")]
+        [Route("/product/{productId}")]
         public async Task<IActionResult> GetProductById(int? productId)
         {
             var product = await _productRepo.GetProductById(productId);
