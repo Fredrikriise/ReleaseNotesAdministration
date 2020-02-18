@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using ReleaseNotes.Models;
 using ReleaseNotes.ViewModels;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -29,11 +31,12 @@ namespace ReleaseNotes.Controllers
             {
                 // Error
             }
-
+            
             var responseStream = await productResult.Content.ReadAsStringAsync();
-            var products = JsonConvert.DeserializeObject<ProductList>(responseStream);
+            Console.WriteLine(responseStream);
+            var products = JsonConvert.DeserializeObject<List<ProductApiModel>>(responseStream);
 
-            var productsList = products.Products.Select(x => new ProductViewModel
+            var productsList = products.Select(x => new ProductViewModel
             {
                 ProductId = x.ProductId,
                 ProductName = x.ProductName,
@@ -41,7 +44,7 @@ namespace ReleaseNotes.Controllers
                 ProductDescription = x.ProductDescription
             }).ToList();
 
-            return View(productsList);
+            return View(productsList); 
         }
     }
 }

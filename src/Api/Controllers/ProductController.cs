@@ -2,6 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
+using System;
+using Microsoft.Extensions.Options;
+using Services.Repository.Interfaces;
+using Services.Repository.Models.DatabaseModels;
+using Services.Repository.Models.DataTransferObjects;
 
 namespace Api.Controllers
 {
@@ -9,45 +16,73 @@ namespace Api.Controllers
     [Route("[Controller]")]
     public class ProductController : Controller
     {
+        private readonly IMapper _mapper;
+        private readonly IProductsRepository _productRepo;
         private readonly ILogger<ProductController> _logger;
 
-        public ProductController(ILogger<ProductController> logger)
+        public ProductController(ILogger<ProductController> logger, IProductsRepository productsRepository, IMapper mapper)
         {
             _logger = logger;
+            _productRepo = productsRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public ProductList Get()
+        public async Task<IActionResult> Get()
         {
-            var productList = new List<ProductModel>
-            {
-                new ProductModel
-                {
-                    ProductId = 1,
-                    ProductName = "Talent Recruiter",
-                    ProductImage = "pic-recruiter.png",
-                    ProductDescription = "TalentRecruiter"
-                },
-                new ProductModel
-                {
-                    ProductId = 2,
-                    ProductName = "Talent Onboarding",
-                    ProductImage = "pic-onboarding.png",
-                    ProductDescription = "TalentOnboarding"
-                },
-                new ProductModel
-                {
-                    ProductId = 3,
-                    ProductName = "Talent Manager",
-                    ProductImage = "pic-manager.png",
-                    ProductDescription = "TalentManager"
-                }
-            };
+            //if(!ProductId.HasValue)
+            //{
+            //    _logger.LogWarning($"The {nameof(ProductId)} : {ProductId} is not a valid parameter value");
+            //}
 
-            return new ProductList()
+            var returnedProducts = await _productRepo.GetAllProducts();
+            var mappedProducts = _mapper.Map<List<Product>>(returnedProducts);
+            return Ok(mappedProducts);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Product product)
+        {
+            var mappedProduct = _mapper.Map<ProductDto>(product);
+            await _productRepo.CreateProduct(mappedProduct);
+            return Created("", product);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateProduct(int? productId, Product product)
+        {
+            var mappedProduct = _mapper.Map<ProductDto>(product);
+            await _productRepo.UpdateProduct(productId, mappedProduct);
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteProduct(int? productId)
+        {
+            var deletedProduct = await _productRepo.DeleteProduct(productId);
+
+            if(deletedProduct)
             {
-                Products = productList
-            };
+                return Ok();
+            } else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet]
+        [Route("/product/{productId}")]
+        public async Task<IActionResult> GetProductById(int? productId)
+        {
+            var product = await _productRepo.GetProductById(productId);
+
+            if(product == null)
+            {
+                return NotFound();
+            }
+
+            var mappedProduct = _mapper.Map<Product>(product);
+            return Ok(mappedProduct);
         }
     }
 }
