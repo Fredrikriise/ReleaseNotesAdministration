@@ -23,7 +23,7 @@ namespace ReleaseNotes
             services.AddControllersWithViews();
             services.AddHttpClient("ReleaseNotesApiClient", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:44364");
+                client.BaseAddress = new Uri("https://localhost:44322");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
         }

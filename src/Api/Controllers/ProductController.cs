@@ -17,9 +17,8 @@ namespace Api.Controllers
         private readonly IProductsRepository _productRepo;
         private readonly ILogger<ProductController> _logger;
 
-        public ProductController(ILogger<ProductController> logger, IProductsRepository productsRepository, IMapper mapper)
+        public ProductController(IProductsRepository productsRepository, IMapper mapper)
         {
-            _logger = logger;
             _productRepo = productsRepository;
             _mapper = mapper;
         }
