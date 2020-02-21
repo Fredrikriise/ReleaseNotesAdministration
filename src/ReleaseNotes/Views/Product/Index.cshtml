@@ -1,14 +1,14 @@
-﻿@{
+﻿@model IEnumerable<ReleaseNotes.ViewModels.ProductViewModel>
+
+@{
     ViewData["Title"] = "Products";
 }
-
-@model IEnumerable<ReleaseNotes.ViewModels.ProductViewModel>
 
 <div class="text-center">
     <h1 class="display-4">Talentech - Release Notes</h1>
     <hr />
     <h3>Which product would you like to view release notes from?</h3>
-    <!-- CARDS -->
+    <!-- Product cards -->
     <div class="row mt-4 col-12 pr-0">
         @{bool ProductFound = false; }
         @foreach (var item in Model)

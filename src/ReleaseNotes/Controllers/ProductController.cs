@@ -31,7 +31,7 @@ namespace ReleaseNotes.Controllers
             {
                 // Error
             }
-            
+
             var responseStream = await productResult.Content.ReadAsStringAsync();
             Console.WriteLine(responseStream);
             var products = JsonConvert.DeserializeObject<List<ProductApiModel>>(responseStream);
@@ -44,7 +44,7 @@ namespace ReleaseNotes.Controllers
                 ProductDescription = x.ProductDescription
             }).ToList();
 
-            return View(productsList); 
+            return View(productsList);
         }
     }
 }
