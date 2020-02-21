@@ -29,7 +29,7 @@ namespace ReleaseNotes.Controllers
 
             if (!releaseNotesResult.IsSuccessStatusCode)
             {
-                // Error
+                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed");
             }
 
             var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
@@ -57,7 +57,7 @@ namespace ReleaseNotes.Controllers
 
             if (!releaseNotesResult.IsSuccessStatusCode)
             {
-                // Error
+                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed for Talent Manager product");
             }
 
             var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
@@ -87,7 +87,7 @@ namespace ReleaseNotes.Controllers
 
             if (!releaseNotesResult.IsSuccessStatusCode)
             {
-                // Error
+                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed for Talent Recruiter product");
             }
 
             var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
@@ -117,7 +117,7 @@ namespace ReleaseNotes.Controllers
 
             if (!releaseNotesResult.IsSuccessStatusCode)
             {
-                // Error
+                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed for Talent Onboarding product");
             }
 
             var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
