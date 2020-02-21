@@ -1,11 +1,8 @@
 ﻿@model IEnumerable<ReleaseNotes.ViewModels.ReleaseNoteViewModel>
 
-
-
 @{
     ViewData["Title"] = "List LatestReleaseNote";
 }
-
 
 <style>
     #headerTitle {
@@ -34,31 +31,33 @@
     }
 </style>
 
+<div class="main">
+    <h1 id="headerTitle">Newest published release note</h1>
+
+    <div class="content">
+        @foreach (var item in Model)
+        {
+            <div id="releaseNoteTitle">
+                @Html.DisplayFor(modelItem => item.Title)
+            </div>
+
+            @Html.DisplayNameFor(model => model.CreatedBy) <span id="creatorName">@Html.DisplayFor(modelItem => item.CreatedBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.CreatedDate)
+            <hr id="hrTag" />
+            <br>
+            @Html.DisplayFor(modelItem => item.Bodytext)
 
 
-<h1 id="headerTitle">Newest published release note</h1>
 
-@foreach (var item in Model)
-{
-    <div id="releaseNoteTitle">
-        @Html.DisplayFor(modelItem => item.Title)
+            <!-- if loop to check if the releasenotes hanst been updated -->
+            @if (item.LastUpdatedBy.Length != 0)
+            {
+                <div id="updatedText">
+                    @Html.DisplayNameFor(model => model.LastUpdatedBy) @Html.Raw(" ") <span id="updateName">@Html.DisplayFor(modelItem => item.LastUpdatedBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.LastUpdatedDate)
+                </div>
+            }
+            <hr />
+            <br>
+            <br>
+        }
     </div>
-
-    @Html.DisplayNameFor(model => model.CreatedBy) <span id="creatorName">@Html.DisplayFor(modelItem => item.CreatedBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.CreatedDate)
-    <hr id="hrTag" />
-    <br>
-    @Html.DisplayFor(modelItem => item.Bodytext)
-
-
-
-    <!-- if loop to check if the releasenotes hanst been updated -->
-    @if (item.LastUpdatedBy.Length != 0)
-    {
-        <div id="updatedText">
-            @Html.DisplayNameFor(model => model.LastUpdatedBy) @Html.Raw(" ") <span id="updateName">@Html.DisplayFor(modelItem => item.LastUpdatedBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.LastUpdatedDate)
-        </div>
-    }
-    <hr />
-    <br>
-    <br>
-}
+</div>

@@ -1,11 +1,9 @@
-﻿using Api.Models;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Services.Repository.Interfaces;
 using Services.Repository.Models;
 using Services.Repository.Models.DatabaseModels;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

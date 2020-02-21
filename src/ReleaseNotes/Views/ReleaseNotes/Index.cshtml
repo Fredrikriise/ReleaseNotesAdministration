@@ -30,11 +30,10 @@
     }
 </style>
 
-
-<div>
+<div class="main">
     <h1 id="headerTitle">Release notes</h1>
 
-    <div>
+    <div class="content">
         @{bool ReleaseNoteFound = false; }
         <!-- Foreach loop results in the span, hr, div etc to have the same id - any fix?-->
         @foreach (var item in Model)
@@ -71,6 +70,5 @@
         {
             <label>There is currently no release notes published for this product.</label>
         }
-
     </div>
 </div>

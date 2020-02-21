@@ -1,14 +1,11 @@
-﻿using Api.Models;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
-using System;
-using Microsoft.Extensions.Options;
 using Services.Repository.Interfaces;
 using Services.Repository.Models.DatabaseModels;
 using Services.Repository.Models.DataTransferObjects;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
@@ -61,10 +58,11 @@ namespace Api.Controllers
         {
             var deletedProduct = await _productRepo.DeleteProduct(productId);
 
-            if(deletedProduct)
+            if (deletedProduct)
             {
                 return Ok();
-            } else
+            }
+            else
             {
                 return NotFound();
             }
@@ -76,7 +74,7 @@ namespace Api.Controllers
         {
             var product = await _productRepo.GetProductById(productId);
 
-            if(product == null)
+            if (product == null)
             {
                 return NotFound();
             }
