@@ -3,7 +3,9 @@
     public class QuestionsAndToDo
     {
         // QUESTIONS
-
+        /*
+        - Trenger vi feilhåndtering i API Controllere? NOen metoder har feilhåndtering, mens andre ikke. 
+         */
 
         // ToDo's
         /* 

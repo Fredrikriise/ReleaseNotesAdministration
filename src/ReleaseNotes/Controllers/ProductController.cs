@@ -29,11 +29,10 @@ namespace ReleaseNotes.Controllers
 
             if (!productResult.IsSuccessStatusCode)
             {
-                // Error
+                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
             }
 
             var responseStream = await productResult.Content.ReadAsStringAsync();
-            Console.WriteLine(responseStream);
             var products = JsonConvert.DeserializeObject<List<ProductApiModel>>(responseStream);
 
             var productsList = products.Select(x => new ProductViewModel
