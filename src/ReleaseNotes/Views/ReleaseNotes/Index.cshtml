@@ -1,66 +1,67 @@
 ﻿@model IEnumerable<ReleaseNotes.ViewModels.ReleaseNoteViewModel>
 
+
 <style>
-    #headerTitle {
+    .headerTitle {
         font-size: 250%;
         margin-bottom: 2.5%;
     }
 
-    #releaseNoteTitle {
+    .releaseNoteTitle {
         font-weight: bold;
         font-size: 125%;
     }
 
-    #creatorName, #updateName {
+    .creatorName, .updateName {
         font-weight: bold;
         font-style: italic;
     }
 
-    #hrTag {
+    .hrTag {
         margin-bottom: -1.5%;
     }
 
-    #updatedText {
+    .updatedText {
         margin-top: 1.25%;
         margin-bottom: -1%;
     }
 
-    #submitButton {
+    .submitButton {
         margin-top: 0.25%;
     }
 </style>
 
 <div class="main">
-    <h1 id="headerTitle">Release notes</h1>
+    <h1 class="headerTitle">All published release notes</h1>
 
     <div class="content">
         @{bool ReleaseNoteFound = false; }
-        <!-- Foreach loop results in the span, hr, div etc to have the same id - any fix?-->
+
         @foreach (var item in Model)
         {
-            <div id="releaseNoteTitle">
+            <div class="releaseNoteTitle">
                 @Html.DisplayFor(modelItem => item.Title)
             </div>
 
-            @Html.DisplayNameFor(model => model.CreatedBy) <span id="creatorName">@Html.DisplayFor(modelItem => item.CreatedBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.CreatedDate)
-            <hr id="hrTag" />
+            <label>Posted by <span class="creatorName">@Html.DisplayFor(modelItem => item.CreatedBy)</span> on @item.CreatedDate </label>
+            <hr class="hrTag" />
             <br>
             @Html.DisplayFor(modelItem => item.Bodytext)
             <br>
 
-            <!-- if loop to check if the releasenotes hanst been updated -->
+            <!-- if loop to check if the releasenotes has been updated -->
             @if (item.LastUpdatedBy != null)
             {
-                <div id="updatedText">
-                    @Html.DisplayNameFor(model => model.LastUpdatedBy) @Html.Raw(" ") <span id="updateName">@Html.DisplayFor(modelItem => item.LastUpdatedBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.LastUpdatedDate)
+                <div class="updatedText">
+                    <label>Last updated by </label> <span class="updateName">@Html.DisplayFor(modelItem => item.LastUpdatedBy)</span> <label> on </label> @Html.DisplayFor(modelItem => item.LastUpdatedDate)
                 </div>
             }
             <hr />
-            @Html.TextBox("userEmail", null, new { @class = "form-control", @placeholder = "Would you like to subscribe to updates? Enter your email!" })
-            @using (Html.BeginForm("action", "Home"))
-            {
-                <div id="submitButton"><input type="submit" value="Subscribe" /></div>
-            }
+
+            <form asp-controller="Home" asp-action="action" method="post">
+                <input class="col-6" placeholder="Would you like to subscribe to updates? Enter your email!" /> <!--asp-for="UserEmail"-->
+                <div class="submitButton"><input type="submit" value="Subscribe" /></div>
+            </form>
             <br>
             <br>
             ReleaseNoteFound = true;
