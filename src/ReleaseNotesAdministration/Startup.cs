@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace ReleaseNotesAdministration
 {
@@ -19,6 +20,11 @@ namespace ReleaseNotesAdministration
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddHttpClient("ReleaseNotesApiClient", client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44314");
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +51,7 @@ namespace ReleaseNotesAdministration
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=ReleaseNotesAdmin}/{action=Index}/{id?}");
             });
         }
     }
