@@ -27,7 +27,7 @@ namespace Services
         {
             try
             {
-                var releaseNote = _mapper.Map<ReleaseNote>(releaseNoteDto);
+                //var releaseNote = _mapper.Map<ReleaseNote>(releaseNoteDto);
 
                 using (var connection = new SqlConnection(_connectionString))
                 {
@@ -45,22 +45,31 @@ namespace Services
                                 VALUES
                                 (
                                     @Title,
-                                    @BodyText
-                                    @Id
-                                    @ProductId
-                                    @CreatedBy
-                                    @CreatedDate
-                                    @LastUpdatedBy
+                                    @BodyText,
+                                    @Id,
+                                    @ProductId,
+                                    @CreatedBy,
+                                    @CreatedDate,
+                                    @LastUpdatedBy,
                                     @LastUpdateDate
-                                )
-                                SELECT [Id] FROM [ReleaseNotesDb] WHERE [Id] = @Id AND [ProductId] = @ProductId";
-                    var returnResult = await connection.QueryFirstAsync<int?>(insert, releaseNote);
+                                )";
+                    var returnResult = await connection.QueryFirstAsync<int?>(insert, new ReleaseNoteDto
+                    {
+                        Title = releaseNoteDto.Title,
+                        BodyText = releaseNoteDto.BodyText,
+                        Id = releaseNoteDto.Id,
+                        ProductId = releaseNoteDto.ProductId,
+                        CreatedBy = releaseNoteDto.CreatedBy,
+                        CreatedDate = releaseNoteDto.CreatedDate,
+                        LastUpdatedBy = releaseNoteDto.LastUpdatedBy,
+                        LastUpdateDate = releaseNoteDto.LastUpdateDate
+                    });
                     return returnResult;
                 }
             }
-            catch (NullReferenceException ex)
+            catch (Exception ex)
             {
-                throw new NullReferenceException(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 

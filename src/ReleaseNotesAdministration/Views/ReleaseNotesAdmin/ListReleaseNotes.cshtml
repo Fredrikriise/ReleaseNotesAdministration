@@ -1,13 +1,19 @@
 ﻿@model IEnumerable<ReleaseNotesAdministration.ViewModels.ReleaseNoteAdminViewModel>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "List Release Notes";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
     @foreach(var item in Model)
     {
         <h1>@item.Title</h1>
     }
+    <ul>
+        <li>
+            <a asp-controller="ReleaseNotesAdmin" asp-action="Create">
+            Create new
+            </a>
+        </li>
+    </ul>
 </div>

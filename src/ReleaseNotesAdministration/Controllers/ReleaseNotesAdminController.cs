@@ -8,6 +8,9 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using ReleaseNotesAdministration.ViewModels;
+using Services.Repository.Interfaces;
+using System.Text;
+using System;
 
 namespace ReleaseNotesAdministration.Controllers
 {
@@ -49,6 +52,33 @@ namespace ReleaseNotesAdministration.Controllers
             }).ToList();
 
             return View(releaseNotesList);
+        }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateReleaseNote(ReleaseNoteAdminApiModel releaseNote)
+        {
+            var test = new ReleaseNoteAdminApiModel
+            {
+                Title = releaseNote.Title,
+                BodyText = releaseNote.BodyText,
+                Id = releaseNote.Id,
+                ProductId = releaseNote.ProductId,
+                CreatedBy = releaseNote.CreatedBy,
+                CreatedDate = releaseNote.CreatedDate,
+                LastUpdatedBy = releaseNote.LastUpdatedBy,
+                LastUpdateDate = releaseNote.LastUpdateDate
+            };
+
+            var jsonString = JsonConvert.SerializeObject(test);
+            var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            await _releaseNotesClient.PostAsync("/ReleaseNotes/", content);
+
+            return RedirectToAction("ListReleaseNotes");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
