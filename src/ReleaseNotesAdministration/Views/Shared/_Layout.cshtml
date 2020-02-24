@@ -16,17 +16,17 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand justify-content-start col-auto col-sm-4" asp-controller="ReleaseNotesAdmin" asp-action="Index"><img src="~/talentech-logo-resized-20proc.png" alt="Talentech logo on the navbar, located on the left side of the navbar"></a>
+                <a class="navbar-brand justify-content-start col-auto col-sm-4" asp-controller="ReleaseNotesAdmin" asp-action="ListReleaseNotes"><img src="~/talentech-logo-resized-20proc.png" alt="Talentech logo on the navbar, located on the left side of the navbar"></a>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse col-8">
                     <ul class="navbar-nav flex-grow-1 justify-content-end">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ReleaseNotesAdmin" asp-action="ListReleaseNotes">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">New release note</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ReleaseNotesAdmin" asp-action="">New release note</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">Log in/out</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Log in/out</a>
                         </li>
                     </ul>
                 </div>
@@ -41,7 +41,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.Now.Year - Talentech - <a asp-area"" asp-controller="ReleaseNotesAdmin" asp-action="Index">ReleaseNotes Administration</a>
+            &copy; @DateTime.Now.Year - Talentech - <a asp-area"" asp-controller="ReleaseNotesAdmin" asp-action="ListReleaseNotes">ReleaseNotes Administration</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

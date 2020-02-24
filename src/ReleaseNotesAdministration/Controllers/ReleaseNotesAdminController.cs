@@ -3,6 +3,14 @@ using Microsoft.Extensions.Logging;
 using ReleaseNotesAdministration.Models;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
+using ReleaseNotesAdministration.ViewModels;
+using Services.Repository.Interfaces;
+using System.Text;
+using System;
 
 namespace ReleaseNotesAdministration.Controllers
 {
@@ -15,12 +23,62 @@ namespace ReleaseNotesAdministration.Controllers
         {
             _httpClientFactory = httpClientFactory;
 
-            _releaseNotesClient = _httpClientFactory.CreateClient("ReleaseNotesApiClient");
+            _releaseNotesClient = _httpClientFactory.CreateClient("ReleaseNotesAdminApiClient");
         }
 
-        public IActionResult Index()
+        // Loading all release notes for all products
+        public async Task<IActionResult> ListReleaseNotes()
+        {
+            var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
+
+            if (!releaseNotesResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed");
+            }
+
+            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+            var releaseNotes = JsonConvert.DeserializeObject<List<ReleaseNoteAdminApiModel>>(responseStream);
+
+            var releaseNotesList = releaseNotes.Select(x => new ReleaseNoteAdminViewModel
+            {
+                Title = x.Title,
+                Bodytext = x.BodyText,
+                Id = x.Id,
+                ProductId = x.ProductId,
+                CreatedBy = x.CreatedBy,
+                CreatedDate = x.CreatedDate,
+                LastUpdatedBy = x.LastUpdatedBy,
+                LastUpdateDate = x.LastUpdateDate
+            }).ToList();
+
+            return View(releaseNotesList);
+        }
+
+        public ActionResult Create()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateReleaseNote(ReleaseNoteAdminApiModel releaseNote)
+        {
+            var test = new ReleaseNoteAdminApiModel
+            {
+                Title = releaseNote.Title,
+                BodyText = releaseNote.BodyText,
+                Id = releaseNote.Id,
+                ProductId = releaseNote.ProductId,
+                CreatedBy = releaseNote.CreatedBy,
+                CreatedDate = releaseNote.CreatedDate,
+                LastUpdatedBy = releaseNote.LastUpdatedBy,
+                LastUpdateDate = releaseNote.LastUpdateDate
+            };
+
+            var jsonString = JsonConvert.SerializeObject(test);
+            var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            await _releaseNotesClient.PostAsync("/ReleaseNotes/", content);
+
+            return RedirectToAction("ListReleaseNotes");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
