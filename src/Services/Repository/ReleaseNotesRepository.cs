@@ -40,7 +40,7 @@ namespace Services
                                     [CreatedBy],
                                     [CreatedDate],
                                     [LastUpdatedBy],
-                                    [LastUpdatedDate]
+                                    [LastUpdateDate]
                                 )
                                 VALUES
                                 (
@@ -51,7 +51,7 @@ namespace Services
                                     @CreatedBy
                                     @CreatedDate
                                     @LastUpdatedBy
-                                    @LastUpdatedDate
+                                    @LastUpdateDate
                                 )
                                 SELECT [Id] FROM [ReleaseNotesDb] WHERE [Id] = @Id AND [ProductId] = @ProductId";
                     var returnResult = await connection.QueryFirstAsync<int?>(insert, releaseNote);
@@ -93,7 +93,7 @@ namespace Services
                         [CreatedBy] = @CreatedBy,
                         [CreatedDate] = @CreatedDate, 
                         [LastUpdatedBy] = @LastUpdatedBy,
-                        [LastUpdatedDate] = @LastUpdatedDate
+                        [LastUpdateDate] = @LastUpdateDate
                     WHERE [Id] = @Id AND [ProductId] = @ProductId";
                     var releaseNoteMapped = _mapper.Map<ReleaseNote>(releaseNote);
                     releaseNoteMapped.AddReleaseNoteId(Id);

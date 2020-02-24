@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Services.Repository.Interfaces;
 using Services.Repository.Models;
 using Services.Repository.Models.DatabaseModels;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -73,6 +74,7 @@ namespace Api.Controllers
         public async Task<IActionResult> GetReleaseNoteById(int? Id)
         {
             var releaseNote = await _releaseNoteRepo.GetReleaseNoteById(Id);
+            Console.WriteLine(releaseNote);
 
             if (releaseNote == null)
             {

@@ -41,10 +41,10 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </div>
 
-            @Html.DisplayNameFor(model => model.CreatedBy) <span id="creatorName">@Html.DisplayFor(modelItem => item.CreatedBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.CreatedDate)
+            <label>Created by <span id="creatorName">@item.CreatedBy</span> on @item.CreatedDate</label>
             <hr id="hrTag" />
             <br>
-            @Html.DisplayFor(modelItem => item.Bodytext)
+            @item.Bodytext
 
 
 
@@ -52,7 +52,7 @@
             @if (item.LastUpdatedBy.Length != 0)
             {
                 <div id="updatedText">
-                    @Html.DisplayNameFor(model => model.LastUpdatedBy) @Html.Raw(" ") <span id="updateName">@Html.DisplayFor(modelItem => item.LastUpdatedBy)</span> @Html.Raw("on ") @Html.DisplayFor(modelItem => item.LastUpdatedDate)
+                    <label>Last updated by <span id="updateName">@item.LastUpdatedBy</span> on @item.LastUpdateDate</label>
                 </div>
             }
             <hr />
