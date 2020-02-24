@@ -81,6 +81,11 @@ namespace ReleaseNotesAdministration.Controllers
             return RedirectToAction("ListReleaseNotes");
         }
 
+        public async Task<IActionResult> ListWorkItems()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
