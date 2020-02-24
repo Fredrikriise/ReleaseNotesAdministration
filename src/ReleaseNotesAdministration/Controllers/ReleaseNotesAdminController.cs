@@ -3,6 +3,11 @@ using Microsoft.Extensions.Logging;
 using ReleaseNotesAdministration.Models;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
+using ReleaseNotesAdministration.ViewModels;
 
 namespace ReleaseNotesAdministration.Controllers
 {
@@ -15,12 +20,35 @@ namespace ReleaseNotesAdministration.Controllers
         {
             _httpClientFactory = httpClientFactory;
 
-            _releaseNotesClient = _httpClientFactory.CreateClient("ReleaseNotesApiClient");
+            _releaseNotesClient = _httpClientFactory.CreateClient("ReleaseNotesAdminApiClient");
         }
 
-        public IActionResult Index()
+        // Loading all release notes for all products
+        public async Task<IActionResult> ListReleaseNotes()
         {
-            return View();
+            var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
+
+            if (!releaseNotesResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed");
+            }
+
+            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+            var releaseNotes = JsonConvert.DeserializeObject<List<ReleaseNoteAdminApiModel>>(responseStream);
+
+            var releaseNotesList = releaseNotes.Select(x => new ReleaseNoteAdminViewModel
+            {
+                Title = x.Title,
+                Bodytext = x.BodyText,
+                Id = x.Id,
+                ProductId = x.ProductId,
+                CreatedBy = x.CreatedBy,
+                CreatedDate = x.CreatedDate,
+                LastUpdatedBy = x.LastUpdatedBy,
+                LastUpdateDate = x.LastUpdateDate
+            }).ToList();
+
+            return View(releaseNotesList);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

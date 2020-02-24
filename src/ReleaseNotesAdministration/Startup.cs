@@ -20,7 +20,7 @@ namespace ReleaseNotesAdministration
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddHttpClient("ReleaseNotesApiClient", client =>
+            services.AddHttpClient("ReleaseNotesAdminApiClient", client =>
             {
                 client.BaseAddress = new Uri("https://localhost:44314");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
@@ -36,7 +36,7 @@ namespace ReleaseNotesAdministration
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/ReleaseNotesAdmin/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -51,7 +51,7 @@ namespace ReleaseNotesAdministration
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=ReleaseNotesAdmin}/{action=Index}/{id?}");
+                    pattern: "{controller=ReleaseNotesAdmin}/{action=ListReleaseNotes}/{id?}");
             });
         }
     }
