@@ -40,20 +40,20 @@
         @foreach (var item in Model)
         {
             <div class="releaseNoteTitle">
-                @Html.DisplayFor(modelItem => item.Title)
+                @item.Title
             </div>
 
-            <label>Posted by <span class="creatorName">@Html.DisplayFor(modelItem => item.CreatedBy)</span> on @item.CreatedDate </label>
+            <label>Posted by <span class="creatorName">@item.CreatedBy)</span> on @item.CreatedDate </label>
             <hr class="hrTag" />
             <br>
-            @Html.DisplayFor(modelItem => item.Bodytext)
+            @item.Bodytext
             <br>
 
             <!-- if loop to check if the releasenotes has been updated -->
             @if (item.LastUpdatedBy != null)
             {
                 <div class="updatedText">
-                    <label>Last updated by </label> <span class="updateName">@Html.DisplayFor(modelItem => item.LastUpdatedBy)</span> <label> on </label> @Html.DisplayFor(modelItem => item.LastUpdatedDate)
+                    <label>Last updated by <span class="updateName">@item.LastUpdatedBy</span> on @item.LastUpdateDate</label>
                 </div>
             }
             <hr />

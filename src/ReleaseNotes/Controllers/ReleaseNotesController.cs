@@ -44,7 +44,7 @@ namespace ReleaseNotes.Controllers
                 CreatedBy = x.CreatedBy,
                 CreatedDate = x.CreatedDate,
                 LastUpdatedBy = x.LastUpdatedBy,
-                LastUpdatedDate = x.LastUpdatedDate
+                LastUpdateDate = x.LastUpdateDate
             }).ToList();
 
             return View(releaseNotesList);
@@ -74,7 +74,7 @@ namespace ReleaseNotes.Controllers
                 CreatedBy = x.CreatedBy,
                 CreatedDate = x.CreatedDate,
                 LastUpdatedBy = x.LastUpdatedBy,
-                LastUpdatedDate = x.LastUpdatedDate
+                LastUpdateDate = x.LastUpdateDate
             }).ToList();
 
             return View(talentManagerReleaseNotes);
@@ -104,7 +104,7 @@ namespace ReleaseNotes.Controllers
                 CreatedBy = x.CreatedBy,
                 CreatedDate = x.CreatedDate,
                 LastUpdatedBy = x.LastUpdatedBy,
-                LastUpdatedDate = x.LastUpdatedDate
+                LastUpdateDate = x.LastUpdateDate
             }).ToList();
 
             return View(talentRecruiterReleaseNotes);
@@ -134,7 +134,7 @@ namespace ReleaseNotes.Controllers
                 CreatedBy = x.CreatedBy,
                 CreatedDate = x.CreatedDate,
                 LastUpdatedBy = x.LastUpdatedBy,
-                LastUpdatedDate = x.LastUpdatedDate
+                LastUpdateDate = x.LastUpdateDate
             }).ToList();
 
             return View(talentOnboardingReleaseNotes);
