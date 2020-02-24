@@ -2,24 +2,23 @@
 using Microsoft.Extensions.Logging;
 using ReleaseNotesAdministration.Models;
 using System.Diagnostics;
+using System.Net.Http;
 
 namespace ReleaseNotesAdministration.Controllers
 {
-    public class HomeController : Controller
+    public class ReleaseNotesAdminController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IHttpClientFactory _httpClientFactory;
+        private HttpClient _releaseNotesClient;
 
-        public HomeController(ILogger<HomeController> logger)
+        public ReleaseNotesAdminController(IHttpClientFactory httpClientFactory)
         {
-            _logger = logger;
+            _httpClientFactory = httpClientFactory;
+
+            _releaseNotesClient = _httpClientFactory.CreateClient("ReleaseNotesApiClient");
         }
 
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
         {
             return View();
         }
