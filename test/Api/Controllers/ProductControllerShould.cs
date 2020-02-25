@@ -2,11 +2,7 @@
 using AutoMapper;
 using Moq;
 using Services.Repository.Interfaces;
-using Services.Repository.Models.DatabaseModels;
 using Services.Repository.Models.DataTransferObjects;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace test.Api.Controllers
@@ -24,7 +20,7 @@ namespace test.Api.Controllers
             var controller = new ProductController(mockedProductController.Object, mockMapper.Object);
 
             //var input = ReturnJsonInput();
-            
+
         }
     }
 }

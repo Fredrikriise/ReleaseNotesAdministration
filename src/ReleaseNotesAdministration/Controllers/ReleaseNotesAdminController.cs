@@ -1,16 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using ReleaseNotesAdministration.Models;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Linq;
+using ReleaseNotesAdministration.Models;
 using ReleaseNotesAdministration.ViewModels;
-using Services.Repository.Interfaces;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Net.Http;
 using System.Text;
-using System;
+using System.Threading.Tasks;
 
 namespace ReleaseNotesAdministration.Controllers
 {
@@ -42,7 +39,7 @@ namespace ReleaseNotesAdministration.Controllers
             var releaseNotesList = releaseNotes.Select(x => new ReleaseNoteAdminViewModel
             {
                 Title = x.Title,
-                Bodytext = x.BodyText,
+                BodyText = x.BodyText,
                 Id = x.Id,
                 ProductId = x.ProductId,
                 CreatedBy = x.CreatedBy,
@@ -54,11 +51,13 @@ namespace ReleaseNotesAdministration.Controllers
             return View(releaseNotesList);
         }
 
+        // Method for loading create-view
         public ActionResult Create()
         {
             return View();
         }
 
+        // Method for creating release note
         [HttpPost]
         public async Task<IActionResult> CreateReleaseNote(ReleaseNoteAdminApiModel releaseNote)
         {
