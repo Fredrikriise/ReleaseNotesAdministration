@@ -4,6 +4,26 @@
     ViewData["Title"] = "Products";
 }
 
+    <style>
+        .card-title {
+            color: rgb(42,128,192);
+        }
+
+        .card-body, .card-title {
+            cursor: pointer;
+        }
+
+        .card:hover {
+            border: 1px solid;
+            border-color: rgb(42,128,192);
+        }
+
+        .hrTag {
+            margin-top: 6px;
+            margin-bottom: 3px;
+        }
+    </style>
+
 <div class="text-center">
     <h1 class="display-4">Talentech - Release Notes</h1>
     <hr />
@@ -19,7 +39,7 @@
                         <a asp-controller="ReleaseNotes" asp-action="@item.ProductDescription">
                             <img src="@item.ProductImage" alt="@item.ProductDescription product icon" />
                             <hr />
-                            <h4 class="card-title"><label asp-for="@item.ProductName">@item.ProductName</label></h4>
+                            <h4 ><label class="card-title" asp-for="@item.ProductName">@item.ProductName</label></h4>
                         </a>
                     </div>
                 </div>
