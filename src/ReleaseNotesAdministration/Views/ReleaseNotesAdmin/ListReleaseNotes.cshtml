@@ -39,31 +39,40 @@
         margin-top: 6px;
         margin-bottom: 3px;
     }
+
+    a:hover {
+        text-decoration: none;
+    }
 </style>
 
 <div class="text-center">
-
     <h1 class="display-4">Talentech - Release Notes Administration</h1>
     <hr />
+
     <h3 class="releaseNotesQuestion">Which release note would you like to make changes to?</h3>
     <input class="col-6" placeholder="Search for a release note" />
     <br />
+
     <button type="button" class="searchButton btn btn-default">
         <i class="fa fa-search"></i> Search
     </button>
+
     @foreach (var item in Model)
     {
-    <ul class="listReleaseNotes">
-        <li>
-            @item.Title 
-            <button class="deleteButton btn btn-default">Delete</button>
-            <a asp-controller="ReleaseNotesAdmin" asp-action="EditReleaseNote" asp-route-id="@item.Id">
-                <span class="editButton btn btn-default">Edit</span>
-            </a> 
-        </li>
-        <hr class="hrTag" />
-        <br />
-    </ul>
+     <ul class="listReleaseNotes">
+         <li>
+             @item.Title
+             <a asp-controller="ReleaseNotesAdmin" asp-action="DeleteReleaseNote" asp-route-id="@item.Id">
+                 <span class="deleteButton btn btn-default">Delete</span>
+             </a>
+
+             <a asp-controller="ReleaseNotesAdmin" asp-action="EditReleaseNote" asp-route-id="@item.Id">
+                 <span class="editButton btn btn-default">Edit</span>
+             </a>
+             <hr class="hrTag" />
+             <br />
+         </li>
+     </ul>
     }
 </div>
 

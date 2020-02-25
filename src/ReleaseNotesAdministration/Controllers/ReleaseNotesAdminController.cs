@@ -85,6 +85,11 @@ namespace ReleaseNotesAdministration.Controllers
         {
             var releaseNotesResult = await _releaseNotesClient.GetAsync($"/ReleaseNotes/{Id}");
 
+            if (!releaseNotesResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed");
+            }
+
             var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
             var releaseNote = JsonConvert.DeserializeObject<ReleaseNoteAdminApiModel>(responseStream);
 
@@ -114,6 +119,36 @@ namespace ReleaseNotesAdministration.Controllers
                 var transportData = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
                 return RedirectToAction("ListReleaseNotes");
             } catch(Exception ex) {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        // Method for getting an object to delete
+        public async Task<IActionResult> DeleteReleaseNote(int Id)
+        {
+            var releaseNotesResult = await _releaseNotesClient.GetAsync($"/ReleaseNotes/{Id}");
+
+            if (!releaseNotesResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed");
+            }
+
+            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+            var releaseNote = JsonConvert.DeserializeObject<ReleaseNoteAdminViewModel>(responseStream);
+            return View(releaseNote);
+        }
+        
+        // Method for deleting object
+        [HttpPost]
+        public async Task<IActionResult> DeleteReleaseNote(int? Id)
+        {
+            try
+            {
+                var transportData = await _releaseNotesClient.DeleteAsync($"/ReleaseNotes/{Id}");
+                return RedirectToAction("ListReleaseNotes");
+            }
+            catch (Exception ex)
+            {
                 throw new Exception(ex.Message);
             }
         }

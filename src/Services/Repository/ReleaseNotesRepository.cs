@@ -79,7 +79,6 @@ namespace Services
                 FROM [ReleaseNotesDb]
                 WHERE [Id] = @Id";
 
-                //var releaseNote = await connection.QueryFirstOrDefaultAsync<ReleaseNote>(query, new { @Id = Id });
                 var releaseNote = await connection.QueryFirstOrDefaultAsync<ReleaseNote>(query, new ReleaseNote { @Id = Id });
                 var mappedReleaseNote = _mapper.Map<ReleaseNoteDto>(releaseNote);
                 return mappedReleaseNote;
@@ -116,21 +115,21 @@ namespace Services
             }
         }
 
-        public async Task<bool> DeleteReleaseNote(int? id, int productId)
+        public async Task<bool> DeleteReleaseNote(int? id)
         {
             try
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
-                    var Delete = "DELETE FROM [ReleaseNotesDb] WHERE Id = @Id and ProductId = @ProductId";
-                    var returnedReleaseNote = await connection.ExecuteAsync(Delete, new { @Id = id, @ProductId = productId });
+                    var Delete = "DELETE FROM [ReleaseNotesDb] WHERE Id = @Id";
+                    var returnedReleaseNote = await connection.ExecuteAsync(Delete, new { @Id = id });
                     bool success = returnedReleaseNote > 0;
                     return success;
                 }
             }
-            catch (NullReferenceException ex)
+            catch (Exception ex)
             {
-                throw new NullReferenceException(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 

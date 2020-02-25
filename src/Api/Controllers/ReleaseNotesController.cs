@@ -25,6 +25,7 @@ namespace Api.Controllers
             _mapper = mapper;
         }
 
+        // Method for getting all release notes
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -38,6 +39,7 @@ namespace Api.Controllers
             return Ok(mappedReleaseNotes);
         }
 
+        // Method for creating Release Note
         [HttpPost]
         public async Task<IActionResult> Create(ReleaseNote releaseNote)
         {
@@ -46,6 +48,7 @@ namespace Api.Controllers
             return Created("", releaseNote);
         }
 
+        // Method for editing/updating Release note with Id
         [HttpPut]
         [Route("/ReleaseNotes/{Id}")]
         public async Task<IActionResult> UpdateReleaseNote(int? Id, ReleaseNote releaseNote)
@@ -55,10 +58,12 @@ namespace Api.Controllers
             return Ok();
         }
 
+        // Method for deleting relese 
         [HttpDelete]
-        public async Task<IActionResult> DeleteReleaseNote(int? Id, int productId)
+        [Route("/ReleaseNotes/{Id}")]
+        public async Task<IActionResult> DeleteReleaseNote(int? Id)
         {
-            var deletedReleaseNote = await _releaseNoteRepo.DeleteReleaseNote(Id, productId);
+            var deletedReleaseNote = await _releaseNoteRepo.DeleteReleaseNote(Id);
 
             if (deletedReleaseNote)
             {
@@ -70,6 +75,7 @@ namespace Api.Controllers
             }
         }
 
+        // Method for getting Release Note with Id
         [HttpGet]
         [Route("/ReleaseNotes/{Id}")]
         public async Task<IActionResult> GetReleaseNoteById(int? Id)
