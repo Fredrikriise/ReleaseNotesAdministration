@@ -47,6 +47,7 @@ namespace Api.Controllers
         }
 
         [HttpPut]
+        [Route("/ReleaseNotes/{Id}")]
         public async Task<IActionResult> UpdateReleaseNote(int? Id, ReleaseNote releaseNote)
         {
             var mappedReleaseNote = _mapper.Map<ReleaseNoteDto>(releaseNote);

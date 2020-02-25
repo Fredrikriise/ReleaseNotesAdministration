@@ -51,7 +51,7 @@ namespace Services
                                     @LastUpdatedBy,
                                     @LastUpdateDate
                                 )";
-                    var returnResult = await connection.QueryFirstAsync<int?>(insert, new ReleaseNoteDto
+                    var returnResult = await connection.QueryFirstOrDefaultAsync<int?>(insert, new ReleaseNoteDto
                     {
                         Title = releaseNoteDto.Title,
                         BodyText = releaseNoteDto.BodyText,
@@ -102,7 +102,7 @@ namespace Services
                         [CreatedDate] = @CreatedDate, 
                         [LastUpdatedBy] = @LastUpdatedBy,
                         [LastUpdateDate] = @LastUpdateDate
-                    WHERE [Id] = @Id AND [ProductId] = @ProductId";
+                    WHERE [Id] = @Id";
                     var releaseNoteMapped = _mapper.Map<ReleaseNote>(releaseNote);
                     releaseNoteMapped.AddReleaseNoteId(Id);
 
@@ -110,9 +110,9 @@ namespace Services
                     return releaseNote;
                 }
             }
-            catch (NullReferenceException ex)
+            catch (Exception ex)
             {
-                throw new NullReferenceException(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 

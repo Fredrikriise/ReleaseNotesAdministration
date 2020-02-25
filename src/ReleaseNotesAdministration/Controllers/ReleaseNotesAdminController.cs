@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using ReleaseNotesAdministration.Models;
 using ReleaseNotesAdministration.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -58,7 +59,6 @@ namespace ReleaseNotesAdministration.Controllers
         }
 
         // Method for creating release note
-        [HttpPost]
         public async Task<IActionResult> CreateReleaseNote(ReleaseNoteAdminApiModel releaseNote)
         {
             var test = new ReleaseNoteAdminApiModel
@@ -78,6 +78,44 @@ namespace ReleaseNotesAdministration.Controllers
             await _releaseNotesClient.PostAsync("/ReleaseNotes/", content);
 
             return RedirectToAction("ListReleaseNotes");
+        }
+
+        // Method for getting object to edit
+        public async Task<IActionResult> EditReleaseNote(int Id)
+        {
+            var releaseNotesResult = await _releaseNotesClient.GetAsync($"/ReleaseNotes/{Id}");
+
+            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+            var releaseNote = JsonConvert.DeserializeObject<ReleaseNoteAdminApiModel>(responseStream);
+
+            var releaseNoteViewModel = new ReleaseNoteAdminViewModel
+            {
+                Title = releaseNote.Title,
+                BodyText = releaseNote.BodyText,
+                Id = releaseNote.Id,
+                ProductId = releaseNote.ProductId,
+                CreatedBy = releaseNote.CreatedBy,
+                CreatedDate = releaseNote.CreatedDate,
+                LastUpdatedBy = releaseNote.LastUpdatedBy,
+                LastUpdateDate = releaseNote.LastUpdateDate
+            };
+
+            return View(releaseNoteViewModel);
+        }
+
+        // Method for editing a object
+        [HttpPost]
+        public async Task<IActionResult> EditReleaseNote(int? Id, ReleaseNoteAdminViewModel releaseNote)
+        {
+            try
+            {
+                var jsonString = JsonConvert.SerializeObject(releaseNote);
+                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                var transportData = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
+                return RedirectToAction("ListReleaseNotes");
+            } catch(Exception ex) {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<IActionResult> ListWorkItems()
