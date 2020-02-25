@@ -23,7 +23,6 @@
   <ItemGroup>
     <Folder Include="ReleaseNotesAdministration\Controllers\" />
     <Folder Include="ReleaseNotes\Controllers\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

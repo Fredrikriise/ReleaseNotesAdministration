@@ -55,8 +55,10 @@
     {
         <ul class="listReleaseNotes">
             <li>
+                <form asp-controller="ReleaseNotesAdmin" asp-action="EditReleaseNote" asp-route-id="@item.Id">
                 @item.Title <button class="deleteButton btn btn-default">Delete</button><button class="editButton btn btn-default">Edit</button>  
                 <hr class="hrTag" />
+                </form>
                 <br />
             </li>
         </ul>
