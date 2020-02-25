@@ -24,7 +24,7 @@ namespace ReleaseNotesAdministration
             {
                 //Fredrik:  client.BaseAddress = new Uri("https://localhost:44322");
                 //Felix:  client.BaseAddress = new Uri("https://localhost:44314");
-                client.BaseAddress = new Uri("https://localhost:44322");
+                client.BaseAddress = new Uri("https://localhost:44314");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
         }
@@ -55,6 +55,7 @@ namespace ReleaseNotesAdministration
                     name: "default",
                     pattern: "{controller=ReleaseNotesAdmin}/{action=ListReleaseNotes}/{id?}");
             });
+
         }
     }
 }

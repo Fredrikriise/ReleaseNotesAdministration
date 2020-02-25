@@ -53,16 +53,20 @@
     </button>
     @foreach (var item in Model)
     {
-        <ul class="listReleaseNotes">
-            <li>
-                @item.Title <button class="deleteButton btn btn-default">Delete</button><button class="editButton btn btn-default">Edit</button>  
-                <hr class="hrTag" />
-                <br />
-            </li>
-        </ul>
+    <ul class="listReleaseNotes">
+        <li>
+            @item.Title 
+            <button class="deleteButton btn btn-default">Delete</button>
+            <a asp-controller="ReleaseNotesAdmin" asp-action="EditReleaseNote" asp-route-id="@item.Id">
+                <span class="editButton btn btn-default">Edit</span>
+            </a> 
+        </li>
+        <hr class="hrTag" />
+        <br />
+    </ul>
     }
 </div>
 
-<a asp-controller="ReleaseNotesAdmin" asp-action="ListWorkItems">
-    Create new release note
+<a asp-controller="ReleaseNotesAdmin" asp-action="Create">
+    Add new
 </a>

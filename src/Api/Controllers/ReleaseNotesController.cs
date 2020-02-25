@@ -47,6 +47,7 @@ namespace Api.Controllers
         }
 
         [HttpPut]
+        [Route("/ReleaseNotes/{Id}")]
         public async Task<IActionResult> UpdateReleaseNote(int? Id, ReleaseNote releaseNote)
         {
             var mappedReleaseNote = _mapper.Map<ReleaseNoteDto>(releaseNote);
@@ -70,11 +71,10 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        [Route("/releasenotes/{Id}")]
+        [Route("/ReleaseNotes/{Id}")]
         public async Task<IActionResult> GetReleaseNoteById(int? Id)
         {
             var releaseNote = await _releaseNoteRepo.GetReleaseNoteById(Id);
-            Console.WriteLine(releaseNote);
 
             if (releaseNote == null)
             {
