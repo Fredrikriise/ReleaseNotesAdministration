@@ -1,16 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using ReleaseNotesAdministration.Models;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Linq;
+using ReleaseNotesAdministration.Models;
 using ReleaseNotesAdministration.ViewModels;
-using Services.Repository.Interfaces;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Net.Http;
 using System.Text;
-using System;
+using System.Threading.Tasks;
 
 namespace ReleaseNotesAdministration.Controllers
 {
@@ -42,7 +39,7 @@ namespace ReleaseNotesAdministration.Controllers
             var releaseNotesList = releaseNotes.Select(x => new ReleaseNoteAdminViewModel
             {
                 Title = x.Title,
-                Bodytext = x.BodyText,
+                BodyText = x.BodyText,
                 Id = x.Id,
                 ProductId = x.ProductId,
                 CreatedBy = x.CreatedBy,
@@ -54,11 +51,13 @@ namespace ReleaseNotesAdministration.Controllers
             return View(releaseNotesList);
         }
 
+        // Method for loading create-view
         public ActionResult Create()
         {
             return View();
         }
 
+        // Method for creating release note
         [HttpPost]
         public async Task<IActionResult> CreateReleaseNote(ReleaseNoteAdminApiModel releaseNote)
         {
@@ -81,38 +80,10 @@ namespace ReleaseNotesAdministration.Controllers
             return RedirectToAction("ListReleaseNotes");
         }
 
-        /*
-        public async Task<IActionResult> EditReleaseNote(int? Id)
+        public async Task<IActionResult> ListWorkItems()
         {
-            var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
-
-            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
-            var releaseNotes = JsonConvert.DeserializeObject<List<ReleaseNoteAdminApiModel>>(responseStream);
-
-            var releaseNote = releaseNotes.Where(x => x.Id == Id).Select(x => new ReleaseNoteAdminViewModel
-            {
-                Title = x.Title,
-                Bodytext = x.BodyText,
-                Id = x.Id,
-                ProductId = x.ProductId,
-                CreatedBy = x.CreatedBy,
-                CreatedDate = x.CreatedDate,
-                LastUpdatedBy = x.LastUpdatedBy,
-                LastUpdateDate = x.LastUpdateDate
-            }).ToList();
-
             return View();
         }
-
-        public async Task<IActionResult> sEditReleaseNote(int? Id, ReleaseNoteAdminViewModel releaseNote)
-        {
-            var jsonString = JsonConvert.SerializeObject(releaseNote);
-            var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            await _releaseNotesClient.PutAsync("/ReleaseNotes/", content);
-
-            return RedirectToAction("ListReleaseNotes");
-        }
-        */
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

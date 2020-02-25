@@ -38,7 +38,7 @@ namespace ReleaseNotes.Controllers
             var releaseNotesList = releaseNotes.Select(x => new ReleaseNoteViewModel
             {
                 Title = x.Title,
-                Bodytext = x.BodyText,
+                BodyText = x.BodyText,
                 Id = x.Id,
                 ProductId = x.ProductId,
                 CreatedBy = x.CreatedBy,
@@ -68,7 +68,7 @@ namespace ReleaseNotes.Controllers
             var talentManagerReleaseNotes = releaseNotes.Where(x => x.ProductId == TargetProductId).Select(x => new ReleaseNoteViewModel
             {
                 Title = x.Title,
-                Bodytext = x.BodyText,
+                BodyText = x.BodyText,
                 Id = x.Id,
                 ProductId = x.ProductId,
                 CreatedBy = x.CreatedBy,
@@ -98,7 +98,7 @@ namespace ReleaseNotes.Controllers
             var talentRecruiterReleaseNotes = releaseNotes.Where(x => x.ProductId == TargetProductId).Select(x => new ReleaseNoteViewModel
             {
                 Title = x.Title,
-                Bodytext = x.BodyText,
+                BodyText = x.BodyText,
                 Id = x.Id,
                 ProductId = x.ProductId,
                 CreatedBy = x.CreatedBy,
@@ -128,7 +128,7 @@ namespace ReleaseNotes.Controllers
             var talentOnboardingReleaseNotes = releaseNotes.Where(x => x.ProductId == TargetProductId).Select(x => new ReleaseNoteViewModel
             {
                 Title = x.Title,
-                Bodytext = x.BodyText,
+                BodyText = x.BodyText,
                 Id = x.Id,
                 ProductId = x.ProductId,
                 CreatedBy = x.CreatedBy,
