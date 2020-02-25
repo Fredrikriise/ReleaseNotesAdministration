@@ -10,7 +10,7 @@ namespace Services.Repository.Interfaces
         Task<ReleaseNoteDto> GetReleaseNoteById(int? Id);
         Task<int?> CreateReleaseNote(ReleaseNoteDto releaseNoteDto);
         Task<ReleaseNoteDto> UpdateReleaseNote(int? Id, ReleaseNoteDto releaseNote);
-        Task<bool> DeleteReleaseNote(int? id, int productId);
+        Task<bool> DeleteReleaseNote(int? id);
         Task<List<ReleaseNoteDto>> GetAllReleaseNotes();
 
     }
