@@ -27,8 +27,6 @@ namespace Services
         {
             try
             {
-                //var releaseNote = _mapper.Map<ReleaseNote>(releaseNoteDto);
-
                 using (var connection = new SqlConnection(_connectionString))
                 {
                     var insert = @"INSERT INTO [ReleaseNotesDb]
@@ -81,7 +79,8 @@ namespace Services
                 FROM [ReleaseNotesDb]
                 WHERE [Id] = @Id";
 
-                var releaseNote = await connection.QueryFirstOrDefaultAsync<ReleaseNote>(query, new { @Id = Id });
+                //var releaseNote = await connection.QueryFirstOrDefaultAsync<ReleaseNote>(query, new { @Id = Id });
+                var releaseNote = await connection.QueryFirstOrDefaultAsync<ReleaseNote>(query, new ReleaseNote { @Id = Id });
                 var mappedReleaseNote = _mapper.Map<ReleaseNoteDto>(releaseNote);
                 return mappedReleaseNote;
             }

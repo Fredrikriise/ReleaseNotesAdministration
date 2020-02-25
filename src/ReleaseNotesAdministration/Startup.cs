@@ -53,6 +53,7 @@ namespace ReleaseNotesAdministration
                     name: "default",
                     pattern: "{controller=ReleaseNotesAdmin}/{action=ListReleaseNotes}/{id?}");
             });
+
         }
     }
 }

@@ -81,6 +81,39 @@ namespace ReleaseNotesAdministration.Controllers
             return RedirectToAction("ListReleaseNotes");
         }
 
+        /*
+        public async Task<IActionResult> EditReleaseNote(int? Id)
+        {
+            var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
+
+            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+            var releaseNotes = JsonConvert.DeserializeObject<List<ReleaseNoteAdminApiModel>>(responseStream);
+
+            var releaseNote = releaseNotes.Where(x => x.Id == Id).Select(x => new ReleaseNoteAdminViewModel
+            {
+                Title = x.Title,
+                Bodytext = x.BodyText,
+                Id = x.Id,
+                ProductId = x.ProductId,
+                CreatedBy = x.CreatedBy,
+                CreatedDate = x.CreatedDate,
+                LastUpdatedBy = x.LastUpdatedBy,
+                LastUpdateDate = x.LastUpdateDate
+            }).ToList();
+
+            return View();
+        }
+
+        public async Task<IActionResult> sEditReleaseNote(int? Id, ReleaseNoteAdminViewModel releaseNote)
+        {
+            var jsonString = JsonConvert.SerializeObject(releaseNote);
+            var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            await _releaseNotesClient.PutAsync("/ReleaseNotes/", content);
+
+            return RedirectToAction("ListReleaseNotes");
+        }
+        */
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
