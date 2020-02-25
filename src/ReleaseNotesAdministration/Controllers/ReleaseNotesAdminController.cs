@@ -158,6 +158,12 @@ namespace ReleaseNotesAdministration.Controllers
             return View();
         }
 
+        public async Task<IActionResult> TextEditorTest()
+        {
+            Console.WriteLine("Det funket rotte rottski!!");
+            return RedirectToAction("ListReleaseNotes");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
