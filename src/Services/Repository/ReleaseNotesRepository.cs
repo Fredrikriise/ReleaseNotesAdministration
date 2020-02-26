@@ -140,9 +140,9 @@ namespace Services
                 var query = @"SELECT *
                 FROM [ReleaseNotesDb]";
 
-                var releaseNote = await connection.QueryAsync<ReleaseNote>(query);
-                var releaseNoteMapped = _mapper.Map<List<ReleaseNoteDto>>(releaseNote);
-                return releaseNoteMapped;
+                var releaseNotes = await connection.QueryAsync<ReleaseNote>(query);
+                var releaseNotesMapped = _mapper.Map<List<ReleaseNoteDto>>(releaseNotes);
+                return releaseNotesMapped;
             }
         }
     }

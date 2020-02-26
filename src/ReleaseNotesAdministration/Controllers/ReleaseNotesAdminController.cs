@@ -20,11 +20,10 @@ namespace ReleaseNotesAdministration.Controllers
         public ReleaseNotesAdminController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-
             _releaseNotesClient = _httpClientFactory.CreateClient("ReleaseNotesAdminApiClient");
         }
 
-        // Loading all release notes for all products
+        // Lists all release notes for all products
         public async Task<IActionResult> ListReleaseNotes()
         {
             var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
@@ -153,11 +152,6 @@ namespace ReleaseNotesAdministration.Controllers
             {
                 throw new Exception(ex.Message);
             }
-        }
-
-        public async Task<IActionResult> ListWorkItems()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

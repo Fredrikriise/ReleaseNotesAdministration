@@ -74,7 +74,7 @@ namespace Api.Controllers
             }
         }
 
-        // Method for getting Release Note with Id
+        // Method for getting release note by Id
         [HttpGet]
         [Route("/ReleaseNotes/{Id}")]
         public async Task<IActionResult> GetReleaseNoteById(int? Id)
