@@ -92,7 +92,6 @@ namespace Services
                     SET
                         [Title] = @Title,
                         [BodyText] = @BodyText,
-                        [Id] = @Id,
                         [ProductId] = @ProductId,
                         [CreatedBy] = @CreatedBy,
                         [CreatedDate] = @CreatedDate, 
