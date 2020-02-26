@@ -27,7 +27,7 @@ namespace Services.Repository
             using (var connection = new SqlConnection(_connectionString))
             {
                 string query = @" SELECT * 
-                FROM [WorkItemDb]
+                FROM [WorkItems]
                 WHERE [Id] = @Id";
 
                 var workItem = await connection.QueryFirstOrDefaultAsync<WorkItem>(query, new WorkItem { Id = Id });
@@ -41,11 +41,12 @@ namespace Services.Repository
             using (var connection = new SqlConnection(_connectionString))
             {
                 var query = @"SELECT *
-                FROM [WorkItemDb]";
+                FROM [WorkItems]";
 
                 var workItems = await connection.QueryAsync<WorkItem>(query);
                 var workItemsMapped = _mapper.Map<List<WorkItemDto>>(workItems);
                 return workItemsMapped;
-            } 
+            }
+        }
     }
 }
