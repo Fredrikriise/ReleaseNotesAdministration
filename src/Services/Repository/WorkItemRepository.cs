@@ -46,6 +46,7 @@ namespace Services.Repository
                 var workItems = await connection.QueryAsync<WorkItem>(query);
                 var workItemsMapped = _mapper.Map<List<WorkItemDto>>(workItems);
                 return workItemsMapped;
-            } 
+            }
+        }
     }
 }
