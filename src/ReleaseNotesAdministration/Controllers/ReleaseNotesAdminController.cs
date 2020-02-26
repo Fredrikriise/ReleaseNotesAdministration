@@ -118,7 +118,9 @@ namespace ReleaseNotesAdministration.Controllers
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 var transportData = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
                 return RedirectToAction("ListReleaseNotes");
-            } catch(Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 throw new Exception(ex.Message);
             }
         }
@@ -137,7 +139,7 @@ namespace ReleaseNotesAdministration.Controllers
             var releaseNote = JsonConvert.DeserializeObject<ReleaseNoteAdminViewModel>(responseStream);
             return View(releaseNote);
         }
-        
+
         // Method for deleting object
         [HttpPost]
         public async Task<IActionResult> DeleteReleaseNote(int? Id)

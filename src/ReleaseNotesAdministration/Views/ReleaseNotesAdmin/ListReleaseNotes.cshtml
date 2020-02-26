@@ -23,7 +23,7 @@
         margin-top: 5px;
     }
 
-    .editButton, .deleteButton, .searchButton {
+    .editButton, .deleteButton, .searchButton, .addButton {
         background-color: white;
         color: black;
         border: 1px solid;
@@ -56,26 +56,29 @@
     <button type="button" class="searchButton btn btn-default">
         <i class="fa fa-search"></i> Search
     </button>
+    <br />
 
     @foreach (var item in Model)
     {
-     <ul class="listReleaseNotes">
-         <li>
-             @item.Title
-             <a asp-controller="ReleaseNotesAdmin" asp-action="DeleteReleaseNote" asp-route-id="@item.Id">
-                 <span class="deleteButton btn btn-default">Delete</span>
-             </a>
+        <ul class="listReleaseNotes">
+            <li>
+                @item.Title
+                <a asp-controller="ReleaseNotesAdmin" asp-action="DeleteReleaseNote" asp-route-id="@item.Id">
+                    <span class="deleteButton btn btn-default">Delete</span>
+                </a>
 
-             <a asp-controller="ReleaseNotesAdmin" asp-action="EditReleaseNote" asp-route-id="@item.Id">
-                 <span class="editButton btn btn-default">Edit</span>
-             </a>
-             <hr class="hrTag" />
-             <br />
-         </li>
-     </ul>
+                <a asp-controller="ReleaseNotesAdmin" asp-action="EditReleaseNote" asp-route-id="@item.Id">
+                    <span class="editButton btn btn-default">Edit</span>
+                </a>
+                <hr class="hrTag" />
+                <br />
+            </li>
+        </ul>
     }
+
+    <a class="addButton btn btn-default" asp-controller="ReleaseNotesAdmin" asp-action="Create">
+        Add new
+    </a>
 </div>
 
-<a asp-controller="ReleaseNotesAdmin" asp-action="Create">
-    Add new
-</a>
+
