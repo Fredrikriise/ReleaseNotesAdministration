@@ -18,7 +18,7 @@ namespace ReleaseNotesAdministration.Controllers
         public WorkItemController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-            _workItemsClient = _httpClientFactory.CreateClient("WorkItemsApiClient");
+            _workItemsClient = _httpClientFactory.CreateClient("ReleaseNotesAdminApiClient");
         }
 
         // Lists all work items
