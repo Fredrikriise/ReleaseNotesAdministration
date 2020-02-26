@@ -2,21 +2,20 @@
 {
     public class QuestionsAndToDo
     {
+        /* 
         // QUESTIONS
-        /*
-        - Trenger vi feilhåndtering i API Controllere? NOen metoder har feilhåndtering, mens andre ikke. 
-         */
+        - Trenger vi feilhåndtering i API Controllere?
+        - Popups for confirmation av CRUD operasjoner: Skal det brukes bootstrap for dette?
+        - Migrering for database?
+        
 
         // ToDo's
-        /* 
-        - Logging
-        - Testing
-        */
+        - See work items
+        - Trenger tilbakeknapp for når man er i release note for et spesifikt produkt
 
-        // Extra functionality
-        /* 
-         - sidebar and subscribe for user module
-         
-         */
+
+
+
+        */
     }
 }
