@@ -64,7 +64,6 @@ namespace ReleaseNotesAdministration.Controllers
             {
                 Title = releaseNote.Title,
                 BodyText = releaseNote.BodyText,
-                Id = releaseNote.Id,
                 ProductId = releaseNote.ProductId,
                 CreatedBy = releaseNote.CreatedBy,
                 CreatedDate = releaseNote.CreatedDate,

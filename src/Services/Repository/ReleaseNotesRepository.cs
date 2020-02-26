@@ -29,11 +29,10 @@ namespace Services
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
-                    var insert = @"INSERT INTO [ReleaseNotesDb]
+                    var insert = @"INSERT INTO [ReleaseNotes]
                                 (
                                     [Title],
                                     [BodyText],
-                                    [Id],
                                     [ProductId],
                                     [CreatedBy],
                                     [CreatedDate],
@@ -44,7 +43,6 @@ namespace Services
                                 (
                                     @Title,
                                     @BodyText,
-                                    @Id,
                                     @ProductId,
                                     @CreatedBy,
                                     @CreatedDate,
@@ -55,7 +53,6 @@ namespace Services
                     {
                         Title = releaseNoteDto.Title,
                         BodyText = releaseNoteDto.BodyText,
-                        Id = releaseNoteDto.Id,
                         ProductId = releaseNoteDto.ProductId,
                         CreatedBy = releaseNoteDto.CreatedBy,
                         CreatedDate = releaseNoteDto.CreatedDate,
@@ -76,7 +73,7 @@ namespace Services
             using (var connection = new SqlConnection(_connectionString))
             {
                 string query = @"SELECT *
-                FROM [ReleaseNotesDb]
+                FROM [ReleaseNotes]
                 WHERE [Id] = @Id";
 
                 var releaseNote = await connection.QueryFirstOrDefaultAsync<ReleaseNote>(query, new ReleaseNote { @Id = Id });
@@ -91,11 +88,10 @@ namespace Services
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
-                    var updateDb = @"UPDATE [ReleaseNotesDb]
+                    var updateDb = @"UPDATE [ReleaseNotes]
                     SET
                         [Title] = @Title,
                         [BodyText] = @BodyText,
-                        [Id] = @Id,
                         [ProductId] = @ProductId,
                         [CreatedBy] = @CreatedBy,
                         [CreatedDate] = @CreatedDate, 
@@ -121,7 +117,7 @@ namespace Services
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
-                    var Delete = "DELETE FROM [ReleaseNotesDb] WHERE Id = @Id";
+                    var Delete = "DELETE FROM [ReleaseNotes] WHERE Id = @Id";
                     var returnedReleaseNote = await connection.ExecuteAsync(Delete, new { @Id = id });
                     bool success = returnedReleaseNote > 0;
                     return success;
@@ -138,7 +134,7 @@ namespace Services
             using (var connection = new SqlConnection(_connectionString))
             {
                 var query = @"SELECT *
-                FROM [ReleaseNotesDb]";
+                FROM [ReleaseNotes]";
 
                 var releaseNotes = await connection.QueryAsync<ReleaseNote>(query);
                 var releaseNotesMapped = _mapper.Map<List<ReleaseNoteDto>>(releaseNotes);
