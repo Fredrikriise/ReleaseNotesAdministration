@@ -11,10 +11,6 @@
 
         // ToDo's
         - See work items
-        - Trenger tilbakeknapp for når man er i release note for et spesifikt produkt
-
-
-
 
         */
     }
