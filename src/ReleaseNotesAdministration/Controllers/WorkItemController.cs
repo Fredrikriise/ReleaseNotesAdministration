@@ -1,63 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using ReleaseNotesAdministration.Models;
 using ReleaseNotesAdministration.ViewModels;
 
 namespace ReleaseNotesAdministration.Controllers
 {
     public class WorkItemController : Controller
     {
-        public IActionResult ListWorkItems()
+        private readonly IHttpClientFactory _httpClientFactory;
+        private HttpClient _workItemsClient;
+
+        public WorkItemController(IHttpClientFactory httpClientFactory)
         {
-            List<WorkItemViewModel> workItemList = new List<WorkItemViewModel>
+            _httpClientFactory = httpClientFactory;
+            _workItemsClient = _httpClientFactory.CreateClient("WorkItemsApiClient");
+        }
+
+        // Lists all work items
+        public async Task<IActionResult> ListAllWorkItems()
+        {
+            var releaseNotesResult = await _workItemsClient.GetAsync("/WorkItem/");
+
+            if (!releaseNotesResult.IsSuccessStatusCode)
             {
-                new WorkItemViewModel
-                {
-                    Id = 21703,
-                    Title = "Creating neccessary files and methods for mocking data for work items",
-                    AssignedTo = "Fredrik Riise",
-                    State = "Active"
-                },
-                new WorkItemViewModel
-                {
-                    Id = 21701,
-                    Title = "Fix cards on user module front page",
-                    AssignedTo = "Felix Nilsen",
-                    State = "Active"
-                },
-                new WorkItemViewModel
-                {
-                    Id = 21625,
-                    Title = "Adding the styling to correct file (User module)",
-                    AssignedTo = "Fredrik Riise",
-                    State = "New"
-                },
-                new WorkItemViewModel
-                {
-                    Id = 21680,
-                    Title = "Make listing of 'All Release Notes' descending based of publish-date",
-                    AssignedTo = "Fredrik Riise",
-                    State = "New"
-                },
-                new WorkItemViewModel
-                {
-                    Id = 21702,
-                    Title = "Make 'Loading...'-function when loading views",
-                    AssignedTo = "Felix Nilsen",
-                    State = "New"
-                },
-                new WorkItemViewModel
-                {
-                    Id = 21700,
-                    Title = "Adding TinyMCE text editor",
-                    AssignedTo = "Fredrik Riise",
-                    State = "Active"
-                }
+                throw new HttpRequestException("Get request to the URL 'API/WorkItem/' failed");
+            }
+
+            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+            var workItems = JsonConvert.DeserializeObject<List<WorkItemApiModel>>(responseStream);
+
+            var workItemList = workItems.Select(x => new WorkItemApiModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                AssignedTo = x.AssignedTo,
+                State = x.State
+            }).ToList();
+
+            return View(workItemList);
+        }
+
+        public async Task<IActionResult> ListWorkItem(int Id)
+        {
+            var releaseNotesResult = await _workItemsClient.GetAsync($"/WorkItem/{Id}");
+
+            if (!releaseNotesResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/WorkItem/' failed");
+            }
+
+            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+            var workItem = JsonConvert.DeserializeObject<WorkItemApiModel>(responseStream);
+
+            var workItemViewModel = new WorkItemViewModel
+            {
+                Id = workItem.Id,
+                Title = workItem.Title,
+                AssignedTo = workItem.AssignedTo,
+                State = workItem.State
             };
-            ViewData.Model = workItemList;
-            return View();
+
+            return View(workItemViewModel);
         }
     }
 }
