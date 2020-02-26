@@ -24,17 +24,17 @@ namespace ReleaseNotesAdministration.Controllers
         // Lists all work items
         public async Task<IActionResult> ListAllWorkItems()
         {
-            var releaseNotesResult = await _workItemsClient.GetAsync("/WorkItem/");
+            var workItemResult = await _workItemsClient.GetAsync("/WorkItem/");
 
-            if (!releaseNotesResult.IsSuccessStatusCode)
+            if (!workItemResult.IsSuccessStatusCode)
             {
                 throw new HttpRequestException("Get request to the URL 'API/WorkItem/' failed");
             }
 
-            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+            var responseStream = await workItemResult.Content.ReadAsStringAsync();
             var workItems = JsonConvert.DeserializeObject<List<WorkItemApiModel>>(responseStream);
 
-            var workItemList = workItems.Select(x => new WorkItemApiModel
+            var workItemList = workItems.Select(x => new WorkItemViewModel
             {
                 Id = x.Id,
                 Title = x.Title,
@@ -47,14 +47,14 @@ namespace ReleaseNotesAdministration.Controllers
 
         public async Task<IActionResult> ListWorkItem(int Id)
         {
-            var releaseNotesResult = await _workItemsClient.GetAsync($"/WorkItem/{Id}");
+            var workItemResult = await _workItemsClient.GetAsync($"/WorkItem/{Id}");
 
-            if (!releaseNotesResult.IsSuccessStatusCode)
+            if (!workItemResult.IsSuccessStatusCode)
             {
                 throw new HttpRequestException("Get request to the URL 'API/WorkItem/' failed");
             }
 
-            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+            var responseStream = await workItemResult.Content.ReadAsStringAsync();
             var workItem = JsonConvert.DeserializeObject<WorkItemApiModel>(responseStream);
 
             var workItemViewModel = new WorkItemViewModel

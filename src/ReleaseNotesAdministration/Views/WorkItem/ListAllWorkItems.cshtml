@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ReleaseNotesAdministration.ViewModels.WorkItemViewModel>
+
+@{
+    ViewData["Title"] = "List Work Items";
+}
+
+<style>
+    .card-title {
+        font-size: 16px;
+        margin-bottom: 1px;
+        cursor: pointer;
+    }
+
+    .card-body {
+        text-align: left;
+        padding: 15px;
+        cursor: pointer;
+    }
+
+    .card:hover {
+        border: 1px solid;
+        border-color: rgb(42,128,192);
+    }
+
+    .hrTag {
+        margin-top: 6px;
+        margin-bottom: 3px;
+    }
+</style>
+
+<div class="text-center">
+    <h1 class="display-4">Talentech - Release Notes Administration</h1>
+    <hr class="hrTag" />
+    <h3>Choose a work item you would like to write new release notes for.</h3>
+
+    <div class="row mt-4 col-12 pr-0">
+        @foreach (var item in Model)
+        {
+            <div class="col-12 col-sm-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <label class="card-title"><b>@item.Id - @item.Title</b></label>
+                        <hr />
+                        <p>
+                            <b>Assigned to:</b> @item.AssignedTo <br />
+                            <b>State:</b> @item.State <br />
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
