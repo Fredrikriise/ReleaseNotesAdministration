@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Services.Repository.Interfaces;
 using Services.Repository.Models;
 using Services.Repository.Models.DatabaseModels;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -75,7 +74,7 @@ namespace Api.Controllers
             }
         }
 
-        // Method for getting Release Note with Id
+        // Method for getting release note by Id
         [HttpGet]
         [Route("/ReleaseNotes/{Id}")]
         public async Task<IActionResult> GetReleaseNoteById(int? Id)

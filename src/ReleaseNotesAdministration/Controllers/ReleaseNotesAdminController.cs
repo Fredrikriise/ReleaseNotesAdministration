@@ -20,11 +20,10 @@ namespace ReleaseNotesAdministration.Controllers
         public ReleaseNotesAdminController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-
             _releaseNotesClient = _httpClientFactory.CreateClient("ReleaseNotesAdminApiClient");
         }
 
-        // Loading all release notes for all products
+        // Lists all release notes for all products
         public async Task<IActionResult> ListReleaseNotes()
         {
             var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
@@ -118,7 +117,9 @@ namespace ReleaseNotesAdministration.Controllers
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 var transportData = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
                 return RedirectToAction("ListReleaseNotes");
-            } catch(Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 throw new Exception(ex.Message);
             }
         }
@@ -137,7 +138,7 @@ namespace ReleaseNotesAdministration.Controllers
             var releaseNote = JsonConvert.DeserializeObject<ReleaseNoteAdminViewModel>(responseStream);
             return View(releaseNote);
         }
-        
+
         // Method for deleting object
         [HttpPost]
         public async Task<IActionResult> DeleteReleaseNote(int? Id)
@@ -151,17 +152,6 @@ namespace ReleaseNotesAdministration.Controllers
             {
                 throw new Exception(ex.Message);
             }
-        }
-
-        public async Task<IActionResult> ListWorkItems()
-        {
-            return View();
-        }
-
-        public async Task<IActionResult> TextEditorTest()
-        {
-            Console.WriteLine("Det funket rotte rottski!!");
-            return RedirectToAction("ListReleaseNotes");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

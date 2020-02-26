@@ -15,8 +15,8 @@ namespace Api
             CreateMap<List<ProductDto>, Product>();
             CreateMap<ReleaseNote, ReleaseNoteDto>();
             CreateMap<ReleaseNoteDto, ReleaseNote>();
+            CreateMap<WorkItem, WorkItemDto>();
+            CreateMap<WorkItemDto, WorkItem>();
         }
-
-
     }
 }
