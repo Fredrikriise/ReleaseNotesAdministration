@@ -44,8 +44,8 @@ namespace Api.Controllers
             return Created("", product);
         }
         
-
         [HttpPut]
+        [Route("/Product/{productId}")]
         public async Task<IActionResult> UpdateProduct(int? productId, Product product)
         {
             var mappedProduct = _mapper.Map<ProductDto>(product);
@@ -69,7 +69,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        [Route("/product/{productId}")]
+        [Route("/Product/{productId}")]
         public async Task<IActionResult> GetProductById(int? productId)
         {
             var product = await _productRepo.GetProductById(productId);

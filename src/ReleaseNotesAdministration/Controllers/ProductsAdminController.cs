@@ -22,7 +22,7 @@ namespace ReleaseNotesAdministration.Controllers
             _releaseNotesClient = _httpClientFactory.CreateClient("ReleaseNotesAdminApiClient");
         }
 
-        // Lists all release notes for all products
+        // Method for listing all products
         public async Task<IActionResult> ListProducts()
         {
             var productsResult = await _releaseNotesClient.GetAsync("/Product/");
@@ -69,6 +69,54 @@ namespace ReleaseNotesAdministration.Controllers
 
             return RedirectToAction("ListProducts");
         }
+
+
+        // --------------------------------------------------------------------------------------
+
+
+        // Method for getting product object to edit
+        public async Task<IActionResult> EditProduct(int Id)
+        {
+            var productsResult = await _releaseNotesClient.GetAsync($"/Product/{Id}");
+
+            if (!productsResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
+            }
+
+            var responseStream = await productsResult.Content.ReadAsStringAsync();
+            var product = JsonConvert.DeserializeObject<ProductAdminApiModel>(responseStream);
+
+            var productViewModel = new ProductAdminViewModel
+            {
+                ProductId = product.ProductId,
+                ProductName = product.ProductName,
+                ProductImage = product.ProductImage,
+                ProductDescription = product.ProductDescription
+            };
+
+            return View(productViewModel);
+        }
+
+        // Method for posting edit on a product object
+        [HttpPost]
+        public async Task<IActionResult> EditProduct(int? Id, ProductAdminViewModel product)
+        {
+            try
+            {
+                var jsonString = JsonConvert.SerializeObject(product);
+                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                var transportData = await _releaseNotesClient.PutAsync($"/Product/{Id}", content);
+                return RedirectToAction("ListProducts");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+
 
 
     }

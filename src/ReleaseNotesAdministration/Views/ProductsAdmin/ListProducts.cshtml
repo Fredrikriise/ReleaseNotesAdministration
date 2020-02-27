@@ -44,11 +44,13 @@
             </td>
             <td>
                 <!-- Endre disse slik vi gjorde i list release notes -->
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                <a asp-controller="ProductsAdmin" asp-action="EditProduct" asp-route-id="@item.ProductId">
+                    <span class="editButton btn btn-default">Edit</span>
+                </a> |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
-}
+       }
     </tbody>
 </table>

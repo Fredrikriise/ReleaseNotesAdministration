@@ -67,7 +67,7 @@ namespace Services
                 FROM [Products]
                 WHERE [ProductId] = @ProductId";
 
-                var product = await connection.QueryFirstOrDefaultAsync<Product>(query, new { @ProductId = productId });
+                var product = await connection.QueryFirstOrDefaultAsync<Product>(query, new Product { @ProductId = productId });
                 var mappedProduct = _mapper.Map<ProductDto>(product);
                 return mappedProduct;
             }
@@ -106,9 +106,9 @@ namespace Services
                     return product;
                 }
             }
-            catch (NullReferenceException ex)
+            catch (Exception ex)
             {
-                throw new NullReferenceException(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 

@@ -78,7 +78,7 @@ namespace ReleaseNotesAdministration.Controllers
             return RedirectToAction("ListReleaseNotes");
         }
 
-        // Method for getting object to edit
+        // Method for getting release note object to edit
         public async Task<IActionResult> EditReleaseNote(int Id)
         {
             var releaseNotesResult = await _releaseNotesClient.GetAsync($"/ReleaseNotes/{Id}");
@@ -106,7 +106,7 @@ namespace ReleaseNotesAdministration.Controllers
             return View(releaseNoteViewModel);
         }
 
-        // Method for editing a object
+        // Method for posting edit on a release note object
         [HttpPost]
         public async Task<IActionResult> EditReleaseNote(int? Id, ReleaseNoteAdminViewModel releaseNote)
         {
