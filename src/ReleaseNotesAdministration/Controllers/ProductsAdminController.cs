@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -44,5 +45,31 @@ namespace ReleaseNotesAdministration.Controllers
 
             return View(productsList);
         }
+
+        // Method for loading create-view
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // Method for creating product
+        public async Task<IActionResult> CreateProduct(ProductAdminApiModel product)
+        {
+            var obj = new ProductAdminApiModel
+            {
+                ProductId = product.ProductId,
+                ProductName = product.ProductName,
+                ProductImage = product.ProductImage,
+                ProductDescription = product.ProductDescription
+            };
+
+            var jsonString = JsonConvert.SerializeObject(obj);
+            var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            await _releaseNotesClient.PostAsync("/Product/", content);
+
+            return RedirectToAction("ListProducts");
+        }
+
+
     }
 }

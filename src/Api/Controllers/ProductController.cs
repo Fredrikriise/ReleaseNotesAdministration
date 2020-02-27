@@ -43,6 +43,7 @@ namespace Api.Controllers
             await _productRepo.CreateProduct(mappedProduct);
             return Created("", product);
         }
+        
 
         [HttpPut]
         public async Task<IActionResult> UpdateProduct(int? productId, Product product)

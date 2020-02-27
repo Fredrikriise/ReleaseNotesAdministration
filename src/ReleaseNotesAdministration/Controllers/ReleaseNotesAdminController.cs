@@ -60,7 +60,7 @@ namespace ReleaseNotesAdministration.Controllers
         // Method for creating release note
         public async Task<IActionResult> CreateReleaseNote(ReleaseNoteAdminApiModel releaseNote)
         {
-            var test = new ReleaseNoteAdminApiModel
+            var obj = new ReleaseNoteAdminApiModel
             {
                 Title = releaseNote.Title,
                 BodyText = releaseNote.BodyText,
@@ -71,7 +71,7 @@ namespace ReleaseNotesAdministration.Controllers
                 LastUpdateDate = releaseNote.LastUpdateDate
             };
 
-            var jsonString = JsonConvert.SerializeObject(test);
+            var jsonString = JsonConvert.SerializeObject(obj);
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
             await _releaseNotesClient.PostAsync("/ReleaseNotes/", content);
 

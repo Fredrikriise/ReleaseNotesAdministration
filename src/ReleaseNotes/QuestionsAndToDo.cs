@@ -12,7 +12,9 @@
 
         // ToDo's
         - See work items
-
+        - Lage work item på å fikse slik at Id auto incrementes i databasen slik som for releasenotes når de creates
+        - Legge til tilbakeknapper for product views
+        - Styling i de nye views'a
 
         // Spørsmål til møtet fredag 28/02 kl. 12
         - Skal vi bruke model state?
