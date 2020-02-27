@@ -54,6 +54,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete]
+        [Route("/Product/{ProductId}")]
         public async Task<IActionResult> DeleteProduct(int? productId)
         {
             var deletedProduct = await _productRepo.DeleteProduct(productId);

@@ -47,8 +47,9 @@
                 <a asp-controller="ProductsAdmin" asp-action="EditProduct" asp-route-id="@item.ProductId">
                     <span class="editButton btn btn-default">Edit</span>
                 </a> |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                <a asp-controller="ProductsAdmin" asp-action="DeleteProduct" asp-route-id="@item.ProductId">
+                    <span class="deleteButton btn btn-default">Delete</span>
+                </a>
             </td>
         </tr>
        }

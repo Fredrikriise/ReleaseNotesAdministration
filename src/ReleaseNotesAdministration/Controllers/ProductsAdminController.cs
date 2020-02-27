@@ -70,10 +70,6 @@ namespace ReleaseNotesAdministration.Controllers
             return RedirectToAction("ListProducts");
         }
 
-
-        // --------------------------------------------------------------------------------------
-
-
         // Method for getting product object to edit
         public async Task<IActionResult> EditProduct(int Id)
         {
@@ -115,8 +111,35 @@ namespace ReleaseNotesAdministration.Controllers
             }
         }
 
+        // Method for getting an product object to delete
+        public async Task<IActionResult> DeleteProduct(int Id)
+        {
+            var productsResult = await _releaseNotesClient.GetAsync($"/Product/{Id}");
 
+            if (!productsResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
+            }
 
+            var responseStream = await productsResult.Content.ReadAsStringAsync();
+            var product = JsonConvert.DeserializeObject<ProductAdminViewModel>(responseStream);
+            return View(product);
+        }
+
+        // Method for deleting object
+        [HttpPost]
+        public async Task<IActionResult> DeleteProduct(int? Id)
+        {
+            try
+            {
+                var transportData = await _releaseNotesClient.DeleteAsync($"/Product/{Id}");
+                return RedirectToAction("ListProducts");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
 
     }

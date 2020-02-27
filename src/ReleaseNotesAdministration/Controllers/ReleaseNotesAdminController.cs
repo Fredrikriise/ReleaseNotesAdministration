@@ -123,7 +123,7 @@ namespace ReleaseNotesAdministration.Controllers
             }
         }
 
-        // Method for getting an object to delete
+        // Method for getting an release note object to delete
         public async Task<IActionResult> DeleteReleaseNote(int Id)
         {
             var releaseNotesResult = await _releaseNotesClient.GetAsync($"/ReleaseNotes/{Id}");

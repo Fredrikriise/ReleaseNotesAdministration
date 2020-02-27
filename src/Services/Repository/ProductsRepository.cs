@@ -119,7 +119,7 @@ namespace Services
                 using (var connection = new SqlConnection(_connectionString))
                 {
                     var Delete = "DELETE FROM [Products] WHERE ProductId = @ProductId";
-                    var returnedProduct = await connection.ExecuteAsync(Delete, new { @ProductId = productId });
+                    var returnedProduct = await connection.ExecuteAsync(Delete, new Product { @ProductId = productId });
                     bool success = returnedProduct > 0;
                     return success;
                 }
