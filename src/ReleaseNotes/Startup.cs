@@ -25,7 +25,7 @@ namespace ReleaseNotes
             {
                 //Fredrik:  client.BaseAddress = new Uri("https://localhost:44310");
                 //Felix:  client.BaseAddress = new Uri("https://localhost:44314");
-                client.BaseAddress = new Uri("https://localhost:44310");
+                client.BaseAddress = new Uri("https://localhost:44314");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
         }
