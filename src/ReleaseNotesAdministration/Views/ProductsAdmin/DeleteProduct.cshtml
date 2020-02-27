@@ -4,6 +4,19 @@
     ViewData["Title"] = "Delete Product";
 }
 
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+
+<style>
+    .backButton {
+        background-color: white;
+        color: black;
+        border: 1px solid;
+        border-color: lightcoral;
+    }
+</style>
+
 <h3>You are about to delete this product, are you sure you want to proceed?</h3>
 <div>
     <hr />
@@ -36,6 +49,6 @@
 
     <form asp-action="DeleteProduct">
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a class="backButton btn btn-default" asp-controller="ProductsAdmin" asp-action="ListProducts"><i class="fa fa-arrow-left"></i> Back to list</a>
     </form>
 </div>
