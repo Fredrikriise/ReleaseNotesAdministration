@@ -14,8 +14,7 @@
         - See work items
 
         I dag:
-
-        1 Fikse begge views for delete
+        1 Fikse begge views for delete (Fjerne @Html tags) 
         2 Ta en clean up!
 
         // Spørsmål til møtet fredag 28/02 kl. 12
