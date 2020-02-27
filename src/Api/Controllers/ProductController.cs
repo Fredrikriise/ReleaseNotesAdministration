@@ -43,8 +43,9 @@ namespace Api.Controllers
             await _productRepo.CreateProduct(mappedProduct);
             return Created("", product);
         }
-
+        
         [HttpPut]
+        [Route("/Product/{productId}")]
         public async Task<IActionResult> UpdateProduct(int? productId, Product product)
         {
             var mappedProduct = _mapper.Map<ProductDto>(product);
@@ -53,6 +54,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete]
+        [Route("/Product/{ProductId}")]
         public async Task<IActionResult> DeleteProduct(int? productId)
         {
             var deletedProduct = await _productRepo.DeleteProduct(productId);
@@ -68,7 +70,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        [Route("/product/{productId}")]
+        [Route("/Product/{productId}")]
         public async Task<IActionResult> GetProductById(int? productId)
         {
             var product = await _productRepo.GetProductById(productId);

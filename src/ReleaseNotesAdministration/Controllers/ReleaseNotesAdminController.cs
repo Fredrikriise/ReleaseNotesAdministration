@@ -60,7 +60,7 @@ namespace ReleaseNotesAdministration.Controllers
         // Method for creating release note
         public async Task<IActionResult> CreateReleaseNote(ReleaseNoteAdminApiModel releaseNote)
         {
-            var test = new ReleaseNoteAdminApiModel
+            var obj = new ReleaseNoteAdminApiModel
             {
                 Title = releaseNote.Title,
                 BodyText = releaseNote.BodyText,
@@ -71,14 +71,14 @@ namespace ReleaseNotesAdministration.Controllers
                 LastUpdateDate = releaseNote.LastUpdateDate
             };
 
-            var jsonString = JsonConvert.SerializeObject(test);
+            var jsonString = JsonConvert.SerializeObject(obj);
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
             await _releaseNotesClient.PostAsync("/ReleaseNotes/", content);
 
             return RedirectToAction("ListReleaseNotes");
         }
 
-        // Method for getting object to edit
+        // Method for getting release note object to edit
         public async Task<IActionResult> EditReleaseNote(int Id)
         {
             var releaseNotesResult = await _releaseNotesClient.GetAsync($"/ReleaseNotes/{Id}");
@@ -106,7 +106,7 @@ namespace ReleaseNotesAdministration.Controllers
             return View(releaseNoteViewModel);
         }
 
-        // Method for editing a object
+        // Method for posting edit on a release note object
         [HttpPost]
         public async Task<IActionResult> EditReleaseNote(int? Id, ReleaseNoteAdminViewModel releaseNote)
         {
@@ -123,7 +123,7 @@ namespace ReleaseNotesAdministration.Controllers
             }
         }
 
-        // Method for getting an object to delete
+        // Method for getting an release note object to delete
         public async Task<IActionResult> DeleteReleaseNote(int Id)
         {
             var releaseNotesResult = await _releaseNotesClient.GetAsync($"/ReleaseNotes/{Id}");

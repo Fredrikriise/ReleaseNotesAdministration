@@ -118,7 +118,7 @@ namespace Services
                 using (var connection = new SqlConnection(_connectionString))
                 {
                     var Delete = "DELETE FROM [ReleaseNotes] WHERE Id = @Id";
-                    var returnedReleaseNote = await connection.ExecuteAsync(Delete, new { @Id = id });
+                    var returnedReleaseNote = await connection.ExecuteAsync(Delete, new ReleaseNote { @Id = id });
                     bool success = returnedReleaseNote > 0;
                     return success;
                 }

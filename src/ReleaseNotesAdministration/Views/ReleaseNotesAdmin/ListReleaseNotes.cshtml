@@ -63,12 +63,12 @@
         <ul class="listReleaseNotes">
             <li>
                 @item.Title
-                <a asp-controller="ReleaseNotesAdmin" asp-action="DeleteReleaseNote" asp-route-id="@item.Id">
-                    <span class="deleteButton btn btn-default">Delete</span>
-                </a>
-
                 <a asp-controller="ReleaseNotesAdmin" asp-action="EditReleaseNote" asp-route-id="@item.Id">
                     <span class="editButton btn btn-default">Edit</span>
+                </a>
+
+                <a asp-controller="ReleaseNotesAdmin" asp-action="DeleteReleaseNote" asp-route-id="@item.Id">
+                    <span class="deleteButton btn btn-default">Delete</span>
                 </a>
                 <hr class="hrTag" />
                 <br />
