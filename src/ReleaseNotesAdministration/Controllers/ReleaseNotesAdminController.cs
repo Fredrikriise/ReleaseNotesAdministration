@@ -112,6 +112,32 @@ namespace ReleaseNotesAdministration.Controllers
                 var jsonString = JsonConvert.SerializeObject(releaseNote);
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 var transportData = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
+
+                /*
+                if(releaseNote.Title.Length == 0)
+                {
+                    ModelState.AddModelError("Title", "Title is required!");
+                } 
+                else if (releaseNote.BodyText == null)
+                {
+                    ModelState.AddModelError("BodyText", "Body text is required!");
+                } 
+                else if (releaseNote.ProductId == null)
+                {
+                    ModelState.AddModelError("ProductId", "Product is required!");
+                }
+                else if (releaseNote.CreatedBy == null)
+                {
+                    ModelState.AddModelError("CreatedBy", "Author is required!");
+                }
+                else if (releaseNote.CreatedDate == null)
+                {
+                    ModelState.AddModelError("CreatedDate", "Creation date is required!");
+                } else
+                {
+
+                } */
+
                 return RedirectToAction("ListReleaseNotes");
             }
             catch (Exception ex)
