@@ -7,18 +7,33 @@
 <head>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
+ 
+<div class="float-left">
+    <a style="background-color: white; color: black; border: 1px solid; border-color: lightcoral;"
+       class="btn btn-default"
+       asp-controller="ReleaseNotesAdmin"
+       asp-action="ListReleaseNotes">
+        <i class="fa fa-arrow-left"></i>
+        Back to release note
+    </a>
+</div>
 
-<style>
-    .backButton {
-        background-color: white;
-        color: black;
-        border: 1px solid;
-        border-color: lightcoral;
-    }
-</style>
+<div class="d-flex flex-row-reverse">
+    <form asp-controller="ReleaseNotesAdmin" asp-action="DeleteReleaseNote" asp-route-id="@Model.Id">
+        <input type="submit" class="btn btn-danger" value="Delete" />
+    </form>
 
-<h3>You are about to delete this release note, are you sure you want to proceed?</h3>
+    <a style="background-color: white; color: black; border: 1px solid; border-color: rgb(42,128,192);"
+       class="btn btn-default"
+       asp-controller="ReleaseNotesAdmin"
+       asp-action="EditReleaseNote"
+       asp-route-id="@Model.Id">
+        Edit
+    </a>
+</div>
+
 <div>
+    <br/>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -57,6 +72,8 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CreatedDate)
         </dd>
+
+        @if (Model.LastUpdatedBy != null) {
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.LastUpdatedBy)
         </dt>
@@ -69,10 +86,6 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.LastUpdateDate)
         </dd>
+        }
     </dl>
-
-    <form asp-action="DeleteReleaseNote">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a class="backButton btn btn-default" asp-controller="ReleaseNotesAdmin" asp-action="ListReleaseNotes"><i class="fa fa-arrow-left"></i> Back to list</a>
-    </form>
 </div>
