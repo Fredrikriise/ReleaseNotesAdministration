@@ -66,9 +66,7 @@ namespace ReleaseNotesAdministration.Controllers
                 BodyText = releaseNote.BodyText,
                 ProductId = releaseNote.ProductId,
                 CreatedBy = releaseNote.CreatedBy,
-                CreatedDate = releaseNote.CreatedDate,
-                LastUpdatedBy = releaseNote.LastUpdatedBy,
-                LastUpdateDate = releaseNote.LastUpdateDate
+                CreatedDate = DateTime.Now
             };
 
             var jsonString = JsonConvert.SerializeObject(obj);
@@ -95,14 +93,13 @@ namespace ReleaseNotesAdministration.Controllers
             {
                 Title = releaseNote.Title,
                 BodyText = releaseNote.BodyText,
-                Id = releaseNote.Id,
                 ProductId = releaseNote.ProductId,
                 CreatedBy = releaseNote.CreatedBy,
                 CreatedDate = releaseNote.CreatedDate,
                 LastUpdatedBy = releaseNote.LastUpdatedBy,
-                LastUpdateDate = releaseNote.LastUpdateDate
+                LastUpdateDate = DateTime.Now
             };
-
+            
             return View(releaseNoteViewModel);
         }
 

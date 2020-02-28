@@ -44,21 +44,6 @@
                 <span asp-validation-for="CreatedBy" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CreatedDate" class="control-label"></label>
-                <input asp-for="CreatedDate" class="form-control" />
-                <span asp-validation-for="CreatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastUpdatedBy" class="control-label"></label>
-                <input asp-for="LastUpdatedBy" class="form-control" />
-                <span asp-validation-for="LastUpdatedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastUpdateDate" class="control-label"></label>
-                <input asp-for="LastUpdateDate" class="form-control" />
-                <span asp-validation-for="LastUpdateDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
             <div>
@@ -67,3 +52,8 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
