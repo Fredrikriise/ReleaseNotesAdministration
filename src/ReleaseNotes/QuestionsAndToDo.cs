@@ -5,16 +5,16 @@
         /* 
         // QUESTIONS
         - Trenger vi feilhåndtering i API Controllere?
-        - Popups for confirmation av CRUD operasjoner: Skal det brukes bootstrap for dette?
-        - Migrering for database?
-        - Bør alle cardsa for work items være like store? 
+        - Popups for confirmation av CRUD operasjoner: Skal det brukes bootstrap for dette? Toaster notifications
+        - Migrering for database? Spørre henning
+        - Bør alle cardsa for work items være like store? Ja
         
 
         // ToDo's
         - See work items
 
         I dag:
-        1 Fikse begge views for delete (Fjerne @Html tags) 
+        1 Fikse begge views for delete (Fjerne @Html tags)
         2 Ta en clean up!
 
         // Spørsmål til møtet fredag 28/02 kl. 12

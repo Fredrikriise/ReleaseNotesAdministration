@@ -31,21 +31,18 @@ namespace Services
                 {
                     var insert = @"INSERT INTO [Products]
                                 (
-                                    [ProductId],
                                     [ProductName],
                                     [ProductImage],
                                     [ProductDescription]
                                 )
                                 VALUES
                                 (
-                                    @ProductId,
                                     @ProductName,
                                     @ProductImage,
                                     @ProductDescription
                                 )";
                     var returnResult = await connection.QueryFirstOrDefaultAsync<int?>(insert, new ProductDto
                     {
-                        ProductId = productDto.ProductId,
                         ProductName = productDto.ProductName,
                         ProductImage = productDto.ProductImage,
                         ProductDescription = productDto.ProductDescription
@@ -94,7 +91,6 @@ namespace Services
                 {
                     var updateDb = @"UPDATE [Products]
                     SET
-                        [ProductId] = @ProductId, 
                         [ProductName] = @ProductName,
                         [ProductImage] = @ProductImage,
                         [ProductDescription] = @ProductDescription

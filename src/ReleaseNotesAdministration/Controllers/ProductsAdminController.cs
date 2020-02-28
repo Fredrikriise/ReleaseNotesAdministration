@@ -57,7 +57,6 @@ namespace ReleaseNotesAdministration.Controllers
         {
             var obj = new ProductAdminApiModel
             {
-                ProductId = product.ProductId,
                 ProductName = product.ProductName,
                 ProductImage = product.ProductImage,
                 ProductDescription = product.ProductDescription
