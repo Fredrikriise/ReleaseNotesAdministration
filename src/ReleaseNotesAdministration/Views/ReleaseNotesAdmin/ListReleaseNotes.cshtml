@@ -14,18 +14,14 @@
         font-size: 22px;
     }
 
-    .releaseNotesQuestion {
-        margin-bottom: 50px;    
-    }
-
-    .editButton, .deleteButton, .addButton {
+    .viewButton, .deleteButton, .addButton {
         background-color: white;
         color: black;
         border: 1px solid;
         border-color: rgb(42,128,192);
     }
 
-    .editButton {
+    .viewButton {
         margin-right: 5px;
         margin-left: 30px;
     }
@@ -59,13 +55,10 @@
                     @item.Title
                 </div>
                 <div class="float-right">
-                    <a asp-controller="ReleaseNotesAdmin" asp-action="EditReleaseNote" asp-route-id="@item.Id">
-                        <span class="editButton btn btn-default">Edit</span>
+                    <a asp-controller="ReleaseNotesAdmin" asp-action="ViewReleaseNote" asp-route-id="@item.Id">
+                        <span class="viewButton btn btn-default">View</span>
                     </a>
 
-                    <a asp-controller="ReleaseNotesAdmin" asp-action="DeleteReleaseNote" asp-route-id="@item.Id">
-                        <span class="deleteButton btn btn-default">Delete</span>
-                    </a>
                 </div>
                 <br />
                 
