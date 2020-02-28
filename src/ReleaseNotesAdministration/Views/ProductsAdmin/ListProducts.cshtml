@@ -19,12 +19,23 @@
     a:hover {
         text-decoration: none;
     }
+
+    .addButton {
+        float: right;
+    }
+
+    .productTitle {
+        float: left;
+    }
 </style>
 
-<h3>All Products</h3>
-<a class="addButton btn btn-default" asp-controller="ProductsAdmin" asp-action="Create">
-    Add new
-</a>
+<div class="headerRow">
+    <h3 class="productTitle">All Products</h3>
+    <a class="addButton btn btn-default" asp-controller="ProductsAdmin" asp-action="Create">
+        Add new
+    </a>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -40,34 +51,37 @@
             <th>
                 Product Description
             </th>
-            <th></th>
+            <th>
+
+            </th>
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @item.ProductId
-            </td>
-            <td>
-                @item.ProductName
-            </td>
-            <td>
-                @item.ProductImage
-            </td>
-            <td>
-                @item.ProductDescription
-            </td>
-            <td>
-                <!-- Endre disse slik vi gjorde i list release notes -->
-                <a asp-controller="ProductsAdmin" asp-action="EditProduct" asp-route-id="@item.ProductId">
-                    <span class="editButton btn btn-default">Edit</span>
-                </a> |
-                <a asp-controller="ProductsAdmin" asp-action="DeleteProduct" asp-route-id="@item.ProductId">
-                    <span class="deleteButton btn btn-default">Delete</span>
-                </a>
-            </td>
-        </tr>
-       }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.ProductId
+                </td>
+                <td>
+                    @item.ProductName
+                </td>
+                <td>
+                    @item.ProductImage
+                </td>
+                <td>
+                    @item.ProductDescription
+                </td>
+                <td>
+                    <!-- Endre disse slik vi gjorde i list release notes -->
+                    <a asp-controller="ProductsAdmin" asp-action="EditProduct" asp-route-id="@item.ProductId">
+                        <span class="editButton btn btn-default">Edit</span>
+                    </a> |
+                    <a asp-controller="ProductsAdmin" asp-action="DeleteProduct" asp-route-id="@item.ProductId">
+                        <span class="deleteButton btn btn-default">Delete</span>
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
