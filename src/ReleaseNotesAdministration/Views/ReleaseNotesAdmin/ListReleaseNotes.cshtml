@@ -49,26 +49,26 @@
     <h1 class="display-4">Talentech - Release Notes Administration</h1>
     <hr />
 
-    <h3 class="releaseNotesQuestion">Which release note would you like to make changes to?</h3>
-    <input class="col-6" placeholder="Search for a release note" />
-    <br />
+    <!-- Temporary code for search function -->
+    <div>
+        <h3 class="releaseNotesQuestion">Which release note would you like to make changes to?</h3>
+        <input class="col-6" placeholder="Search for a release note" /> <i class="fa fa-search"></i>
+        <br />
+        <br />
+    </div>
 
-    <button type="button" class="searchButton btn btn-default">
-        <i class="fa fa-search"></i> Search
-    </button>
-    <br />
 
     @foreach (var item in Model)
     {
         <ul class="listReleaseNotes">
             <li>
                 @item.Title
-                <a asp-controller="ReleaseNotesAdmin" asp-action="DeleteReleaseNote" asp-route-id="@item.Id">
-                    <span class="deleteButton btn btn-default">Delete</span>
-                </a>
-
                 <a asp-controller="ReleaseNotesAdmin" asp-action="EditReleaseNote" asp-route-id="@item.Id">
                     <span class="editButton btn btn-default">Edit</span>
+                </a>
+
+                <a asp-controller="ReleaseNotesAdmin" asp-action="DeleteReleaseNote" asp-route-id="@item.Id">
+                    <span class="deleteButton btn btn-default">Delete</span>
                 </a>
                 <hr class="hrTag" />
                 <br />

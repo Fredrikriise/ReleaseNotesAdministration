@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace Services.Repository
+namespace Services
 {
     public class ProductsRepository : IProductsRepository
     {
@@ -22,13 +22,11 @@ namespace Services.Repository
             _connectionString = sqlDbConnection.Value.ConnectionString;
             _mapper = mapper;
         }
-
-        public async Task CreateProduct(ProductDto productDto)
+        
+        public async Task<int?> CreateProduct(ProductDto productDto)
         {
             try
             {
-                var product = _mapper.Map<Product>(productDto);
-
                 using (var connection = new SqlConnection(_connectionString))
                 {
                     var insert = @"INSERT INTO [Products]
@@ -41,17 +39,23 @@ namespace Services.Repository
                                 VALUES
                                 (
                                     @ProductId,
-                                    @ProductName
-                                    @ProductImage
+                                    @ProductName,
+                                    @ProductImage,
                                     @ProductDescription
-                                )
-                                SELECT [Id] FROM [Products] WHERE [Id] = @Id AND [ProductId] = @ProductId";
-                    await connection.ExecuteAsync(insert, product);
+                                )";
+                    var returnResult = await connection.QueryFirstOrDefaultAsync<int?>(insert, new ProductDto
+                    {
+                        ProductId = productDto.ProductId,
+                        ProductName = productDto.ProductName,
+                        ProductImage = productDto.ProductImage,
+                        ProductDescription = productDto.ProductDescription
+                    });
+                    return returnResult;
                 }
             }
-            catch (NullReferenceException ex)
+            catch (Exception ex)
             {
-                throw new NullReferenceException(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -63,7 +67,7 @@ namespace Services.Repository
                 FROM [Products]
                 WHERE [ProductId] = @ProductId";
 
-                var product = await connection.QueryFirstOrDefaultAsync<Product>(query, new { @ProductId = productId });
+                var product = await connection.QueryFirstOrDefaultAsync<Product>(query, new Product { @ProductId = productId });
                 var mappedProduct = _mapper.Map<ProductDto>(product);
                 return mappedProduct;
             }
@@ -102,9 +106,9 @@ namespace Services.Repository
                     return product;
                 }
             }
-            catch (NullReferenceException ex)
+            catch (Exception ex)
             {
-                throw new NullReferenceException(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -115,7 +119,7 @@ namespace Services.Repository
                 using (var connection = new SqlConnection(_connectionString))
                 {
                     var Delete = "DELETE FROM [Products] WHERE ProductId = @ProductId";
-                    var returnedProduct = await connection.ExecuteAsync(Delete, new { @ProductId = productId });
+                    var returnedProduct = await connection.ExecuteAsync(Delete, new Product { @ProductId = productId });
                     bool success = returnedProduct > 0;
                     return success;
                 }
