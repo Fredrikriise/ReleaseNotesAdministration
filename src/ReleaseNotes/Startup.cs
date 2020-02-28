@@ -26,7 +26,7 @@ namespace ReleaseNotes
                 //Fredrik:  client.BaseAddress = new Uri("https://localhost:44310");
                 //Felix bærbar:  client.BaseAddress = new Uri("https://localhost:44314");
                 //Felix stasjonær:  client.BaseAddress = new Uri("https://localhost:44349");
-                client.BaseAddress = new Uri("https://localhost:44310");
+                client.BaseAddress = new Uri("https://localhost:44314");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
         }
@@ -55,7 +55,7 @@ namespace ReleaseNotes
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Product}/{action=Index}/{id?}");
+                    pattern: "{controller=Product}/{action=ListAllProducts}/{id?}");
             });
         }
     }

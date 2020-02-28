@@ -24,7 +24,7 @@ namespace ReleaseNotesAdministration.Controllers
         }
 
         // Lists all release notes for all products
-        public async Task<IActionResult> ListReleaseNotes()
+        public async Task<IActionResult> ListAllReleaseNotes()
         {
             var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
 
@@ -99,7 +99,7 @@ namespace ReleaseNotesAdministration.Controllers
                 LastUpdatedBy = releaseNote.LastUpdatedBy,
                 LastUpdateDate = DateTime.Now
             };
-            
+
             return View(releaseNoteViewModel);
         }
 
@@ -120,7 +120,7 @@ namespace ReleaseNotesAdministration.Controllers
             }
         }
 
-        // Method for getting an release note object to delete
+        // Method for getting an release note object to view
         public async Task<IActionResult> ViewReleaseNote(int Id)
         {
             var releaseNotesResult = await _releaseNotesClient.GetAsync($"/ReleaseNotes/{Id}");

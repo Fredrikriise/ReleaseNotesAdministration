@@ -38,6 +38,22 @@ namespace Api.Controllers
             return Ok(mappedReleaseNotes);
         }
 
+        // Method for getting release note by Id
+        [HttpGet]
+        [Route("/ReleaseNotes/{Id}")]
+        public async Task<IActionResult> GetReleaseNoteById(int? Id)
+        {
+            var releaseNote = await _releaseNoteRepo.GetReleaseNoteById(Id);
+
+            if (releaseNote == null)
+            {
+                return NotFound();
+            }
+
+            var mappedReleaseNote = _mapper.Map<ReleaseNote>(releaseNote);
+            return Ok(mappedReleaseNote);
+        }
+
         // Method for creating Release Note
         [HttpPost]
         public async Task<IActionResult> Create(ReleaseNote releaseNote)
@@ -72,22 +88,6 @@ namespace Api.Controllers
             {
                 return NotFound();
             }
-        }
-
-        // Method for getting release note by Id
-        [HttpGet]
-        [Route("/ReleaseNotes/{Id}")]
-        public async Task<IActionResult> GetReleaseNoteById(int? Id)
-        {
-            var releaseNote = await _releaseNoteRepo.GetReleaseNoteById(Id);
-
-            if (releaseNote == null)
-            {
-                return NotFound();
-            }
-
-            var mappedReleaseNote = _mapper.Map<ReleaseNote>(releaseNote);
-            return Ok(mappedReleaseNote);
         }
     }
 }

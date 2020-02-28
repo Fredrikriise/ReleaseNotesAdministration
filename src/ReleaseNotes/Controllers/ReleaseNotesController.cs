@@ -23,7 +23,7 @@ namespace ReleaseNotes.Controllers
         }
 
         // Loading all release notes for all products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> ListAllReleaseNotes()
         {
             var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
 
