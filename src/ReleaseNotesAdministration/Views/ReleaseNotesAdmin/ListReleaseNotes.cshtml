@@ -15,15 +15,10 @@
     }
 
     .releaseNotesQuestion {
-        margin-bottom: 50px;
+        margin-bottom: 50px;    
     }
 
-    .searchButton {
-        margin-bottom: 60px;
-        margin-top: 5px;
-    }
-
-    .editButton, .deleteButton, .searchButton, .addButton {
+    .editButton, .deleteButton, .addButton {
         background-color: white;
         color: black;
         border: 1px solid;
@@ -33,11 +28,6 @@
     .editButton {
         margin-right: 5px;
         margin-left: 30px;
-    }
-
-    .hrTag {
-        margin-top: 6px;
-        margin-bottom: 3px;
     }
 
     a:hover {
@@ -50,11 +40,14 @@
     <hr />
 
     <!-- Temporary code for search function -->
-    <div>
-        <h3 class="releaseNotesQuestion">Which release note would you like to make changes to?</h3>
-        <input class="col-6" placeholder="Search for a release note" /> <i class="fa fa-search"></i>
-        <br />
-        <br />
+    <div class="col-6 my-6 d-flex align-items-center">
+        <label class="sr-only" for="inlineFormInputGroup">Search</label>
+        <div class="input-group input-group mb-2">
+            <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Search">
+            <div class="input-group-append">
+                <div class="input-group-text"><i class="fas fa-search"></i></div>
+            </div>
+        </div>
     </div>
 
 
@@ -62,22 +55,26 @@
     {
         <ul class="listReleaseNotes">
             <li>
-                @item.Title
-                <a asp-controller="ReleaseNotesAdmin" asp-action="EditReleaseNote" asp-route-id="@item.Id">
-                    <span class="editButton btn btn-default">Edit</span>
-                </a>
+                <div class="float-left">
+                    @item.Title
+                </div>
+                <div class="float-right">
+                    <a asp-controller="ReleaseNotesAdmin" asp-action="EditReleaseNote" asp-route-id="@item.Id">
+                        <span class="editButton btn btn-default">Edit</span>
+                    </a>
 
-                <a asp-controller="ReleaseNotesAdmin" asp-action="DeleteReleaseNote" asp-route-id="@item.Id">
-                    <span class="deleteButton btn btn-default">Delete</span>
-                </a>
-                <hr class="hrTag" />
+                    <a asp-controller="ReleaseNotesAdmin" asp-action="DeleteReleaseNote" asp-route-id="@item.Id">
+                        <span class="deleteButton btn btn-default">Delete</span>
+                    </a>
+                </div>
                 <br />
+                
             </li>
         </ul>
     }
 
     <a class="addButton btn btn-default" asp-controller="ReleaseNotesAdmin" asp-action="Create">
-        Add new
+        Add release note
     </a>
 </div>
 
