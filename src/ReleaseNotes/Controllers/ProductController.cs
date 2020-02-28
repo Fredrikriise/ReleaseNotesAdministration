@@ -22,7 +22,7 @@ namespace ReleaseNotes.Controllers
         }
 
         // Loading all products for Talentech on the front-page
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> ListAllProducts()
         {
             var productResult = await _productsClient.GetAsync("/Product/");
 

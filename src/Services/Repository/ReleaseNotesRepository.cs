@@ -22,6 +22,32 @@ namespace Services
             _connectionString = sqlDbConnection.Value.ConnectionString;
             _mapper = mapper;
         }
+        public async Task<List<ReleaseNoteDto>> GetAllReleaseNotes()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var query = @"SELECT *
+                FROM [ReleaseNotes]";
+
+                var releaseNotes = await connection.QueryAsync<ReleaseNote>(query);
+                var releaseNotesMapped = _mapper.Map<List<ReleaseNoteDto>>(releaseNotes);
+                return releaseNotesMapped;
+            }
+        }
+
+        public async Task<ReleaseNoteDto> GetReleaseNoteById(int? Id)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                string query = @"SELECT *
+                FROM [ReleaseNotes]
+                WHERE [Id] = @Id";
+
+                var releaseNote = await connection.QueryFirstOrDefaultAsync<ReleaseNote>(query, new ReleaseNote { @Id = Id });
+                var mappedReleaseNote = _mapper.Map<ReleaseNoteDto>(releaseNote);
+                return mappedReleaseNote;
+            }
+        }
 
         public async Task<int?> CreateReleaseNote(ReleaseNoteDto releaseNoteDto)
         {
@@ -65,20 +91,6 @@ namespace Services
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }
-        }
-
-        public async Task<ReleaseNoteDto> GetReleaseNoteById(int? Id)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                string query = @"SELECT *
-                FROM [ReleaseNotes]
-                WHERE [Id] = @Id";
-
-                var releaseNote = await connection.QueryFirstOrDefaultAsync<ReleaseNote>(query, new ReleaseNote { @Id = Id });
-                var mappedReleaseNote = _mapper.Map<ReleaseNoteDto>(releaseNote);
-                return mappedReleaseNote;
             }
         }
 
@@ -126,19 +138,6 @@ namespace Services
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }
-        }
-
-        public async Task<List<ReleaseNoteDto>> GetAllReleaseNotes()
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"SELECT *
-                FROM [ReleaseNotes]";
-
-                var releaseNotes = await connection.QueryAsync<ReleaseNote>(query);
-                var releaseNotesMapped = _mapper.Map<List<ReleaseNoteDto>>(releaseNotes);
-                return releaseNotesMapped;
             }
         }
     }

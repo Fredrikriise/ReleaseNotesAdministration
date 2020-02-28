@@ -22,7 +22,33 @@ namespace Services
             _connectionString = sqlDbConnection.Value.ConnectionString;
             _mapper = mapper;
         }
-        
+        public async Task<List<ProductDto>> GetAllProducts()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var query = @"SELECT *
+                FROM [Products]";
+
+                var product = await connection.QueryAsync<Product>(query);
+                var productMapped = _mapper.Map<List<ProductDto>>(product);
+                return productMapped;
+            }
+        }
+
+        public async Task<ProductDto> GetProductById(int? productId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                string query = @"SELECT *
+                FROM [Products]
+                WHERE [ProductId] = @ProductId";
+
+                var product = await connection.QueryFirstOrDefaultAsync<Product>(query, new Product { @ProductId = productId });
+                var mappedProduct = _mapper.Map<ProductDto>(product);
+                return mappedProduct;
+            }
+        }
+
         public async Task<int?> CreateProduct(ProductDto productDto)
         {
             try
@@ -53,33 +79,6 @@ namespace Services
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }
-        }
-
-        public async Task<ProductDto> GetProductById(int? productId)
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                string query = @"SELECT *
-                FROM [Products]
-                WHERE [ProductId] = @ProductId";
-
-                var product = await connection.QueryFirstOrDefaultAsync<Product>(query, new Product { @ProductId = productId });
-                var mappedProduct = _mapper.Map<ProductDto>(product);
-                return mappedProduct;
-            }
-        }
-
-        public async Task<List<ProductDto>> GetAllProducts()
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"SELECT *
-                FROM [Products]";
-
-                var product = await connection.QueryAsync<Product>(query);
-                var productMapped = _mapper.Map<List<ProductDto>>(product);
-                return productMapped;
             }
         }
 
@@ -120,9 +119,9 @@ namespace Services
                     return success;
                 }
             }
-            catch (NullReferenceException ex)
+            catch (Exception ex)
             {
-                throw new NullReferenceException(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
     }
