@@ -1,9 +1,5 @@
 ﻿@model IEnumerable<ReleaseNotes.ViewModels.ReleaseNoteViewModel>
 
-@{
-    ViewData["Title"] = "Talent Onboarding";
-}
-
 <head>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
@@ -46,24 +42,23 @@
 </style>
 
 <div class="main">
-    <h1 class="headerTitle">Release notes for Talent Onboarding</h1>
-
+    <h1 class="headerTitle">Published release notes</h1>
     <div class="content">
-        @{bool ReleaseNoteFound = false; }
+        @{ bool ReleaseNoteFound = false; }
 
         @foreach (var item in Model)
         {
             <div class="releaseNoteTitle">
-                @item.Title
+                <label asp-for="@item.Title">@item.Title</label>
             </div>
 
-            <label>Posted by <span class="creatorName">@item.CreatedBy</span> on @item.CreatedDate</label>
+            <label>Posted by <span class="creatorName">@item.CreatedBy</span> on @item.CreatedDate </label>
             <hr class="hrTag" />
             <br>
             @item.BodyText
             <br>
 
-            <!-- if loop to check if the releasenotes has been updated -->
+            <!-- if loop to check if the releasenotes hanst been updated -->
             @if (item.LastUpdatedBy != null)
             {
                 <div class="updatedText">
@@ -71,7 +66,6 @@
                 </div>
             }
             <hr />
-
             <form asp-controller="Home" asp-action="action" method="post">
                 <input class="col-6" placeholder="Would you like to subscribe to updates? Enter your email!" /> <!--asp-for="UserEmail"-->
                 <div class="submitButton"><input type="submit" value="Subscribe" /></div>
