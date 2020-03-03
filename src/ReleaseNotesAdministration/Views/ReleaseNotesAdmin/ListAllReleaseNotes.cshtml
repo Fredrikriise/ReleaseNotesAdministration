@@ -13,22 +13,6 @@
         list-style-type: none;
         font-size: 22px;
     }
-
-    .viewButton, .deleteButton, .addButton {
-        background-color: white;
-        color: black;
-        border: 1px solid;
-        border-color: rgb(42,128,192);
-    }
-
-    .viewButton {
-        margin-right: 5px;
-        margin-left: 30px;
-    }
-
-    a:hover {
-        text-decoration: none;
-    }
 </style>
 
 <div class="text-center">
@@ -56,17 +40,15 @@
                 </div>
                 <div class="float-right">
                     <a asp-controller="ReleaseNotesAdmin" asp-action="ViewReleaseNote" asp-route-id="@item.Id">
-                        <span class="viewButton btn btn-default">View</span>
+                        <span class="btn btn-outline-secondary">View</span>
                     </a>
-
                 </div>
                 <br />
                 
             </li>
         </ul>
     }
-
-    <a class="addButton btn btn-default" asp-controller="ReleaseNotesAdmin" asp-action="Create">
+    <a class="btn btn-outline-primary" asp-controller="ReleaseNotesAdmin" asp-action="Create">
         Add release note
     </a>
 </div>
