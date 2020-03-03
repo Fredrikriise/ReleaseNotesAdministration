@@ -31,11 +31,12 @@
     <!-- Product cards -->
     <div class="row mt-4 col-12 pr-0">
         @{bool ProductFound = false; }
+
         @foreach (var item in Model)
         {
             <div class="col-12 col-sm-4">
-                <div class="card mb-3" id="@item.ProductId">
-                    <a asp-controller="ReleaseNotes" asp-action="@item.ProductDescription">
+                <div class="card mb-3">
+                    <a asp-controller="ReleaseNotes" asp-action="ListReleaseNotesForProduct" asp-route-productId="@item.ProductId">
                         <div class="card-body">
 
                             <img src="@item.ProductImage" alt="@item.ProductDescription product icon" />
