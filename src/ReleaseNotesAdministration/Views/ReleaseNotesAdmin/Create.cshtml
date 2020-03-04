@@ -7,18 +7,41 @@
 <head>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
-<div>
 
-    <h2>Create Release Note</h2>
+<!--
+<script>
+    //Client validation
+    $(document).ready(function () {
+        $(".submitButton").click(function (evt) {
+            var TitleValidation = document.getElementById('Title').value;
+            var BodyTextValidation =  document.getElementById('BodyText').value;
+            var ProductValidation =  document.getElementById('ProductId').value;
+            var AuthorValidation = document.getElementById('CreatedBy').value;
+
+            if (TitleValidation.length == 0) {
+                evt.preventDefault();
+                document.getElementById('TitleVaidation').innerHTML = "Title is required to create a new release note! (This is js validation)";
+
+                $('Title').on('change', function () {
+                    var ok = "";
+                    $('TitleValidation').html(ok);
+                });
+            }
+        });
+    });
+</script>
+    -->
+
+  <h2>Create release note</h2>
     <hr />
     <a class="btn btn-outline-secondary mb-3" asp-controller="WorkItem" asp-action="ListAllWorkItems"><i class="fa fa-list-ul"></i> Pick work item</a>
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="CreateReleaseNote">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <form asp-action="CreateReleaseNote"  onsubmit="return validation()">
                 <div class="form-group">
                     <label class="control-label">Title</label>
                     <input asp-for="Title" class="form-control" />
+                    <span id="TitleValidation"></span>
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -27,13 +50,12 @@
                     <span asp-validation-for="BodyText" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <!-- Select for å velge produktnavn istedetfor produktid -->
-                    @*<select asp-for="ProductId" id="inputState" class="form-control custom-select">
-                            <option selected hidden>Choose product..</option>
-                        </select>*@
-
                     <label class="control-label">Product</label>
-                    <input asp-for="ProductId" class="form-control" />
+                    <br />
+                    <select asp-for="ProductId"
+                            asp-items="@(new SelectList(ViewBag.products,"ProductId","ProductName"))" class="form-control">
+                        <option value="" disabled selected>Select a product</option>
+                    </select>
                     <span asp-validation-for="ProductId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -50,8 +72,7 @@
             </form>
         </div>
     </div>
-</div>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
