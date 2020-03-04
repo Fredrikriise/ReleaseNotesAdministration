@@ -25,8 +25,12 @@
                 <span asp-validation-for="BodyText" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Product </label>
-                <input asp-for="ProductId" class="form-control" />
+                <label class="control-label">Product</label>
+                <br />
+                <select asp-for="ProductId"
+                        asp-items="@(new SelectList(ViewBag.products,"ProductId","ProductName"))" class="form-control">
+                    <option>@ViewBag.currentProduct</option>
+                </select>
                 <span asp-validation-for="ProductId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -50,10 +54,10 @@
                 <input type="submit" value="Save" class="btn btn-outline-primary" />
             </div>
             <div>
-                <a class="btn btn-outline-danger" 
-                   asp-controller="ReleaseNotesAdmin" 
+                <a class="btn btn-outline-danger"
+                   asp-controller="ReleaseNotesAdmin"
                    asp-action="ListAllReleaseNotes">
-                    <i class="fa fa-arrow-left"></i> 
+                    <i class="fa fa-arrow-left"></i>
                     Back to list
                 </a>
             </div>

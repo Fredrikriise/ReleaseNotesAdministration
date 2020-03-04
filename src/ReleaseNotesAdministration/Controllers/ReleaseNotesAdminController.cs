@@ -52,8 +52,25 @@ namespace ReleaseNotesAdministration.Controllers
         }
 
         // Method for loading create-view
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            var productsResult = await _releaseNotesClient.GetAsync("/Product/");
+
+            if (!productsResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
+            }
+
+            var responseStream = await productsResult.Content.ReadAsStringAsync();
+            var products = JsonConvert.DeserializeObject<List<ProductAdminApiModel>>(responseStream);
+
+            var productsList = products.Select(x => new ProductAdminViewModel
+            {
+                ProductId = x.ProductId,
+                ProductName = x.ProductName,
+            }).ToList();
+
+            ViewBag.products = productsList;
             return View();
         }
 
@@ -113,8 +130,8 @@ namespace ReleaseNotesAdministration.Controllers
                 throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed");
             }
 
-            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
-            var releaseNote = JsonConvert.DeserializeObject<ReleaseNoteAdminApiModel>(responseStream);
+            var responseStreamReleaseNote = await releaseNotesResult.Content.ReadAsStringAsync();
+            var releaseNote = JsonConvert.DeserializeObject<ReleaseNoteAdminApiModel>(responseStreamReleaseNote);
 
             var releaseNoteViewModel = new ReleaseNoteAdminViewModel
             {
@@ -126,7 +143,38 @@ namespace ReleaseNotesAdministration.Controllers
                 LastUpdatedBy = releaseNote.LastUpdatedBy,
                 LastUpdateDate = DateTime.Now
             };
-            
+
+
+
+
+            var productsResult = await _releaseNotesClient.GetAsync("/Product/");
+
+            if (!productsResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
+            }
+
+            var responseStreamProduct = await productsResult.Content.ReadAsStringAsync();
+            var products = JsonConvert.DeserializeObject<List<ProductAdminApiModel>>(responseStreamProduct);
+
+            //Lists all the products the admin can choose
+            var productsList = products.Select(x => new ProductAdminViewModel
+            {
+                ProductId = x.ProductId,
+                ProductName = x.ProductName,
+            }).ToList();
+
+            ViewBag.products = productsList;
+
+            //Lists the current product
+            var currentProduct = products.Where(x => x.ProductId == releaseNote.ProductId).Select(x => new ProductAdminViewModel
+            {
+                ProductId = x.ProductId,
+                ProductName = x.ProductName,
+            });
+
+            ViewBag.currentProduct = currentProduct;
+
             return View(releaseNoteViewModel);
         }
 

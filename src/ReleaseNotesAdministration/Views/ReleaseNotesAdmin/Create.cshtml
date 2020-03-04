@@ -50,13 +50,12 @@
                     <span asp-validation-for="BodyText" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <!-- Select for å velge produktnavn istedetfor produktid -->
-                    @*<select asp-for="ProductId" id="inputState" class="form-control custom-select">
-                            <option selected hidden>Choose product..</option>
-                        </select>*@
-
                     <label class="control-label">Product</label>
-                    <input asp-for="ProductId" class="form-control" />
+                    <br />
+                    <select asp-for="ProductId"
+                            asp-items="@(new SelectList(ViewBag.products,"ProductId","ProductName"))" class="form-control">
+                        <option value="" disabled selected>Select a product</option>
+                    </select>
                     <span asp-validation-for="ProductId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
