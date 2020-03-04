@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ReleaseNotesAdministration.ViewModels.ProductAdminViewModel>
+
+@{
+    ViewData["Title"] = "All Products";
+}
+
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Product Image
+                </th>
+                <th>
+                    Product Description
+                </th>
+                <th>
+                    <a asp-controller="ProductsAdmin" asp-action="Create">
+                        <span class="btn btn-outline-primary float-right">Add new product</span>
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.ProductName
+                    </td>
+                    <td>
+                        @item.ProductImage
+                    </td>
+                    <td>
+                        @item.ProductDescription
+                    </td>
+                    <td>
+                        <a asp-controller="ProductsAdmin" asp-action="ViewProduct" asp-route-id="@item.ProductId">
+                            <span class="btn btn-outline-secondary">View</span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

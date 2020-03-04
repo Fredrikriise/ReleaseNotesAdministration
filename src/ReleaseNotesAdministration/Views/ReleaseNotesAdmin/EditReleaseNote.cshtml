@@ -8,15 +8,6 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 
-<style>
-    .backButton {
-        background-color: white;
-        color: black;
-        border: 1px solid;
-        border-color: lightcoral;
-    }
-</style>
-
 <h2>Edit Release Note</h2>
 <hr />
 <div class="row">
@@ -56,14 +47,12 @@
                 <span asp-validation-for="LastUpdateDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-outline-primary" />
             </div>
             <div>
-                <a style="background-color: white; color: black; border: 1px solid; border-color: lightcoral;" 
-                   class="backButton btn btn-default bg-white " 
+                <a class="btn btn-outline-danger" 
                    asp-controller="ReleaseNotesAdmin" 
-                   asp-action="ListReleaseNotes"
-                   >
+                   asp-action="ListAllReleaseNotes">
                     <i class="fa fa-arrow-left"></i> 
                     Back to list
                 </a>

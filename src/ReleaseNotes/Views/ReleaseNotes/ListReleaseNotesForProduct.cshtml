@@ -1,0 +1,48 @@
+﻿@model IEnumerable<ReleaseNotes.ViewModels.ReleaseNoteViewModel>
+
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+
+<div class="main">
+    <h2 class="mb-3 font-weight-bolder">Published release notes</h2>
+
+    <div class="content">
+        @{ bool ReleaseNoteFound = false; }
+
+        @foreach (var item in Model)
+        {
+            <h5 class="font-weight-bold">
+               @item.Title
+            </h5>
+            
+            <label>Posted by <span class="font-weight-bold font-italic">@item.CreatedBy</span> on @item.CreatedDate </label>
+            <hr class="mb-0 mt-auto" />
+            <br />
+            @item.BodyText
+
+            <!-- if loop to check if the releasenotes hanst been updated -->
+            @if (item.LastUpdatedBy != null)
+            {
+                <div class="mt-3">
+                    <label>Last updated by <span class="font-weight-bold font-italic">@item.LastUpdatedBy</span> on @item.LastUpdateDate</label>
+                </div>
+            }
+            <hr class="mt-1" />
+            <form class="mb-5" asp-controller="" asp-action="" method="post">
+                <input class="col-6" placeholder="Would you like to subscribe to updates? Enter your email!" /> <!--asp-for="UserEmail"-->
+                <button type="submit" class="btn btn-outline-secondary">Subscribe</button>
+            </form>
+            ReleaseNoteFound = true;
+        }
+
+        @if (!ReleaseNoteFound)
+        {
+            <label>There is currently no release notes published for this product.</label>
+        }
+    </div>
+
+    <div>
+        <a class="btn btn-outline-danger" asp-controller="Product" asp-action="ListAllProducts"><i class="fa fa-arrow-left"></i> Back to products</a>
+    </div>
+</div>

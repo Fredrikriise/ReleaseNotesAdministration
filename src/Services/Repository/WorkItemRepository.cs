@@ -22,6 +22,19 @@ namespace Services.Repository
             _mapper = mapper;
         }
 
+        public async Task<List<WorkItemDto>> GetAllWorkItems()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var query = @"SELECT *
+                FROM [WorkItems]";
+
+                var workItems = await connection.QueryAsync<WorkItem>(query);
+                var workItemsMapped = _mapper.Map<List<WorkItemDto>>(workItems);
+                return workItemsMapped;
+            }
+        }
+
         public async Task<WorkItemDto> GetWorkItemById(int Id)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -33,19 +46,6 @@ namespace Services.Repository
                 var workItem = await connection.QueryFirstOrDefaultAsync<WorkItem>(query, new WorkItem { Id = Id });
                 var mappedWorkItem = _mapper.Map<WorkItemDto>(workItem);
                 return mappedWorkItem;
-            }
-        }
-
-        public async Task<List<WorkItemDto>> GetAllWorkItems()
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = @"SELECT *
-                FROM [WorkItems]";
-
-                var workItems = await connection.QueryAsync<WorkItem>(query);
-                var workItemsMapped = _mapper.Map<List<WorkItemDto>>(workItems);
-                return workItemsMapped;
             }
         }
     }

@@ -30,61 +30,50 @@
     });
 </script>
 
-<style>
-    .backButton {
-        background-color: white;
-        color: black;
-        border: 1px solid;
-        border-color: lightcoral;
-    }
 
-    .submitButton, .toWorkItem {
-        background-color: white;
-        color: black;
-        border: 1px solid;
-        border-color: rgb(42,128,192);
-    }
-</style>
+  <h2>Create Release Note</h2>
+    <hr />
+    <a class="btn btn-outline-secondary mb-3" asp-controller="WorkItem" asp-action="ListAllWorkItems"><i class="fa fa-list-ul"></i> Pick work item</a>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="CreateReleaseNote"  onsubmit="return validation()">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label class="control-label">Title</label>
+                    <input asp-for="Title" class="form-control" />
+                     <span id="TitleValidation"></span>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Body text</label>
+                    <textarea asp-for="BodyText" class="form-control"></textarea>
+                    <span asp-validation-for="BodyText" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <!-- Select for å velge produktnavn istedetfor produktid -->
+                    @*<select asp-for="ProductId" id="inputState" class="form-control custom-select">
+                            <option selected hidden>Choose product..</option>
+                        </select>*@
 
-<h2>Create Release Note</h2>
-<hr />
-<a class="toWorkItem btn btn-default mb-3" asp-controller="WorkItem" asp-action="ListAllWorkItems"><i class="fa fa-list-ul"></i> Pick work item</a>
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="CreateReleaseNote" onsubmit="return validation()">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label class="control-label">Title</label>
-                <input asp-for="Title" class="form-control" />
-                <span id="TitleValidation"></span>
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Body text</label>
-                <textarea asp-for="BodyText" class="form-control"></textarea>
-                <span asp-validation-for="BodyText" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Product</label>
-                <input asp-for="ProductId" class="form-control" />
-                <span asp-validation-for="ProductId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Author</label>
-                <input asp-for="CreatedBy" class="form-control" />
-                <span asp-validation-for="CreatedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-1">
-                <input type="submit" value="Create" class="btn btn-default submitButton mb-0" />
-            </div>
-            <div>
-                <a class="backButton btn btn-default " asp-controller="ReleaseNotesAdmin" asp-action="ListReleaseNotes"><i class="fa fa-arrow-left"></i> Cancel creation</a>
-            </div>
-        </form>
+                    <label class="control-label">Product</label>
+                    <input asp-for="ProductId" class="form-control" />
+                    <span asp-validation-for="ProductId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Author</label>
+                    <input asp-for="CreatedBy" class="form-control" />
+                    <span asp-validation-for="CreatedBy" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-1">
+                    <input type="submit" value="Create" class="btn btn-outline-success mb-0" />
+                </div>
+                <div>
+                    <a class="btn btn-outline-danger " asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes"><i class="fa fa-arrow-left"></i> Cancel creation</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-

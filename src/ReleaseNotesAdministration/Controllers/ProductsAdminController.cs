@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using ReleaseNotesAdministration.Models;
+using ReleaseNotesAdministration.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using ReleaseNotesAdministration.Models;
-using ReleaseNotesAdministration.ViewModels;
 
 namespace ReleaseNotesAdministration.Controllers
 {
@@ -23,7 +23,7 @@ namespace ReleaseNotesAdministration.Controllers
         }
 
         // Method for listing all products
-        public async Task<IActionResult> ListProducts()
+        public async Task<IActionResult> ListAllProducts()
         {
             var productsResult = await _releaseNotesClient.GetAsync("/Product/");
 
@@ -82,7 +82,7 @@ namespace ReleaseNotesAdministration.Controllers
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
             await _releaseNotesClient.PostAsync("/Product/", content);
 
-            return RedirectToAction("ListProducts");
+            return RedirectToAction("ListAllProducts");
         }
 
         // Method for getting product object to edit
@@ -134,7 +134,7 @@ namespace ReleaseNotesAdministration.Controllers
                 var jsonString = JsonConvert.SerializeObject(product);
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 var transportData = await _releaseNotesClient.PutAsync($"/Product/{Id}", content);
-                return RedirectToAction("ListProducts");
+                return RedirectToAction("ListAllProducts");
             }
             catch (Exception ex)
             {
@@ -143,7 +143,7 @@ namespace ReleaseNotesAdministration.Controllers
         }
 
         // Method for getting an product object to delete
-        public async Task<IActionResult> DeleteProduct(int Id)
+        public async Task<IActionResult> ViewProduct(int Id)
         {
             var productsResult = await _releaseNotesClient.GetAsync($"/Product/{Id}");
 
@@ -164,7 +164,7 @@ namespace ReleaseNotesAdministration.Controllers
             try
             {
                 var transportData = await _releaseNotesClient.DeleteAsync($"/Product/{Id}");
-                return RedirectToAction("ListProducts");
+                return RedirectToAction("ListAllProducts");
             }
             catch (Exception ex)
             {
