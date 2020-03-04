@@ -73,7 +73,7 @@ namespace ReleaseNotesAdministration.Controllers
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
             await _releaseNotesClient.PostAsync("/ReleaseNotes/", content);
 
-            return RedirectToAction("ListReleaseNotes");
+            return RedirectToAction("ListAllReleaseNotes");
         }
 
         // Method for getting release note object to edit
@@ -112,7 +112,7 @@ namespace ReleaseNotesAdministration.Controllers
                 var jsonString = JsonConvert.SerializeObject(releaseNote);
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 var transportData = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
-                return RedirectToAction("ListReleaseNotes");
+                return RedirectToAction("ListAllReleaseNotes");
             }
             catch (Exception ex)
             {
@@ -142,7 +142,7 @@ namespace ReleaseNotesAdministration.Controllers
             try
             {
                 var transportData = await _releaseNotesClient.DeleteAsync($"/ReleaseNotes/{Id}");
-                return RedirectToAction("ListReleaseNotes");
+                return RedirectToAction("ListAllReleaseNotes");
             }
             catch (Exception ex)
             {
