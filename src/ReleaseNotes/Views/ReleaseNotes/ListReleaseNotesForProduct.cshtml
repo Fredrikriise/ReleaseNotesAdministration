@@ -4,74 +4,35 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 
-<style>
-    .headerTitle {
-        font-size: 250%;
-        margin-bottom: 2.5%;
-    }
-
-    .releaseNoteTitle {
-        font-weight: bold;
-        font-size: 125%;
-    }
-
-    .creatorName, .updateName {
-        font-weight: bold;
-        font-style: italic;
-    }
-
-    .hrTag {
-        margin-bottom: -1.5%;
-    }
-
-    .updatedText {
-        margin-top: 1.25%;
-        margin-bottom: -1%;
-    }
-
-    .submitButton {
-        margin-top: 0.25%;
-    }
-
-    .backButton {
-        background-color: white;
-        color: black;
-        border: 1px solid;
-        border-color: lightcoral;
-    }
-</style>
-
 <div class="main">
-    <h1 class="headerTitle">Published release notes</h1>
+    <h2 class="mb-3 font-weight-bolder">Published release notes</h2>
+
     <div class="content">
         @{ bool ReleaseNoteFound = false; }
 
         @foreach (var item in Model)
         {
-            <div class="releaseNoteTitle">
-                <label asp-for="@item.Title">@item.Title</label>
-            </div>
-
-            <label>Posted by <span class="creatorName">@item.CreatedBy</span> on @item.CreatedDate </label>
-            <hr class="hrTag" />
-            <br>
+            <h5 class="font-weight-bold">
+               @item.Title
+            </h5>
+            
+            <label>Posted by <span class="font-weight-bold font-italic">@item.CreatedBy</span> on @item.CreatedDate </label>
+            <hr class="mb-0 mt-auto" />
+            <br />
             @item.BodyText
-            <br>
 
             <!-- if loop to check if the releasenotes hanst been updated -->
             @if (item.LastUpdatedBy != null)
             {
-                <div class="updatedText">
-                    <label>Last updated by <span class="updateName">@item.LastUpdatedBy</span> on @item.LastUpdateDate</label>
+                <div class="mt-3">
+                    <label>Last updated by <span class="font-weight-bold font-italic">@item.LastUpdatedBy</span> on @item.LastUpdateDate</label>
                 </div>
             }
-            <hr />
-            <form asp-controller="Home" asp-action="action" method="post">
+            <hr class="mt-1" />
+            <form class="mb-5" asp-controller="" asp-action="" method="post">
                 <input class="col-6" placeholder="Would you like to subscribe to updates? Enter your email!" /> <!--asp-for="UserEmail"-->
-                <div class="submitButton"><input type="submit" value="Subscribe" /></div>
+                <button type="submit" class="btn btn-outline-secondary">Subscribe</button>
             </form>
-            <br>
-            <br>
             ReleaseNoteFound = true;
         }
 
@@ -82,6 +43,6 @@
     </div>
 
     <div>
-        <a class="backButton btn btn-default" asp-controller="Product" asp-action="ListAllProducts"><i class="fa fa-arrow-left"></i> Back to products</a>
+        <a class="btn btn-outline-danger" asp-controller="Product" asp-action="ListAllProducts"><i class="fa fa-arrow-left"></i> Back to products</a>
     </div>
 </div>

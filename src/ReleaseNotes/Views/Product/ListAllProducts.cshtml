@@ -5,22 +5,9 @@
 }
 
 <style>
-    .card-title {
-        color: rgb(42,128,192);
-    }
-
-    .card-body, .card-title {
-        cursor: pointer;
-    }
-
     .card:hover {
         border: 1px solid;
         border-color: rgb(42,128,192);
-    }
-
-    .hrTag {
-        margin-top: 6px;
-        margin-bottom: 3px;
     }
 </style>
 
@@ -38,10 +25,9 @@
                 <div class="card mb-3">
                     <a asp-controller="ReleaseNotes" asp-action="ListReleaseNotesForProduct" asp-route-productId="@item.ProductId">
                         <div class="card-body">
-
                             <img src="@item.ProductImage" alt="@item.ProductDescription product icon" />
-                            <hr />
-                            <h4><label class="card-title" asp-for="@item.ProductName">@item.ProductName</label></h4>
+                            <hr class="mt-3 mb-3"/>
+                            <h4 class="card-title">@item.ProductName</h4>
                         </div>
                     </a>
                 </div>
