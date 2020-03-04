@@ -55,6 +55,22 @@ namespace ReleaseNotesAdministration.Controllers
         // Method for creating product
         public async Task<IActionResult> CreateProduct(ProductAdminApiModel product)
         {
+            if (product.ProductName == null)
+            {
+                ModelState.AddModelError("ProductName", "Product name is required!");
+            }
+            //Here we should add regex to check if the format of ProductImage is correct, currently anything is accepted with this statement
+            else if (product.ProductImage == null)
+            {
+                ModelState.AddModelError("ProductImage", "Product image is required!");
+            } 
+            //Here we should also add regex, or just manually assign the variable to be product name without white spaces
+            //Or, if we make a method to get the product by id, then we dont even need product description, as product description is only used for the views 
+            else if (product.ProductDescription == null)
+            {
+                ModelState.AddModelError("ProductDescription", "Product description is required!");
+            }
+
             var obj = new ProductAdminApiModel
             {
                 ProductName = product.ProductName,
@@ -99,6 +115,22 @@ namespace ReleaseNotesAdministration.Controllers
         {
             try
             {
+                if (product.ProductName == null)
+                {
+                    ModelState.AddModelError("ProductName", "Product name is required!");
+                }
+                //Here we should add regex to check if the format of ProductImage is correct, currently anything is accepted with this statement
+                else if (product.ProductImage == null)
+                {
+                    ModelState.AddModelError("ProductImage", "Product image is required!");
+                }
+                //Here we should also add regex, or just manually assign the variable to be product name without white spaces
+                //Or, if we make a method to get the product by id, then we dont even need product description, as product description is only used for the views 
+                else if (product.ProductDescription == null)
+                {
+                    ModelState.AddModelError("ProductDescription", "Product description is required!");
+                }
+
                 var jsonString = JsonConvert.SerializeObject(product);
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 var transportData = await _releaseNotesClient.PutAsync($"/Product/{Id}", content);

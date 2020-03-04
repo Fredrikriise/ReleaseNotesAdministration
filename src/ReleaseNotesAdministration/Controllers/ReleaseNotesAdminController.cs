@@ -60,6 +60,24 @@ namespace ReleaseNotesAdministration.Controllers
         // Method for creating release note
         public async Task<IActionResult> CreateReleaseNote(ReleaseNoteAdminApiModel releaseNote)
         {
+            if (releaseNote.Title.Length == 0)
+            {
+                ModelState.AddModelError("Title", "Title is required!");
+            } 
+            else if (releaseNote.BodyText == null)
+            {
+                ModelState.AddModelError("BodyText", "Body text is required!");
+            }
+            else if (releaseNote.ProductId == null)
+            {
+                ModelState.AddModelError("ProductId", "Product is required!");
+            } 
+            else if (releaseNote.CreatedBy == null)
+            {
+                ModelState.AddModelError("CreatedBy", "Author name is required!");
+            } 
+           
+
             var obj = new ReleaseNoteAdminApiModel
             {
                 Title = releaseNote.Title,
@@ -113,7 +131,7 @@ namespace ReleaseNotesAdministration.Controllers
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 var transportData = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
 
-                /*
+                
                 if(releaseNote.Title.Length == 0)
                 {
                     ModelState.AddModelError("Title", "Title is required!");
@@ -129,14 +147,12 @@ namespace ReleaseNotesAdministration.Controllers
                 else if (releaseNote.CreatedBy == null)
                 {
                     ModelState.AddModelError("CreatedBy", "Author is required!");
+                } 
+                else if (releaseNote.LastUpdatedBy == null)
+                {
+                    ModelState.AddModelError("LastUpdatedBy", "Last updated by is required!");
                 }
-                else if (releaseNote.CreatedDate == null)
-                {
-                    ModelState.AddModelError("CreatedDate", "Creation date is required!");
-                } else
-                {
-
-                } */
+         
 
                 return RedirectToAction("ListReleaseNotes");
             }

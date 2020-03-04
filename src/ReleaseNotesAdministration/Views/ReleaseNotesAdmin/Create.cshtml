@@ -8,6 +8,28 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 
+<script>
+    //Client validation
+    $(document).ready(function () {
+        $(".submitButton").click(function (evt) {
+            var TitleValidation = document.getElementById('Title').value;
+            var BodyTextValidation =  document.getElementById('BodyText').value;
+            var ProductValidation =  document.getElementById('ProductId').value;
+            var AuthorValidation = document.getElementById('CreatedBy').value;
+
+            if (TitleValidation.length == 0) {
+                evt.preventDefault();
+                document.getElementById('TitleVaidation').innerHTML = "Title is required to create a new release note!";
+
+                $('Title').on('change', function () {
+                    var ok = "";
+                    $('TitleValidation').html(ok);
+                });
+            }
+        });
+    });
+</script>
+
 <style>
     .backButton {
         background-color: white;
@@ -29,11 +51,12 @@
 <a class="toWorkItem btn btn-default mb-3" asp-controller="WorkItem" asp-action="ListAllWorkItems"><i class="fa fa-list-ul"></i> Pick work item</a>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateReleaseNote">
+        <form asp-action="CreateReleaseNote" onsubmit="return validation()">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label class="control-label">Title</label>
                 <input asp-for="Title" class="form-control" />
+                <span id="TitleValidation"></span>
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
