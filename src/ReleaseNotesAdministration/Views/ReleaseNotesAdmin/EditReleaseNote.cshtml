@@ -29,7 +29,6 @@
                 <br />
                 <select asp-for="ProductId"
                         asp-items="@(new SelectList(ViewBag.products,"ProductId","ProductName"))" class="form-control">
-                    <option>@ViewBag.currentProduct</option>
                 </select>
                 <span asp-validation-for="ProductId" class="text-danger"></span>
             </div>

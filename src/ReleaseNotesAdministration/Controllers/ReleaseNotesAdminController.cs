@@ -166,15 +166,6 @@ namespace ReleaseNotesAdministration.Controllers
 
             ViewBag.products = productsList;
 
-            //Lists the current product
-            var currentProduct = products.Where(x => x.ProductId == releaseNote.ProductId).Select(x => new ProductAdminViewModel
-            {
-                ProductId = x.ProductId,
-                ProductName = x.ProductName,
-            });
-
-            ViewBag.currentProduct = currentProduct;
-
             return View(releaseNoteViewModel);
         }
 
