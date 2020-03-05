@@ -49,7 +49,7 @@ namespace ReleaseNotes.Controllers
 
             var orderedReleaseNotes = releaseNotesList.OrderBy(x => x.CreatedDate).ToList();
 
-            return View(releaseNotesList);
+            return View(orderedReleaseNotes);
         }
 
         public async Task<IActionResult> ListReleaseNotesForProduct(int productId)
