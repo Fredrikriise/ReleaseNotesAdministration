@@ -45,7 +45,9 @@ namespace ReleaseNotes.Controllers
                 CreatedDate = x.CreatedDate,
                 LastUpdatedBy = x.LastUpdatedBy,
                 LastUpdateDate = x.LastUpdateDate
-            }).ToList();
+            });
+
+            var orderedReleaseNotes = releaseNotesList.OrderBy(x => x.CreatedDate).ToList();
 
             return View(releaseNotesList);
         }
@@ -63,7 +65,7 @@ namespace ReleaseNotes.Controllers
             var releaseNotes = JsonConvert.DeserializeObject<List<ReleaseNoteApiModel>>(responseStream);
 
 
-            var talentReleaseNotes = releaseNotes.Where(x => x.ProductId == productId).Select(x => new ReleaseNoteViewModel
+            var releaseNotesList = releaseNotes.Where(x => x.ProductId == productId).Select(x => new ReleaseNoteViewModel
             {
                 Title = x.Title,
                 BodyText = x.BodyText,
@@ -73,9 +75,11 @@ namespace ReleaseNotes.Controllers
                 CreatedDate = x.CreatedDate,
                 LastUpdatedBy = x.LastUpdatedBy,
                 LastUpdateDate = x.LastUpdateDate
-            }).ToList();
+            });
 
-            return View(talentReleaseNotes);
+            var orderedReleaseNotes = releaseNotesList.OrderBy(x => x.CreatedDate).ToList();
+
+            return View(orderedReleaseNotes);
         }
 
         /*
