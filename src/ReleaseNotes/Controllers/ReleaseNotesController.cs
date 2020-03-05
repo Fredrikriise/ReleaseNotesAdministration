@@ -47,7 +47,7 @@ namespace ReleaseNotes.Controllers
                 LastUpdateDate = x.LastUpdateDate
             });
 
-            var orderedReleaseNotes = releaseNotesList.OrderBy(x => x.CreatedDate).ToList();
+            var orderedReleaseNotes = releaseNotesList.OrderByDescending(x => x.CreatedDate).ToList();
 
             return View(orderedReleaseNotes);
         }
@@ -77,7 +77,7 @@ namespace ReleaseNotes.Controllers
                 LastUpdateDate = x.LastUpdateDate
             });
 
-            var orderedReleaseNotes = releaseNotesList.OrderBy(x => x.CreatedDate).ToList();
+            var orderedReleaseNotes = releaseNotesList.OrderByDescending(x => x.CreatedDate).ToList();
 
             return View(orderedReleaseNotes);
         }
