@@ -4,16 +4,24 @@
     ViewData["Title"] = "Home Page";
 }
 
-<head>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-</head>
-
 <style>
     .listReleaseNotes {
         list-style-type: none;
         font-size: 22px;
     }
 </style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ('@TempData["CreateRN"]' == "Added") {
+            window.toastr.success("You have successfully added a release note");
+        } else if ('@TempData["CreateRN"]' == "Failed") {
+            window.toastr.error("An error occured when trying to create release note");
+        } else if ('@TempData["DeleteRN"]' == "Success") {
+        window.toastr.success("Delete was successfull");
+        }
+    });
+</script>
 
 <div class="text-center">
     <h1 class="display-4">Talentech - Release Notes Administration</h1>
@@ -30,7 +38,6 @@
         </div>
     </div>
 
-
     @foreach (var item in Model)
     {
         <ul class="listReleaseNotes">
@@ -44,7 +51,7 @@
                     </a>
                 </div>
                 <br />
-                
+
             </li>
         </ul>
     }

@@ -4,15 +4,20 @@
     ViewData["Title"] = "Delete Release note";
 }
 
-<head>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-</head>
+<script type="text/javascript">
+$(document).ready(function () {
+    if ('@TempData["EditRN"]' == "Success") {
+        window.toastr.success("You successfully edited this release note");
+    } else if ('@TempData["EditRN"]' == "Failed") {
+        window.toastr.error("An error occured when trying to edit this release note. Please try again.");
+    }
+});
+</script>
 
 <div class="main-content">
     <!-- Back-button -->
-    <div class="float-left">
-        <a class="btn btn-outline-danger"
-           asp-controller="ReleaseNotesAdmin"
+    <div class="float-left mt-2">
+        <a asp-controller="ReleaseNotesAdmin"
            asp-action="ListAllReleaseNotes">
             <i class="fa fa-arrow-left"></i>
             Back to release note
