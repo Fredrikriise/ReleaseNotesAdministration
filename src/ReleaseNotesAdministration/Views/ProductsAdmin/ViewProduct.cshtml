@@ -4,16 +4,12 @@
     ViewData["Title"] = "Delete Product";
 }
 
-<head>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-</head>
 <div>
     <!-- Back-button -->
-    <div class="float-left">
-        <a class="btn btn-outline-danger"
-           asp-controller="ProductsAdmin"
+    <div class="float-left mt-2">
+        <a asp-controller="ProductsAdmin"
            asp-action="ListAllProducts">
-            <i class="fa fa-arrow-left"></i>
+            <i class="fas fa-arrow-left"></i>
             Back to products list
         </a>
     </div>
