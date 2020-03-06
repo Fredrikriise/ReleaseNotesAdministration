@@ -99,6 +99,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!ModelState.IsValid)
             {
+                TempData["CreateRN"] = "Failed"; 
                 return View("Create");
             }
 
@@ -115,14 +116,14 @@ namespace ReleaseNotesAdministration.Controllers
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
             await _releaseNotesClient.PostAsync("/ReleaseNotes/", content);
 
-         
-
+            TempData["CreateRN"] = "Added";
             return RedirectToAction("ListAllReleaseNotes");
         }
 
         // Method for getting release note object to edit
         public async Task<IActionResult> EditReleaseNote(int Id)
         {
+            // Getting data for Release notes
             var releaseNotesResult = await _releaseNotesClient.GetAsync($"/ReleaseNotes/{Id}");
 
             if (!releaseNotesResult.IsSuccessStatusCode)
@@ -144,9 +145,7 @@ namespace ReleaseNotesAdministration.Controllers
                 LastUpdateDate = DateTime.Now
             };
 
-
-
-
+            // Getting data for Product
             var productsResult = await _releaseNotesClient.GetAsync("/Product/");
 
             if (!productsResult.IsSuccessStatusCode)
@@ -203,10 +202,12 @@ namespace ReleaseNotesAdministration.Controllers
 
                 if(!ModelState.IsValid)
                 {
+                    TempData["EditRN"] = "Failed";
                     return View("EditReleaseNote");
                 }
 
-                return RedirectToAction("ListAllReleaseNotes");
+                TempData["EditRN"] = "Success";
+                return RedirectToAction("ViewReleaseNote", new { id = Id}); 
             }
             catch (Exception ex)
             {
@@ -236,7 +237,9 @@ namespace ReleaseNotesAdministration.Controllers
             try
             {
                 var transportData = await _releaseNotesClient.DeleteAsync($"/ReleaseNotes/{Id}");
-                return RedirectToAction("ListAllReleaseNotes");
+
+                TempData["DeleteRN"] = "Success";
+                return RedirectToAction("ListAllReleaseNotes"); 
             }
             catch (Exception ex)
             {
