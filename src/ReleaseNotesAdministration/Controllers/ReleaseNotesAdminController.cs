@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ReleaseNotesAdministration.Controllers
 {
@@ -103,10 +104,14 @@ namespace ReleaseNotesAdministration.Controllers
                 return View("Create");
             }
 
+            //Encodes the bodytext so not raw html tags are inserted into the database
+            //var EncodedBodyText = HttpUtility.HtmlEncode(releaseNote.BodyText);
+
             var obj = new ReleaseNoteAdminApiModel
             {
                 Title = releaseNote.Title,
-                BodyText = releaseNote.BodyText,
+                //Encodes the data from ckeditor
+                BodyText = HttpUtility.HtmlEncode(releaseNote.BodyText),
                 ProductId = releaseNote.ProductId,
                 CreatedBy = releaseNote.CreatedBy,
                 CreatedDate = DateTime.Now
@@ -137,7 +142,7 @@ namespace ReleaseNotesAdministration.Controllers
             var releaseNoteViewModel = new ReleaseNoteAdminViewModel
             {
                 Title = releaseNote.Title,
-                BodyText = releaseNote.BodyText,
+                BodyText = HttpUtility.HtmlDecode(releaseNote.BodyText),
                 ProductId = releaseNote.ProductId,
                 CreatedBy = releaseNote.CreatedBy,
                 CreatedDate = releaseNote.CreatedDate,
@@ -227,6 +232,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
             var releaseNote = JsonConvert.DeserializeObject<ReleaseNoteAdminViewModel>(responseStream);
+            
             return View(releaseNote);
         }
 
