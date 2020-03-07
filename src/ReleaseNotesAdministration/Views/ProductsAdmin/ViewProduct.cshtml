@@ -4,13 +4,23 @@
     ViewData["Title"] = "Delete Product";
 }
 
-<div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ('@TempData["EditProduct"]' == "Success") {
+            window.toastr.success("You successfully edited this product");
+        } else if ('@TempData["EditProduct"]' == "Failed") {
+            window.toastr.error("An error occured when trying to edit this product. Please try again.");
+        }
+    });
+</script>
+
+<div class="main-content">
     <!-- Back-button -->
     <div class="float-left mt-2">
         <a asp-controller="ProductsAdmin"
            asp-action="ListAllProducts">
             <i class="fas fa-arrow-left"></i>
-            Back to products list
+            Back to product
         </a>
     </div>
 
@@ -44,7 +54,8 @@
         </a>
     </div>
 
-    <div>
+    <div class="productData">
+        <br />
         <hr />
         <dl class="row">
             <dt class="col-sm-2">

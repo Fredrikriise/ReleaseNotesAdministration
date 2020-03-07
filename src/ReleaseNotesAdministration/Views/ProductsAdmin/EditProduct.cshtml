@@ -6,6 +6,9 @@
 
 <div>
     <h2>Edit Product</h2>
+    <div>
+        <a asp-controller="ProductsAdmin" asp-action="ListAllProducts"><i class="fa fa-arrow-left"></i> Back to release notes</a>
+    </div>
     <hr />
     <div class="row">
         <div class="col-md-4">
@@ -26,11 +29,9 @@
                     <input asp-for="ProductDescription" class="form-control" />
                     <span asp-validation-for="ProductDescription" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-outline-success" />
-                </div>
-                <div>
-                    <a class="btn btn-outline-danger" asp-controller="ProductsAdmin" asp-action="ListAllProducts"><i class="fa fa-arrow-left"></i> Back to list</a>
+                <div class="d-flex justify-content-between">
+                    <input class="btn btn-outline-success float-left" type="submit" value="Save product"  />
+                    <a class="btn btn-outline-danger float-right" asp-controller="ProductsAdmin" asp-action="ListAllProducts">Cancel</a>
                 </div>
             </form>
         </div>

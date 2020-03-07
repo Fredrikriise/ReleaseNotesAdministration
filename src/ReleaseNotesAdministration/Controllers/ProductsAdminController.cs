@@ -73,6 +73,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!ModelState.IsValid)
             {
+                TempData["CreateProduct"] = "Failed";
                 return View("Create");
             }
 
@@ -87,6 +88,7 @@ namespace ReleaseNotesAdministration.Controllers
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
             await _releaseNotesClient.PostAsync("/Product/", content);
 
+            TempData["CreateProduct"] = "Success";
             return RedirectToAction("ListAllProducts");
         }
 
@@ -120,6 +122,10 @@ namespace ReleaseNotesAdministration.Controllers
         {
             try
             {
+                var jsonString = JsonConvert.SerializeObject(product);
+                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                var transportData = await _releaseNotesClient.PutAsync($"/Product/{Id}", content);
+
                 if (product.ProductName == null)
                 {
                     ModelState.AddModelError("ProductName", "Product name is required!");
@@ -137,13 +143,13 @@ namespace ReleaseNotesAdministration.Controllers
                 }
 
                 if(!ModelState.IsValid) {
+                    TempData["EditProduct"] = "Failed";
                     return View("EditProduct");
                 }
 
-                var jsonString = JsonConvert.SerializeObject(product);
-                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-                var transportData = await _releaseNotesClient.PutAsync($"/Product/{Id}", content);
-                return RedirectToAction("ListAllProducts");
+                
+                TempData["EditProduct"] = "Success";
+                return RedirectToAction("ViewProduct", new { id = Id });
             }
             catch (Exception ex)
             {
@@ -173,6 +179,8 @@ namespace ReleaseNotesAdministration.Controllers
             try
             {
                 var transportData = await _releaseNotesClient.DeleteAsync($"/Product/{Id}");
+
+                TempData["DeleteProduct"] = "Success";
                 return RedirectToAction("ListAllProducts");
             }
             catch (Exception ex)

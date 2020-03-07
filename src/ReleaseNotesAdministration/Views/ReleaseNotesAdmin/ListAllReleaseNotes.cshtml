@@ -13,7 +13,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        if ('@TempData["CreateRN"]' == "Added") {
+        if ('@TempData["CreateRN"]' == "Success") {
             window.toastr.success("You have successfully added a release note");
         } else if ('@TempData["CreateRN"]' == "Failed") {
             window.toastr.error("An error occured when trying to create release note");
