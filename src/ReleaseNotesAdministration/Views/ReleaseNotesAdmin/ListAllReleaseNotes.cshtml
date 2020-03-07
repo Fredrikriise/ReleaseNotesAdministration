@@ -27,7 +27,7 @@
     <h1 class="display-4">Talentech - Release Notes Administration</h1>
     <hr />
 
-    <!-- Temporary code for search function -->
+    <!-- Temporary code for search function
     <div class="col-6">
         <label class="sr-only" for="inlineFormInputGroup">Search</label>
         <div class="input-group input-group mb-2">
@@ -36,6 +36,14 @@
                 <div class="input-group-text"><i class="fas fa-search"></i></div>
             </div>
         </div>
+    </div>-->
+
+    <!-- Search bar using bootstrap classes -->
+    <div class="input-group col-6 ">
+        <div class="input-group-prepend">
+            <div class="input-group-text" id="btnGroupAddon"><i class="fas fa-search"></i></div>
+        </div>
+        <input type="text" class="form-control" placeholder="Search">
     </div>
 
     @foreach (var item in Model)
@@ -47,7 +55,7 @@
                 </div>
                 <div class="float-right">
                     <a asp-controller="ReleaseNotesAdmin" asp-action="ViewReleaseNote" asp-route-id="@item.Id">
-                        <span class="btn btn-outline-secondary">View</span>
+                        <span class="btn btn-outline-secondary"><i class="fa fa-eye"></i> View</span>
                     </a>
                 </div>
                 <br />
@@ -56,7 +64,7 @@
         </ul>
     }
     <a class="btn btn-outline-primary" asp-controller="ReleaseNotesAdmin" asp-action="Create">
-        Add release note
+        <i class="fa fa-plus"></i> Add release note
     </a>
 </div>
 

@@ -66,5 +66,34 @@ namespace ReleaseNotesAdministration.Controllers
 
             return View(workItemViewModel);
         }
+
+        /*
+        public async Task<IActionResult> PickWorkItem(int[] SelectedIds)
+        {
+            var workItemResult = await _workItemsClient.GetAsync("/WorkItem/");
+
+            if (!workItemResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/WorkItem/' failed");
+            }
+
+            var responseStream = await workItemResult.Content.ReadAsStringAsync();
+            var workItems = JsonConvert.DeserializeObject<List<WorkItemApiModel>>(responseStream);
+
+            List<WorkItemViewModel> workItemList = new List<WorkItemViewModel>();
+
+            for(int i=0; i <= SelectedIds.Length; i++)
+            {
+                workItemList = workItems.Where(x => x.Id == SelectedIds[i]).Select(x => new WorkItemViewModel
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    AssignedTo = x.AssignedTo,
+                    State = x.State
+                }).ToList();
+            }
+                    
+            return View(workItemList);
+        } */
     }
 }

@@ -13,8 +13,21 @@
         - Bør vell kanskje være noe med avansert validering enn å bare sjekke om "Title" == null fks?
 
         // ToDo's
-        - Legge til modelstate i views, sjekke at validering på backend fungerer
-        - Lage metode som henter id til product, og returnerer view til produktet
+        
+        - Sentrere search baren på "ListReleaseNotes" viewet
+        - Legge til icons på buttons
+        - Legge til innlogging for hrid
+        - Ordne api-et for å hente work items fra azure devops
+        - Kanskje fjerne underlining av anchor tag på landingssiden til brukermodulen?
+        - Legge til Reachmee og Webrecruiter på produkter
+        - Formatere slik at klokkeslett ikke vises på createdtime og updatedtime på brukermodulen (?) 
+        - Fikse subscribe
+        - Flytte "tilbake" knapp til toppen på brukermodulen
+        - Legge til mulighet for å legge til bilder i CKEditor
+        - Endre posisjonen til toastr - kanskje helt til venstre?
+        - Mulighet for mer mellomrom mellom teksten og knappene på toaster?
+        - Skrive om titler, navn, etc som er dårlig skrevet
+        
 
 
         - See work items

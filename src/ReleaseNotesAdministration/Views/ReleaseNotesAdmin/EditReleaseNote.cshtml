@@ -19,18 +19,18 @@
                      <span asp-validation-for="Title" class="text-danger"></span>
                  </div>
                  <div class="form-group">
-                <label class="control-label">Body text</label>
-                <textarea class="form-control" asp-for="BodyText" runat="server"></textarea>
-                <script>
+                    <label class="control-label">Body text</label>
+                    <textarea class="form-control" asp-for="BodyText" runat="server"></textarea>
+                    <script>
                         //Congif to remove paragraph tags
                         CKEDITOR.config.autoParagraph = false;
                         // Replace the <textarea id="ckeditor"> with a CKEditor
                         CKEDITOR.replace('BodyText');
 
                         config.coreStyles_bold = { element: 'b', overrides: 'strong' };
-                </script>
-                <span asp-validation-for="BodyText" class="text-danger"></span>
-            </div>
+                    </script>
+                    <span asp-validation-for="BodyText" class="text-danger"></span>
+                 </div>
                  <div class="form-group">
                      <label class="control-label">Product</label>
                      <br />
@@ -59,13 +59,14 @@
                  <div class="d-flex justify-content-md-between">
                      <input type="submit" value="Save release note" class="btn btn-outline-success float-left" />
                      <a class="btn btn-outline-danger float-right" asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes">
-                         Cancel
+                         <i class="fa fa-times"></i>  Cancel
                      </a>
                  </div>
              </form>
          </div>
      </div>
  </div>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
