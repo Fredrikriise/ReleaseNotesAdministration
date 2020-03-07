@@ -121,7 +121,7 @@ namespace ReleaseNotesAdministration.Controllers
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
             await _releaseNotesClient.PostAsync("/ReleaseNotes/", content);
 
-            TempData["CreateRN"] = "Added";
+            TempData["CreateRN"] = "Success";
             return RedirectToAction("ListAllReleaseNotes");
         }
 

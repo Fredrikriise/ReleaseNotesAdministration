@@ -4,6 +4,18 @@
     ViewData["Title"] = "All Products";
 }
 
+    <script type="text/javascript">
+    $(document).ready(function () {
+        if ('@TempData["CreateProduct"]' == "Success") {
+            window.toastr.success("You have successfully added a product");
+        } else if ('@TempData["CreateProduct"]' == "Failed") {
+            window.toastr.error("An error occured when trying to create product");
+        } else if ('@TempData["DeleteProduct"]' == "Success") {
+        window.toastr.success("Delete was successfull");
+        }
+    });
+    </script>
+
 <div>
     <table class="table">
         <thead>
