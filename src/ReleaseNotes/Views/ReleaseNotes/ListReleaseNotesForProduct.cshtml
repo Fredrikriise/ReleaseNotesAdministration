@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<ReleaseNotes.ViewModels.ReleaseNoteViewModel>
 
+@{
+    ViewData["Title"] = "Release notes based off product";
+}
+
 <head>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
@@ -16,7 +20,7 @@
                 @item.Title
             </h5>
 
-            <label>Posted by <span class="font-weight-bold font-italic">@item.CreatedBy</span> on @item.CreatedDate </label>
+            <label>Posted by <span class="font-weight-bold font-italic">@item.CreatedBy</span> on @item.CreatedDate.ToString().Split()[0]</label>
             <hr class="mb-0 mt-auto" />
             <br />
 
@@ -27,13 +31,13 @@
             @if (item.LastUpdatedBy != null)
             {
                 <div class="mt-3">
-                    <label>Last updated by <span class="font-weight-bold font-italic">@item.LastUpdatedBy</span> on @item.LastUpdateDate</label>
+                    <label>Last updated by <span class="font-weight-bold font-italic">@item.LastUpdatedBy</span> on @item.LastUpdateDate.ToString().Split()[0]</label>
                 </div>
             }
             <hr class="mt-1" />
             <form class="mb-5" asp-controller="" asp-action="" method="post">
                 <input class="col-6" placeholder="Would you like to subscribe to updates? Enter your email!" /> <!--asp-for="UserEmail"-->
-                <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-bell"></i>Subscribe</button>
+                <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-bell"></i> Subscribe</button>
             </form>
             ReleaseNoteFound = true;
         }
