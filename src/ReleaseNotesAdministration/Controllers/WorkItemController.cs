@@ -67,6 +67,7 @@ namespace ReleaseNotesAdministration.Controllers
             return View(workItemViewModel);
         }
 
+        /*
         public async Task<IActionResult> PickWorkItem(int[] SelectedIds)
         {
             var workItemResult = await _workItemsClient.GetAsync("/WorkItem/");
@@ -93,6 +94,6 @@ namespace ReleaseNotesAdministration.Controllers
             }
                     
             return View(workItemList);
-        }
+        } */
     }
 }
