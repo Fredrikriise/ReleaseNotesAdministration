@@ -55,7 +55,7 @@
                 </div>
                 <div class="float-right">
                     <a asp-controller="ReleaseNotesAdmin" asp-action="ViewReleaseNote" asp-route-id="@item.Id">
-                        <span class="btn btn-outline-secondary">View</span>
+                        <span class="btn btn-outline-secondary"><i class="fa fa-eye"></i> View</span>
                     </a>
                 </div>
                 <br />
@@ -64,7 +64,7 @@
         </ul>
     }
     <a class="btn btn-outline-primary" asp-controller="ReleaseNotesAdmin" asp-action="Create">
-        Add release note
+        <i class="fa fa-plus"></i> Add release note
     </a>
 </div>
 
