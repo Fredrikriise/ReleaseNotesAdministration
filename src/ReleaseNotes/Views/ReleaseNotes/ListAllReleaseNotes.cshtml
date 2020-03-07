@@ -23,8 +23,9 @@
             <label>Posted by <span class="font-weight-bold font-italic">@item.CreatedBy</span> on @item.CreatedDate </label>
             <hr class="mb-0 mt-auto" />
             <br />
-            @item.BodyText
-
+            //Decodes html tags that are made by cdkeditor
+            @Html.Raw(System.Web.HttpUtility.HtmlDecode(item.BodyText))
+ 
             <!-- if loop to check if the releasenotes has been updated -->
             @if (item.LastUpdatedBy != null)
             {

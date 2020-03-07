@@ -68,7 +68,8 @@ $(document).ready(function () {
                 @Html.DisplayNameFor(model => model.BodyText)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.BodyText)
+                <!--Decodes html tags that are made by cdkeditor-->
+                @Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.BodyText))
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Id)

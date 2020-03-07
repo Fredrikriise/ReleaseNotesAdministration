@@ -1,7 +1,7 @@
 ﻿@model ReleaseNotesAdministration.ViewModels.ReleaseNoteAdminViewModel
 
 @{
-    ViewData["Title"] = "Edit Release note";
+  ViewData["Title"] = "Edit Release note";
 }
  <div>
      <h2>Edit Release Note</h2>
@@ -19,10 +19,18 @@
                      <span asp-validation-for="Title" class="text-danger"></span>
                  </div>
                  <div class="form-group">
-                     <label class="control-label">Body text</label>
-                     <input asp-for="BodyText" class="form-control" />
-                     <span asp-validation-for="BodyText" class="text-danger"></span>
-                 </div>
+                <label class="control-label">Body text</label>
+                <textarea class="form-control" asp-for="BodyText" runat="server"></textarea>
+                <script>
+                        //Congif to remove paragraph tags
+                        CKEDITOR.config.autoParagraph = false;
+                        // Replace the <textarea id="ckeditor"> with a CKEditor
+                        CKEDITOR.replace('BodyText');
+
+                        config.coreStyles_bold = { element: 'b', overrides: 'strong' };
+                </script>
+                <span asp-validation-for="BodyText" class="text-danger"></span>
+            </div>
                  <div class="form-group">
                      <label class="control-label">Product</label>
                      <br />
