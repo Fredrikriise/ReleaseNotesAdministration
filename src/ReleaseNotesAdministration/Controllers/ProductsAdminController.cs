@@ -40,7 +40,6 @@ namespace ReleaseNotesAdministration.Controllers
                 ProductId = x.ProductId,
                 ProductName = x.ProductName,
                 ProductImage = x.ProductImage,
-                ProductDescription = x.ProductDescription
             }).ToList();
 
             return View(productsList);
@@ -64,12 +63,6 @@ namespace ReleaseNotesAdministration.Controllers
             {
                 ModelState.AddModelError("ProductImage", "Product image is required!");
             } 
-            //Here we should also add regex, or just manually assign the variable to be product name without white spaces
-            //Or, if we make a method to get the product by id, then we dont even need product description, as product description is only used for the views 
-            if (product.ProductDescription == null)
-            {
-                ModelState.AddModelError("ProductDescription", "Product description is required!");
-            }
 
             if (!ModelState.IsValid)
             {
@@ -81,7 +74,6 @@ namespace ReleaseNotesAdministration.Controllers
             {
                 ProductName = product.ProductName,
                 ProductImage = product.ProductImage,
-                ProductDescription = product.ProductDescription
             };
 
             var jsonString = JsonConvert.SerializeObject(obj);
@@ -110,7 +102,6 @@ namespace ReleaseNotesAdministration.Controllers
                 ProductId = product.ProductId,
                 ProductName = product.ProductName,
                 ProductImage = product.ProductImage,
-                ProductDescription = product.ProductDescription
             };
 
             return View(productViewModel);
@@ -134,12 +125,6 @@ namespace ReleaseNotesAdministration.Controllers
                 if (product.ProductImage == null)
                 {
                     ModelState.AddModelError("ProductImage", "Product image is required!");
-                }
-                //Here we should also add regex, or just manually assign the variable to be product name without white spaces
-                //Or, if we make a method to get the product by id, then we dont even need product description, as product description is only used for the views 
-                if (product.ProductDescription == null)
-                {
-                    ModelState.AddModelError("ProductDescription", "Product description is required!");
                 }
 
                 if(!ModelState.IsValid) {
