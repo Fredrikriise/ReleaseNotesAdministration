@@ -30,31 +30,26 @@
             </div>
         </div>
     </div>
-    <!-- Search bar using bootstrap classes
-        <div class="input-group col-6 d-inline-block">
-            <div class="input-group-prepend">
-                <div class="input-group-text " id="btnGroupAddon"><i class="fas fa-search"></i></div>
-            </div>
-            <input type="text" class="form-control" placeholder="Search">
-        </div>
-    -->
+
     @foreach (var item in Model)
     {
-        <ul style="font-size:22px; list-style-type:none;">
-            <li>
-                <div class="float-left">    
-                    @item.Title
-                </div>
-                <div class="float-right">
-                    <a asp-controller="ReleaseNotesAdmin" asp-action="ViewReleaseNote" asp-route-id="@item.Id">
-                        <span class="btn btn-outline-secondary"><i class="fa fa-eye"></i> View</span>
-                    </a>
-                </div>
-                <br />
+      
+            <ul class="mb-2" style="font-size:18px; list-style-type:none;">
+                <li>
+                    <div class="d-flex justify-content-between">
+                        <div class="float-left">
+                            @item.Title
+                        </div>
+                        <div class="float-right">
+                            <a asp-controller="ReleaseNotesAdmin" asp-action="ViewReleaseNote" asp-route-id="@item.Id">
+                                <span class="btn btn-outline-secondary"><i class="fa fa-eye"></i> View</span>
+                            </a>
+                        </div>
+                    </div>                    
+                </li>
+            </ul>
 
-            </li>
-        </ul>
-    }
+        }
     <a class="btn btn-outline-primary mt-3" asp-controller="ReleaseNotesAdmin" asp-action="Create" style="margin-left: auto; margin-right: auto; width: auto;">
         <i class="fa fa-plus"></i> Add release note
     </a>
