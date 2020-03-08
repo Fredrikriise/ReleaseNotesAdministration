@@ -4,13 +4,6 @@
     ViewData["Title"] = "Home Page";
 }
 
-<style>
-    .listReleaseNotes {
-        list-style-type: none;
-        font-size: 22px;
-    }
-</style>
-
 <script type="text/javascript">
     $(document).ready(function () {
         if ('@TempData["CreateRN"]' == "Success") {
@@ -47,9 +40,9 @@
     -->
     @foreach (var item in Model)
     {
-        <ul class="listReleaseNotes">
+        <ul style="font-size:22px; list-style-type:none;">
             <li>
-                <div class="float-left">
+                <div class="float-left">    
                     @item.Title
                 </div>
                 <div class="float-right">
