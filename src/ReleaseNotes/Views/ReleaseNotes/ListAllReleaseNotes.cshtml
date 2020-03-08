@@ -12,11 +12,21 @@
     <h2 class="mb-3 font-weight-bolder">All published release notes</h2>
 
     <div class="content">
+        <!-- Back-button -->
+        <div class="float-left mt-2 mb-4">
+            <a asp-controller="Product"
+               asp-action="ListAllProducts">
+                <i class="fa fa-arrow-left"></i>
+                Back to products
+            </a>
+        </div>
+        <br/>
+
         @{bool ReleaseNoteFound = false; }
 
         @foreach (var item in Model)
         {
-            <h5 class="font-weight-bold">
+            <h5 class="font-weight-bold mt-5">
                 @item.Title
             </h5>
 
@@ -25,7 +35,7 @@
             <br />
             //Decodes html tags that are made by cdkeditor
             @Html.Raw(System.Web.HttpUtility.HtmlDecode(item.BodyText))
- 
+
             <!-- if loop to check if the releasenotes has been updated -->
             @if (item.LastUpdatedBy != null)
             {
@@ -45,9 +55,5 @@
         {
             <label>There is currently no release notes published for this product.</label>
         }
-    </div>
-
-    <div>
-        <a class="btn btn-outline-danger" asp-controller="Product" asp-action="ListAllProducts"><i class="fa fa-arrow-left"></i> Back to products</a>
     </div>
 </div>

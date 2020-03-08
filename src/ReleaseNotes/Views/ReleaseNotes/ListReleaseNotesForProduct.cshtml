@@ -8,15 +8,31 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 
+<style>
+    input::placeholder {
+        font-size: 14px;
+    }
+</style>
+
 <div class="main">
     <h2 class="mb-3 font-weight-bolder">Published release notes</h2>
 
     <div class="content">
+        <!-- Back-button -->
+        <div class="float-left mt-2 mb-4">
+            <a asp-controller="Product"
+               asp-action="ListAllProducts">
+                <i class="fa fa-arrow-left"></i>
+                Back to products
+            </a>
+        </div>
+        <br />
+
         @{ bool ReleaseNoteFound = false; }
 
         @foreach (var item in Model)
         {
-            <h5 class="font-weight-bold">
+            <h5 class="font-weight-bold mt-5">
                 @item.Title
             </h5>
 
@@ -35,10 +51,26 @@
                 </div>
             }
             <hr class="mt-1" />
-            <form class="mb-5" asp-controller="" asp-action="" method="post">
-                <input class="col-6" placeholder="Would you like to subscribe to updates? Enter your email!" /> <!--asp-for="UserEmail"-->
-                <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-bell"></i> Subscribe</button>
-            </form>
+
+            //<form class="mb-5" asp-controller="" asp-action="" method="post">
+            //    <input class="col-6" placeholder="Would you like to subscribe to updates? Enter your email!" /> <!--asp-for="UserEmail"-->
+            //    <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-bell"></i> Subscribe</button>
+            //</form>
+
+            //<div class="col-sm-6"  style="margin-left: 25%; margin-right: 25%; width: 50%;">
+            <div >
+                <div class="col-sm-6 pl-0" style="">
+                    <label class="sr-only" for="inlineFormInputGroup"></label>
+                    <div class="input-group input-group mb-2">
+                        <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Enter your email">
+                        <div class="input-group-append">
+                            <div class="input-group-text"><i class="fa fa-bell"></i> Subscribe</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
             ReleaseNoteFound = true;
         }
 
@@ -46,9 +78,5 @@
         {
             <label>There is currently no release notes published for this product.</label>
         }
-    </div>
-
-    <div>
-        <a class="btn btn-outline-danger" asp-controller="Product" asp-action="ListAllProducts"><i class="fa fa-arrow-left"></i> Back to products</a>
     </div>
 </div>
