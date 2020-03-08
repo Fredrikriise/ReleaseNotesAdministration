@@ -24,11 +24,6 @@
                     <input asp-for="ProductImage" class="form-control" />
                     <span asp-validation-for="ProductImage" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="ProductDescription" class="control-label">Product description</label>
-                    <input asp-for="ProductDescription" class="form-control" />
-                    <span asp-validation-for="ProductDescription" class="text-danger"></span>
-                </div>
                 <div class="d-flex justify-content-between">
                     <input class="btn btn-outline-success float-left" type="submit" value="Save product"  />
                     <a class="btn btn-outline-danger float-right" asp-controller="ProductsAdmin" asp-action="ListAllProducts"><i class="fa fa-times"></i> Cancel</a>

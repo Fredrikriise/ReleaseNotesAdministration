@@ -59,19 +59,16 @@ namespace Services
                                 (
                                     [ProductName],
                                     [ProductImage],
-                                    [ProductDescription]
                                 )
                                 VALUES
                                 (
                                     @ProductName,
                                     @ProductImage,
-                                    @ProductDescription
                                 )";
                     var returnResult = await connection.QueryFirstOrDefaultAsync<int?>(insert, new ProductDto
                     {
                         ProductName = productDto.ProductName,
                         ProductImage = productDto.ProductImage,
-                        ProductDescription = productDto.ProductDescription
                     });
                     return returnResult;
                 }
@@ -92,7 +89,6 @@ namespace Services
                     SET
                         [ProductName] = @ProductName,
                         [ProductImage] = @ProductImage,
-                        [ProductDescription] = @ProductDescription
                     WHERE [ProductId] = @ProductId";
                     var productMapped = _mapper.Map<Product>(product);
                     productMapped.AddProductId(ProductId);
