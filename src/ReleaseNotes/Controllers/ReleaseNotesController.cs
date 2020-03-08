@@ -47,6 +47,7 @@ namespace ReleaseNotes.Controllers
                 LastUpdateDate = x.LastUpdateDate
             });
 
+
             var orderedReleaseNotes = releaseNotesList.OrderByDescending(x => x.CreatedDate).ToList();
 
             return View(orderedReleaseNotes);

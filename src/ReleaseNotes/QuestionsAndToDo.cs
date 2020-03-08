@@ -15,12 +15,10 @@
         // ToDo's
         
         - Sentrere search baren på "ListReleaseNotes" viewet
-        - Legge til icons på buttons
         - Legge til innlogging for hrid
         - Ordne api-et for å hente work items fra azure devops
         - Kanskje fjerne underlining av anchor tag på landingssiden til brukermodulen?
         - Legge til Reachmee og Webrecruiter på produkter
-        - Formatere slik at klokkeslett ikke vises på createdtime og updatedtime på brukermodulen (?) 
         - Fikse subscribe
         - Flytte "tilbake" knapp til toppen på brukermodulen
         - Legge til mulighet for å legge til bilder i CKEditor
