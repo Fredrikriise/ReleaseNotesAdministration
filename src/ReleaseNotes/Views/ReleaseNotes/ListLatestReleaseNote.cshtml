@@ -38,7 +38,7 @@
         @foreach (var item in Model)
         {
             <div id="releaseNoteTitle">
-                @Html.DisplayFor(modelItem => item.Title)
+                @item.Title
             </div>
 
             <label>Created by <span id="creatorName">@item.CreatedBy</span> on @item.CreatedDate.ToString().Split()[0]</label>

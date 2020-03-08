@@ -4,13 +4,6 @@
     ViewData["Title"] = "Home Page";
 }
 
-<style>
-    .listReleaseNotes {
-        list-style-type: none;
-        font-size: 22px;
-    }
-</style>
-
 <script type="text/javascript">
     $(document).ready(function () {
         if ('@TempData["CreateRN"]' == "Success") {
@@ -27,8 +20,8 @@
     <h1 class="display-4">Talentech - Release Notes Administration</h1>
     <hr />
 
-    <!-- Temporary code for search function
-    <div class="col-6">
+    <!-- Temporary code for search function -->
+    <div class="col-6 d-inline-block">
         <label class="sr-only" for="inlineFormInputGroup">Search</label>
         <div class="input-group input-group mb-2">
             <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Search">
@@ -36,21 +29,20 @@
                 <div class="input-group-text"><i class="fas fa-search"></i></div>
             </div>
         </div>
-    </div>-->
-
-    <!-- Search bar using bootstrap classes -->
-    <div class="input-group col-6 ">
-        <div class="input-group-prepend">
-            <div class="input-group-text" id="btnGroupAddon"><i class="fas fa-search"></i></div>
-        </div>
-        <input type="text" class="form-control" placeholder="Search">
     </div>
-
+    <!-- Search bar using bootstrap classes
+        <div class="input-group col-6 d-inline-block">
+            <div class="input-group-prepend">
+                <div class="input-group-text " id="btnGroupAddon"><i class="fas fa-search"></i></div>
+            </div>
+            <input type="text" class="form-control" placeholder="Search">
+        </div>
+    -->
     @foreach (var item in Model)
     {
-        <ul class="listReleaseNotes">
+        <ul style="font-size:22px; list-style-type:none;">
             <li>
-                <div class="float-left">
+                <div class="float-left">    
                     @item.Title
                 </div>
                 <div class="float-right">

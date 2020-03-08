@@ -59,56 +59,56 @@ $(document).ready(function () {
         <hr />
         <dl class="row">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Title)
+                <label asp-for="@Model.Title"></label>
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Title)
+                @Model.Title
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.BodyText)
+                <label asp-for="@Model.BodyText">Body text</label>
             </dt>
             <dd class="col-sm-10">
                 <!--Decodes html tags that are made by cdkeditor-->
                 @Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.BodyText))
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Id)
+                <label asp-for="@Model.Id"></label>
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Id)
+                @Model.Id
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.ProductId)
+                <label asp-for="@Model.ProductId">Product id</label>
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.ProductId)
+                @Model.ProductId
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.CreatedBy)
+                <label asp-for="@Model.CreatedBy">Published by</label>
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.CreatedBy)
+                @Model.CreatedBy
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.CreatedDate)
+                <label asp-for="@Model.CreatedDate">Publish date</label>
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.CreatedDate)
+                @Model.CreatedDate
             </dd>
 
             @if (Model.LastUpdatedBy != null)
             {
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.LastUpdatedBy)
+                    <label asp-for="@Model.LastUpdatedBy">Last updated by</label>
                 </dt>
                 <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.LastUpdatedBy)
+                    @Model.LastUpdatedBy
                 </dd>
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.LastUpdateDate)
+                    <label asp-for="@Model.LastUpdateDate">Last updated</label>
                 </dt>
                 <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.LastUpdateDate)
+                    @Model.LastUpdateDate
                 </dd>
             }
         </dl>
