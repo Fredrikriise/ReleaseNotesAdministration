@@ -20,39 +20,42 @@
     <h1 class="display-4">Talentech - Release Notes Administration</h1>
     <hr />
 
-    <!-- Temporary code for search function -->
-    <div class="col-sm-6 d-inline-block">
-        <label class="sr-only" for="inlineFormInputGroup">Search</label>
-        <div class="input-group input-group mb-2">
-            <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Search">
-            <div class="input-group-append">
-                <div class="input-group-text"><i class="fas fa-search"></i></div>
+    <div class="d-flex justify-content-between mb-3">
+        <!-- Temporary code for search function -->
+        <div class="col-6 d-inline-block float-left">
+            <label class="sr-only" for="inlineFormInputGroup">Search</label>
+            <div class="input-group input-group mb-2">
+                <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Search">
+                <div class="input-group-append">
+                    <div class="input-group-text"><i class="fas fa-search"></i></div>
+                </div>
             </div>
+        </div>
+
+        <div class="float-right">
+            <a class="btn btn-outline-primary float-left" asp-controller="ReleaseNotesAdmin" asp-action="Create">
+                <i class="fa fa-plus"></i> Add release note
+            </a>
         </div>
     </div>
 
     @foreach (var item in Model)
     {
-      
-            <ul class="mb-2" style="font-size:18px; list-style-type:none;">
-                <li>
-                    <div class="d-flex justify-content-between">
-                        <div class="float-left">
-                            @item.Title
-                        </div>
-                        <div class="float-right">
-                            <a asp-controller="ReleaseNotesAdmin" asp-action="ViewReleaseNote" asp-route-id="@item.Id">
-                                <span class="btn btn-outline-secondary"><i class="fa fa-eye"></i> View</span>
-                            </a>
-                        </div>
-                    </div>                    
-                </li>
-            </ul>
-
-        }
-    <a class="btn btn-outline-primary mt-3" asp-controller="ReleaseNotesAdmin" asp-action="Create" style="margin-left: auto; margin-right: auto; width: auto;">
-        <i class="fa fa-plus"></i> Add release note
-    </a>
+        <ul class="mb-2 pl-3" style="font-size:18px; list-style-type:none;">
+            <li>
+                <div class="d-flex justify-content-between">
+                    <div class="float-left">
+                        @item.Title
+                    </div>
+                    <div class="float-right">
+                        <a asp-controller="ReleaseNotesAdmin" asp-action="ViewReleaseNote" asp-route-id="@item.Id">
+                            <span class="btn btn-outline-secondary"><i class="fa fa-eye"></i> View</span>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    }
 </div>
 
 
