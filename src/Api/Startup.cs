@@ -27,6 +27,7 @@ namespace Api
             services.AddControllers();
             services.AddScoped<IProductsRepository, ProductsRepository>();
             services.AddScoped<IReleaseNotesRepository, ReleaseNotesRepository>();
+            services.AddScoped<IWorkItemRepository, WorkItemRepository>();
             services.Configure<SqlDbConnection>(Configuration.GetSection("SqlDbConfiguration"));
             services.AddAutoMapper(typeof(Startup), typeof(Services.Repository.Models.DatabaseModels.Product));
         }

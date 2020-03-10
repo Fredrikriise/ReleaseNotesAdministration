@@ -2,12 +2,14 @@
 using Newtonsoft.Json;
 using ReleaseNotesAdministration.Models;
 using ReleaseNotesAdministration.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ReleaseNotesAdministration.Controllers
 {
@@ -19,12 +21,11 @@ namespace ReleaseNotesAdministration.Controllers
         public ReleaseNotesAdminController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-
             _releaseNotesClient = _httpClientFactory.CreateClient("ReleaseNotesAdminApiClient");
         }
 
-        // Loading all release notes for all products
-        public async Task<IActionResult> ListReleaseNotes()
+        // Lists all release notes for all products
+        public async Task<IActionResult> ListAllReleaseNotes()
         {
             var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
 
@@ -52,37 +53,204 @@ namespace ReleaseNotesAdministration.Controllers
         }
 
         // Method for loading create-view
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            var productsResult = await _releaseNotesClient.GetAsync("/Product/");
+
+            if (!productsResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
+            }
+
+            var responseStream = await productsResult.Content.ReadAsStringAsync();
+            var products = JsonConvert.DeserializeObject<List<ProductAdminApiModel>>(responseStream);
+
+            var productsList = products.Select(x => new ProductAdminViewModel
+            {
+                ProductId = x.ProductId,
+                ProductName = x.ProductName,
+            }).ToList();
+
+            ViewBag.products = productsList;
             return View();
         }
 
         // Method for creating release note
-        [HttpPost]
         public async Task<IActionResult> CreateReleaseNote(ReleaseNoteAdminApiModel releaseNote)
         {
-            var test = new ReleaseNoteAdminApiModel
+            if (releaseNote.Title == null)
+            {
+                ModelState.AddModelError("Title", "Title is required!");
+            } 
+            
+            if (releaseNote.BodyText == null)
+            {
+                ModelState.AddModelError("BodyText", "Body text is required!");
+            }
+            
+            if (releaseNote.ProductId < 0)
+            {
+                ModelState.AddModelError("ProductId", "Product is required!");
+            } 
+            
+            if (releaseNote.CreatedBy == null)
+            {
+                ModelState.AddModelError("CreatedBy", "Author name is required!");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                TempData["CreateRN"] = "Failed"; 
+                return View("Create");
+            }
+
+            //Encodes the bodytext so not raw html tags are inserted into the database
+            //var EncodedBodyText = HttpUtility.HtmlEncode(releaseNote.BodyText);
+
+            var obj = new ReleaseNoteAdminApiModel
             {
                 Title = releaseNote.Title,
-                BodyText = releaseNote.BodyText,
-                Id = releaseNote.Id,
+                //Encodes the data from ckeditor
+                BodyText = HttpUtility.HtmlEncode(releaseNote.BodyText),
+                ProductId = releaseNote.ProductId,
+                CreatedBy = releaseNote.CreatedBy,
+                CreatedDate = DateTime.Now
+            };
+
+            var jsonString = JsonConvert.SerializeObject(obj);
+            var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            await _releaseNotesClient.PostAsync("/ReleaseNotes/", content);
+
+            TempData["CreateRN"] = "Success";
+            return RedirectToAction("ListAllReleaseNotes");
+        }
+
+        // Method for getting release note object to edit
+        public async Task<IActionResult> EditReleaseNote(int Id)
+        {
+            // Getting data for Release notes
+            var releaseNotesResult = await _releaseNotesClient.GetAsync($"/ReleaseNotes/{Id}");
+
+            if (!releaseNotesResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed");
+            }
+
+            var responseStreamReleaseNote = await releaseNotesResult.Content.ReadAsStringAsync();
+            var releaseNote = JsonConvert.DeserializeObject<ReleaseNoteAdminApiModel>(responseStreamReleaseNote);
+
+            var releaseNoteViewModel = new ReleaseNoteAdminViewModel
+            {
+                Title = releaseNote.Title,
+                BodyText = HttpUtility.HtmlDecode(releaseNote.BodyText),
                 ProductId = releaseNote.ProductId,
                 CreatedBy = releaseNote.CreatedBy,
                 CreatedDate = releaseNote.CreatedDate,
                 LastUpdatedBy = releaseNote.LastUpdatedBy,
-                LastUpdateDate = releaseNote.LastUpdateDate
+                LastUpdateDate = DateTime.Now
             };
 
-            var jsonString = JsonConvert.SerializeObject(test);
-            var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            await _releaseNotesClient.PostAsync("/ReleaseNotes/", content);
+            // Getting data for Product
+            var productsResult = await _releaseNotesClient.GetAsync("/Product/");
 
-            return RedirectToAction("ListReleaseNotes");
+            if (!productsResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
+            }
+
+            var responseStreamProduct = await productsResult.Content.ReadAsStringAsync();
+            var products = JsonConvert.DeserializeObject<List<ProductAdminApiModel>>(responseStreamProduct);
+
+            //Lists all the products the admin can choose
+            var productsList = products.Select(x => new ProductAdminViewModel
+            {
+                ProductId = x.ProductId,
+                ProductName = x.ProductName,
+            }).ToList();
+
+            ViewBag.products = productsList;
+
+            return View(releaseNoteViewModel);
         }
 
-        public async Task<IActionResult> ListWorkItems()
+        // Method for posting edit on a release note object
+        [HttpPost]
+        public async Task<IActionResult> EditReleaseNote(int? Id, ReleaseNoteAdminViewModel releaseNote)
         {
-            return View();
+            try
+            {
+                var jsonString = JsonConvert.SerializeObject(releaseNote);
+                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                var transportData = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
+
+                
+                if(releaseNote.Title.Length == 0)
+                {
+                    ModelState.AddModelError("Title", "Title is required!");
+                } 
+                if (releaseNote.BodyText == null)
+                {
+                    ModelState.AddModelError("BodyText", "Body text is required!");
+                } 
+                if (releaseNote.ProductId < 0)
+                {
+                    ModelState.AddModelError("ProductId", "Product is required!");
+                }
+                if (releaseNote.CreatedBy == null)
+                {
+                    ModelState.AddModelError("CreatedBy", "Author is required!");
+                } 
+                if (releaseNote.LastUpdatedBy == null)
+                {
+                    ModelState.AddModelError("LastUpdatedBy", "Last updated by is required!");
+                }
+
+                if(!ModelState.IsValid)
+                {
+                    TempData["EditRN"] = "Failed";
+                    return View("EditReleaseNote");
+                }
+
+                TempData["EditRN"] = "Success";
+                return RedirectToAction("ViewReleaseNote", new { id = Id}); 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        // Method for getting an release note object to delete
+        public async Task<IActionResult> ViewReleaseNote(int Id)
+        {
+            var releaseNotesResult = await _releaseNotesClient.GetAsync($"/ReleaseNotes/{Id}");
+
+            if (!releaseNotesResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed");
+            }
+
+            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+            var releaseNote = JsonConvert.DeserializeObject<ReleaseNoteAdminViewModel>(responseStream);
+            
+            return View(releaseNote);
+        }
+
+        // Method for deleting object
+        [HttpPost]
+        public async Task<IActionResult> DeleteReleaseNote(int? Id)
+        {
+            try
+            {
+                var transportData = await _releaseNotesClient.DeleteAsync($"/ReleaseNotes/{Id}");
+
+                TempData["DeleteRN"] = "Success";
+                return RedirectToAction("ListAllReleaseNotes"); 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

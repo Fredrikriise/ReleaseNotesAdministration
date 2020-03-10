@@ -1,0 +1,37 @@
+﻿@model ReleaseNotesAdministration.ViewModels.ProductAdminViewModel
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<div>
+    <h2>Edit Product</h2>
+    <div>
+        <a asp-controller="ProductsAdmin" asp-action="ListAllProducts"><i class="fa fa-arrow-left"></i> Back to release notes</a>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="EditProduct">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ProductName" class="control-label">Product name</label>
+                    <input asp-for="ProductName" class="form-control" />
+                    <span asp-validation-for="ProductName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductImage" class="control-label">Product image name (example: test-image1.png)</label>
+                    <input asp-for="ProductImage" class="form-control" />
+                    <span asp-validation-for="ProductImage" class="text-danger"></span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <input class="btn btn-outline-success float-left" type="submit" value="Save product"  />
+                    <a class="btn btn-outline-danger float-right" asp-controller="ProductsAdmin" asp-action="ListAllProducts"><i class="fa fa-times"></i> Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

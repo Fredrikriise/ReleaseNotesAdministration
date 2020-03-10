@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace Services.Repository
+namespace Services
 {
     public class ProductsRepository : IProductsRepository
     {
@@ -22,36 +22,16 @@ namespace Services.Repository
             _connectionString = sqlDbConnection.Value.ConnectionString;
             _mapper = mapper;
         }
-
-        public async Task CreateProduct(ProductDto productDto)
+        public async Task<List<ProductDto>> GetAllProducts()
         {
-            try
+            using (var connection = new SqlConnection(_connectionString))
             {
-                var product = _mapper.Map<Product>(productDto);
+                var query = @"SELECT *
+                FROM [Products]";
 
-                using (var connection = new SqlConnection(_connectionString))
-                {
-                    var insert = @"INSERT INTO [ProductsDb]
-                                (
-                                    [ProductId],
-                                    [ProductName],
-                                    [ProductImage],
-                                    [ProductDescription]
-                                )
-                                VALUES
-                                (
-                                    @ProductId,
-                                    @ProductName
-                                    @ProductImage
-                                    @ProductDescription
-                                )
-                                SELECT [Id] FROM [ReleaseNotesDb] WHERE [Id] = @Id AND [ProductId] = @ProductId";
-                    await connection.ExecuteAsync(insert, product);
-                }
-            }
-            catch (NullReferenceException ex)
-            {
-                throw new NullReferenceException(ex.Message);
+                var product = await connection.QueryAsync<Product>(query);
+                var productMapped = _mapper.Map<List<ProductDto>>(product);
+                return productMapped;
             }
         }
 
@@ -60,25 +40,42 @@ namespace Services.Repository
             using (var connection = new SqlConnection(_connectionString))
             {
                 string query = @"SELECT *
-                FROM [ProductsDb]
+                FROM [Products]
                 WHERE [ProductId] = @ProductId";
 
-                var product = await connection.QueryFirstOrDefaultAsync<Product>(query, new { @ProductId = productId });
+                var product = await connection.QueryFirstOrDefaultAsync<Product>(query, new Product { @ProductId = productId });
                 var mappedProduct = _mapper.Map<ProductDto>(product);
                 return mappedProduct;
             }
         }
 
-        public async Task<List<ProductDto>> GetAllProducts()
+        public async Task<int?> CreateProduct(ProductDto productDto)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            try
             {
-                var query = @"SELECT *
-                FROM [ProductsDb]";
-
-                var product = await connection.QueryAsync<Product>(query);
-                var productMapped = _mapper.Map<List<ProductDto>>(product);
-                return productMapped;
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    var insert = @"INSERT INTO [Products]
+                                (
+                                    [ProductName],
+                                    [ProductImage],
+                                )
+                                VALUES
+                                (
+                                    @ProductName,
+                                    @ProductImage,
+                                )";
+                    var returnResult = await connection.QueryFirstOrDefaultAsync<int?>(insert, new ProductDto
+                    {
+                        ProductName = productDto.ProductName,
+                        ProductImage = productDto.ProductImage,
+                    });
+                    return returnResult;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 
@@ -88,12 +85,10 @@ namespace Services.Repository
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
-                    var updateDb = @"UPDATE [ProductsDb]
+                    var updateDb = @"UPDATE [Products]
                     SET
-                        [ProductId] = @ProductId, 
                         [ProductName] = @ProductName,
                         [ProductImage] = @ProductImage,
-                        [ProductDescription] = @ProductDescription
                     WHERE [ProductId] = @ProductId";
                     var productMapped = _mapper.Map<Product>(product);
                     productMapped.AddProductId(ProductId);
@@ -102,9 +97,9 @@ namespace Services.Repository
                     return product;
                 }
             }
-            catch (NullReferenceException ex)
+            catch (Exception ex)
             {
-                throw new NullReferenceException(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -114,15 +109,15 @@ namespace Services.Repository
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
-                    var Delete = "DELETE FROM ProductDb WHERE ProductId = @ProductId";
-                    var returnedProduct = await connection.ExecuteAsync(Delete, new { @ProductId = productId });
+                    var Delete = "DELETE FROM [Products] WHERE ProductId = @ProductId";
+                    var returnedProduct = await connection.ExecuteAsync(Delete, new Product { @ProductId = productId });
                     bool success = returnedProduct > 0;
                     return success;
                 }
             }
-            catch (NullReferenceException ex)
+            catch (Exception ex)
             {
-                throw new NullReferenceException(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
     }

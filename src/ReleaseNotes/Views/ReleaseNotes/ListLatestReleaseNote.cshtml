@@ -38,21 +38,19 @@
         @foreach (var item in Model)
         {
             <div id="releaseNoteTitle">
-                @Html.DisplayFor(modelItem => item.Title)
+                @item.Title
             </div>
 
-            <label>Created by <span id="creatorName">@item.CreatedBy</span> on @item.CreatedDate</label>
+            <label>Created by <span id="creatorName">@item.CreatedBy</span> on @item.CreatedDate.ToString().Split()[0]</label>
             <hr id="hrTag" />
             <br>
             @item.BodyText
-
-
-
+            
             <!-- if loop to check if the releasenotes hanst been updated -->
             @if (item.LastUpdatedBy.Length != 0)
             {
                 <div id="updatedText">
-                    <label>Last updated by <span id="updateName">@item.LastUpdatedBy</span> on @item.LastUpdateDate</label>
+                    <label>Last updated by <span id="updateName">@item.LastUpdatedBy</span> on @item.LastUpdateDate.ToString().Split()[0]</label>
                 </div>
             }
             <hr />

@@ -6,12 +6,11 @@ namespace Services.Repository.Interfaces
 {
     public interface IReleaseNotesRepository
     {
-        // Metoder i repository
+        // Methods in repository
+        Task<List<ReleaseNoteDto>> GetAllReleaseNotes();
         Task<ReleaseNoteDto> GetReleaseNoteById(int? Id);
         Task<int?> CreateReleaseNote(ReleaseNoteDto releaseNoteDto);
         Task<ReleaseNoteDto> UpdateReleaseNote(int? Id, ReleaseNoteDto releaseNote);
-        Task<bool> DeleteReleaseNote(int? id, int productId);
-        Task<List<ReleaseNoteDto>> GetAllReleaseNotes();
-
+        Task<bool> DeleteReleaseNote(int? id);
     }
 }

@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Services.Repository.Interfaces;
 using Services.Repository.Models;
 using Services.Repository.Models.DatabaseModels;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -25,6 +24,7 @@ namespace Api.Controllers
             _mapper = mapper;
         }
 
+        // Method for getting all release notes
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -38,6 +38,23 @@ namespace Api.Controllers
             return Ok(mappedReleaseNotes);
         }
 
+        // Method for getting release note by Id
+        [HttpGet]
+        [Route("/ReleaseNotes/{Id}")]
+        public async Task<IActionResult> GetReleaseNoteById(int? Id)
+        {
+            var releaseNote = await _releaseNoteRepo.GetReleaseNoteById(Id);
+
+            if (releaseNote == null)
+            {
+                return NotFound();
+            }
+
+            var mappedReleaseNote = _mapper.Map<ReleaseNote>(releaseNote);
+            return Ok(mappedReleaseNote);
+        }
+
+        // Method for creating Release Note
         [HttpPost]
         public async Task<IActionResult> Create(ReleaseNote releaseNote)
         {
@@ -46,7 +63,9 @@ namespace Api.Controllers
             return Created("", releaseNote);
         }
 
+        // Method for editing/updating Release note with Id
         [HttpPut]
+        [Route("/ReleaseNotes/{Id}")]
         public async Task<IActionResult> UpdateReleaseNote(int? Id, ReleaseNote releaseNote)
         {
             var mappedReleaseNote = _mapper.Map<ReleaseNoteDto>(releaseNote);
@@ -54,10 +73,12 @@ namespace Api.Controllers
             return Ok();
         }
 
+        // Method for deleting relese 
         [HttpDelete]
-        public async Task<IActionResult> DeleteReleaseNote(int? Id, int productId)
+        [Route("/ReleaseNotes/{Id}")]
+        public async Task<IActionResult> DeleteReleaseNote(int? Id)
         {
-            var deletedReleaseNote = await _releaseNoteRepo.DeleteReleaseNote(Id, productId);
+            var deletedReleaseNote = await _releaseNoteRepo.DeleteReleaseNote(Id);
 
             if (deletedReleaseNote)
             {
@@ -67,22 +88,6 @@ namespace Api.Controllers
             {
                 return NotFound();
             }
-        }
-
-        [HttpGet]
-        [Route("/releasenotes/{Id}")]
-        public async Task<IActionResult> GetReleaseNoteById(int? Id)
-        {
-            var releaseNote = await _releaseNoteRepo.GetReleaseNoteById(Id);
-            Console.WriteLine(releaseNote);
-
-            if (releaseNote == null)
-            {
-                return NotFound();
-            }
-
-            var mappedReleaseNote = _mapper.Map<ReleaseNote>(releaseNote);
-            return Ok(mappedReleaseNote);
         }
     }
 }

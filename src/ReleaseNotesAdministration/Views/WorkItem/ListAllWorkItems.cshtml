@@ -1,0 +1,54 @@
+﻿@model IEnumerable<ReleaseNotesAdministration.ViewModels.WorkItemViewModel>
+
+@{
+    ViewData["Title"] = "List Work Items";
+}
+
+<style>
+
+    .card:hover {
+        border: 1px solid;
+        border-color: rgb(42,128,192);
+    }
+
+    .hrTag {
+        margin-top: 6px;
+        margin-bottom: 3px;
+    }
+
+    .check:hover {
+        cursor:pointer;
+    }
+
+</style>
+
+<div class="text-center">
+    <h1 class="display-4">Talentech - Release Notes Administration</h1>
+    <hr class="hrTag" />
+    <h3>Choose a work item(s) you would like to write new release notes for.</h3>
+    <br />
+
+    <a class="btn btn-outline-primary" asp-controller="WorkItem" asp-action="PickWorkItem">
+        Create release note based off selected work items
+    </a>
+
+
+    <div class="row mt-4 col-12 pr-0">
+        @foreach (var item in Model)
+        {
+            <div class="col-12 col-sm-4">
+                <div class="card mb-3" id="@item.Id">
+                    <div class="card-body" id="card" style="text-align: left;padding: 15px;cursor: pointer;">
+                        <label class="card-title" style="font-size: 16px;margin-bottom: 1px;cursor: pointer;"><b>@item.Id - @item.Title</b></label>
+                        <hr />
+                        <p>
+                            <b>Assigned to:</b> @item.AssignedTo <br />
+                            <b>State:</b> @item.State <br />
+                        </p>
+                        <input type="checkbox" class="check" style="vertical-align: central; float: left; margin: 0 auto; width: 100%;" id="@item.Id"/>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

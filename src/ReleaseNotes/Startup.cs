@@ -23,9 +23,10 @@ namespace ReleaseNotes
             services.AddControllersWithViews();
             services.AddHttpClient("ReleaseNotesApiClient", client =>
             {
-                //Fredrik:  client.BaseAddress = new Uri("https://localhost:44322");
-                //Felix:  client.BaseAddress = new Uri("https://localhost:44314");
-                client.BaseAddress = new Uri("https://localhost:44322");
+                //Fredrik:  client.BaseAddress = new Uri("https://localhost:44310");
+                //Felix bærbar:  client.BaseAddress = new Uri("https://localhost:44314");
+                //Felix stasjonær:  client.BaseAddress = new Uri("https://localhost:44312");
+                client.BaseAddress = new Uri("https://localhost:44319");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
         }
@@ -54,7 +55,7 @@ namespace ReleaseNotes
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Product}/{action=Index}/{id?}");
+                    pattern: "{controller=Product}/{action=ListAllProducts}/{id?}");
             });
         }
     }

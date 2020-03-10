@@ -1,0 +1,34 @@
+﻿@model ReleaseNotesAdministration.ViewModels.ProductAdminViewModel
+
+@{
+    ViewData["Title"] = "Create product";
+}
+
+<div>
+    <h2>Create product</h2>
+    <a asp-controller="ProductsAdmin" asp-action="ListAllProducts"><i class="fas fa-arrow-left"></i> Back to products</a>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="CreateProduct">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ProductName" class="control-label"></label>
+                    <input asp-for="ProductName" class="form-control" />
+                    <span asp-validation-for="ProductName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductImage" class="control-label"></label>
+                    <input asp-for="ProductImage" class="form-control" />
+                    <span asp-validation-for="ProductImage" class="text-danger"></span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <input type="submit" value="Create product" class="btn btn-outline-success float-left" />
+                    <a class="btn btn-outline-danger float-right" asp-controller="ProductsAdmin" asp-action="ListAllProducts">Cancel</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>

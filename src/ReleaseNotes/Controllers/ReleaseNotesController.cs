@@ -23,7 +23,7 @@ namespace ReleaseNotes.Controllers
         }
 
         // Loading all release notes for all products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> ListAllReleaseNotes()
         {
             var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
 
@@ -45,27 +45,28 @@ namespace ReleaseNotes.Controllers
                 CreatedDate = x.CreatedDate,
                 LastUpdatedBy = x.LastUpdatedBy,
                 LastUpdateDate = x.LastUpdateDate
-            }).ToList();
+            });
 
-            return View(releaseNotesList);
+
+            var orderedReleaseNotes = releaseNotesList.OrderByDescending(x => x.CreatedDate).ToList();
+
+            return View(orderedReleaseNotes);
         }
 
-        // Loading release notes for talent manager
-        public async Task<IActionResult> TalentManager()
+        public async Task<IActionResult> ListReleaseNotesForProduct(int productId)
         {
-            var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
+            var releaseNotesResult = await _releaseNotesClient.GetAsync($"/ReleaseNotes?productId={productId}");
 
             if (!releaseNotesResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed for Talent Manager product");
+                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed");
             }
 
             var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
             var releaseNotes = JsonConvert.DeserializeObject<List<ReleaseNoteApiModel>>(responseStream);
 
-            var TargetProductId = 3;
 
-            var talentManagerReleaseNotes = releaseNotes.Where(x => x.ProductId == TargetProductId).Select(x => new ReleaseNoteViewModel
+            var releaseNotesList = releaseNotes.Where(x => x.ProductId == productId).Select(x => new ReleaseNoteViewModel
             {
                 Title = x.Title,
                 BodyText = x.BodyText,
@@ -75,69 +76,11 @@ namespace ReleaseNotes.Controllers
                 CreatedDate = x.CreatedDate,
                 LastUpdatedBy = x.LastUpdatedBy,
                 LastUpdateDate = x.LastUpdateDate
-            }).ToList();
+            });
 
-            return View(talentManagerReleaseNotes);
-        }
+            var orderedReleaseNotes = releaseNotesList.OrderByDescending(x => x.CreatedDate).ToList();
 
-        // Loading release notes for talent recruiter
-        public async Task<IActionResult> TalentRecruiter()
-        {
-            var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
-
-            if (!releaseNotesResult.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed for Talent Recruiter product");
-            }
-
-            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
-            var releaseNotes = JsonConvert.DeserializeObject<List<ReleaseNoteApiModel>>(responseStream);
-
-            var TargetProductId = 1;
-
-            var talentRecruiterReleaseNotes = releaseNotes.Where(x => x.ProductId == TargetProductId).Select(x => new ReleaseNoteViewModel
-            {
-                Title = x.Title,
-                BodyText = x.BodyText,
-                Id = x.Id,
-                ProductId = x.ProductId,
-                CreatedBy = x.CreatedBy,
-                CreatedDate = x.CreatedDate,
-                LastUpdatedBy = x.LastUpdatedBy,
-                LastUpdateDate = x.LastUpdateDate
-            }).ToList();
-
-            return View(talentRecruiterReleaseNotes);
-        }
-
-        // Loading release notes for talent onboarding
-        public async Task<IActionResult> TalentOnboarding()
-        {
-            var releaseNotesResult = await _releaseNotesClient.GetAsync("/ReleaseNotes/");
-
-            if (!releaseNotesResult.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed for Talent Onboarding product");
-            }
-
-            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
-            var releaseNotes = JsonConvert.DeserializeObject<List<ReleaseNoteApiModel>>(responseStream);
-
-            var TargetProductId = 2;
-
-            var talentOnboardingReleaseNotes = releaseNotes.Where(x => x.ProductId == TargetProductId).Select(x => new ReleaseNoteViewModel
-            {
-                Title = x.Title,
-                BodyText = x.BodyText,
-                Id = x.Id,
-                ProductId = x.ProductId,
-                CreatedBy = x.CreatedBy,
-                CreatedDate = x.CreatedDate,
-                LastUpdatedBy = x.LastUpdatedBy,
-                LastUpdateDate = x.LastUpdateDate
-            }).ToList();
-
-            return View(talentOnboardingReleaseNotes);
+            return View(orderedReleaseNotes);
         }
 
         /*

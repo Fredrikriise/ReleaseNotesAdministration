@@ -1,0 +1,72 @@
+﻿@model ReleaseNotesAdministration.ViewModels.ReleaseNoteAdminViewModel
+
+@{
+  ViewData["Title"] = "Edit Release note";
+}
+ <div>
+     <h2>Edit Release Note</h2>
+     <div>
+         <a asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes"><i class="fa fa-arrow-left"></i> Back to release notes</a>
+     </div>
+     <hr />
+     <div class="row">
+         <div class="col-md-4">
+             <form asp-action="EditReleaseNote">
+                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                 <div class="form-group">
+                     <label class="control-label">Title</label>
+                     <input asp-for="Title" class="form-control" />
+                     <span asp-validation-for="Title" class="text-danger"></span>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label">Body text</label>
+                     <textarea class="form-control" asp-for="BodyText" runat="server"></textarea>
+                     <script>
+                         //Congif to remove paragraph tags
+                         CKEDITOR.config.autoParagraph = false;
+                         // Replace the <textarea id="ckeditor"> with a CKEditor
+                         CKEDITOR.replace('BodyText');
+
+                         config.coreStyles_bold = { element: 'b', overrides: 'strong' };
+                     </script>
+                     <span asp-validation-for="BodyText" class="text-danger"></span>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label">Product</label>
+                     <br />
+                     <select asp-for="ProductId"
+                             asp-items="@(new SelectList(ViewBag.products,"ProductId","ProductName"))" class="form-control">
+                     </select>
+                     <span asp-validation-for="ProductId" class="text-danger"></span>
+                 </div>
+                 <div class="form-group">
+                     <input asp-for="CreatedBy" type="hidden" class="form-control" />
+                     <span asp-validation-for="CreatedBy" class="text-danger"></span>
+                 </div>
+                 <div class="form-group">
+                     <input asp-for="CreatedDate" type="hidden" class="form-control" />
+                     <span asp-validation-for="CreatedDate" class="text-danger"></span>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label">Last updated by</label>
+                     <input asp-for="LastUpdatedBy" class="form-control" />
+                     <span asp-validation-for="LastUpdatedBy" class="text-danger"></span>
+                 </div>
+                 <div class="form-group">
+                     <input asp-for="LastUpdateDate" type="hidden" class="form-control" />
+                     <span asp-validation-for="LastUpdateDate" class="text-danger"></span>
+                 </div>
+                 <div class="d-flex justify-content-between">
+                     <input type="submit" value="Save release note" class="btn btn-outline-success float-left" />
+                     <a class="btn btn-outline-danger float-right" asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes">
+                         <i class="fa fa-times"></i>  Cancel
+                     </a>
+                 </div>
+             </form>
+         </div>
+     </div>
+ </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

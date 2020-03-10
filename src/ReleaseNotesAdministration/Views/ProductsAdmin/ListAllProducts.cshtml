@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ReleaseNotesAdministration.ViewModels.ProductAdminViewModel>
+
+@{
+    ViewData["Title"] = "All Products";
+}
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        if ('@TempData["CreateProduct"]' == "Success") {
+            window.toastr.success("You have successfully added a product");
+        } else if ('@TempData["CreateProduct"]' == "Failed") {
+            window.toastr.error("An error occured when trying to create product");
+        } else if ('@TempData["DeleteProduct"]' == "Success") {
+        window.toastr.success("Delete was successfull");
+        }
+    });
+    </script>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Product Image
+                </th>
+                <th>
+                    <a asp-controller="ProductsAdmin" asp-action="Create">
+                        <span class="btn btn-outline-primary float-right"><i class="fa fa-plus"></i> Add new product</span>
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.ProductName
+                    </td>
+                    <td>
+                        @item.ProductImage
+                    </td>
+                    <td>
+                        <a asp-controller="ProductsAdmin" asp-action="ViewProduct" asp-route-id="@item.ProductId">
+                            <span class="btn btn-outline-secondary"><i class="fa fa-eye"></i> View</span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="shortcut icon" href="~/favicon-16x16.png" />
+    <!-- jQuery -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!-- toastr -->
+    <script src="~/lib/toastr/toastr.min.js"></script>
+    <link href="~/lib/toastr/toastr.css" rel="stylesheet" />
+    <!---font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <!--ckeditor-->
+    <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
 </head>
 <body>
     <header>
@@ -16,14 +25,17 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand justify-content-start col-auto col-sm-4" asp-controller="ReleaseNotesAdmin" asp-action="ListReleaseNotes"><img src="~/talentech-logo-resized-20proc.png" alt="Talentech logo on the navbar, located on the left side of the navbar"></a>
+                <a class="navbar-brand justify-content-start col-auto col-sm-4" asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes"><img src="~/talentech-logo-resized-20proc.png" alt="Talentech logo on the navbar, located on the left side of the navbar"></a>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse col-8">
                     <ul class="navbar-nav flex-grow-1 justify-content-end">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ReleaseNotesAdmin" asp-action="ListReleaseNotes">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ReleaseNotesAdmin" asp-action="ListWorkItems">New release note</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ProductsAdmin" asp-action="ListAllProducts">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ReleaseNotesAdmin" asp-action="Create">New release note</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Log in/out</a>
@@ -41,7 +53,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.Now.Year - Talentech - <a asp-area"" asp-controller="ReleaseNotesAdmin" asp-action="ListReleaseNotes">ReleaseNotes Administration</a>
+            &copy; @DateTime.Now.Year - Talentech - <a asp-area"" asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes">ReleaseNotes Administration</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

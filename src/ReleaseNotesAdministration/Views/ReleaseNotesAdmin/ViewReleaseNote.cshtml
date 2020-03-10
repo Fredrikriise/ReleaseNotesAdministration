@@ -1,0 +1,116 @@
+﻿@model ReleaseNotesAdministration.ViewModels.ReleaseNoteAdminViewModel
+
+@{
+    ViewData["Title"] = "Delete Release note";
+}
+
+<script type="text/javascript">
+$(document).ready(function () {
+    if ('@TempData["EditRN"]' == "Success") {
+        window.toastr.success("You successfully edited this release note");
+    } else if ('@TempData["EditRN"]' == "Failed") {
+        window.toastr.error("An error occured when trying to edit this release note. Please try again.");
+    }
+});
+</script>
+
+<div class="main-content">
+    <!-- Back-button -->
+    <div class="float-left mt-2">
+        <a asp-controller="ReleaseNotesAdmin"
+           asp-action="ListAllReleaseNotes">
+            <i class="fa fa-arrow-left"></i>
+            Back to release note
+        </a>
+    </div>
+
+    <!-- Modal for delete -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <i class="fa fa-exclamation-circle"></i> Are you sure you want to delete this release note?
+                    <form asp-controller="ReleaseNotesAdmin" asp-action="DeleteReleaseNote" asp-route-id="@Model.Id">
+                        <button type="submit" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash"></i> Delete</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete and Edit button -->
+    <div class="d-flex flex-row-reverse">
+        <button class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal">
+            <i class="fa fa-trash"></i> Delete
+        </button>
+
+        <a class="btn btn-outline-secondary mr-1"
+           asp-controller="ReleaseNotesAdmin"
+           asp-action="EditReleaseNote"
+           asp-route-id="@Model.Id">
+            <i class="fa fa-cog"></i> Edit
+        </a>
+    </div>
+
+    <!-- Displayed data for the selected Release Note -->
+    <div class="releasenoteData">
+        <br />
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                <label asp-for="@Model.Title"></label>
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Title
+            </dd>
+            <dt class="col-sm-2">
+                <label asp-for="@Model.BodyText">Body text</label>
+            </dt>
+            <dd class="col-sm-10">
+                <!--Decodes html tags that are made by cdkeditor-->
+                @Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.BodyText))
+            </dd>
+            <dt class="col-sm-2">
+                <label asp-for="@Model.Id"></label>
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Id
+            </dd>
+            <dt class="col-sm-2">
+                <label asp-for="@Model.ProductId">Product id</label>
+            </dt>
+            <dd class="col-sm-10">
+                @Model.ProductId
+            </dd>
+            <dt class="col-sm-2">
+                <label asp-for="@Model.CreatedBy">Published by</label>
+            </dt>
+            <dd class="col-sm-10">
+                @Model.CreatedBy
+            </dd>
+            <dt class="col-sm-2">
+                <label asp-for="@Model.CreatedDate">Publish date</label>
+            </dt>
+            <dd class="col-sm-10">
+                @Model.CreatedDate
+            </dd>
+
+            @if (Model.LastUpdatedBy != null)
+            {
+                <dt class="col-sm-2">
+                    <label asp-for="@Model.LastUpdatedBy">Last updated by</label>
+                </dt>
+                <dd class="col-sm-10">
+                    @Model.LastUpdatedBy
+                </dd>
+                <dt class="col-sm-2">
+                    <label asp-for="@Model.LastUpdateDate">Last updated</label>
+                </dt>
+                <dd class="col-sm-10">
+                    @Model.LastUpdateDate
+                </dd>
+            }
+        </dl>
+    </div>
+</div>

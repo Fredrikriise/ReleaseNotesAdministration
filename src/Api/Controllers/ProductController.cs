@@ -36,6 +36,21 @@ namespace Api.Controllers
             return Ok(mappedProducts);
         }
 
+        [HttpGet]
+        [Route("/Product/{productId}")]
+        public async Task<IActionResult> GetProductById(int? productId)
+        {
+            var product = await _productRepo.GetProductById(productId);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var mappedProduct = _mapper.Map<Product>(product);
+            return Ok(mappedProduct);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(Product product)
         {
@@ -45,6 +60,7 @@ namespace Api.Controllers
         }
 
         [HttpPut]
+        [Route("/Product/{productId}")]
         public async Task<IActionResult> UpdateProduct(int? productId, Product product)
         {
             var mappedProduct = _mapper.Map<ProductDto>(product);
@@ -53,6 +69,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete]
+        [Route("/Product/{ProductId}")]
         public async Task<IActionResult> DeleteProduct(int? productId)
         {
             var deletedProduct = await _productRepo.DeleteProduct(productId);
@@ -65,21 +82,6 @@ namespace Api.Controllers
             {
                 return NotFound();
             }
-        }
-
-        [HttpGet]
-        [Route("/product/{productId}")]
-        public async Task<IActionResult> GetProductById(int? productId)
-        {
-            var product = await _productRepo.GetProductById(productId);
-
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            var mappedProduct = _mapper.Map<Product>(product);
-            return Ok(mappedProduct);
         }
     }
 }
