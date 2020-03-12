@@ -26,7 +26,7 @@ namespace test.Api.Controllers
         }
 
         [Fact]
-        public async void Task_Get_All_Products_Should_Return_OkResult()
+        public async void Task_Get_All_Products_Should_Return_OkObjectResult()
         {
             //Arrange
             var controller = _controller;
@@ -40,7 +40,7 @@ namespace test.Api.Controllers
         } 
 
         [Fact]
-        public async void Task_Get_Product_By_Id_Should_Return_OkResult()
+        public async void Task_Get_Product_By_Id_Should_Return_OkObjectResult()
         {
             //Arrange
             var controller = _controller;
@@ -86,6 +86,26 @@ namespace test.Api.Controllers
 
             //Assert
             Assert.IsType<OkResult>(data);
+        }
+
+        [Fact]
+        public async void Task_Create_Should_Return_CreatedResult()
+        {
+            //Arrange
+            var controller = _controller;
+
+            Product testProduct = new Product
+            {
+                ProductId = 2,
+                ProductImage = "test-image.png",
+                ProductName = "Test product",
+            };
+
+            //Act
+            var data = await controller.Create(testProduct);
+
+            //Assert
+            Assert.IsType<CreatedResult>(data);
         }
     }
 }
