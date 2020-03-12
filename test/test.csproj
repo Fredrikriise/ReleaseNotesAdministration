@@ -22,11 +22,11 @@
 
   <ItemGroup>
     <Folder Include="ReleaseNotesAdministration\Controllers\" />
-    <Folder Include="ReleaseNotes\Controllers\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\src\Api\Api.csproj" />
+    <ProjectReference Include="..\src\ReleaseNotes\ReleaseNotes.csproj" />
     <ProjectReference Include="..\src\Services\Services.csproj" />
   </ItemGroup>
 
