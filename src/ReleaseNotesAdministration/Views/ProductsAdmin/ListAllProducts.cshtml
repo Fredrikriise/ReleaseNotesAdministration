@@ -4,52 +4,82 @@
     ViewData["Title"] = "All Products";
 }
 
-    <script type="text/javascript">
-    $(document).ready(function () {
-        if ('@TempData["CreateProduct"]' == "Success") {
-            window.toastr.success("You have successfully added a product");
-        } else if ('@TempData["CreateProduct"]' == "Failed") {
-            window.toastr.error("An error occured when trying to create product");
-        } else if ('@TempData["DeleteProduct"]' == "Success") {
-        window.toastr.success("Delete was successfull");
-        }
-    });
-    </script>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#myInput").on("keyup", function () {
+                    var value = $(this).val().toLowerCase();
+                    $("#myTable tr").filter(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                    });
+                });
+            });
+        </script>
 
-<div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Product Name
-                </th>
-                <th>
-                    Product Image
-                </th>
-                <th>
-                    <a asp-controller="ProductsAdmin" asp-action="Create">
-                        <span class="btn btn-outline-primary float-right"><i class="fa fa-plus"></i> Add new product</span>
-                    </a>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                if ('@TempData["CreateProduct"]' == "Success") {
+                    window.toastr.success("You have successfully added a product");
+                } else if ('@TempData["CreateProduct"]' == "Failed") {
+                    window.toastr.error("An error occured when trying to create product");
+                } else if ('@TempData["DeleteProduct"]' == "Success") {
+                    window.toastr.success("Delete was successfull");
+                }
+            });
+        </script>
+    </head>
+
+    <div>
+        <h2 class="mb-5">All products</h2>
+
+        <div class="d-flex justify-content-between mb-3">
+            <!-- Temporary code for search function -->
+            <form class="col-6 d-inline-block float-left pl-0">
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" id="myInput" placeholder="Search">
+                    <div class="input-group-append">
+                        <button class="input-group-text"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="float-right">
+                <a asp-controller="ProductsAdmin" asp-action="Create">
+                    <span class="btn btn-outline-primary float-right"><i class="fa fa-plus"></i> Add new product</span>
+                </a>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead style="border-top: 0px;">
                 <tr>
-                    <td>
-                        @item.ProductName
-                    </td>
-                    <td>
-                        @item.ProductImage
-                    </td>
-                    <td>
-                        <a asp-controller="ProductsAdmin" asp-action="ViewProduct" asp-route-id="@item.ProductId">
-                            <span class="btn btn-outline-secondary"><i class="fa fa-eye"></i> View</span>
-                        </a>
-                    </td>
+                    <th class="border-0">
+                        Product Name
+                    </th>
+                    <th class="border-0">
+                        Product Image
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody id="myTable">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.ProductName
+                        </td>
+                        <td>
+                            @item.ProductImage
+                        </td>
+                        <td>
+                            <a asp-controller="ProductsAdmin" asp-action="ViewProduct" asp-route-id="@item.ProductId">
+                                <span class="btn btn-outline-secondary"><i class="fa fa-eye"></i> View</span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
