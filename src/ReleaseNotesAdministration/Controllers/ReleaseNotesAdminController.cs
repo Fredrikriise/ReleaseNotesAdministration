@@ -72,6 +72,7 @@ namespace ReleaseNotesAdministration.Controllers
             }).ToList();
 
             ViewBag.products = productsList;
+
             return View();
         }
 
