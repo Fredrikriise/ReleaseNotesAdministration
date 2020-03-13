@@ -4,29 +4,32 @@
     ViewData["Title"] = "Create release note";
 }
 
-<!--
-<script>
-    //Client validation
-    $(document).ready(function () {
-        $(".submitButton").click(function (evt) {
-            var TitleValidation = document.getElementById('Title').value;
-            var BodyTextValidation =  document.getElementById('BodyText').value;
-            var ProductValidation =  document.getElementById('ProductId').value;
-            var AuthorValidation = document.getElementById('CreatedBy').value;
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"></script>
+    <script>
+        //Client validation
+        $(document).ready(function () {
+            $("#submitButton").click(function (evt) {
+                var title = document.getElementById('Title').value;
 
-            if (TitleValidation.length == 0) {
-                evt.preventDefault();
-                document.getElementById('TitleVaidation').innerHTML = "Title is required to create a new release note! (This is js validation)";
+                if (title.length == 0) {
+                    evt.preventDefault;
+                    document.getElementById('TitleValidation').innerHTML = "*Title is required to create a new release note! (js)";
+                    document.getElementById('TitleValidation').style.color = "red"; 
 
-                $('Title').on('change', function () {
-                    var ok = "";
-                    $('TitleValidation').html(ok);
-                });
-            }
+                    $("#Title").on('keyup', function () {
+                        var ok = "";
+                        $("#TitleValidation").html(ok);
+                    });
+                } 
+
+
+            });
         });
-    });
-</script>
-    -->
+    </script>
+</head>
+
+    
 
   <h2>Create release note</h2>
   <div>
@@ -39,7 +42,7 @@
             <form asp-action="CreateReleaseNote" onsubmit="return validation()">
                 <div class="form-group">
                     <label class="control-label">Title</label>
-                    <input asp-for="Title" class="form-control" />
+                    <input asp-for="Title" class="form-control" id="Title"/>
                     <span id="TitleValidation"></span>
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
