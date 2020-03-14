@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -78,24 +79,28 @@ namespace ReleaseNotesAdministration.Controllers
         // Method for creating release note
         public async Task<IActionResult> CreateReleaseNote(ReleaseNoteAdminApiModel releaseNote)
         {
-            if (releaseNote.Title == null)
+            string releaseNoteTitlePattern = @"^[a - zA - Z0 - 9, _ - ! ?. ""]{6,100}$";
+            var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
+            if (!releaseNoteTitleMatch.Success)
             {
-                ModelState.AddModelError("Title", "Title is required!");
+                ModelState.AddModelError("Title", "Title must be between six and one hundred characters!");
             } 
             
             if (releaseNote.BodyText == null)
             {
-                ModelState.AddModelError("BodyText", "Body text is required!");
+                ModelState.AddModelError("BodyText", "Body text is required, and may not consist of zero characters!");
             }
             
             if (releaseNote.ProductId < 0)
             {
                 ModelState.AddModelError("ProductId", "Product is required!");
-            } 
-            
-            if (releaseNote.CreatedBy == null)
+            }
+
+            string releaseNoteCreatedByPattern = @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+            var createdByMatch = Regex.Match(releaseNote.CreatedBy, releaseNoteCreatedByPattern, RegexOptions.IgnoreCase);
+            if (!createdByMatch.Success)
             {
-                ModelState.AddModelError("CreatedBy", "Author name is required!");
+                ModelState.AddModelError("CreatedBy", "Author name may only consist of characters!");
             }
 
             if (!ModelState.IsValid)
@@ -183,29 +188,32 @@ namespace ReleaseNotesAdministration.Controllers
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 var transportData = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
 
-                
-                if(releaseNote.Title.Length == 0)
+
+                string releaseNoteTitlePattern = @"^[a - zA - Z0 - 9, _ - ! ?. ""]{6,100}$";
+                var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
+                if (!releaseNoteTitleMatch.Success)
                 {
-                    ModelState.AddModelError("Title", "Title is required!");
-                } 
+                    ModelState.AddModelError("Title", "Title must be between six and one hundred characters!");
+                }
+
                 if (releaseNote.BodyText == null)
                 {
-                    ModelState.AddModelError("BodyText", "Body text is required!");
-                } 
+                    ModelState.AddModelError("BodyText", "Body text is required, and may not consist of zero characters!");
+                }
+
                 if (releaseNote.ProductId < 0)
                 {
                     ModelState.AddModelError("ProductId", "Product is required!");
                 }
-                if (releaseNote.CreatedBy == null)
+
+                string releaseNoteCreatedByPattern = @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+                var createdByMatch = Regex.Match(releaseNote.CreatedBy, releaseNoteCreatedByPattern, RegexOptions.IgnoreCase);
+                if (!createdByMatch.Success)
                 {
-                    ModelState.AddModelError("CreatedBy", "Author is required!");
-                } 
-                if (releaseNote.LastUpdatedBy == null)
-                {
-                    ModelState.AddModelError("LastUpdatedBy", "Last updated by is required!");
+                    ModelState.AddModelError("CreatedBy", "Author name may only consist of characters!");
                 }
 
-                if(!ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
                     TempData["EditRN"] = "Failed";
                     return View("EditReleaseNote");

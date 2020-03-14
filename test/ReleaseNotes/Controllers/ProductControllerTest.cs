@@ -9,8 +9,9 @@ using Xunit;
 
 namespace test.ReleaseNotes.Controllers
 {
-    public class ProductControllerShould
+    public class ProductControllerTest
     {
+
 
     }
 }
