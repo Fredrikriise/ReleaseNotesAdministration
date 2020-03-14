@@ -59,14 +59,14 @@ namespace ReleaseNotesAdministration.Controllers
             var productNameMatch = Regex.Match(product.ProductName, productNamePattern, RegexOptions.IgnoreCase);
             if (!productNameMatch.Success)
             {
-                ModelState.AddModelError("ProductName", "Product name is required, and may only contain numbers and characters!");
+                ModelState.AddModelError("ProductName", "Product may only contain numbers and characters!");
             }
 
             string productImagePattern = @"([a-zA-Z0-9\s_\\.\-\(\):])+(.jpg|.jpeg|.png)$";
             var productImageMatch = Regex.Match(product.ProductImage, productImagePattern, RegexOptions.IgnoreCase);
             if (!productImageMatch.Success)
             {
-                ModelState.AddModelError("ProductImage", "Product image is required, and must be either .jpg, .jpeg or .png file!");
+                ModelState.AddModelError("ProductImage", "Product image must be either .jpg, .jpeg or .png file!");
             } 
 
             if (!ModelState.IsValid)
