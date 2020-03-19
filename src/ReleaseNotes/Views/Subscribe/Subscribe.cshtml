@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ReleaseNotes.ViewModels.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Subscribe";
+}
+
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+
+<style>
+    .products:hover {
+        color: rgb(2, 117, 216);
+        cursor: pointer;
+        background-color: white;
+        box-shadow: 0 0 11px rgba(33,33,33,.2);
+    }
+
+    .products {
+        transition: box-shadow .3s;
+    }
+
+    a {
+        color: inherit;
+    }
+
+        a:hover {
+            text-decoration: none;
+            color: inherit;
+        }
+</style>
+
+<div class="text-center">
+    <h1>Which product would you like to subscribe to?</h1>
+    <hr />
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-sm-3 btn-group-toggle" data-toggle="buttons">
+            @foreach (var item in Model)
+            {
+                <label class="btn btn-outline-primary mb-1 mt-1 btn-block form-control-lg products">
+                    <input type="checkbox" style="font-size: 18px; " id="@item.ProductId" value="@item.ProductName" name="product" />@item.ProductName
+                </label>
+
+                <br />
+            }
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-sm-6">
+            <label class="sr-only" for="inlineFormInputGroup"></label>
+            <div class="input-group input-group mb-2">
+                <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Enter your email">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <a asp-controller="Subscribe" asp-action="">
+                            <i class="fa fa-bell-o"></i> Subscribe
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
