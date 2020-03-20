@@ -4,9 +4,20 @@
     ViewData["Title"] = "Release notes based off product";
 }
 
-<head>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-</head>
+    <head>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#searchResult li").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+        </script>
+    </head>
 
 <style>
     input::placeholder {
@@ -18,60 +29,49 @@
     <h2 class="mb-3 font-weight-bolder">Published release notes</h2>
 
     <div class="content">
-        <!-- Back-button -->
-        <div class="float-left mt-2 mb-4">
-            <a asp-controller="Product"
-               asp-action="ListAllProducts">
-                <i class="fa fa-arrow-left"></i>
-                Back to products
-            </a>
+        <div class="d-flex justify-content-between mb-3">
+            <div class="float-left mt-2 mb-4">
+                <a asp-controller="Product" asp-action="ListAllProducts">
+                    <i class="fa fa-arrow-left"></i> Back to products
+                </a>
+            </div>
+            
+            <form class="col-6 d-inline-block float-right">
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" id="myInput" placeholder="Search for a keyword">
+                    <div class="input-group-append">
+                        <button class="input-group-text"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <br />
 
         @{ bool ReleaseNoteFound = false; }
 
         @foreach (var item in Model)
         {
-            <h5 class="font-weight-bold mt-5">
-                @item.Title
-            </h5>
+            <ul id="searchResult" class="pl-0" style="list-style-type: none;">
+                <li>
+                    <h5 class="font-weight-bold mt-5">
+                        @item.Title
+                    </h5>
 
-            <label>Posted by <span class="font-weight-bold font-italic">@item.CreatedBy</span> on @item.CreatedDate.ToString().Split()[0]</label>
-            <hr class="mb-0 mt-auto" />
-            <br />
+                    <label>Posted by <span class="font-weight-bold font-italic">@item.CreatedBy</span> on @item.CreatedDate.ToString().Split()[0]</label>
+                    <hr class="mb-1 mt-auto" />
 
-            //Decodes html tags that are made by cdkeditor
-            @Html.Raw(System.Web.HttpUtility.HtmlDecode(item.BodyText))
+                    <!-- Decodes html tags that are made by cdkeditor -->
+                    @Html.Raw(System.Web.HttpUtility.HtmlDecode(item.BodyText))
 
-            <!-- if loop to check if the releasenotes hanst been updated -->
-            @if (item.LastUpdatedBy != null)
-            {
-                <div class="mt-3">
-                    <label>Last updated by <span class="font-weight-bold font-italic">@item.LastUpdatedBy</span> on @item.LastUpdateDate.ToString().Split()[0]</label>
-                </div>
-            }
-            <hr class="mt-1" />
-
-            //<form class="mb-5" asp-controller="" asp-action="" method="post">
-            //    <input class="col-6" placeholder="Would you like to subscribe to updates? Enter your email!" /> <!--asp-for="UserEmail"-->
-            //    <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-bell"></i> Subscribe</button>
-            //</form>
-
-            //<div class="col-sm-6"  style="margin-left: 25%; margin-right: 25%; width: 50%;">
-            <div >
-                <div class="col-sm-6 pl-0" style="">
-                    <label class="sr-only" for="inlineFormInputGroup"></label>
-                    <div class="input-group input-group mb-2">
-                        <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Enter your email">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                            <i class="fa fa-bell"></i>  Subscribe</div>
+                    <!-- if loop to check if the releasenotes hanst been updated -->
+                    @if (item.LastUpdatedBy != null)
+                    {
+                        <div class="mt-3">
+                            <label>Last updated by <span class="font-weight-bold font-italic">@item.LastUpdatedBy</span> on @item.LastUpdateDate.ToString().Split()[0]</label>
                         </div>
-                    </div>
-                </div>
-            </div>
-            
-
+                    }
+                    <hr class="mt-1" />
+                </li>
+            </ul>
             ReleaseNoteFound = true;
         }
 
