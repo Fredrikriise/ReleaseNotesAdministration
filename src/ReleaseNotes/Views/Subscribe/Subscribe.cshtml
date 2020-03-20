@@ -6,6 +6,60 @@
 
 <head>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#subscribeButton").click(function (evt){
+
+                var inputEmail = document.getElementById('inlineFormInputGroup').value;
+
+                //Checks if input i empty
+                if (inputEmail.length == 0) {
+                    alert("ja")
+                    evt.preventDefault;
+                    document.getElementById('emailValidation').innerHTML = "*Email is required!";
+                    document.getElementById('emailValidation').style.color = "red";
+
+                    $("#inlineFormInputGroup").on('keyup', function () {
+                        var ok = "";
+                        $("#emailValidation").html(ok);
+                    });
+                } else {
+                    var selectedProducts = [];
+                    $.each($("input[name='product']:checked"), function(){
+                        selectedProducts.push($(this).val());
+                    });
+
+                    alert(JSON.stringify(selectedProducts));
+
+                    //Checks if any products are choosen
+                    if (selectedProducts.length == 0) {
+                        evt.preventDefault;
+                        document.getElementById('emailValidation').innerHTML = "*You must choose one or more products to subscribe to!";
+                        document.getElementById('emailValidation').style.color = "red";
+                    }
+
+                    //Sends array of chosen product id's to controller
+                    $.ajax({
+                       url: '@Url.Action("", "Subscribe")',
+                       type: "POST",
+                       data: { 'selectedProducts': selectedProducts },
+                       traditional:true,
+                       success: function () {
+                           alert("ajax request to server succeed");
+                       },
+                       error: function (xhr, ajaxOptions, thrownError, data) {
+                           alert(xhr.status);
+                           alert(thrownError);
+                           alert(ajaxOptions);
+                           alert(data);
+                       }
+                    }); 
+                }
+            });
+        });
+    </script>
 </head>
 
 <style>
@@ -34,12 +88,15 @@
     <h1>Which product would you like to subscribe to?</h1>
     <hr />
 
-    <div class="row justify-content-center mt-4">
+    <h4 class="mt-5">Products</h4>
+    <hr class="col-4 mt-0" />
+
+    <div class="row justify-content-center mt-1">
         <div class="col-sm-3 btn-group-toggle" data-toggle="buttons">
             @foreach (var item in Model)
             {
                 <label class="btn btn-outline-primary mb-1 mt-1 btn-block form-control-lg products">
-                    <input type="checkbox" style="font-size: 18px; " id="@item.ProductId" value="@item.ProductName" name="product" />@item.ProductName
+                    <input type="checkbox" style="font-size: 18px; " id="@item.ProductId" value="@item.ProductId" name="product" />@item.ProductName
                 </label>
 
                 <br />
@@ -49,12 +106,13 @@
 
     <div class="row justify-content-center">
         <div class="col-sm-6">
+            <span id="emailValidation"></span>
             <label class="sr-only" for="inlineFormInputGroup"></label>
             <div class="input-group input-group mb-2">
                 <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Enter your email">
                 <div class="input-group-append">
                     <div class="input-group-text">
-                        <a asp-controller="Subscribe" asp-action="">
+                        <a asp-controller="Subscribe" asp-action="Subscribe" id="subscribeButton">
                             <i class="fa fa-bell-o"></i> Subscribe
                         </a>
                     </div>
