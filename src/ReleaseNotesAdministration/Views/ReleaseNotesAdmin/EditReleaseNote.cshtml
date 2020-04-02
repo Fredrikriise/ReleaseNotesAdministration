@@ -3,6 +3,15 @@
 @{
   ViewData["Title"] = "Edit Release note";
 }
+
+<head>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            });
+    </script>
+</head>
+
  <div>
      <h2>Edit Release Note</h2>
      <div>
@@ -58,8 +67,8 @@
                  </div>
                  <div class="d-flex justify-content-between">
                      <div class="justify-content-start">
-                         <input type="submit" value="Save and publish" class="btn btn-outline-success float-left mr-1" id="submitButton" name="submitButton" />
-                         <input type="submit" value="Save as draft" class="btn btn-outline-success float-left" id="submitButton" name="submitButton" />
+                         <button type="submit" value="Save and publish" class="btn btn-outline-success float-left mr-1" id="submitButton" name="submitButton">Save and publish <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Save and publish will save the release note and publish the new changes to the public."></i></button>
+                         <button type="submit" value="Save as draft" class="btn btn-outline-success float-left" id="submitButton" name="submitButton">Save as draft <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Save as draft will save the release note, but it will no longer be visable for the public."></i></button>
                      </div>
                      <a class="btn btn-outline-danger float-right" asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes"><i class="fa fa-times"></i> Cancel</a>
                  </div>
