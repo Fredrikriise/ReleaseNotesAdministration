@@ -50,9 +50,10 @@
                     <script>
                         //Congif to remove paragraph tags
                         CKEDITOR.config.autoParagraph = false;
+
                         // Replace the <textarea id="ckeditor"> with a CKEditor
                         CKEDITOR.replace('BodyText');
-
+                        config.extraPlugins = 'simpleuploads,imagesfromword';
                         config.coreStyles_bold = { element: 'b', overrides: 'strong' };
                     </script>
                     <span asp-validation-for="BodyText" class="text-danger"></span>

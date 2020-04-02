@@ -79,7 +79,7 @@ namespace ReleaseNotesAdministration.Controllers
         // Method for creating release note
         public async Task<IActionResult> CreateReleaseNote(ReleaseNoteAdminApiModel releaseNote)
         {
-            string releaseNoteTitlePattern = @"^[a - zA - Z0 - 9, _ - ! ?. ""]{6,100}$";
+            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]{6,100}$";
             var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
             if (!releaseNoteTitleMatch.Success)
             {
