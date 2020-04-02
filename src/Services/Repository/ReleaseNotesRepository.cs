@@ -64,7 +64,7 @@ namespace Services
                                     [CreatedDate],
                                     [LastUpdatedBy],
                                     [LastUpdateDate],
-                                    [IsDraft],
+                                    [IsDraft]
                                 )
                                 VALUES
                                 (
