@@ -63,7 +63,8 @@ namespace Services
                                     [CreatedBy],
                                     [CreatedDate],
                                     [LastUpdatedBy],
-                                    [LastUpdateDate]
+                                    [LastUpdateDate],
+                                    [IsDraft],
                                 )
                                 VALUES
                                 (
@@ -73,7 +74,8 @@ namespace Services
                                     @CreatedBy,
                                     @CreatedDate,
                                     @LastUpdatedBy,
-                                    @LastUpdateDate
+                                    @LastUpdateDate,
+                                    @IsDraft
                                 )";
                     var returnResult = await connection.QueryFirstOrDefaultAsync<int?>(insert, new ReleaseNoteDto
                     {
@@ -83,7 +85,8 @@ namespace Services
                         CreatedBy = releaseNoteDto.CreatedBy,
                         CreatedDate = releaseNoteDto.CreatedDate,
                         LastUpdatedBy = releaseNoteDto.LastUpdatedBy,
-                        LastUpdateDate = releaseNoteDto.LastUpdateDate
+                        LastUpdateDate = releaseNoteDto.LastUpdateDate,
+                        IsDraft = releaseNoteDto.IsDraft
                     });
                     return returnResult;
                 }
@@ -108,7 +111,8 @@ namespace Services
                         [CreatedBy] = @CreatedBy,
                         [CreatedDate] = @CreatedDate, 
                         [LastUpdatedBy] = @LastUpdatedBy,
-                        [LastUpdateDate] = @LastUpdateDate
+                        [LastUpdateDate] = @LastUpdateDate,
+                        [IsDraft] = @IsDraft
                     WHERE [Id] = @Id";
                     var releaseNoteMapped = _mapper.Map<ReleaseNote>(releaseNote);
                     releaseNoteMapped.AddReleaseNoteId(Id);

@@ -21,5 +21,7 @@ namespace ReleaseNotes.ViewModels
         public string LastUpdatedBy { get; set; }
 
         public DateTime? LastUpdateDate { get; set; }
+
+        public bool IsDraft { get; set; }
     }
 }
