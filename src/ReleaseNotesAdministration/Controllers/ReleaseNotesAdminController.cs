@@ -47,7 +47,8 @@ namespace ReleaseNotesAdministration.Controllers
                 CreatedBy = x.CreatedBy,
                 CreatedDate = x.CreatedDate,
                 LastUpdatedBy = x.LastUpdatedBy,
-                LastUpdateDate = x.LastUpdateDate
+                LastUpdateDate = x.LastUpdateDate,
+                IsDraft = x.IsDraft
             }).ToList();
 
             return View(releaseNotesList);
@@ -77,13 +78,13 @@ namespace ReleaseNotesAdministration.Controllers
         }
 
         // Method for creating release note
-        public async Task<IActionResult> CreateReleaseNote(ReleaseNoteAdminApiModel releaseNote)
+        public async Task<IActionResult> CreateReleaseNote(ReleaseNoteAdminApiModel releaseNote, string submitButton)
         {
-            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]{6,100}$";
+            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]{3,100}$";
             var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
             if (!releaseNoteTitleMatch.Success)
             {
-                ModelState.AddModelError("Title", "Title must be between six and one hundred characters!");
+                ModelState.AddModelError("Title", "Title must be between three and one hundred characters!");
             } 
             
             if (releaseNote.BodyText == null)
@@ -112,6 +113,16 @@ namespace ReleaseNotesAdministration.Controllers
             //Encodes the bodytext so not raw html tags are inserted into the database
             //var EncodedBodyText = HttpUtility.HtmlEncode(releaseNote.BodyText);
 
+            bool val = false;
+
+            if(submitButton == "Save as draft")
+            {
+                val = true;
+            } else if (submitButton == "Save and publish")
+            {
+                val = false;
+            }
+
             var obj = new ReleaseNoteAdminApiModel
             {
                 Title = releaseNote.Title,
@@ -119,7 +130,8 @@ namespace ReleaseNotesAdministration.Controllers
                 BodyText = HttpUtility.HtmlEncode(releaseNote.BodyText),
                 ProductId = releaseNote.ProductId,
                 CreatedBy = releaseNote.CreatedBy,
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                IsDraft = val
             };
 
             var jsonString = JsonConvert.SerializeObject(obj);
@@ -152,7 +164,8 @@ namespace ReleaseNotesAdministration.Controllers
                 CreatedBy = releaseNote.CreatedBy,
                 CreatedDate = releaseNote.CreatedDate,
                 LastUpdatedBy = releaseNote.LastUpdatedBy,
-                LastUpdateDate = DateTime.Now
+                LastUpdateDate = DateTime.Now,
+                IsDraft = releaseNote.IsDraft
             };
 
             // Getting data for Product
@@ -180,16 +193,29 @@ namespace ReleaseNotesAdministration.Controllers
 
         // Method for posting edit on a release note object
         [HttpPost]
-        public async Task<IActionResult> EditReleaseNote(int? Id, ReleaseNoteAdminViewModel releaseNote)
+        public async Task<IActionResult> EditReleaseNote(int? Id, ReleaseNoteAdminViewModel releaseNote, string submitButton)
         {
             try
             {
+                bool val = false;
+
+                if (submitButton == "Save as draft")
+                {
+                    val = true;
+                }
+                else if (submitButton == "Save and publish")
+                {
+                    val = false;
+                }
+
+                releaseNote.IsDraft = val;
+
                 var jsonString = JsonConvert.SerializeObject(releaseNote);
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 var transportData = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
 
 
-                string releaseNoteTitlePattern = @"^[a - zA - Z0 - 9, _ - ! ?. ""]{6,100}$";
+                string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]{3,100}$";
                 var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
                 if (!releaseNoteTitleMatch.Success)
                 {

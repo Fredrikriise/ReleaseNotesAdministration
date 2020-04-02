@@ -95,6 +95,12 @@ $(document).ready(function () {
             <dd class="col-sm-10">
                 @Model.CreatedDate
             </dd>
+            <dt class="col-sm-2">
+                <label asp-for="@Model.IsDraft">Saved as draft</label>
+            </dt>
+            <dd class="col-sm-10">
+                @Model.IsDraft
+            </dd>
 
             @if (Model.LastUpdatedBy != null)
             {

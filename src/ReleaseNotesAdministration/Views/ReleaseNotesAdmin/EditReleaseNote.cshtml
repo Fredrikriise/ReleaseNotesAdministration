@@ -10,7 +10,7 @@
      </div>
      <hr />
      <div class="row">
-         <div class="col-md-4">
+         <div class="col-md-6">
              <form asp-action="EditReleaseNote">
                  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                  <div class="form-group">
@@ -57,10 +57,11 @@
                      <span asp-validation-for="LastUpdateDate" class="text-danger"></span>
                  </div>
                  <div class="d-flex justify-content-between">
-                     <input type="submit" value="Save release note" class="btn btn-outline-success float-left" />
-                     <a class="btn btn-outline-danger float-right" asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes">
-                         <i class="fa fa-times"></i>  Cancel
-                     </a>
+                     <div class="justify-content-start">
+                         <input type="submit" value="Save and publish" class="btn btn-outline-success float-left mr-1" id="submitButton" name="submitButton" />
+                         <input type="submit" value="Save as draft" class="btn btn-outline-success float-left" id="submitButton" name="submitButton" />
+                     </div>
+                     <a class="btn btn-outline-danger float-right" asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes"><i class="fa fa-times"></i> Cancel</a>
                  </div>
              </form>
          </div>
