@@ -5,9 +5,43 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>View</title>
-</head>
-<body>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"></script>
+    <script>
+        //Client validation
+        $(document).ready(function () {
+            $(".submitButton").click(function (evt) {
+                var username = document.getElementById('username').value;
+                var password = document.getElementById('password').value;
+
+    
+                if (username.length == 0) {
+                    evt.preventDefault();
+                    document.getElementById('usernameValidation').innerHTML = "*User name is required to log in!";
+                    document.getElementById('usernameValidation').style.color = "red";
+    
+                    $("#username").on('keyup', function () {
+                        var ok = "";
+                        $("#usernameValidation").html(ok);
+                    });
+                }
+    
+                if (password.length == 0) {
+                    evt.preventDefault();
+                    document.getElementById('passwordValidation').innerHTML = "*Password is required to log in!";
+                    document.getElementById('passwordValidation').style.color = "red";
+    
+                    $("#password").on('keyup', function () {
+                        var ok = "";
+                        $("#passwordValidation").html(ok);
+                    });
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
     <h4>Log in</h4>
     <hr />
     <div class="row">
@@ -16,17 +50,19 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="username" class="control-label">Username</label>
-                    <input asp-for="username" class="form-control" />
+                    <input asp-for="username" class="form-control" id="username"/>
+                    <span id="usernameValidation"></span>
                     <span asp-validation-for="username" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="password" class="control-label">Password</label>
-                    <input asp-for="password" class="form-control" />
+                    <input asp-for="password" class="form-control" id="password"/>
+                    <span id="passwordValidation"></span>
                     <span asp-validation-for="password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <a class="btn btn-danger" asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes">Cancel</a>
-                    <input type="submit" value="Log in" class="btn btn-primary" />
+                    <input type="submit" value="Log in" class="btn btn-primary submitButton" />
                 </div>
             </form>
         </div>
