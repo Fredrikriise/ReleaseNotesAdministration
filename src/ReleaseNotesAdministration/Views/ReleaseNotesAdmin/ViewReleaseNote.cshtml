@@ -7,9 +7,9 @@
 <script type="text/javascript">
 $(document).ready(function () {
     if ('@TempData["EditRN"]' == "Success") {
-        window.toastr.success("You successfully edited this release note");
+        window.toastr.success("Release note was successfully edited!");
     } else if ('@TempData["EditRN"]' == "Failed") {
-        window.toastr.error("An error occured when trying to edit this release note. Please try again.");
+        window.toastr.error("An error occured when trying to edit the release note. Please try again.");
     }
 });
 </script>

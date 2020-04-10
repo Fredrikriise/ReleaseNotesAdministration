@@ -7,9 +7,9 @@
 <script type="text/javascript">
     $(document).ready(function () {
         if ('@TempData["EditProduct"]' == "Success") {
-            window.toastr.success("You successfully edited this product");
+            window.toastr.success("Product was successfully edited!");
         } else if ('@TempData["EditProduct"]' == "Failed") {
-            window.toastr.error("An error occured when trying to edit this product. Please try again.");
+            window.toastr.error("An error occured when trying to edit the product. Please try again.");
         }
     });
 </script>
