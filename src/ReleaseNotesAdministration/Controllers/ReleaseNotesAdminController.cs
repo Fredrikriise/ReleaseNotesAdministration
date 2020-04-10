@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -46,7 +47,8 @@ namespace ReleaseNotesAdministration.Controllers
                 CreatedBy = x.CreatedBy,
                 CreatedDate = x.CreatedDate,
                 LastUpdatedBy = x.LastUpdatedBy,
-                LastUpdateDate = x.LastUpdateDate
+                LastUpdateDate = x.LastUpdateDate,
+                IsDraft = x.IsDraft
             }).ToList();
 
             return View(releaseNotesList);
@@ -77,26 +79,30 @@ namespace ReleaseNotesAdministration.Controllers
         }
 
         // Method for creating release note
-        public async Task<IActionResult> CreateReleaseNote(ReleaseNoteAdminApiModel releaseNote)
+        public async Task<IActionResult> CreateReleaseNote(ReleaseNoteAdminApiModel releaseNote, string submitButton)
         {
-            if (releaseNote.Title == null)
+            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]{3,100}$";
+            var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
+            if (!releaseNoteTitleMatch.Success)
             {
-                ModelState.AddModelError("Title", "Title is required!");
+                ModelState.AddModelError("Title", "Title must be between three and one hundred characters!");
             } 
             
             if (releaseNote.BodyText == null)
             {
-                ModelState.AddModelError("BodyText", "Body text is required!");
+                ModelState.AddModelError("BodyText", "Body text is required, and may not consist of zero characters!");
             }
             
             if (releaseNote.ProductId < 0)
             {
                 ModelState.AddModelError("ProductId", "Product is required!");
-            } 
-            
-            if (releaseNote.CreatedBy == null)
+            }
+
+            string releaseNoteCreatedByPattern = @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+            var createdByMatch = Regex.Match(releaseNote.CreatedBy, releaseNoteCreatedByPattern, RegexOptions.IgnoreCase);
+            if (!createdByMatch.Success)
             {
-                ModelState.AddModelError("CreatedBy", "Author name is required!");
+                ModelState.AddModelError("CreatedBy", "Author name may only consist of characters!");
             }
 
             if (!ModelState.IsValid)
@@ -108,6 +114,16 @@ namespace ReleaseNotesAdministration.Controllers
             //Encodes the bodytext so not raw html tags are inserted into the database
             //var EncodedBodyText = HttpUtility.HtmlEncode(releaseNote.BodyText);
 
+            bool val = false;
+
+            if(submitButton == "Save as draft")
+            {
+                val = true;
+            } else if (submitButton == "Save and publish")
+            {
+                val = false;
+            }
+
             var obj = new ReleaseNoteAdminApiModel
             {
                 Title = releaseNote.Title,
@@ -115,7 +131,8 @@ namespace ReleaseNotesAdministration.Controllers
                 BodyText = HttpUtility.HtmlEncode(releaseNote.BodyText),
                 ProductId = releaseNote.ProductId,
                 CreatedBy = releaseNote.CreatedBy,
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                IsDraft = val
             };
 
             var jsonString = JsonConvert.SerializeObject(obj);
@@ -148,7 +165,8 @@ namespace ReleaseNotesAdministration.Controllers
                 CreatedBy = releaseNote.CreatedBy,
                 CreatedDate = releaseNote.CreatedDate,
                 LastUpdatedBy = releaseNote.LastUpdatedBy,
-                LastUpdateDate = DateTime.Now
+                LastUpdateDate = DateTime.Now,
+                IsDraft = releaseNote.IsDraft
             };
 
             // Getting data for Product
@@ -176,37 +194,53 @@ namespace ReleaseNotesAdministration.Controllers
 
         // Method for posting edit on a release note object
         [HttpPost]
-        public async Task<IActionResult> EditReleaseNote(int? Id, ReleaseNoteAdminViewModel releaseNote)
+        public async Task<IActionResult> EditReleaseNote(int? Id, ReleaseNoteAdminViewModel releaseNote, string submitButton)
         {
             try
             {
+                bool val = false;
+
+                if (submitButton == "Save as draft")
+                {
+                    val = true;
+                }
+                else if (submitButton == "Save and publish")
+                {
+                    val = false;
+                }
+
+                releaseNote.IsDraft = val;
+
                 var jsonString = JsonConvert.SerializeObject(releaseNote);
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 var transportData = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
 
-                
-                if(releaseNote.Title.Length == 0)
+
+                string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]{3,100}$";
+                var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
+                if (!releaseNoteTitleMatch.Success)
                 {
-                    ModelState.AddModelError("Title", "Title is required!");
-                } 
+                    ModelState.AddModelError("Title", "Title must be between six and one hundred characters!");
+                }
+
                 if (releaseNote.BodyText == null)
                 {
-                    ModelState.AddModelError("BodyText", "Body text is required!");
-                } 
+                    ModelState.AddModelError("BodyText", "Body text is required, and may not consist of zero characters!");
+                }
+
                 if (releaseNote.ProductId < 0)
                 {
                     ModelState.AddModelError("ProductId", "Product is required!");
                 }
-                if (releaseNote.CreatedBy == null)
+
+                string releaseNoteCreatedByPattern = @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+                var createdByMatch = Regex.Match(releaseNote.CreatedBy, releaseNoteCreatedByPattern, RegexOptions.IgnoreCase);
+                if (!createdByMatch.Success)
                 {
-                    ModelState.AddModelError("CreatedBy", "Author is required!");
-                } 
-                if (releaseNote.LastUpdatedBy == null)
-                {
-                    ModelState.AddModelError("LastUpdatedBy", "Last updated by is required!");
+                    ModelState.AddModelError("CreatedBy", "Author name may only consist of characters!");
                 }
 
-                if(!ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
                     TempData["EditRN"] = "Failed";
                     return View("EditReleaseNote");

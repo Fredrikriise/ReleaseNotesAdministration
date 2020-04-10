@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ReleaseNotesAdministration.Controllers
@@ -54,14 +55,18 @@ namespace ReleaseNotesAdministration.Controllers
         // Method for creating product
         public async Task<IActionResult> CreateProduct(ProductAdminApiModel product)
         {
-            if (product.ProductName == null)
+            string productNamePattern = @"^[a - zA - Z0 - 9] + (([',. -][a-zA-Z ])?[a-zA-Z0-9]*)*$";
+            var productNameMatch = Regex.Match(product.ProductName, productNamePattern, RegexOptions.IgnoreCase);
+            if (!productNameMatch.Success)
             {
-                ModelState.AddModelError("ProductName", "Product name is required!");
+                ModelState.AddModelError("ProductName", "Product may only contain numbers and characters!");
             }
-            //Here we should add regex to check if the format of ProductImage is correct, currently anything is accepted with this statement
-            if (product.ProductImage == null)
+
+            string productImagePattern = @"([a-zA-Z0-9\s_\\.\-\(\):])+(.jpg|.jpeg|.png)$";
+            var productImageMatch = Regex.Match(product.ProductImage, productImagePattern, RegexOptions.IgnoreCase);
+            if (!productImageMatch.Success)
             {
-                ModelState.AddModelError("ProductImage", "Product image is required!");
+                ModelState.AddModelError("ProductImage", "Product image must be either .jpg, .jpeg or .png file!");
             } 
 
             if (!ModelState.IsValid)
@@ -117,17 +122,21 @@ namespace ReleaseNotesAdministration.Controllers
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 var transportData = await _releaseNotesClient.PutAsync($"/Product/{Id}", content);
 
-                if (product.ProductName == null)
+                string productNamePattern = @"^[a - zA - Z0 - 9] + (([',. -][a-zA-Z ])?[a-zA-Z0-9]*)*$";
+                var productNameMatch = Regex.Match(product.ProductName, productNamePattern, RegexOptions.IgnoreCase);
+                if (!productNameMatch.Success)
                 {
-                    ModelState.AddModelError("ProductName", "Product name is required!");
-                }
-                //Here we should add regex to check if the format of ProductImage is correct, currently anything is accepted with this statement
-                if (product.ProductImage == null)
-                {
-                    ModelState.AddModelError("ProductImage", "Product image is required!");
+                    ModelState.AddModelError("ProductName", "Product name is required, and may only contain numbers and characters!");
                 }
 
-                if(!ModelState.IsValid) {
+                string productImagePattern = @"([a-zA-Z0-9\s_\\.\-\(\):])+(.jpg|.jpeg|.png)$";
+                var productImageMatch = Regex.Match(product.ProductImage, productImagePattern, RegexOptions.IgnoreCase);
+                if (!productImageMatch.Success)
+                {
+                    ModelState.AddModelError("ProductImage", "Product image is required, and must be either .jpg, .jpeg or .png file!");
+                }
+
+                if (!ModelState.IsValid) {
                     TempData["EditProduct"] = "Failed";
                     return View("EditProduct");
                 }
