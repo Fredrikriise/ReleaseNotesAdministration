@@ -21,11 +21,11 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 if ('@TempData["CreateProduct"]' == "Success") {
-                    window.toastr.success("You have successfully added a product");
+                    window.toastr.success("You have successfully added a new product");
                 } else if ('@TempData["CreateProduct"]' == "Failed") {
-                    window.toastr.error("An error occured when trying to create product");
+                    window.toastr.error("An error occured when trying to create a new product");
                 } else if ('@TempData["DeleteProduct"]' == "Success") {
-                    window.toastr.success("Delete was successfull");
+                    window.toastr.success("Product was successfully deleted");
                 }
             });
         </script>
