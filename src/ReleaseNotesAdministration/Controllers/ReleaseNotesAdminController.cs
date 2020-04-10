@@ -239,6 +239,13 @@ namespace ReleaseNotesAdministration.Controllers
                     ModelState.AddModelError("CreatedBy", "Author name may only consist of characters!");
                 }
 
+                string releaseNoteLastUpdatedByPattern = @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+                var lastUpdatedByMatch = Regex.Match(releaseNote.LastUpdatedBy, releaseNoteLastUpdatedByPattern, RegexOptions.IgnoreCase);
+                if (!lastUpdatedByMatch.Success)
+                {
+                    ModelState.AddModelError("LastUpdatedBy", "Last updated by may only consist of characters!");
+                }
+
                 if (!ModelState.IsValid)
                 {
                     TempData["EditRN"] = "Failed";

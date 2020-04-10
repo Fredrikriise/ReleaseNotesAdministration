@@ -55,7 +55,7 @@ namespace ReleaseNotesAdministration.Controllers
         // Method for creating product
         public async Task<IActionResult> CreateProduct(ProductAdminApiModel product)
         {
-            string productNamePattern = @"^[a - zA - Z0 - 9] + (([',. -][a-zA-Z ])?[a-zA-Z0-9]*)*$";
+            string productNamePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]$";
             var productNameMatch = Regex.Match(product.ProductName, productNamePattern, RegexOptions.IgnoreCase);
             if (!productNameMatch.Success)
             {
@@ -122,7 +122,7 @@ namespace ReleaseNotesAdministration.Controllers
                 var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
                 var transportData = await _releaseNotesClient.PutAsync($"/Product/{Id}", content);
 
-                string productNamePattern = @"^[a - zA - Z0 - 9] + (([',. -][a-zA-Z ])?[a-zA-Z0-9]*)*$";
+                string productNamePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]*$";
                 var productNameMatch = Regex.Match(product.ProductName, productNamePattern, RegexOptions.IgnoreCase);
                 if (!productNameMatch.Success)
                 {

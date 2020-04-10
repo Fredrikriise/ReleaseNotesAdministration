@@ -7,10 +7,10 @@ namespace ReleaseNotesAdministration.ViewModels
         [Key]
         public int? ProductId { get; set; }
 
-        [Required(ErrorMessage = "Product name is required to create a new product!")]
+        [Required(ErrorMessage = "Product name is required!")]
         public string ProductName { get; set; }
 
-        [Required(ErrorMessage = "Image url is required to create a new product!")]
+        [Required(ErrorMessage = "Image url is required!")]
         public string ProductImage { get; set; }
     }
 }
