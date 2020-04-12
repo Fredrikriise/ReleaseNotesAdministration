@@ -74,6 +74,23 @@ namespace ReleaseNotesAdministration.Controllers
             }).ToList();
 
             ViewBag.products = productsList;
+
+            //////
+
+            var workItemResult = await _releaseNotesClient.GetAsync("/WorkItem/");
+            var responseStreamWorkItem = await workItemResult.Content.ReadAsStringAsync();
+            var workItems = JsonConvert.DeserializeObject<List<WorkItemApiModel>>(responseStreamWorkItem);
+
+            var workItemList = workItems.Select(x => new WorkItemViewModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                AssignedTo = x.AssignedTo,
+                State = x.State
+            }).ToList();
+
+            ViewBag.workitems = workItemList;
+
             return View();
         }
 

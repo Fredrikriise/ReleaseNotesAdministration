@@ -4,74 +4,103 @@
     ViewData["Title"] = "Create release note";
 }
 
-    <head>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"></script>
-        <script>
-            //Client validation
-            $(document).ready(function () {
-                $(".submitButton").click(function (evt) {
-                    var title = document.getElementById('Title').value;
-                    var bodyText = document.getElementById('BodyText').value;
-                    var createdBy = document.getElementById('CreatedBy').value;
-                    var productId = document.getElementById('ProductId').value;
+<head>
+    <style>
+        .card:hover {
+            border: 1px solid;
+            border-color: rgb(42,128,192);
+        }
 
-                    if (title.length == 0) {
-                        evt.preventDefault();
-                        document.getElementById('TitleValidation').innerHTML = "*Title is required to create a new release note!";
-                        document.getElementById('TitleValidation').style.color = "red";
+        .hrTag {
+            margin-top: 6px;
+            margin-bottom: 3px;
+        }
 
-                        $("#Title").on('keyup', function () {
-                            var ok = "";
-                            $("#TitleValidation").html(ok);
-                        });
-                    }
+        .check:hover {
+            cursor: pointer;
+        }
+    </style>
 
-                    if (bodyText.length == 0) {
-                        evt.preventDefault();
-                        document.getElementById('BodyTextValidation').innerHTML = "*Body text is required to create a new release note!";
-                        document.getElementById('BodyTextValidation').style.color = "red";
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"></script>
+    <script>
+        //Client validation
+        $(document).ready(function () {
+            $(".submitButton").click(function (evt) {
+                var title = document.getElementById('Title').value;
+                var bodyText = document.getElementById('BodyText').value;
+                var createdBy = document.getElementById('CreatedBy').value;
+                var productId = document.getElementById('ProductId').value;
 
-                        $("#BodyText").on('keyup', function () {
-                            var ok = "";
-                            $("#BodyTextValidation").html(ok);
-                        });
-                    }
+                if (title.length == 0) {
+                    evt.preventDefault();
+                    document.getElementById('TitleValidation').innerHTML = "*Title is required to create a new release note!";
+                    document.getElementById('TitleValidation').style.color = "red";
 
-                    if (createdBy.length == 0) {
-                        evt.preventDefault();
-                        document.getElementById('CreatedByValidation').innerHTML = "*Author name is required to create a new release note!";
-                        document.getElementById('CreatedByValidation').style.color = "red";
+                    $("#Title").on('keyup', function () {
+                        var ok = "";
+                        $("#TitleValidation").html(ok);
+                    });
+                }
 
-                        $("#CreatedBy").on('keyup', function () {
-                            var ok = "";
-                            $("#CreatedByValidation").html(ok);
-                        });
-                    }
+                if (bodyText.length == 0) {
+                    evt.preventDefault();
+                    document.getElementById('BodyTextValidation').innerHTML = "*Body text is required to create a new release note!";
+                    document.getElementById('BodyTextValidation').style.color = "red";
 
-                    if (productId.length == 0) {
-                        evt.preventDefault();
-                        document.getElementById('ProductIdValidation').innerHTML = "*Product is required to create a new release note!";
-                        document.getElementById('ProductIdValidation').style.color = "red";
+                    $("#BodyText").on('keyup', function () {
+                        var ok = "";
+                        $("#BodyTextValidation").html(ok);
+                    });
+                }
 
-                        $("#ProductId").on('keyup', function () {
-                            var ok = "";
-                            $("#ProductIdValidation").html(ok);
-                        });
-                    }
+                if (createdBy.length == 0) {
+                    evt.preventDefault();
+                    document.getElementById('CreatedByValidation').innerHTML = "*Author name is required to create a new release note!";
+                    document.getElementById('CreatedByValidation').style.color = "red";
+
+                    $("#CreatedBy").on('keyup', function () {
+                        var ok = "";
+                        $("#CreatedByValidation").html(ok);
+                    });
+                }
+
+                if (productId.length == 0) {
+                    evt.preventDefault();
+                    document.getElementById('ProductIdValidation').innerHTML = "*Product is required to create a new release note!";
+                    document.getElementById('ProductIdValidation').style.color = "red";
+
+                    $("#ProductId").on('keyup', function () {
+                        var ok = "";
+                        $("#ProductIdValidation").html(ok);
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myList li").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
                 });
             });
-        </script>
-
-        <script>
-            $(document).ready(function () {
-                $('[data-toggle="tooltip"]').tooltip();
-            });
-        </script>
-    </head>
+        });
+    </script>
+</head>
 
 
 
 <h2>Create release note</h2>
+<a class="btn btn-outline-secondary mb-3" asp-controller="WorkItem" asp-action="ListAllWorkItems"><i class="fa fa-list-ul"></i> Pick related work items</a>
 <div>
     <a asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes"><i class="fa fa-arrow-left"></i> Back to release notes</a>
 </div>
@@ -111,11 +140,50 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Author</label>
-                <input asp-for="CreatedBy" class="form-control" id="CreatedBy"/>
+                <input asp-for="CreatedBy" class="form-control" id="CreatedBy" />
                 <span id="CreatedByValidation"></span>
                 <span asp-validation-for="CreatedBy" class="text-danger"></span>
             </div>
-            <a class="btn btn-outline-secondary mb-3" asp-controller="WorkItem" asp-action="ListAllWorkItems"><i class="fa fa-list-ul"></i> Pick related work items</a>
+
+            <label class="mb-1">Which work items are related to the release note you would like to publish?</label>
+            <div>
+                <form class="col-6 d-inline-block float-left">
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control" id="myInput" placeholder="Search">
+                        <div class="input-group-append">
+                            <button class="input-group-text"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="mt-4 mb-2">
+                @foreach (var item in ViewBag.workitems)
+                {
+                    <ul class="mb-1 pl-0" id="myList" style="font-size: 16px; list-style-type: none;">
+                        <li>
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex justify-content-start">
+                                    <div class="btn-group-vertical">
+                                        <div class="custom-control custom-checkbox btn-group-vertical">
+                                            <input type="checkbox" class="custom-control-input" id="@item.Id">
+                                            <label class="custom-control-label" for="@item.Id"></label>
+                                        </div>
+                                    </div>
+                                    <div class="float-left" id="result">
+                                        @item.Id - @item.Title
+                                    </div>
+                                </div>
+                                <div class="float-right">
+                                    <a asp-controller="ReleaseNotesAdmin" asp-action="ViewReleaseNote" asp-route-id="@item.Id">
+                                        <span class="btn btn-outline-secondary p-1" style="font-size: 12px; white-space: nowrap;"><i class="fa fa-eye"></i> View</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                }
+            </div>
 
             <div class="d-flex justify-content-between">
                 <div class="justify-content-start">
@@ -125,6 +193,8 @@
                 <a class="btn btn-outline-danger float-right" asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes"><i class="fa fa-times"></i> Cancel</a>
             </div>
         </form>
+
+
     </div>
 </div>
 
