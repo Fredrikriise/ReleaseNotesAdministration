@@ -146,16 +146,13 @@
             </div>
 
             <label class="mb-1">Which work items are related to the release note you would like to publish?</label>
-            <div>
-                <form class="col-6 d-inline-block float-left">
-                    <div class="input-group mb-2">
-                        <input type="text" class="form-control" id="myInput" placeholder="Search">
-                        <div class="input-group-append">
-                            <button class="input-group-text"><i class="fas fa-search"></i></button>
-                        </div>
-                    </div>
-                </form>
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" id="myInput" placeholder="Search">
+                <div class="input-group-append">
+                    <button class="input-group-text"><i class="fas fa-search"></i></button>
+                </div>
             </div>
+          
 
             <div class="mt-4 mb-2">
                 @foreach (var item in ViewBag.workitems)
@@ -166,7 +163,7 @@
                                 <div class="d-flex justify-content-start">
                                     <div class="btn-group-vertical">
                                         <div class="custom-control custom-checkbox btn-group-vertical">
-                                            <input type="checkbox" class="custom-control-input" id="@item.Id">
+                                            <input asp-for="PickedWorkItems" type="checkbox" class="custom-control-input" id="@item.Id" value="@item.Id">
                                             <label class="custom-control-label" for="@item.Id"></label>
                                         </div>
                                     </div>

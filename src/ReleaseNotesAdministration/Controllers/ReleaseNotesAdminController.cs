@@ -95,8 +95,18 @@ namespace ReleaseNotesAdministration.Controllers
         }
 
         // Method for creating release note
-        public async Task<IActionResult> CreateReleaseNote(ReleaseNoteAdminApiModel releaseNote, string submitButton)
+        public async Task<IActionResult> CreateReleaseNote(ReleaseNoteAdminApiModel releaseNote, string submitButton, string[] PickedWorkItems)
         {
+            string PickedWorkItemsString = "";
+
+            for (int i = 0; i < PickedWorkItems.Length; i++)
+            {
+                if(PickedWorkItems[i] != "false")
+                {
+                    PickedWorkItemsString += PickedWorkItems[i] + " ";
+                }
+            }
+
             string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]{3,100}$";
             var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
             if (!releaseNoteTitleMatch.Success)
@@ -148,7 +158,8 @@ namespace ReleaseNotesAdministration.Controllers
                 ProductId = releaseNote.ProductId,
                 CreatedBy = releaseNote.CreatedBy,
                 CreatedDate = DateTime.Now,
-                IsDraft = val
+                IsDraft = val,
+                PickedWorkItems = PickedWorkItemsString
             };
 
             var jsonString = JsonConvert.SerializeObject(obj);
@@ -182,7 +193,8 @@ namespace ReleaseNotesAdministration.Controllers
                 CreatedDate = releaseNote.CreatedDate,
                 LastUpdatedBy = releaseNote.LastUpdatedBy,
                 LastUpdateDate = DateTime.Now,
-                IsDraft = releaseNote.IsDraft
+                IsDraft = releaseNote.IsDraft,
+                PickedWorkItems = releaseNote.PickedWorkItems
             };
 
             // Getting data for Product

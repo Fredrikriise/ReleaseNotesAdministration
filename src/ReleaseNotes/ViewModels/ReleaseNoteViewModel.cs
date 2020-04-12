@@ -23,5 +23,6 @@ namespace ReleaseNotes.ViewModels
         public DateTime? LastUpdateDate { get; set; }
 
         public bool IsDraft { get; set; }
+        public string PickedWorkItems { get; set; }
     }
 }
