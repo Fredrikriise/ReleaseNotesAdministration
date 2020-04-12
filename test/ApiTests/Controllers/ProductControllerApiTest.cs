@@ -12,13 +12,13 @@ using Xunit;
 
 namespace test.Api.Controllers
 {
-    public class ProductControllerTest
+    public class ProductControllerApiTest
     {
         private readonly Mock<IProductsRepository> _mockRepo;
         private readonly ProductController _controller;
         private readonly Mock<IMapper> _mapper;
 
-        public ProductControllerTest()
+        public ProductControllerApiTest()
         {
             _mockRepo = new Mock<IProductsRepository>();
             _mapper = new Mock<IMapper>();
