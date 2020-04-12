@@ -20,11 +20,11 @@
     <script type="text/javascript">
         $(document).ready(function () {
             if ('@TempData["CreateRN"]' == "Success") {
-                window.toastr.success("You have successfully added a release note");
+                window.toastr.success("You have successfully created a new release note");
             } else if ('@TempData["CreateRN"]' == "Failed") {
-                window.toastr.error("An error occured when trying to create release note");
+                window.toastr.error("An error occured when trying to create a new release note");
             } else if ('@TempData["DeleteRN"]' == "Success") {
-                window.toastr.success("Delete was successfull");
+                window.toastr.success("Release note was successfully deleted");
             }
         });
     </script>

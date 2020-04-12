@@ -4,13 +4,83 @@
   ViewData["Title"] = "Edit Release note";
 }
 
-<head>
-    <script>
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"></script>
+        <script>
+            //Client validation
+            $(document).ready(function () {
+                $(".submitButton").click(function (evt) {
+                    var lastUpdatedBy = document.getElementById('LastUpdatedBy').value;
+                    var title = document.getElementById('Title').value;
+                    var bodyText = document.getElementById('BodyText').value;
+                    var productId = document.getElementById('ProductId').value;
+                    var createdBy = document.getElementById('CreatedBy').value;
+                    var productId = document.getElementById('ProductId').value;
+
+                    if (lastUpdatedBy.length == 0) {
+                        evt.preventDefault();
+                        document.getElementById('LastUpdatedByValidation').innerHTML = "*Last updated by is required to update a release note!";
+                        document.getElementById('LastUpdatedByValidation').style.color = "red";
+
+                        $("#LastUpdatedBy").on('keyup', function () {
+                            var ok = "";
+                            $("#LastUpdatedByValidation").html(ok);
+                        });
+                    }
+
+                    if (title.length == 0) {
+                        evt.preventDefault();
+                        document.getElementById('TitleValidation').innerHTML = "*Title is required to update a release note!";
+                        document.getElementById('TitleValidation').style.color = "red";
+
+                        $("#Title").on('keyup', function () {
+                            var ok = "";
+                            $("#TitleValidation").html(ok);
+                        });
+                    }
+
+                    if (bodyText.length == 0) {
+                        evt.preventDefault();
+                        document.getElementById('BodyTextValidation').innerHTML = "*Body text is required to update a release note!";
+                        document.getElementById('BodyTextValidation').style.color = "red";
+
+                        $("#BodyText").on('keyup', function () {
+                            var ok = "";
+                            $("#BodyTextValidation").html(ok);
+                        });
+                    }
+
+                    if (productId.length == 0) {
+                        evt.preventDefault();
+                        document.getElementById('ProductIdValidation').innerHTML = "*Product is required to update a release note!";
+                        document.getElementById('ProductIdValidation').style.color = "red";
+
+                        $("#ProductId").on('keyup', function () {
+                            var ok = "";
+                            $("#ProductIdValidation").html(ok);
+                        });
+                    }
+
+                    if (createdBy.length == 0) {
+                        evt.preventDefault();
+                        document.getElementById('CreatedByValidation').innerHTML = "*Last updated by is required to update a release note!";
+                        document.getElementById('CreatedByValidation').style.color = "red";
+
+                        $("#CreatedBy").on('keyup', function () {
+                            var ok = "";
+                            $("#CreatedByValidation").html(ok);
+                        });
+                    }
+                });
             });
-    </script>
-</head>
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
+    </head>
 
  <div>
      <h2>Edit Release Note</h2>
@@ -24,32 +94,36 @@
                  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                  <div class="form-group">
                      <label class="control-label">Title</label>
-                     <input asp-for="Title" class="form-control" />
+                     <input asp-for="Title" class="form-control" id="Title"/>
+                     <span id="TitleValidation"></span>
                      <span asp-validation-for="Title" class="text-danger"></span>
                  </div>
                  <div class="form-group">
                      <label class="control-label">Body text</label>
-                     <textarea class="form-control" asp-for="BodyText" runat="server"></textarea>
+                     <textarea class="form-control" asp-for="BodyText" runat="server" id="BodyText"></textarea>
                      <script>
                          //Congif to remove paragraph tags
                          CKEDITOR.config.autoParagraph = false;
                          // Replace the <textarea id="ckeditor"> with a CKEditor
                          CKEDITOR.replace('BodyText');
-
+                         config.extraPlugins = 'simpleuploads,imagesfromword';
                          config.coreStyles_bold = { element: 'b', overrides: 'strong' };
                      </script>
+                     <span id="BodyTextValidation"></span>
                      <span asp-validation-for="BodyText" class="text-danger"></span>
                  </div>
                  <div class="form-group">
                      <label class="control-label">Product</label>
                      <br />
                      <select asp-for="ProductId"
-                             asp-items="@(new SelectList(ViewBag.products,"ProductId","ProductName"))" class="form-control">
+                             asp-items="@(new SelectList(ViewBag.products,"ProductId","ProductName"))" class="form-control" id="ProductId">
                      </select>
+                     <span id="ProductIdValidation"></span>
                      <span asp-validation-for="ProductId" class="text-danger"></span>
                  </div>
                  <div class="form-group">
-                     <input asp-for="CreatedBy" type="hidden" class="form-control" />
+                     <input asp-for="CreatedBy" type="hidden" class="form-control" id="CreatedBy"/>
+                     <span id="CreatedByValidation"></span>
                      <span asp-validation-for="CreatedBy" class="text-danger"></span>
                  </div>
                  <div class="form-group">
@@ -58,7 +132,8 @@
                  </div>
                  <div class="form-group">
                      <label class="control-label">Last updated by</label>
-                     <input asp-for="LastUpdatedBy" class="form-control" />
+                     <input asp-for="LastUpdatedBy" class="form-control" id="LastUpdatedBy"/>
+                     <span id="LastUpdatedByValidation"></span>
                      <span asp-validation-for="LastUpdatedBy" class="text-danger"></span>
                  </div>
                  <div class="form-group">
@@ -67,11 +142,13 @@
                  </div>
                  <div class="d-flex justify-content-between">
                      <div class="justify-content-start">
-                         <button type="submit" value="Save and publish" class="btn btn-outline-success float-left mr-1" id="submitButton" name="submitButton">Save and publish <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Save and publish will save the release note and publish the new changes to the public."></i></button>
-                         <button type="submit" value="Save as draft" class="btn btn-outline-success float-left" id="submitButton" name="submitButton">Save as draft <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Save as draft will save the release note, but it will no longer be visable for the public."></i></button>
+                         <button type="submit" value="Save and publish" class="btn btn-outline-success float-left mr-1 submitButton" name="submitButton">Save and publish <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Save and publish will save the release note and publish the new changes to the public."></i></button>
+                         <button type="submit" value="Save as draft" class="btn btn-outline-success float-left submitButton" name="submitButton">Save as draft <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Save as draft will save the release note, but it will no longer be visable for the public."></i></button>
                      </div>
                      <a class="btn btn-outline-danger float-right" asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes"><i class="fa fa-times"></i> Cancel</a>
                  </div>
+
+
              </form>
          </div>
      </div>
