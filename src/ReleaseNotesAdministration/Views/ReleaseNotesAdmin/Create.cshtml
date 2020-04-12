@@ -175,7 +175,7 @@
                                     </div>
                                 </div>
                                 <div class="float-right">
-                                    <a asp-controller="ReleaseNotesAdmin" asp-action="ViewReleaseNote" asp-route-id="@item.Id">
+                                    <a asp-controller="WorkItem" asp-action="ListWorkItem" asp-route-id="@item.Id">
                                         <span class="btn btn-outline-secondary p-1" style="font-size: 12px; white-space: nowrap;"><i class="fa fa-eye"></i> View</span>
                                     </a>
                                 </div>
@@ -193,8 +193,6 @@
                 <a class="btn btn-outline-danger float-right" asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes"><i class="fa fa-times"></i> Cancel</a>
             </div>
         </form>
-
-
     </div>
 </div>
 
