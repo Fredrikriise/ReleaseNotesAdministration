@@ -308,8 +308,13 @@ namespace ReleaseNotesAdministration.Controllers
             var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
             var releaseNote = JsonConvert.DeserializeObject<ReleaseNoteAdminViewModel>(responseStream);
 
-            string[] PickedWorkItemId = releaseNote.PickedWorkItems.Split(' ');
-            PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
+            string[] PickedWorkItemId = new string[] { };
+
+            if (releaseNote.PickedWorkItems != null)
+            {
+                PickedWorkItemId = releaseNote.PickedWorkItems.Split(' ');
+                PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
+            }
 
             List<WorkItemViewModel> workItemList = new List<WorkItemViewModel>();
 

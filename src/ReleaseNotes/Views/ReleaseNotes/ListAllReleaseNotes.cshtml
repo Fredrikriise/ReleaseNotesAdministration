@@ -56,6 +56,20 @@
 
                     <!-- Decodes html tags that are made by cdkeditor -->
                     @Html.Raw(System.Web.HttpUtility.HtmlDecode(item.BodyText))
+                    <br/>
+                    
+                    @if (item.PickedWorkItems != null)
+                    {
+                        <label class="mt-3">Related work items: </label>
+
+                        string[] PickedWorkItemsId = item.PickedWorkItems.Split(' ');
+                        PickedWorkItemsId = PickedWorkItemsId.Take(PickedWorkItemsId.Count() - 1).ToArray();
+
+                        foreach (var id in PickedWorkItemsId)
+                        {
+                            <a href="">#@id</a>
+                        }
+                    }
 
                     <!-- if loop to check if the releasenotes has been updated -->
                     @if (item.LastUpdatedBy != null)
