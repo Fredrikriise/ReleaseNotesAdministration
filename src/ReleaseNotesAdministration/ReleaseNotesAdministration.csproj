@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ReleaseNotes\ReleaseNotes.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
   

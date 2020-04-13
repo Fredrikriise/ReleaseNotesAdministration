@@ -1,7 +1,7 @@
 ﻿@model ReleaseNotesAdministration.ViewModels.ReleaseNoteAdminViewModel
 
 @{
-    ViewData["Title"] = "Delete Release note";
+    ViewData["Title"] = "View Release Note";
 }
 
 <script type="text/javascript">
@@ -55,7 +55,7 @@ $(document).ready(function () {
 
     <!-- Displayed data for the selected Release Note -->
     <div class="releasenoteData">
-        <br />
+        <h4 class="mt-4">Release note information</h4>
         <hr />
         <dl class="row">
             <dt class="col-sm-2">
@@ -100,6 +100,15 @@ $(document).ready(function () {
             </dt>
             <dd class="col-sm-10">
                 @Model.IsDraft
+            </dd>
+            <dt class="col-sm-2">
+                <label asp-for="@Model.PickedWorkItems">Related work items</label>
+            </dt>
+            <dd class="col-sm-10">
+                @foreach (var item in ViewBag.workItems)
+                {
+                    <label class="mb-0">@item.Id - @item.Title</label><br/>
+                }
             </dd>
 
             @if (Model.LastUpdatedBy != null)

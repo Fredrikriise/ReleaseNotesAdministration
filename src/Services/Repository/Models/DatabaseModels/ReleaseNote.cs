@@ -13,6 +13,7 @@ namespace Services.Repository.Models.DatabaseModels
         public string LastUpdatedBy { get; set; }
         public DateTime? LastUpdateDate { get; set; }
         public bool IsDraft { get; set; }
+        public string PickedWorkItems { get; set; }
 
         public void AddReleaseNoteId(int? id)
         {

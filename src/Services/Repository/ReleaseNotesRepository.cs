@@ -64,7 +64,8 @@ namespace Services
                                     [CreatedDate],
                                     [LastUpdatedBy],
                                     [LastUpdateDate],
-                                    [IsDraft]
+                                    [IsDraft],
+                                    [PickedWorkItems]
                                 )
                                 VALUES
                                 (
@@ -75,7 +76,8 @@ namespace Services
                                     @CreatedDate,
                                     @LastUpdatedBy,
                                     @LastUpdateDate,
-                                    @IsDraft
+                                    @IsDraft,
+                                    @PickedWorkItems
                                 )";
                     var returnResult = await connection.QueryFirstOrDefaultAsync<int?>(insert, new ReleaseNoteDto
                     {
@@ -86,7 +88,8 @@ namespace Services
                         CreatedDate = releaseNoteDto.CreatedDate,
                         LastUpdatedBy = releaseNoteDto.LastUpdatedBy,
                         LastUpdateDate = releaseNoteDto.LastUpdateDate,
-                        IsDraft = releaseNoteDto.IsDraft
+                        IsDraft = releaseNoteDto.IsDraft,
+                        PickedWorkItems = releaseNoteDto.PickedWorkItems
                     });
                     return returnResult;
                 }
@@ -112,7 +115,8 @@ namespace Services
                         [CreatedDate] = @CreatedDate, 
                         [LastUpdatedBy] = @LastUpdatedBy,
                         [LastUpdateDate] = @LastUpdateDate,
-                        [IsDraft] = @IsDraft
+                        [IsDraft] = @IsDraft,
+                        [PickedWorkItems] = @PickedWorkItems
                     WHERE [Id] = @Id";
                     var releaseNoteMapped = _mapper.Map<ReleaseNote>(releaseNote);
                     releaseNoteMapped.AddReleaseNoteId(Id);
