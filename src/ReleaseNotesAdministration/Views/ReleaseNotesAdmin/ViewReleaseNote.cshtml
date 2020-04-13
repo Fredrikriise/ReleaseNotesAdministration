@@ -105,7 +105,10 @@ $(document).ready(function () {
                 <label asp-for="@Model.PickedWorkItems">Related work items</label>
             </dt>
             <dd class="col-sm-10">
-                @Model.PickedWorkItems
+                @foreach (var item in ViewBag.workItems)
+                {
+                    <label class="mb-0">@item.Id - @item.Title</label><br/>
+                }
             </dd>
 
             @if (Model.LastUpdatedBy != null)

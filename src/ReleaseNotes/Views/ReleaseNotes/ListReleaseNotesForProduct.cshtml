@@ -61,7 +61,11 @@
 
                     <!-- Decodes html tags that are made by cdkeditor -->
                     @Html.Raw(System.Web.HttpUtility.HtmlDecode(item.BodyText))
-
+                    <br />
+                    @if (item.PickedWorkItems != null)
+                    {
+                        <label><b>Related work items: </b>@item.PickedWorkItems</label>
+                    }
                     <!-- if loop to check if the releasenotes hanst been updated -->
                     @if (item.LastUpdatedBy != null)
                     {

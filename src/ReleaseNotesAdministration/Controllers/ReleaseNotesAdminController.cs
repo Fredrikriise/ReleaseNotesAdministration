@@ -107,6 +107,11 @@ namespace ReleaseNotesAdministration.Controllers
                 }
             }
 
+            if(PickedWorkItemsString == "")
+            {
+                PickedWorkItemsString = null;
+            }
+
             string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]{3,100}$";
             var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
             if (!releaseNoteTitleMatch.Success)
@@ -302,7 +307,36 @@ namespace ReleaseNotesAdministration.Controllers
 
             var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
             var releaseNote = JsonConvert.DeserializeObject<ReleaseNoteAdminViewModel>(responseStream);
-            
+
+            string[] PickedWorkItemId = releaseNote.PickedWorkItems.Split(' ');
+            PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
+
+            List<WorkItemViewModel> workItemList = new List<WorkItemViewModel>();
+
+            for (int i = 0; i < PickedWorkItemId.Length; i++)
+            {
+                var workItemResult = await _releaseNotesClient.GetAsync($"/WorkItem/{PickedWorkItemId[i]}");
+
+                if (!workItemResult.IsSuccessStatusCode)
+                {
+                    throw new HttpRequestException("Get request to the URL 'API/WorkItem/' failed");
+                }
+
+                var responseStreamWorkItem = await workItemResult.Content.ReadAsStringAsync();
+                var workItem = JsonConvert.DeserializeObject<WorkItemApiModel>(responseStreamWorkItem);
+
+                var workItemViewModel = new WorkItemViewModel
+                {
+                    Id = workItem.Id,
+                    Title = workItem.Title,
+                    AssignedTo = workItem.AssignedTo,
+                    State = workItem.State
+                };
+
+                workItemList.Add(workItemViewModel);
+            }
+            ViewBag.workItems = workItemList;
+
             return View(releaseNote);
         }
 
