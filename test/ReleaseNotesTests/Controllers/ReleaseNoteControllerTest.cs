@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace test.ReleaseNotes.Controllers
@@ -25,11 +26,14 @@ namespace test.ReleaseNotes.Controllers
         [Fact]
         public void Task_List_All_Release_Notes_Should_Return_View()
         {
+            // Arrange
             var controller = _controller;
 
+            // Act
             var data = controller.ListAllReleaseNotes();
 
-            Assert.IsAssignableFrom<ViewResult>(data);
+            // Assert
+            Assert.IsAssignableFrom<Task<IActionResult>>(data);
         }
 
     }
