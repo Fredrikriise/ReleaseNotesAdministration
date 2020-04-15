@@ -37,14 +37,35 @@ namespace test.Api.Controllers
             Mock<IMapper> mapper = new Mock<IMapper>();
             var sut = new ProductController(mockRepo.Object, mapper.Object);
 
+            var testList = new List<ProductDto>();
+
             //Act
-            //var _ = mockRepo.Setup(x => x.GetAllProducts()).ReturnsAsync();
+            var _ = mockRepo.Setup(x => x.GetAllProducts()).ReturnsAsync(testList);
             var data = await sut.Get();
             mockRepo.Verify(x => x.GetAllProducts());
 
             //Assert
             Assert.IsType<OkObjectResult>(data);
+        }
 
+        [Fact]
+        public async void Task_Get_All_Products_Should_Return_NotFoundResult()
+        {
+            //Arrange
+            Mock<IProductsRepository> mockRepo = new Mock<IProductsRepository>();
+            Mock<IMapper> mapper = new Mock<IMapper>();
+            var sut = new ProductController(mockRepo.Object, mapper.Object);
+
+            var testList = new List<ProductDto>();
+            testList = null;
+
+            //Act
+            var _ = mockRepo.Setup(x => x.GetAllProducts()).ReturnsAsync(testList);
+            var data = await sut.Get();
+            mockRepo.Verify(x => x.GetAllProducts());
+
+            //Assert
+            Assert.IsType<NotFoundResult>(data);
         }
 
         [Fact]
@@ -55,15 +76,21 @@ namespace test.Api.Controllers
             Mock<IMapper> mapper = new Mock<IMapper>();
             var sut = new ProductController(mockRepo.Object, mapper.Object);
 
+            ProductDto testProduct = new ProductDto
+            {
+                ProductId = 1,
+                ProductName = "test",
+                ProductImage = "test"
+            };
             var productId = 1;
 
             // Act
-            //mockRepo.Setup(x => x.GetProductById(It.IsAny<int?>())).ReturnsAsync();
+            mockRepo.Setup(x => x.GetProductById(It.IsAny<int?>())).ReturnsAsync(testProduct);
             var ex = await sut.GetProductById(productId);
-
+            mockRepo.Verify(x => x.GetProductById(productId), Times.Once);
 
             //Assert
-            //Assert.IsType<OkObjectResult>(ex);
+            Assert.IsType<OkObjectResult>(ex);
         }
 
         [Fact]
@@ -117,11 +144,11 @@ namespace test.Api.Controllers
 
             //Act
             mockRepo.Setup(x => x.DeleteProduct(It.IsAny<int?>())).ReturnsAsync(true);
-            var data = await sut.DeleteProduct(productId);
+            var result = await sut.DeleteProduct(productId);
             //mockRepo.Verify(x => x.DeleteProduct(It.IsAny<int?>()), Times.Once());
-            
+            Console.WriteLine(result);
             //Assert
-            Assert.IsType<OkResult>(data);
+            Assert.IsType<OkResult>(result);
         }
 
         // 

@@ -32,6 +32,12 @@ namespace Api.Controllers
             //}
 
             var returnedProducts = await _productRepo.GetAllProducts();
+
+            if(returnedProducts == null)
+            {
+                return NotFound();
+            }
+
             var mappedProducts = _mapper.Map<List<Product>>(returnedProducts);
             return Ok(mappedProducts);
         }
