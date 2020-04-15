@@ -35,7 +35,7 @@
                     <i class="fa fa-arrow-left"></i> Back to products
                 </a>
             </div>
-            
+
             <form class="col-6 d-inline-block float-right">
                 <div class="input-group mb-2">
                     <input type="text" class="form-control" id="myInput" placeholder="Search for a keyword">
@@ -61,6 +61,20 @@
 
                     <!-- Decodes html tags that are made by cdkeditor -->
                     @Html.Raw(System.Web.HttpUtility.HtmlDecode(item.BodyText))
+                    <br />
+
+                    @if (item.PickedWorkItems != null)
+                    {
+                        <label class="mt-3">Related work items: </label>
+
+                        string[] PickedWorkItemsId = item.PickedWorkItems.Split(' ');
+                        PickedWorkItemsId = PickedWorkItemsId.Take(PickedWorkItemsId.Count() - 1).ToArray();
+
+                        foreach (var id in PickedWorkItemsId)
+                        {
+                            <a asp-controller="WorkItem" asp-action="ListWorkItem" asp-route-id="@id">#@id</a>
+                        }
+                    }
 
                     <!-- if loop to check if the releasenotes hanst been updated -->
                     @if (item.LastUpdatedBy != null)
