@@ -40,6 +40,12 @@ namespace Api.Controllers
             }
 
             var mappedProducts = _mapper.Map<List<Product>>(returnedProducts);
+
+            if(mappedProducts == null)
+            {
+                return NotFound();
+            }
+
             return Ok(mappedProducts);
         }
 

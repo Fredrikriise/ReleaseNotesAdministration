@@ -7,6 +7,7 @@ using Services.Repository.Models.DatabaseModels;
 using Services.Repository.Models.DataTransferObjects;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace test.Api.Controllers
@@ -25,7 +26,7 @@ namespace test.Api.Controllers
         }
 
         [Fact]
-        public async void Task_Get_All_Products_Should_Return_OkObjectResult()
+        public async Task Task_Get_All_Products_Should_Return_OkObjectResult()
         {
             //Arrange
             Mock<IProductsRepository> mockRepo = new Mock<IProductsRepository>();
@@ -49,30 +50,29 @@ namespace test.Api.Controllers
             };
 
             // Oppretter liste for to produkter for å kunne returnere i mapping 
-            //List<Product> testListProducts = new List<Product>()
-            //{
-            //    new Product
-            //    {
-            //        ProductId = 1,
-            //        ProductName = "test",
-            //        ProductImage = "test"
-            //    },
-            //    new Product
-            //    {
-            //        ProductId = 2,
-            //        ProductName = "test",
-            //        ProductImage = "test"
-            //    }
-            //};
+            List<Product> testListProducts = new List<Product>()
+            {
+                new Product
+                {
+                    ProductId = 1,
+                    ProductName = "test",
+                    ProductImage = "test"
+                },
+                new Product
+                {
+                    ProductId = 2,
+                    ProductName = "test",
+                    ProductImage = "test"
+                }
+            };
             
             //Act
             mockRepo.Setup(x => x.GetAllProducts()).ReturnsAsync(testList);
+            mapper.Setup(x => x.Map<List<Product>>(testList)).Returns(testListProducts);
             var result = await sut.Get();
-            //var map = mapper.Setup(x => x.Map<List<Product>>(testList)).Returns(testListProducts); 
-            // -> mapper testList til List<Product> 
+            mockRepo.Verify(x => x.GetAllProducts(), Times.Once);
 
             //Assert
-            //Assert.IsType<List<Product>>(testList); -> for å sjekke at listen mappes til List<Product>, noe den ikke gjør
             Assert.IsType<OkObjectResult>(result);
         }
 
@@ -84,11 +84,25 @@ namespace test.Api.Controllers
             Mock<IMapper> mapper = new Mock<IMapper>();
             var sut = new ProductController(mockRepo.Object, mapper.Object);
 
-            var testList = new List<ProductDto>();
+            List<ProductDto> testList = new List<ProductDto>()
+            {
+                new ProductDto
+                {
+                ProductId = 1,
+                ProductName = "test",
+                ProductImage = "test"
+                },
+                new ProductDto
+                {
+                ProductId = 2,
+                ProductName = "test",
+                ProductImage = "test"
+                }
+            };
             testList = null;
 
             //Act
-            var _ = mockRepo.Setup(x => x.GetAllProducts()).ReturnsAsync(testList);
+            mockRepo.Setup(x => x.GetAllProducts()).ReturnsAsync(testList);
             var data = await sut.Get();
             mockRepo.Verify(x => x.GetAllProducts());
 
@@ -232,7 +246,6 @@ namespace test.Api.Controllers
             Assert.IsType<NotFoundResult>(data);
         }
 
-
         [Fact]
         public async void Task_Create_Should_Return_CreatedResult()
         {
@@ -248,7 +261,7 @@ namespace test.Api.Controllers
 
             //Act
             var data = await controller.Create(testProduct);
-
+            
             //Assert
             Assert.IsType<CreatedResult>(data);
         }
