@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Services.Repository.Interfaces;
 using Services.Repository.Models.DatabaseModels;
 using Services.Repository.Models.DataTransferObjects;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -47,6 +48,7 @@ namespace Api.Controllers
         public async Task<IActionResult> GetProductById(int? productId)
         {
             var product = await _productRepo.GetProductById(productId);
+            Console.WriteLine(product);
 
             if (product == null)
             {
@@ -54,6 +56,7 @@ namespace Api.Controllers
             }
 
             var mappedProduct = _mapper.Map<Product>(product);
+            Console.WriteLine(product);
             return Ok(mappedProduct);
         }
 
@@ -61,6 +64,7 @@ namespace Api.Controllers
         public async Task<IActionResult> Create(Product product)
         {
             var mappedProduct = _mapper.Map<ProductDto>(product);
+
             await _productRepo.CreateProduct(mappedProduct);
             return Created("", product);
         }
@@ -70,6 +74,13 @@ namespace Api.Controllers
         public async Task<IActionResult> UpdateProduct(int? productId, Product product)
         {
             var mappedProduct = _mapper.Map<ProductDto>(product);
+            Console.WriteLine(mappedProduct);
+
+            if (mappedProduct == null)
+            {
+                return NotFound();
+            }
+
             await _productRepo.UpdateProduct(productId, mappedProduct);
             return Ok();
         }

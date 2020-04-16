@@ -2,16 +2,11 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Newtonsoft.Json;
-using ReleaseNotes.Models;
 using Services.Repository.Interfaces;
 using Services.Repository.Models.DatabaseModels;
 using Services.Repository.Models.DataTransferObjects;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace test.Api.Controllers
@@ -37,15 +32,48 @@ namespace test.Api.Controllers
             Mock<IMapper> mapper = new Mock<IMapper>();
             var sut = new ProductController(mockRepo.Object, mapper.Object);
 
-            var testList = new List<ProductDto>();
+            List<ProductDto> testList = new List<ProductDto>()
+            {
+                new ProductDto
+                {
+                ProductId = 1,
+                ProductName = "test",
+                ProductImage = "test"
+                },
+                new ProductDto
+                {
+                ProductId = 2,
+                ProductName = "test",
+                ProductImage = "test"
+                }
+            };
 
+            // Oppretter liste for to produkter for å kunne returnere i mapping 
+            //List<Product> testListProducts = new List<Product>()
+            //{
+            //    new Product
+            //    {
+            //        ProductId = 1,
+            //        ProductName = "test",
+            //        ProductImage = "test"
+            //    },
+            //    new Product
+            //    {
+            //        ProductId = 2,
+            //        ProductName = "test",
+            //        ProductImage = "test"
+            //    }
+            //};
+            
             //Act
-            var _ = mockRepo.Setup(x => x.GetAllProducts()).ReturnsAsync(testList);
-            var data = await sut.Get();
-            mockRepo.Verify(x => x.GetAllProducts());
+            mockRepo.Setup(x => x.GetAllProducts()).ReturnsAsync(testList);
+            var result = await sut.Get();
+            //var map = mapper.Setup(x => x.Map<List<Product>>(testList)).Returns(testListProducts); 
+            // -> mapper testList til List<Product> 
 
             //Assert
-            Assert.IsType<OkObjectResult>(data);
+            //Assert.IsType<List<Product>>(testList); -> for å sjekke at listen mappes til List<Product>, noe den ikke gjør
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
@@ -76,21 +104,21 @@ namespace test.Api.Controllers
             Mock<IMapper> mapper = new Mock<IMapper>();
             var sut = new ProductController(mockRepo.Object, mapper.Object);
 
+            var productId = 1;
             ProductDto testProduct = new ProductDto
             {
                 ProductId = 1,
                 ProductName = "test",
                 ProductImage = "test"
             };
-            var productId = 1;
 
             // Act
-            mockRepo.Setup(x => x.GetProductById(It.IsAny<int?>())).ReturnsAsync(testProduct);
-            var ex = await sut.GetProductById(productId);
-            mockRepo.Verify(x => x.GetProductById(productId), Times.Once);
+            mockRepo.Setup(x => x.GetProductById(productId)).ReturnsAsync(testProduct);
+            var result = await sut.GetProductById(productId);
+            mockRepo.Verify(x => x.GetProductById(testProduct.ProductId), Times.Once);
 
             //Assert
-            Assert.IsType<OkObjectResult>(ex);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
@@ -101,35 +129,68 @@ namespace test.Api.Controllers
             Mock<IMapper> mapper = new Mock<IMapper>();
             var sut = new ProductController(mockRepo.Object, mapper.Object);
 
-            var productId = 0;
+            var productId = 1;
 
             // Act
-            //var mockMethod = mockRepo.Setup(x => x.GetProductById(productId)).Returns();
-            var ex = await sut.GetProductById(productId);
+            mockRepo.Setup(x => x.GetProductById(productId)).ReturnsAsync(It.IsAny<ProductDto>);
+            var result = await sut.GetProductById(productId);
+            Console.WriteLine(result);
+            mockRepo.Verify(x => x.GetProductById(productId), Times.Once);
 
             //Assert
-            //Assert.IsType<OkObjectResult>(ex);
+            Assert.IsType<NotFoundResult>(result);
         }
 
         [Fact]
         public async void Task_Update_Product_Should_Return_OkResult()
         {
             //Arrange
-            var controller = _controller;
-            int? productId = 2;
+            Mock<IProductsRepository> mockRepo = new Mock<IProductsRepository>();
+            Mock<IMapper> mapper = new Mock<IMapper>();
+            var sut = new ProductController(mockRepo.Object, mapper.Object);
 
-            Product testProduct = new Product
+            int? productId = 1;
+
+            Product updatedProduct = new Product
             {
-                ProductId = 2,
-                ProductImage = "test-image.png",
                 ProductName = "Test product",
+                ProductImage = "test-image.png"
             };
 
             //Act
-            var data = await controller.UpdateProduct(productId, testProduct);
-            
+            //var mappedProduct = mapper.Setup(x => x.Map<ProductDto>(updatedProduct));
+            mockRepo.Setup(x => x.UpdateProduct(It.IsAny<int?>(), It.IsAny<ProductDto>())).ReturnsAsync(It.IsAny<ProductDto>());
+            var result = await sut.UpdateProduct(productId, updatedProduct);
+            mockRepo.Verify(x => x.UpdateProduct(It.IsAny<int?>(), It.IsAny<ProductDto>()), Times.Once);
+
             //Assert
-            Assert.IsType<OkResult>(data);
+            Assert.IsType<OkResult>(result);
+        }
+
+        // Denne returnerer NotFoundResult uansett
+        [Fact]
+        public async void Task_Update_Product_Should_Return_NotFoundResult()
+        {
+            //Arrange
+            Mock<IProductsRepository> mockRepo = new Mock<IProductsRepository>();
+            Mock<IMapper> mapper = new Mock<IMapper>();
+            var sut = new ProductController(mockRepo.Object, mapper.Object);
+
+            int? productId = 1;
+
+            Product testProduct = new Product
+            {
+                ProductId = 1,
+                ProductImage = "test-image.png",
+                ProductName = "Test product",
+            };
+            testProduct = null;
+
+            //Act
+            var data = await sut.UpdateProduct(productId, testProduct);
+
+            //Assert
+            Assert.IsType<NotFoundResult>(data);
         }
 
         [Fact]
@@ -147,11 +208,11 @@ namespace test.Api.Controllers
             var result = await sut.DeleteProduct(productId);
             //mockRepo.Verify(x => x.DeleteProduct(It.IsAny<int?>()), Times.Once());
             Console.WriteLine(result);
+
             //Assert
             Assert.IsType<OkResult>(result);
         }
 
-        // 
         [Fact]
         public async void Task_Delete_Product_Should_Return_NotFoundResult()
         {
@@ -187,7 +248,7 @@ namespace test.Api.Controllers
 
             //Act
             var data = await controller.Create(testProduct);
-            Console.WriteLine(data);
+
             //Assert
             Assert.IsType<CreatedResult>(data);
         }
