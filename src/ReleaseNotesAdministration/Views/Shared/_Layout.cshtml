@@ -17,6 +17,12 @@
     <!--ckeditor-->
     <script src="~/lib/ckeditor/ckeditor.js"></script>
 
+    <script>
+        window.toastr.options = {
+            positionClass: 'toast-top-left',
+            closeButton: true
+        };
+    </script>
 </head>
 <body>
     <header>
@@ -34,6 +40,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="ProductsAdmin" asp-action="ListAllProducts">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="WorkItem" asp-action="ListAllWorkItems">Work items</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="ReleaseNotesAdmin" asp-action="Create">New release note</a>

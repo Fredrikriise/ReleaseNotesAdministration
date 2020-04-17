@@ -5,6 +5,7 @@ using Services.Repository.Config;
 using Services.Repository.Interfaces;
 using Services.Repository.Models.DatabaseModels;
 using Services.Repository.Models.DataTransferObjects;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -46,6 +47,42 @@ namespace Services.Repository
                 var workItem = await connection.QueryFirstOrDefaultAsync<WorkItem>(query, new WorkItem { Id = Id });
                 var mappedWorkItem = _mapper.Map<WorkItemDto>(workItem);
                 return mappedWorkItem;
+            }
+        }
+
+        public async Task<int?> CreateWorkItem(WorkItemDto workItemDto)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    var insert = @"INSERT INTO [WorkItems]
+                                (
+                                    [Id],
+                                    [Title],
+                                    [AssignedTo],
+                                    [State]
+                                )
+                                VALUES
+                                (
+                                    @Id,
+                                    @Title,
+                                    @AssignedTo,
+                                    @State
+                                )";
+                    var returnResult = await connection.QueryFirstOrDefaultAsync<int?>(insert, new WorkItemDto
+                    {
+                        Id = workItemDto.Id,
+                        Title = workItemDto.Title,
+                        AssignedTo = workItemDto.AssignedTo,
+                        State = workItemDto.State
+                    });
+                    return returnResult;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }
