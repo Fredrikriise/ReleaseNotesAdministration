@@ -193,5 +193,21 @@ namespace ReleaseNotesAdministration.Controllers
                 throw new Exception(ex.Message);
             }
         }
+
+        // Method for deleting object
+        [HttpPost]
+        public async Task<IActionResult> DeleteWorkItem(int Id)
+        {
+            try
+            {
+                var transportData = await _workItemsClient.DeleteAsync($"/WorkItem/{Id}");
+                TempData["DeleteWorkitem"] = "Success";
+                return RedirectToAction("ListAllWorkItems");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

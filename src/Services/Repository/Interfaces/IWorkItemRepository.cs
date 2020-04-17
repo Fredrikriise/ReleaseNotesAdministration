@@ -10,5 +10,6 @@ namespace Services.Repository.Interfaces
         Task<WorkItemDto> GetWorkItemById(int Id);
         Task<int?> CreateWorkItem(WorkItemDto workItemDto);
         Task<WorkItemDto> UpdateWorkItem(int Id, WorkItemDto workItem);
+        Task<bool> DeleteWorkItem(int Id);
     }
 }

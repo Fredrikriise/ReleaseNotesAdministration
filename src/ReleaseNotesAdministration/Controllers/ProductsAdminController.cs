@@ -151,7 +151,7 @@ namespace ReleaseNotesAdministration.Controllers
             }
         }
 
-        // Method for getting an product object to delete
+        // Method for getting an product object to view
         public async Task<IActionResult> ViewProduct(int Id)
         {
             var productsResult = await _releaseNotesClient.GetAsync($"/Product/{Id}");
@@ -173,7 +173,6 @@ namespace ReleaseNotesAdministration.Controllers
             try
             {
                 var transportData = await _releaseNotesClient.DeleteAsync($"/Product/{Id}");
-
                 TempData["DeleteProduct"] = "Success";
                 return RedirectToAction("ListAllProducts");
             }
@@ -182,7 +181,5 @@ namespace ReleaseNotesAdministration.Controllers
                 throw new Exception(ex.Message);
             }
         }
-
-
     }
 }
