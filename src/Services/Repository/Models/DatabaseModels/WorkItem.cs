@@ -6,5 +6,10 @@
         public string Title { get; set; }
         public string AssignedTo { get; set; }
         public string State { get; set; }
+
+        public void AddWorkItemId(int workItemId)
+        {
+            Id = workItemId;
+        }
     }
 }

@@ -1,0 +1,103 @@
+﻿@model ReleaseNotesAdministration.ViewModels.WorkItemViewModel
+
+@{
+    ViewData["Title"] = "Edit Work Item";
+}
+
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"></script>
+        <script>
+            //Client validation
+            $(document).ready(function () {
+                $(".submitButton").click(function (evt) {
+                    var Id = document.getElementById('Id').value;
+                    var Title = document.getElementById('Title').value;
+                    var AssignedTo = document.getElementById('AssignedTo').value;
+
+                    if (Id.length == 0) {
+                        evt.preventDefault();
+                        document.getElementById('IdValidation').innerHTML = "*Id is required to update a work item!";
+                        document.getElementById('IdValidation').style.color = "red";
+
+                        $("#Id").on('keyup', function () {
+                            var ok = "";
+                            $("#IdValidation").html(ok);
+                        });
+                    }
+
+                    if (Title.length == 0) {
+                        evt.preventDefault();
+                        document.getElementById('TitleValidation').innerHTML = "*Title is required to update a work item!";
+                        document.getElementById('TitleValidation').style.color = "red";
+
+                        $("#Title").on('keyup', function () {
+                            var ok = "";
+                            $("#TitleValidation").html(ok);
+                        });
+                    }
+
+                    if (AssignedTo.length == 0) {
+                        evt.preventDefault();
+                        document.getElementById('AssignedToValidation').innerHTML = "*Assigned to is required to update a work item!";
+                        document.getElementById('AssignedToValidation').style.color = "red";
+
+                        $("#AssignedTo").on('keyup', function () {
+                            var ok = "";
+                            $("#TitleValidation").html(ok);
+                        });
+                    }
+                });
+            });
+        </script>
+    </head>
+
+<div>
+    <h2>Edit work item</h2>
+    <div>
+        <a href='javascript:history.go(-1)'><i class="fa fa-arrow-left"></i> Back to view work item</a>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="EditWorkItem">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Id" class="control-label">Work item id</label>
+                    <input asp-for="Id" class="form-control" id="Id" />
+                    <span id="IdValidation"></span>
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label">Title</label>
+                    <input asp-for="Title" class="form-control" id="Title" />
+                    <span id="TitleValidation"></span>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AssignedTo" class="control-label">Assigned to</label>
+                    <input asp-for="AssignedTo" class="form-control" id="AssignedTo" />
+                    <span id="AssignedToValidation"></span>
+                    <span asp-validation-for="AssignedTo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="State" class="control-label">State</label>
+                    <select asp-for="State" class="form-control" id="State">
+                        <option class="font-weight-bold" value="@Model.State" Selected>@Model.State</option>
+                        <option value="New">New</option>
+                        <option value="Active">Active</option>
+                        <option value="Resolved">Resolved</option>
+                        <option value="Closed">Closed</option>
+                    </select>
+                    <span asp-validation-for="State" class="text-danger"></span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <input class="btn btn-outline-success float-left" type="submit" value="Save work item" />
+                    <a class="btn btn-outline-danger float-right" asp-controller="WorkItem" asp-action="ListAllWorkItems"><i class="fa fa-times"></i> Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
