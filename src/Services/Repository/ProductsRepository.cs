@@ -58,12 +58,12 @@ namespace Services
                     var insert = @"INSERT INTO [Products]
                                 (
                                     [ProductName],
-                                    [ProductImage],
+                                    [ProductImage]
                                 )
                                 VALUES
                                 (
                                     @ProductName,
-                                    @ProductImage,
+                                    @ProductImage
                                 )";
                     var returnResult = await connection.QueryFirstOrDefaultAsync<int?>(insert, new ProductDto
                     {

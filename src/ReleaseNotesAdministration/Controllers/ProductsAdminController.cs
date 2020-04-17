@@ -55,7 +55,7 @@ namespace ReleaseNotesAdministration.Controllers
         // Method for creating product
         public async Task<IActionResult> CreateProduct(ProductAdminApiModel product)
         {
-            string productNamePattern = @"^[A-Za-z0-9\s\-_,\.;:!()+']$";
+            string productNamePattern = @"^[A-Za-z0-9\s\-_,\.;:!()+']{3,99}$";
             var productNameMatch = Regex.Match(product.ProductName, productNamePattern, RegexOptions.IgnoreCase);
             if (!productNameMatch.Success)
             {
