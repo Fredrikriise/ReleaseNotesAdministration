@@ -8,5 +8,6 @@ namespace Services.Repository.Interfaces
     {
         Task<List<WorkItemDto>> GetAllWorkItems();
         Task<WorkItemDto> GetWorkItemById(int Id);
+        Task<int?> CreateWorkItem(WorkItemDto workItemDto);
     }
 }
