@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ReleaseNotesAdministration.Controllers
@@ -45,7 +47,7 @@ namespace ReleaseNotesAdministration.Controllers
             return View(workItemList);
         }
 
-        public async Task<IActionResult> ListWorkItem(int Id)
+        public async Task<IActionResult> ViewWorkItem(int Id)
         {
             var workItemResult = await _workItemsClient.GetAsync($"/WorkItem/{Id}");
 
@@ -68,36 +70,58 @@ namespace ReleaseNotesAdministration.Controllers
             return View(workItemViewModel);
         }
 
-        /*
-        public async Task<IActionResult> PickWorkItem(int[] SelectedIds)
+
+        // Method for loading create-view
+        public ActionResult Create()
         {
-            var workItemResult = await _workItemsClient.GetAsync("/WorkItem/");
+            return View();
+        }
 
-            if (!workItemResult.IsSuccessStatusCode)
+        // Method for creating product
+        public async Task<IActionResult> CreateWorkItem(WorkItemApiModel workItem)
+        {
+            string workItemIdPattern = @"^[0-9]{1,99}$";
+            var workitemIdMatch = Regex.Match((workItem.Id).ToString(), workItemIdPattern, RegexOptions.IgnoreCase);
+            if (!workitemIdMatch.Success)
             {
-                throw new HttpRequestException("Get request to the URL 'API/WorkItem/' failed");
+                ModelState.AddModelError("Id", "Id may only consists of numbers!");
             }
 
-            var responseStream = await workItemResult.Content.ReadAsStringAsync();
-            var workItems = JsonConvert.DeserializeObject<List<WorkItemApiModel>>(responseStream);
-
-            List<WorkItemViewModel> workItemList = new List<WorkItemViewModel>();
-
-            for(int i=0; i <= SelectedIds.Length; i++)
+            string workItemTitlePattern = @"^[A-Za-z0-9\s\-_,\.;:!()+']{3,99}$";
+            var workitemTitleMatch = Regex.Match(workItem.Title, workItemTitlePattern, RegexOptions.IgnoreCase);
+            if (!workitemTitleMatch.Success)
             {
-                workItemList = workItems.Where(x => x.Id == SelectedIds[i]).Select(x => new WorkItemViewModel
-                {
-                    Id = x.Id,
-                    Title = x.Title,
-                    AssignedTo = x.AssignedTo,
-                    State = x.State
-                }).ToList();
+                ModelState.AddModelError("Title", "Title must be between three and 99 characters!");
             }
-                    
-            return View(workItemList);
-        } */
 
+            string workItemAssignedToPattern = @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+            var workItemAssignedToMatch = Regex.Match(workItem.AssignedTo, workItemAssignedToPattern, RegexOptions.IgnoreCase);
+            if (!workItemAssignedToMatch.Success)
+            {
+                ModelState.AddModelError("AssignedTo", "Assigned to may only consist of characters!");
+            }
 
-  
+            
+            if (!ModelState.IsValid)
+            {
+                TempData["CreateWorkItem"] = "Failed";
+                return View("Create");
+            }
+
+            var obj = new WorkItemApiModel
+            {
+                Id = workItem.Id,
+                Title = workItem.Title,
+                AssignedTo = workItem.AssignedTo,
+                State = workItem.State
+            };
+
+            var jsonString = JsonConvert.SerializeObject(obj);
+            var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            await _workItemsClient.PostAsync("/WorkItem/", content);
+
+            TempData["CreateWorkItem"] = "Success";
+            return RedirectToAction("ListAllWorkItems");
+        }
     }
 }

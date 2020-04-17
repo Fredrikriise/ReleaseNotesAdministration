@@ -32,54 +32,58 @@
     </head>
 
     <div>
-        <h2 class="mb-5">All products</h2>
-
-        <div class="d-flex justify-content-between mb-3">
-            <!-- Temporary code for search function -->
-            <form class="col-6 d-inline-block float-left pl-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="myInput" placeholder="Search">
-                    <div class="input-group-append">
-                        <button class="input-group-text"><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
-            </form>
-
-            <div class="float-right">
-                <a asp-controller="ProductsAdmin" asp-action="Create">
-                    <span class="btn btn-outline-primary float-right"><i class="fa fa-plus"></i> Add new product</span>
-                </a>
-            </div>
+        <div class="text-center">
+            <h1 class="display-4">Talentech - Release Notes Administration</h1>
+            <hr class="hrTag mb-5" />
         </div>
+            <h2 class="mb-3">All products</h2>
 
-        <table class="table">
-            <thead style="border-top: 0px;">
-                <tr>
-                    <th class="border-0">
-                        Product Name
-                    </th>
-                    <th class="border-0">
-                        Product Image
-                    </th>
-                </tr>
-            </thead>
-            <tbody id="myTable">
-                @foreach (var item in Model)
-                {
+            <div class="d-flex justify-content-between mb-3">
+                <!-- Temporary code for search function -->
+                <form class="col-6 d-inline-block float-left pl-0">
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control" id="myInput" placeholder="Search">
+                        <div class="input-group-append">
+                            <button class="input-group-text"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="float-right">
+                    <a asp-controller="ProductsAdmin" asp-action="Create">
+                        <span class="btn btn-outline-primary float-right"><i class="fa fa-plus"></i> Add new product</span>
+                    </a>
+                </div>
+            </div>
+
+            <table class="table">
+                <thead style="border-top: 0px;">
                     <tr>
-                        <td>
-                            @item.ProductName
-                        </td>
-                        <td>
-                            @item.ProductImage
-                        </td>
-                        <td>
-                            <a asp-controller="ProductsAdmin" asp-action="ViewProduct" asp-route-id="@item.ProductId">
-                                <span class="btn btn-outline-secondary"><i class="fa fa-eye"></i> View</span>
-                            </a>
-                        </td>
+                        <th class="border-0">
+                            Product Name
+                        </th>
+                        <th class="border-0">
+                            Product Image
+                        </th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody id="myTable">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @item.ProductName
+                            </td>
+                            <td>
+                                @item.ProductImage
+                            </td>
+                            <td>
+                                <a asp-controller="ProductsAdmin" asp-action="ViewProduct" asp-route-id="@item.ProductId">
+                                    <span class="btn btn-outline-secondary"><i class="fa fa-eye"></i> View</span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>

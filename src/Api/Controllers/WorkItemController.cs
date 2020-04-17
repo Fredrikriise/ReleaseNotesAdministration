@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Services.Repository.Interfaces;
 using Services.Repository.Models.DatabaseModels;
+using Services.Repository.Models.DataTransferObjects;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -45,6 +46,15 @@ namespace Api.Controllers
 
             var mappedWorkItem = _mapper.Map<WorkItem>(workItem);
             return Ok(mappedWorkItem);
+        }
+
+        // Method for creating work item
+        [HttpPost]
+        public async Task<IActionResult> Create(WorkItem workitem)
+        {
+            var mappedWorkItem = _mapper.Map<WorkItemDto>(workitem);
+            await _workItemRepo.CreateWorkItem(mappedWorkItem);
+            return Created("", workitem);
         }
     }
 }

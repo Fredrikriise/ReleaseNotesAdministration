@@ -1,89 +1,75 @@
 ﻿@model IEnumerable<ReleaseNotesAdministration.ViewModels.WorkItemViewModel>
 
 @{
-    ViewData["Title"] = "List Work Items";
+    ViewData["Title"] = "All work items";
 }
 
-<style>
-    .card:hover {
-        border: 1px solid;
-        border-color: rgb(42,128,192);
-    }
-
-    .hrTag {
-        margin-top: 6px;
-        margin-bottom: 3px;
-    }
-
-    .check:hover {
-        cursor: pointer;
-    }
-</style>
-
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#myInput").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#myList li").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#myInput").on("keyup", function () {
+                    var value = $(this).val().toLowerCase();
+                    $("#myList li").filter(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                    });
                 });
             });
-        });
-    </script>
-</head>
+        </script>
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                if ('@TempData["CreateWorkItem"]' == "Success") {
+                    window.toastr.success("You have successfully created a new work item");
+                } else if ('@TempData["CreateWorkItem"]' == "Failed") {
+                    window.toastr.error("An error occured when trying to create a new work item");
+                } else if ('@TempData["DeleteWorkItem"]' == "Success") {
+                    window.toastr.success("Work item was successfully deleted");
+                }
+            });
+        </script>
+    </head>
 
 <div class="text-center">
     <h1 class="display-4">Talentech - Release Notes Administration</h1>
-    <hr class="hrTag" />
-    <h3 class="pt-2">Choose a work item(s) you would like to write new release notes for.</h3>
-    <br />
+    <hr class="mb-5 mt-1"/>
 
     <div class="d-flex justify-content-between mb-3">
-        <form class="col-6 d-inline-block float-left">
+        <!-- Temporary code for search function -->
+        <div class="col-6 d-inline-block float-left">
             <div class="input-group mb-2">
                 <input type="text" class="form-control" id="myInput" placeholder="Search">
                 <div class="input-group-append">
-                    <button class="input-group-text"><i class="fas fa-search"></i></button>
+                    <div class="input-group-text"><i class="fas fa-search"></i></div>
                 </div>
             </div>
-        </form>
+        </div>
 
         <div class="float-right">
-            <a class="btn btn-outline-primary float-left" style="font-size: 14px;" asp-controller="WorkItem" asp-action="PickWorkItems">
-                <i class="fas fa-pencil-alt"></i> Write release note based off selected work items
+            <a class="btn btn-outline-primary float-left" asp-controller="WorkItem" asp-action="Create">
+                <i class="fa fa-plus"></i> Add work item
             </a>
         </div>
     </div>
 
-    <div class="mt-5">
-        @foreach (var item in Model)
-        {
-            <ul class="mb-1 pl-3" id="myList" style="font-size: 16px; list-style-type: none;">
-                <li>
-                    <div class="d-flex justify-content-between">
-                        <div class="d-flex justify-content-start">
-                            <div class="btn-group-vertical">
-                                <div class="custom-control custom-checkbox btn-group-vertical">
-                                    <input type="checkbox" class="custom-control-input" id="@item.Id">
-                                    <label class="custom-control-label" for="@item.Id"></label>
-                                </div>
-                            </div>
-                            <div class="float-left" id="result">
-                                @item.Id - @item.Title
-                            </div>
-                        </div>
-                        <div class="float-right">
-                            <a asp-controller="ReleaseNotesAdmin" asp-action="ViewReleaseNote" asp-route-id="@item.Id">
-                                <span class="btn btn-outline-secondary p-1" style="font-size: 12px"><i class="fa fa-eye"></i> View</span>
-                            </a>
-                        </div>
+    @foreach (var item in Model)
+    {
+        <ul class="mb-2 pl-3" id="myList" style="font-size:18px; list-style-type:none;">
+            <li>
+                <div class="d-flex justify-content-between">
+                    <div class="float-left">
+                        @item.Id - @item.Title
                     </div>
-                </li>
-            </ul>
-        }
-    </div>
+                    <div class="float-right">
+                        <a asp-controller="WorkItem" asp-action="ViewWorkItem" asp-route-id="@item.Id">
+                            <span class="btn btn-outline-secondary p-1" style="font-size: 12px; white-space: nowrap;"><i class="fa fa-eye"></i> View</span>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    }
 </div>
 
 
