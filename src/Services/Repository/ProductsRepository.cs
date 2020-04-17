@@ -70,6 +70,7 @@ namespace Services
                         ProductName = productDto.ProductName,
                         ProductImage = productDto.ProductImage,
                     });
+                    Console.WriteLine(returnResult);
                     return returnResult;
                 }
             }

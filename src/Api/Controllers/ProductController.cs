@@ -41,7 +41,7 @@ namespace Api.Controllers
 
             var mappedProducts = _mapper.Map<List<Product>>(returnedProducts);
 
-            if(mappedProducts == null)
+            if (mappedProducts == null)
             {
                 return NotFound();
             }
@@ -54,7 +54,6 @@ namespace Api.Controllers
         public async Task<IActionResult> GetProductById(int? productId)
         {
             var product = await _productRepo.GetProductById(productId);
-            Console.WriteLine(product);
 
             if (product == null)
             {
@@ -62,7 +61,11 @@ namespace Api.Controllers
             }
 
             var mappedProduct = _mapper.Map<Product>(product);
-            Console.WriteLine(product);
+
+            if(mappedProduct == null)
+            {
+                return NotFound();
+            }
             return Ok(mappedProduct);
         }
 
@@ -70,6 +73,11 @@ namespace Api.Controllers
         public async Task<IActionResult> Create(Product product)
         {
             var mappedProduct = _mapper.Map<ProductDto>(product);
+            Console.WriteLine(mappedProduct);
+            if(mappedProduct == null)
+            {
+                return NotFound();
+            }
 
             await _productRepo.CreateProduct(mappedProduct);
             return Created("", product);

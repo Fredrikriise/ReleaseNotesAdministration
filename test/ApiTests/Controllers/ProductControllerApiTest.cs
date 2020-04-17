@@ -26,7 +26,7 @@ namespace test.Api.Controllers
         }
 
         [Fact]
-        public async Task Task_Get_All_Products_Should_Return_OkObjectResult()
+        public async void Task_Get_All_Products_Should_Return_OkObjectResult()
         {
             //Arrange
             Mock<IProductsRepository> mockRepo = new Mock<IProductsRepository>();
@@ -70,7 +70,6 @@ namespace test.Api.Controllers
             mockRepo.Setup(x => x.GetAllProducts()).ReturnsAsync(testList);
             mapper.Setup(x => x.Map<List<Product>>(testList)).Returns(testListProducts);
             var result = await sut.Get();
-            mockRepo.Verify(x => x.GetAllProducts(), Times.Once);
 
             //Assert
             Assert.IsType<OkObjectResult>(result);
@@ -111,7 +110,7 @@ namespace test.Api.Controllers
         }
 
         [Fact]
-        public async void Task_Get_Product_By_Id_Should_Return_OkObjectResult()
+        public async void Task_GetProductById_Should_Return_OkObjectResult()
         {
             //Arrange
             Mock<IProductsRepository> mockRepo = new Mock<IProductsRepository>();
@@ -126,10 +125,17 @@ namespace test.Api.Controllers
                 ProductImage = "test"
             };
 
+            Product product = new Product
+            {
+                ProductId = 1,
+                ProductName = "test updated",
+                ProductImage = "test updated"
+            };
+
             // Act
             mockRepo.Setup(x => x.GetProductById(productId)).ReturnsAsync(testProduct);
+            mapper.Setup(x => x.Map<Product>(testProduct)).Returns(product);
             var result = await sut.GetProductById(productId);
-            mockRepo.Verify(x => x.GetProductById(testProduct.ProductId), Times.Once);
 
             //Assert
             Assert.IsType<OkObjectResult>(result);
@@ -143,16 +149,54 @@ namespace test.Api.Controllers
             Mock<IMapper> mapper = new Mock<IMapper>();
             var sut = new ProductController(mockRepo.Object, mapper.Object);
 
-            var productId = 1;
+            var productId = 0;
+            ProductDto testProductDto = new ProductDto
+            {
+                ProductId = 1,
+                ProductName = "test",
+                ProductImage = "test"
+            };
+            testProductDto = null;
 
             // Act
-            mockRepo.Setup(x => x.GetProductById(productId)).ReturnsAsync(It.IsAny<ProductDto>);
+            mockRepo.Setup(x => x.GetProductById(productId)).ReturnsAsync(testProductDto);
             var result = await sut.GetProductById(productId);
-            Console.WriteLine(result);
             mockRepo.Verify(x => x.GetProductById(productId), Times.Once);
 
             //Assert
             Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async void Task_Create_Should_Return_CreatedResult()
+        {
+            //Arrange
+            Mock<IProductsRepository> mockRepo = new Mock<IProductsRepository>();
+            Mock<IMapper> mapper = new Mock<IMapper>();
+            var sut = new ProductController(mockRepo.Object, mapper.Object);
+
+            ProductDto testProductDto = new ProductDto
+            {
+                ProductId = 1,
+                ProductName = "test",
+                ProductImage = "test"
+            };
+
+            Product testProduct = new Product
+            {
+                ProductId = 1,
+                ProductImage = "test-image.png",
+                ProductName = "Test product",
+            };
+
+            //Act
+            mapper.Setup(x => x.Map<ProductDto>(testProduct));
+            mockRepo.Setup(x => x.CreateProduct(testProductDto)).ReturnsAsync(1);
+            var data = await sut.Create(testProduct);
+            Console.WriteLine(data);
+
+            //Assert
+            Assert.IsType<CreatedResult>(data);
         }
 
         [Fact]
@@ -246,24 +290,6 @@ namespace test.Api.Controllers
             Assert.IsType<NotFoundResult>(data);
         }
 
-        [Fact]
-        public async void Task_Create_Should_Return_CreatedResult()
-        {
-            //Arrange
-            var controller = _controller;
-
-            Product testProduct = new Product
-            {
-                ProductId = 2,
-                ProductImage = "test-image.png",
-                ProductName = "Test product",
-            };
-
-            //Act
-            var data = await controller.Create(testProduct);
-            
-            //Assert
-            Assert.IsType<CreatedResult>(data);
-        }
+        
     }
 }
