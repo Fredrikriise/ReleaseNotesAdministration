@@ -166,13 +166,13 @@
                                             <label class="custom-control-label" for="@item.Id"></label>
                                         </div>
                                     </div>
-                                    <div class="float-left" id="result">
+                                    <div class="float-left m-auto" id="result">
                                         @item.Id - @item.Title
                                     </div>
                                 </div>
                                 <div class="float-right">
                                     <a asp-controller="WorkItem" asp-action="ViewWorkItem" asp-route-id="@item.Id">
-                                        <span class="btn btn-outline-secondary p-1" style="white-space: nowrap;"><i class="fa fa-eye"></i> View</span>
+                                        <span class="btn btn-outline-secondary p-1 ml-1" style="white-space: nowrap;"><i class="fa fa-eye"></i> View</span>
                                     </a>
                                 </div>
                             </div>
