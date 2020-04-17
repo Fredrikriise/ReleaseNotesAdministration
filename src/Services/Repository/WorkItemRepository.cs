@@ -111,5 +111,23 @@ namespace Services.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<bool> DeleteWorkItem(int Id)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    var Delete = "DELETE FROM [WorkItems] WHERE Id = @Id";
+                    var returnedWorkItem = await connection.ExecuteAsync(Delete, new WorkItem { @Id = Id });
+                    bool success = returnedWorkItem > 0;
+                    return success;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

@@ -60,13 +60,29 @@ namespace Api.Controllers
 
         //Method for updating work item
         [HttpPut]
-        [Route("/WorkItem/{workItemId}")]
-        public async Task<IActionResult> UpdateWorkItem(int workItemId, WorkItem workItem)
+        [Route("/WorkItem/{Id}")]
+        public async Task<IActionResult> UpdateWorkItem(int Id, WorkItem workItem)
         {
             var mappedWorkItem = _mapper.Map<WorkItemDto>(workItem);
-            await _workItemRepo.UpdateWorkItem(workItemId, mappedWorkItem);
+            await _workItemRepo.UpdateWorkItem(Id, mappedWorkItem);
             return Ok();
         }
 
+        //Method for deleting work item
+        [HttpDelete]
+        [Route("/WorkItem/{Id}")]
+        public async Task<IActionResult> DeleteWorkItem(int Id)
+        {
+            var deletedWorkItem = await _workItemRepo.DeleteWorkItem(Id);
+
+            if (deletedWorkItem)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

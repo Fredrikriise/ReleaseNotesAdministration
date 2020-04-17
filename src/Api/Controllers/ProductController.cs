@@ -23,6 +23,7 @@ namespace Api.Controllers
             _mapper = mapper;
         }
 
+        //Method to get all products
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -36,6 +37,7 @@ namespace Api.Controllers
             return Ok(mappedProducts);
         }
 
+        //Method to get product by id
         [HttpGet]
         [Route("/Product/{productId}")]
         public async Task<IActionResult> GetProductById(int? productId)
@@ -51,6 +53,7 @@ namespace Api.Controllers
             return Ok(mappedProduct);
         }
 
+        //Method for creating new product
         [HttpPost]
         public async Task<IActionResult> Create(Product product)
         {
@@ -59,6 +62,7 @@ namespace Api.Controllers
             return Created("", product);
         }
 
+        //Method for updating product
         [HttpPut]
         [Route("/Product/{productId}")]
         public async Task<IActionResult> UpdateProduct(int? productId, Product product)
@@ -68,6 +72,7 @@ namespace Api.Controllers
             return Ok();
         }
 
+        //Method for deleting product
         [HttpDelete]
         [Route("/Product/{ProductId}")]
         public async Task<IActionResult> DeleteProduct(int? productId)
