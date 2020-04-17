@@ -92,21 +92,21 @@ namespace ReleaseNotesAdministration.Controllers
         // Method for getting product object to edit
         public async Task<IActionResult> EditProduct(int Id)
         {
-            var productsResult = await _releaseNotesClient.GetAsync($"/Product/{Id}");
+            var productResult = await _releaseNotesClient.GetAsync($"/Product/{Id}");
 
-            if (!productsResult.IsSuccessStatusCode)
+            if (!productResult.IsSuccessStatusCode)
             {
                 throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
             }
 
-            var responseStream = await productsResult.Content.ReadAsStringAsync();
+            var responseStream = await productResult.Content.ReadAsStringAsync();
             var product = JsonConvert.DeserializeObject<ProductAdminApiModel>(responseStream);
 
             var productViewModel = new ProductAdminViewModel
             {
                 ProductId = product.ProductId,
                 ProductName = product.ProductName,
-                ProductImage = product.ProductImage,
+                ProductImage = product.ProductImage
             };
 
             return View(productViewModel);
