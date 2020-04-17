@@ -88,7 +88,7 @@ namespace Services
                     var updateDb = @"UPDATE [Products]
                     SET
                         [ProductName] = @ProductName,
-                        [ProductImage] = @ProductImage,
+                        [ProductImage] = @ProductImage
                     WHERE [ProductId] = @ProductId";
                     var productMapped = _mapper.Map<Product>(product);
                     productMapped.AddProductId(ProductId);
