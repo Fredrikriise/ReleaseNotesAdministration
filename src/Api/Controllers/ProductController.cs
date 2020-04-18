@@ -73,13 +73,19 @@ namespace Api.Controllers
         public async Task<IActionResult> Create(Product product)
         {
             var mappedProduct = _mapper.Map<ProductDto>(product);
-            Console.WriteLine(mappedProduct);
+
             if(mappedProduct == null)
             {
                 return NotFound();
             }
 
             await _productRepo.CreateProduct(mappedProduct);
+
+            if(product == null)
+            {
+                return NotFound();
+            }
+
             return Created("", product);
         }
 
