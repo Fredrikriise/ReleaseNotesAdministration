@@ -94,14 +94,19 @@ namespace Api.Controllers
         public async Task<IActionResult> UpdateProduct(int? productId, Product product)
         {
             var mappedProduct = _mapper.Map<ProductDto>(product);
-            Console.WriteLine(mappedProduct);
 
             if (mappedProduct == null)
             {
                 return NotFound();
             }
 
-            await _productRepo.UpdateProduct(productId, mappedProduct);
+            var updatedProduct = await _productRepo.UpdateProduct(productId, mappedProduct);
+
+            if(updatedProduct == null)
+            {
+                return NotFound();
+            }
+
             return Ok();
         }
 
