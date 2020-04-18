@@ -100,7 +100,6 @@
 
 
 <h2>Create release note</h2>
-<a class="btn btn-outline-secondary mb-3" asp-controller="WorkItem" asp-action="ListAllWorkItems"><i class="fa fa-list-ul"></i> Pick related work items</a>
 <div>
     <a asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes"><i class="fa fa-arrow-left"></i> Back to release notes</a>
 </div>
@@ -167,13 +166,13 @@
                                             <label class="custom-control-label" for="@item.Id"></label>
                                         </div>
                                     </div>
-                                    <div class="float-left" id="result">
+                                    <div class="float-left m-auto" id="result">
                                         @item.Id - @item.Title
                                     </div>
                                 </div>
                                 <div class="float-right">
                                     <a asp-controller="WorkItem" asp-action="ViewWorkItem" asp-route-id="@item.Id">
-                                        <span class="btn btn-outline-secondary p-1" style="font-size: 12px; white-space: nowrap;"><i class="fa fa-eye"></i> View</span>
+                                        <span class="btn btn-outline-secondary p-1 ml-1" style="white-space: nowrap;"><i class="fa fa-eye"></i> View</span>
                                     </a>
                                 </div>
                             </div>

@@ -55,7 +55,7 @@ namespace ReleaseNotesAdministration.Controllers
         // Method for creating product
         public async Task<IActionResult> CreateProduct(ProductAdminApiModel product)
         {
-            string productNamePattern = @"^[A-Za-z0-9\s\-_,\.;:!()+']$";
+            string productNamePattern = @"^[A-Za-z0-9\s\-_,\.;:!()+']{3,99}$";
             var productNameMatch = Regex.Match(product.ProductName, productNamePattern, RegexOptions.IgnoreCase);
             if (!productNameMatch.Success)
             {
@@ -92,21 +92,21 @@ namespace ReleaseNotesAdministration.Controllers
         // Method for getting product object to edit
         public async Task<IActionResult> EditProduct(int Id)
         {
-            var productsResult = await _releaseNotesClient.GetAsync($"/Product/{Id}");
+            var productResult = await _releaseNotesClient.GetAsync($"/Product/{Id}");
 
-            if (!productsResult.IsSuccessStatusCode)
+            if (!productResult.IsSuccessStatusCode)
             {
                 throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
             }
 
-            var responseStream = await productsResult.Content.ReadAsStringAsync();
+            var responseStream = await productResult.Content.ReadAsStringAsync();
             var product = JsonConvert.DeserializeObject<ProductAdminApiModel>(responseStream);
 
             var productViewModel = new ProductAdminViewModel
             {
                 ProductId = product.ProductId,
                 ProductName = product.ProductName,
-                ProductImage = product.ProductImage,
+                ProductImage = product.ProductImage
             };
 
             return View(productViewModel);
@@ -151,7 +151,7 @@ namespace ReleaseNotesAdministration.Controllers
             }
         }
 
-        // Method for getting an product object to delete
+        // Method for getting an product object to view
         public async Task<IActionResult> ViewProduct(int Id)
         {
             var productsResult = await _releaseNotesClient.GetAsync($"/Product/{Id}");
@@ -173,7 +173,6 @@ namespace ReleaseNotesAdministration.Controllers
             try
             {
                 var transportData = await _releaseNotesClient.DeleteAsync($"/Product/{Id}");
-
                 TempData["DeleteProduct"] = "Success";
                 return RedirectToAction("ListAllProducts");
             }
@@ -182,7 +181,5 @@ namespace ReleaseNotesAdministration.Controllers
                 throw new Exception(ex.Message);
             }
         }
-
-
     }
 }

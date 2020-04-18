@@ -24,6 +24,7 @@ namespace Api.Controllers
             _mapper = mapper;
         }
 
+        //Method to get all work item as a list
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -55,6 +56,33 @@ namespace Api.Controllers
             var mappedWorkItem = _mapper.Map<WorkItemDto>(workitem);
             await _workItemRepo.CreateWorkItem(mappedWorkItem);
             return Created("", workitem);
+        }
+
+        //Method for updating work item
+        [HttpPut]
+        [Route("/WorkItem/{Id}")]
+        public async Task<IActionResult> UpdateWorkItem(int Id, WorkItem workItem)
+        {
+            var mappedWorkItem = _mapper.Map<WorkItemDto>(workItem);
+            await _workItemRepo.UpdateWorkItem(Id, mappedWorkItem);
+            return Ok();
+        }
+
+        //Method for deleting work item
+        [HttpDelete]
+        [Route("/WorkItem/{Id}")]
+        public async Task<IActionResult> DeleteWorkItem(int Id)
+        {
+            var deletedWorkItem = await _workItemRepo.DeleteWorkItem(Id);
+
+            if (deletedWorkItem)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

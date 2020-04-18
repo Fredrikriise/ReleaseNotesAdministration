@@ -85,5 +85,49 @@ namespace Services.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<WorkItemDto> UpdateWorkItem(int Id, WorkItemDto workItem)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    var updateDb = @"UPDATE [WorkItems]
+                    SET
+                        [Id] = @Id,
+                        [Title] = @Title,
+                        [AssignedTo] = @AssignedTo,
+                        [State] = @State
+                    WHERE [Id] = @Id";
+                    var workItemMapped = _mapper.Map<WorkItem>(workItem);
+                    workItemMapped.AddWorkItemId(Id);
+
+                    var result = await connection.ExecuteAsync(updateDb, workItemMapped);
+                    return workItem;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> DeleteWorkItem(int Id)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    var Delete = "DELETE FROM [WorkItems] WHERE Id = @Id";
+                    var returnedWorkItem = await connection.ExecuteAsync(Delete, new WorkItem { @Id = Id });
+                    bool success = returnedWorkItem > 0;
+                    return success;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

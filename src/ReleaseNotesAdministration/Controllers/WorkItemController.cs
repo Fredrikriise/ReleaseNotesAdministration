@@ -123,5 +123,91 @@ namespace ReleaseNotesAdministration.Controllers
             TempData["CreateWorkItem"] = "Success";
             return RedirectToAction("ListAllWorkItems");
         }
+
+        // Method for getting work item object to edit view
+        public async Task<IActionResult> EditWorkItem(int Id)
+        {
+            var workItemResult = await _workItemsClient.GetAsync($"/WorkItem/{Id}");
+
+            if (!workItemResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/WorkItem/' failed");
+            }
+
+            var responseStream = await workItemResult.Content.ReadAsStringAsync();
+            var workItem = JsonConvert.DeserializeObject<WorkItemApiModel>(responseStream);
+
+            var workItemViewModel = new WorkItemViewModel
+            {
+                Id = workItem.Id,
+                Title = workItem.Title,
+                AssignedTo = workItem.AssignedTo,
+                State = workItem.State
+            };
+
+            return View(workItemViewModel);
+        }
+
+        // Method for posting edit on a work item object
+        [HttpPost]
+        public async Task<IActionResult> EditWorkItem(int Id, WorkItemViewModel workItem)
+        {
+            try
+            {
+                var jsonString = JsonConvert.SerializeObject(workItem);
+                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                var transportData = await _workItemsClient.PutAsync($"/WorkItem/{Id}", content);
+
+                string workItemIdPattern = @"^[0-9]{1,99}$";
+                var workitemIdMatch = Regex.Match((workItem.Id).ToString(), workItemIdPattern, RegexOptions.IgnoreCase);
+                if (!workitemIdMatch.Success)
+                {
+                    ModelState.AddModelError("Id", "Id may only consists of numbers!");
+                }
+
+                string workItemTitlePattern = @"^[A-Za-z0-9\s\-_,\.;:!()+']{3,99}$";
+                var workitemTitleMatch = Regex.Match(workItem.Title, workItemTitlePattern, RegexOptions.IgnoreCase);
+                if (!workitemTitleMatch.Success)
+                {
+                    ModelState.AddModelError("Title", "Title must be between three and 99 characters!");
+                }
+
+                string workItemAssignedToPattern = @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+                var workItemAssignedToMatch = Regex.Match(workItem.AssignedTo, workItemAssignedToPattern, RegexOptions.IgnoreCase);
+                if (!workItemAssignedToMatch.Success)
+                {
+                    ModelState.AddModelError("AssignedTo", "Assigned to may only consist of characters!");
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    TempData["UpdateWorkItem"] = "Failed";
+                    return View("EditWorkItem");
+                }
+
+                TempData["EditWorkItem"] = "Success";
+                return RedirectToAction("ViewWorkItem", new { id = Id });
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        // Method for deleting object
+        [HttpPost]
+        public async Task<IActionResult> DeleteWorkItem(int Id)
+        {
+            try
+            {
+                var transportData = await _workItemsClient.DeleteAsync($"/WorkItem/{Id}");
+                TempData["DeleteWorkitem"] = "Success";
+                return RedirectToAction("ListAllWorkItems");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
