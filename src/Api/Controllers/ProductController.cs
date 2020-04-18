@@ -68,6 +68,7 @@ namespace Api.Controllers
             {
                 return NotFound();
             }
+
             return Ok(mappedProduct);
         }
 

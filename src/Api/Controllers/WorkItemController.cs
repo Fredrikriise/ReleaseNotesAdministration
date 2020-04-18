@@ -13,13 +13,12 @@ namespace Api.Controllers
     [Route("[Controller]")]
     public class WorkItemController : Controller
     {
-        private readonly ILogger<WorkItemController> _logger;
+        //private readonly ILogger<WorkItemController> _logger;
         private readonly IMapper _mapper;
         private readonly IWorkItemRepository _workItemRepo;
 
-        public WorkItemController(ILogger<WorkItemController> logger, IWorkItemRepository workItemRepository, IMapper mapper)
+        public WorkItemController(IWorkItemRepository workItemRepository, IMapper mapper)
         {
-            _logger = logger;
             _workItemRepo = workItemRepository;
             _mapper = mapper;
         }
@@ -29,7 +28,19 @@ namespace Api.Controllers
         public async Task<IActionResult> Get()
         {
             var returnedWorkItems = await _workItemRepo.GetAllWorkItems();
+
+            if(returnedWorkItems == null)
+            {
+                return NotFound();
+            }
+
             var mappedWorkItems = _mapper.Map<List<WorkItem>>(returnedWorkItems);
+
+            if(mappedWorkItems == null)
+            {
+                return NotFound();
+            }
+
             return Ok(mappedWorkItems);
         }
 
@@ -46,6 +57,12 @@ namespace Api.Controllers
             }
 
             var mappedWorkItem = _mapper.Map<WorkItem>(workItem);
+
+            if(mappedWorkItem == null)
+            {
+                return NotFound();
+            }
+
             return Ok(mappedWorkItem);
         }
 
@@ -54,7 +71,19 @@ namespace Api.Controllers
         public async Task<IActionResult> Create(WorkItem workitem)
         {
             var mappedWorkItem = _mapper.Map<WorkItemDto>(workitem);
+
+            if(mappedWorkItem == null)
+            {
+                return NotFound();
+            }
+
             await _workItemRepo.CreateWorkItem(mappedWorkItem);
+            
+            if(workitem == null)
+            {
+                return NotFound();
+            }
+
             return Created("", workitem);
         }
 
@@ -64,7 +93,19 @@ namespace Api.Controllers
         public async Task<IActionResult> UpdateWorkItem(int Id, WorkItem workItem)
         {
             var mappedWorkItem = _mapper.Map<WorkItemDto>(workItem);
-            await _workItemRepo.UpdateWorkItem(Id, mappedWorkItem);
+
+            if (mappedWorkItem == null)
+            {
+                return NotFound();
+            }
+
+            var updatedWorkItem = await _workItemRepo.UpdateWorkItem(Id, mappedWorkItem);
+            
+            if(updatedWorkItem == null)
+            {
+                return NotFound();
+            }
+            
             return Ok();
         }
 
