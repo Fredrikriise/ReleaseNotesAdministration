@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Services.Repository.Interfaces;
 using Services.Repository.Models.DatabaseModels;
 using Services.Repository.Models.DataTransferObjects;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -33,7 +34,19 @@ namespace Api.Controllers
             //}
 
             var returnedProducts = await _productRepo.GetAllProducts();
+
+            if(returnedProducts == null)
+            {
+                return NotFound();
+            }
+
             var mappedProducts = _mapper.Map<List<Product>>(returnedProducts);
+
+            if (mappedProducts == null)
+            {
+                return NotFound();
+            }
+
             return Ok(mappedProducts);
         }
 
@@ -50,6 +63,11 @@ namespace Api.Controllers
             }
 
             var mappedProduct = _mapper.Map<Product>(product);
+
+            if(mappedProduct == null)
+            {
+                return NotFound();
+            }
             return Ok(mappedProduct);
         }
 
@@ -58,7 +76,19 @@ namespace Api.Controllers
         public async Task<IActionResult> Create(Product product)
         {
             var mappedProduct = _mapper.Map<ProductDto>(product);
+
+            if(mappedProduct == null)
+            {
+                return NotFound();
+            }
+
             await _productRepo.CreateProduct(mappedProduct);
+
+            if(product == null)
+            {
+                return NotFound();
+            }
+
             return Created("", product);
         }
 
@@ -68,7 +98,19 @@ namespace Api.Controllers
         public async Task<IActionResult> UpdateProduct(int? productId, Product product)
         {
             var mappedProduct = _mapper.Map<ProductDto>(product);
-            await _productRepo.UpdateProduct(productId, mappedProduct);
+
+            if (mappedProduct == null)
+            {
+                return NotFound();
+            }
+
+            var updatedProduct = await _productRepo.UpdateProduct(productId, mappedProduct);
+
+            if(updatedProduct == null)
+            {
+                return NotFound();
+            }
+
             return Ok();
         }
 
