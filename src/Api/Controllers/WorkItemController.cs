@@ -13,13 +13,12 @@ namespace Api.Controllers
     [Route("[Controller]")]
     public class WorkItemController : Controller
     {
-        private readonly ILogger<WorkItemController> _logger;
+        //private readonly ILogger<WorkItemController> _logger;
         private readonly IMapper _mapper;
         private readonly IWorkItemRepository _workItemRepo;
 
-        public WorkItemController(ILogger<WorkItemController> logger, IWorkItemRepository workItemRepository, IMapper mapper)
+        public WorkItemController(IWorkItemRepository workItemRepository, IMapper mapper)
         {
-            _logger = logger;
             _workItemRepo = workItemRepository;
             _mapper = mapper;
         }

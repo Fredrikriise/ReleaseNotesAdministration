@@ -13,13 +13,12 @@ namespace Api.Controllers
     [Route("[Controller]")]
     public class ReleaseNotesController : ControllerBase
     {
-        private readonly ILogger<ReleaseNotesController> _logger;
+        //private readonly ILogger<ReleaseNotesController> _logger;
         private readonly IMapper _mapper;
         private readonly IReleaseNotesRepository _releaseNoteRepo;
 
-        public ReleaseNotesController(ILogger<ReleaseNotesController> logger, IReleaseNotesRepository releaseNoteRepository, IMapper mapper)
+        public ReleaseNotesController(IReleaseNotesRepository releaseNoteRepository, IMapper mapper)
         {
-            _logger = logger;
             _releaseNoteRepo = releaseNoteRepository;
             _mapper = mapper;
         }
@@ -34,7 +33,19 @@ namespace Api.Controllers
             //}
 
             var returnedReleaseNotes = await _releaseNoteRepo.GetAllReleaseNotes();
+
+            if(returnedReleaseNotes == null)
+            {
+                return NotFound();
+            }
+
             var mappedReleaseNotes = _mapper.Map<List<ReleaseNote>>(returnedReleaseNotes);
+
+            if(mappedReleaseNotes == null)
+            {
+                return NotFound();
+            }
+
             return Ok(mappedReleaseNotes);
         }
 
@@ -51,6 +62,12 @@ namespace Api.Controllers
             }
 
             var mappedReleaseNote = _mapper.Map<ReleaseNote>(releaseNote);
+
+            if(mappedReleaseNote == null)
+            {
+                return NotFound();
+            }
+
             return Ok(mappedReleaseNote);
         }
 
@@ -59,7 +76,19 @@ namespace Api.Controllers
         public async Task<IActionResult> Create(ReleaseNote releaseNote)
         {
             var mappedReleaseNote = _mapper.Map<ReleaseNoteDto>(releaseNote);
+
+            if(mappedReleaseNote == null)
+            {
+                return NotFound();
+            }
+
             await _releaseNoteRepo.CreateReleaseNote(mappedReleaseNote);
+
+            if(releaseNote == null)
+            {
+                return NotFound();
+            }
+
             return Created("", releaseNote);
         }
 
@@ -69,7 +98,19 @@ namespace Api.Controllers
         public async Task<IActionResult> UpdateReleaseNote(int? Id, ReleaseNote releaseNote)
         {
             var mappedReleaseNote = _mapper.Map<ReleaseNoteDto>(releaseNote);
-            await _releaseNoteRepo.UpdateReleaseNote(Id, mappedReleaseNote);
+
+            if(mappedReleaseNote == null)
+            {
+                return NotFound();
+            }
+
+            var updatedReleaseNote = await _releaseNoteRepo.UpdateReleaseNote(Id, mappedReleaseNote);
+
+            if(updatedReleaseNote == null)
+            {
+                return NotFound();
+            }
+
             return Ok();
         }
 

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace test.Api.Controllers
+namespace test.ApiTests.Controllers
 {
     public class ProductControllerApiTest
     {
@@ -212,7 +212,7 @@ namespace test.Api.Controllers
         }
 
         [Fact]
-        public async void Task_Create_Should_Return_CreatedResult()
+        public async void Task_Create_Product_Should_Return_CreatedResult()
         {
             //Arrange
             var sut = _controller;
@@ -248,7 +248,7 @@ namespace test.Api.Controllers
         }
 
         [Fact]
-        public async void Task_Create_Should_Return_NotFound_mappedProduct()
+        public async void Task_Create_Product_Should_Return_NotFound_mappedProduct()
         {
             //Arrange
             var sut = _controller;
@@ -276,7 +276,7 @@ namespace test.Api.Controllers
         }
 
         [Fact]
-        public async void Task_Create_Should_Return_NotFound_product()
+        public async void Task_Create_Product_Should_Return_NotFound_product()
         {
             //Arrange
             var sut = _controller;
@@ -457,7 +457,5 @@ namespace test.Api.Controllers
             //Assert
             Assert.IsType<NotFoundResult>(result);
         }
-
-        
     }
 }
