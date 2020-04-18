@@ -26,7 +26,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Get_All_ReleaseNotes_Should_Return_OkObjectResult()
+        public async void GetAllReleaseNotes_Should_Return_OkObjectResult()
         {
             //Arrange
             var sut = _controller;
@@ -101,7 +101,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Get_All_ReleaseNotes_Should_Return_NotFoundResult_returnedReleaseNotes()
+        public async void GetAllReleaseNotes_Should_Return_NotFoundResult_returnedReleaseNotes()
         {
             //Arrange
             var sut = _controller;
@@ -146,7 +146,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Get_All_ReleaseNotes_Should_Return_NotFoundResult_mappedReleaseNotes()
+        public async void GetAllReleaseNotes_Should_Return_NotFoundResult_mappedReleaseNotes()
         {
             //Arrange
             var sut = _controller;
@@ -190,7 +190,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Get_ReleaseNote_By_Id_Should_Return_OkObjectResult()
+        public async void GetReleaseNoteById_Should_Return_OkObjectResult()
         {
             //Arrange
             var sut = _controller;
@@ -235,7 +235,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Get_ReleaseNote_By_Id_Should_Return_NotFoundResult_releaseNote()
+        public async void GetReleaseNoteById_Should_Return_NotFoundResult_releaseNote()
         {
             //Arrange
             var sut = _controller;
@@ -266,7 +266,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Get_ReleaseNote_By_Id_Should_Return_NotFoundResult_mappedReleaseNote()
+        public async void GetReleaseNoteById_Should_Return_NotFoundResult_mappedReleaseNote()
         {
             //Arrange
             var sut = _controller;
@@ -296,7 +296,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Create_ReleaseNote_Should_Return_CreatedResult()
+        public async void CreateReleaseNote_Should_Return_CreatedResult()
         {
             //Arrange
             var sut = _controller;
@@ -353,7 +353,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Create_ReleaseNote_Should_Return_NotFound_mappedReleaseNote()
+        public async void CreateReleaseNote_Should_Return_NotFound_mappedReleaseNote()
         {
             //Arrange
             var sut = _controller;
@@ -395,7 +395,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Create_ReleaseNote_Should_Return_NotFound_releaseNote()
+        public async void CreateReleaseNote_Should_Return_NotFound_releaseNote()
         {
             //Arrange
             var sut = _controller;
@@ -453,7 +453,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Update_ReleaseNote_Should_Return_OkResult()
+        public async void UpdateReleaseNote_Should_Return_OkResult()
         {
             //Arrange
             var sut = _controller;
@@ -512,7 +512,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Update_ReleaseNote_Should_Return_NotFound_mappedReleaseNote()
+        public async void UpdateReleaseNote_Should_Return_NotFound_mappedReleaseNote()
         {
             //Arrange
             var sut = _controller;
@@ -570,7 +570,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Update_ReleaseNote_Should_Return_NotFound_updatedReleaseNote()
+        public async void UpdateReleaseNote_Should_Return_NotFound_updatedReleaseNote()
         {
             //Arrange
             var sut = _controller;
@@ -630,7 +630,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Delete_ReleaseNote_Should_Return_OkResult()
+        public async void DeleteReleaseNote_Should_Return_OkResult()
         {
             //Arrange
             var sut = _controller;
@@ -646,7 +646,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Delete_ReleaseNote_Should_Return_NotFoundResult_deletedReleaseNote()
+        public async void DeleteReleaseNote_Should_Return_NotFoundResult_deletedReleaseNote()
         {
             //Arrange
             var sut = _controller;

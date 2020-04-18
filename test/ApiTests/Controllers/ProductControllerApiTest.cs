@@ -5,9 +5,7 @@ using Moq;
 using Services.Repository.Interfaces;
 using Services.Repository.Models.DatabaseModels;
 using Services.Repository.Models.DataTransferObjects;
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace test.ApiTests.Controllers
@@ -26,7 +24,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Get_All_Products_Should_Return_OkObjectResult()
+        public async void GetAllProducts_Should_Return_OkObjectResult()
         {
             //Arrange
             var sut = _controller;
@@ -73,7 +71,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Get_All_Products_Should_Return_NotFoundResult_returnedProducts()
+        public async void GetAllProducts_Should_Return_NotFoundResult_returnedProducts()
         {
             //Arrange
             var sut = _controller;
@@ -104,7 +102,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Get_All_Products_Should_Return_NotFoundResult_mappedProducts()
+        public async void GetAllProducts_Should_Return_NotFoundResult_mappedProducts()
         {
             //Arrange
             var sut = _controller;
@@ -134,7 +132,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_GetProductById_Should_Return_OkObjectResult()
+        public async void GetProductById_Should_Return_OkObjectResult()
         {
             //Arrange
             var sut = _controller;
@@ -165,7 +163,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Get_Product_By_Id_Should_Return_NotFoundResult_product()
+        public async void GetProductById_Should_Return_NotFoundResult_product()
         {
             //Arrange
             var sut = _controller;
@@ -189,7 +187,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Get_Product_By_Id_Should_Return_NotFoundResult_mappedProduct()
+        public async void GetProductById_Should_Return_NotFoundResult_mappedProduct()
         {
             //Arrange
             var sut = _controller;
@@ -212,7 +210,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Create_Product_Should_Return_CreatedResult()
+        public async void CreateProduct_Should_Return_CreatedResult()
         {
             //Arrange
             var sut = _controller;
@@ -248,7 +246,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Create_Product_Should_Return_NotFound_mappedProduct()
+        public async void CreateProduct_Should_Return_NotFound_mappedProduct()
         {
             //Arrange
             var sut = _controller;
@@ -276,7 +274,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Create_Product_Should_Return_NotFound_product()
+        public async void CreateProduct_Should_Return_NotFound_product()
         {
             //Arrange
             var sut = _controller;
@@ -313,7 +311,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Update_Product_Should_Return_OkResult()
+        public async void UpdateProduct_Should_Return_OkResult()
         {
             //Arrange
             var sut = _controller;
@@ -351,7 +349,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Update_Product_Should_Return_NotFound_mappedProduct()
+        public async void UpdateProduct_Should_Return_NotFound_mappedProduct()
         {
             //Arrange
             var sut = _controller;
@@ -388,7 +386,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Update_Product_Should_Return_NotFound_updatedProduct()
+        public async void UpdateProduct_Should_Return_NotFound_updatedProduct()
         {
             //Arrange
             var sut = _controller;
@@ -427,7 +425,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Delete_Product_Should_Return_OkResult()
+        public async void DeleteProduct_Should_Return_OkResult()
         {
             //Arrange
             var sut = _controller;
@@ -443,7 +441,7 @@ namespace test.ApiTests.Controllers
         }
 
         [Fact]
-        public async void Task_Delete_Product_Should_Return_NotFoundResult_deletedProduct()
+        public async void DeleteProduct_Should_Return_NotFoundResult_deletedProduct()
         {
             //Arrange
             var sut = _controller;
