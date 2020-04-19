@@ -30,6 +30,18 @@
                 var bodyText = document.getElementById('BodyText').value;
                 var createdBy = document.getElementById('CreatedBy').value;
                 var productId = document.getElementById('ProductId').value;
+                var pickedWorkItems = document.querySelector('input[name="PickedWorkItems"]:checked');
+
+                if (!pickedWorkItems) {
+                    evt.preventDefault();
+                    document.getElementById('PickedWorkItemsValidation').innerHTML = "*Related work items are required to create a new release note!";
+                    document.getElementById('PickedWorkItemsValidation').style.color = "red";
+
+                    $(".PickedWorkItems").on('change', function () {
+                        var ok = "";
+                        $("#PickedWorkItemsValidation").html(ok);
+                    });
+                }
 
                 if (title.length == 0) {
                     evt.preventDefault();
@@ -151,9 +163,10 @@
                     <button class="input-group-text"><i class="fas fa-search"></i></button>
                 </div>
             </div>
-          
 
-            <div class="mt-4 mb-2">
+            <span asp-validation-for="PickedWorkItems" class="text-danger"></span>
+            <span id="PickedWorkItemsValidation"></span>
+            <div class="mt-2 mb-2">
                 @foreach (var item in ViewBag.workitems)
                 {
                     <ul class="mb-1 pl-0" id="myList" style="font-size: 16px; list-style-type: none;">
@@ -162,7 +175,7 @@
                                 <div class="d-flex justify-content-start">
                                     <div class="btn-group-vertical">
                                         <div class="custom-control custom-checkbox btn-group-vertical">
-                                            <input asp-for="PickedWorkItems" type="checkbox" class="custom-control-input" id="@item.Id" value="@item.Id">
+                                            <input asp-for="PickedWorkItems" type="checkbox" class="custom-control-input PickedWorkItems" id="@item.Id" value="@item.Id" name="PickedWorkItems">
                                             <label class="custom-control-label" for="@item.Id"></label>
                                         </div>
                                     </div>

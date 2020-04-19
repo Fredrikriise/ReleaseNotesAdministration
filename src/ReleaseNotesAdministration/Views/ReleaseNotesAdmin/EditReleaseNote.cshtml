@@ -16,6 +16,18 @@
                     var productId = document.getElementById('ProductId').value;
                     var createdBy = document.getElementById('CreatedBy').value;
                     var productId = document.getElementById('ProductId').value;
+                    var pickedWorkItems = document.querySelector('input[name="PickedWorkItems"]:checked');
+
+                    if (!pickedWorkItems) {
+                        evt.preventDefault();
+                        document.getElementById('PickedWorkItemsValidation').innerHTML = "*Related work items are required to update a release note!";
+                        document.getElementById('PickedWorkItemsValidation').style.color = "red";
+
+                        $(".PickedWorkItems").on('change', function () {
+                            var ok = "";
+                            $("#PickedWorkItemsValidation").html(ok);
+                        });
+                    }
 
                     if (lastUpdatedBy.length == 0) {
                         evt.preventDefault();
@@ -80,6 +92,8 @@
                 $('[data-toggle="tooltip"]').tooltip();
             });
         </script>
+
+
     </head>
 
  <div>
@@ -148,19 +162,21 @@
                      if (ViewBag.selectedWorkItems != null)
                      {
                          PickedWorkItemId = ViewBag.selectedWorkItems.Split(' ');
-                         
+
                          for (int i = 0; i < PickedWorkItemId.Length; i++)
                          {
-                            if(PickedWorkItemId[i].Length <= 1)
-                            {
-                                PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
-                            }
+                             if (PickedWorkItemId[i].Length <= 1)
+                             {
+                                 PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
+                             }
                          }
 
                      }
                  }
 
-                 <div class="mt-4 mb-2">
+                 <span id="PickedWorkItemsValidation"></span>
+                 <span asp-validation-for="PickedWorkItems" class="text-danger"></span>
+                 <div class="mt-2 mb-2">
                      @foreach (var item in ViewBag.workitems)
                      {
                          <ul class="mb-1 pl-0" id="myList" style="font-size: 16px; list-style-type: none;">
@@ -172,16 +188,15 @@
 
                                                  @for (var i = 0; i < PickedWorkItemId.Length; i++)
                                                  {
-                                                     if (PickedWorkItemId[i] == (item.Id).ToString())
+                                                     if (PickedWorkItemId[i] != (item.Id).ToString())
                                                      {
-                                                         <input asp-for="PickedWorkItems" type="checkbox" class="custom-control-input" id="@item.Id" value="@item.Id" checked="checked">
+                                                         <input asp-for="PickedWorkItems" type="checkbox" class="custom-control-input" id="@item.Id" value="@item.Id" name="PickedWorkItems">
                                                      }
                                                      else
                                                      {
-                                                         <input asp-for="PickedWorkItems" type="checkbox" class="custom-control-input" id="@item.Id" value="@item.Id">
+                                                         <input asp-for="PickedWorkItems" type="checkbox" class="custom-control-input" id="@item.Id" value="@item.Id" name="PickedWorkItems" checked="checked">
                                                      }
                                                  }
-
 
                                                  <label class="custom-control-label" for="@item.Id"></label>
                                              </div>
@@ -208,8 +223,6 @@
                      </div>
                      <a class="btn btn-outline-danger float-right" asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes"><i class="fa fa-times"></i> Cancel</a>
                  </div>
-
-
              </form>
          </div>
      </div>
