@@ -20,6 +20,7 @@ namespace ReleaseNotesAdministration.ViewModels
         public string LastUpdatedBy { get; set; }
         public DateTime? LastUpdateDate { get; set; }
         public bool IsDraft { get; set; }
+        [Required(ErrorMessage = "Related work items are required!")]
         public string PickedWorkItems { get; set; }
 
     }

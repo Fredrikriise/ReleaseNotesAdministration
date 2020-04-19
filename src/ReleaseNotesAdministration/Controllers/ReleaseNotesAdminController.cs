@@ -110,6 +110,7 @@ namespace ReleaseNotesAdministration.Controllers
             if(PickedWorkItemsString == "")
             {
                 PickedWorkItemsString = null;
+                ModelState.AddModelError("PickedWorkItems", "You must select at least one related work item!");
             }
 
             string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]{3,100}$";
@@ -243,28 +244,10 @@ namespace ReleaseNotesAdministration.Controllers
 
         // Method for posting edit on a release note object
         [HttpPost]
-        public async Task<IActionResult> EditReleaseNote(int? Id, ReleaseNoteAdminViewModel releaseNote, string submitButton)
+        public async Task<IActionResult> EditReleaseNote(int? Id, ReleaseNoteAdminViewModel releaseNote, string submitButton, string[] PickedWorkItems)
         {
             try
             {
-                bool val = false;
-
-                if (submitButton == "Save as draft")
-                {
-                    val = true;
-                }
-                else if (submitButton == "Save and publish")
-                {
-                    val = false;
-                }
-
-                releaseNote.IsDraft = val;
-
-                var jsonString = JsonConvert.SerializeObject(releaseNote);
-                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-                var transportData = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
-
-
                 string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]{3,100}$";
                 var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
                 if (!releaseNoteTitleMatch.Success)
@@ -295,6 +278,42 @@ namespace ReleaseNotesAdministration.Controllers
                 {
                     ModelState.AddModelError("LastUpdatedBy", "Last updated by may only consist of characters!");
                 }
+
+                string PickedWorkItemsString = "";
+
+                for (int i = 0; i < PickedWorkItems.Length; i++)
+                {
+                    if (PickedWorkItems[i] != "false")
+                    {
+                        PickedWorkItemsString += PickedWorkItems[i] + " ";
+                    }
+                }
+
+                if (PickedWorkItemsString == "")
+                {
+                    PickedWorkItemsString = null;
+                    ModelState.AddModelError("PickedWorkItems", "You must select at least one related work item!");
+                }
+
+
+                bool val = false;
+
+                if (submitButton == "Save as draft")
+                {
+                    val = true;
+                }
+                else if (submitButton == "Save and publish")
+                {
+                    val = false;
+                }
+
+                releaseNote.IsDraft = val;
+                releaseNote.PickedWorkItems = PickedWorkItemsString;
+
+                var jsonString = JsonConvert.SerializeObject(releaseNote);
+                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                var transportData = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
+
 
                 if (!ModelState.IsValid)
                 {
