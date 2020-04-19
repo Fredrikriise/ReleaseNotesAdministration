@@ -199,8 +199,9 @@ namespace ReleaseNotesAdministration.Controllers
                 LastUpdatedBy = releaseNote.LastUpdatedBy,
                 LastUpdateDate = DateTime.Now,
                 IsDraft = releaseNote.IsDraft,
-                PickedWorkItems = releaseNote.PickedWorkItems
             };
+
+            ViewBag.selectedWorkItems = releaseNote.PickedWorkItems;
 
             // Getting data for Product
             var productsResult = await _releaseNotesClient.GetAsync("/Product/");
@@ -221,6 +222,21 @@ namespace ReleaseNotesAdministration.Controllers
             }).ToList();
 
             ViewBag.products = productsList;
+
+
+            var workItemResult = await _releaseNotesClient.GetAsync("/WorkItem/");
+            var responseStreamWorkItem = await workItemResult.Content.ReadAsStringAsync();
+            var workItems = JsonConvert.DeserializeObject<List<WorkItemApiModel>>(responseStreamWorkItem);
+
+            var workItemList = workItems.Select(x => new WorkItemViewModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                AssignedTo = x.AssignedTo,
+                State = x.State
+            }).ToList();
+
+            ViewBag.workitems = workItemList;
 
             return View(releaseNoteViewModel);
         }
@@ -313,7 +329,13 @@ namespace ReleaseNotesAdministration.Controllers
             if (releaseNote.PickedWorkItems != null)
             {
                 PickedWorkItemId = releaseNote.PickedWorkItems.Split(' ');
-                PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
+                for(int i = 0; i < PickedWorkItemId.Length; i++)
+                {
+                    if(PickedWorkItemId[i].Length <= 1)
+                    {
+                       PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
+                    }
+                }
             }
 
             List<WorkItemViewModel> workItemList = new List<WorkItemViewModel>();
@@ -340,6 +362,7 @@ namespace ReleaseNotesAdministration.Controllers
 
                 workItemList.Add(workItemViewModel);
             }
+
             ViewBag.workItems = workItemList;
 
             return View(releaseNote);
