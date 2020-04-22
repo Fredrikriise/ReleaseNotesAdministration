@@ -1,10 +1,10 @@
-using Hrid.Extensions.Builder;
-using Hrid.Extensions.Model;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,7 +30,7 @@ namespace ReleaseNotesAdministration
                 //Fredrik:  client.BaseAddress = new Uri("https://localhost:44310");
                 //Felix bærbar:  client.BaseAddress = new Uri("https://localhost:44314");
                 //Felix stasjonær:  client.BaseAddress = new Uri("https://localhost:44312");
-                client.BaseAddress = new Uri("https://localhost:44324");
+                client.BaseAddress = new Uri("https://localhost:44393");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
 
@@ -43,12 +43,21 @@ namespace ReleaseNotesAdministration
             {
                 options.AccessDeniedPath = new PathString("/Home/Error");
             })
-            .AddHridWeb(options =>
+            .AddOpenIdConnect(options =>
             {
-                options.UserType = UserType.Employee;
-                options.Environment = GetEnvironmentName();
+                options.Authority = "https://test-login.talentech.io";
+                options.RequireHttpsMetadata = false;
                 options.ClientId = "hrmts-releasenotes-app";
                 options.ClientSecret = "4700825d-92d3-4148-9f39-4a7c81a47b25";
+                options.SaveTokens = true;
+            });
+
+            services.AddMvc(options =>
+            {
+                // Add global filter to make sure we require authenticated users for everything!
+                var requireAuthenticatedUsersPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                options.Filters.Add(new AuthorizeFilter(requireAuthenticatedUsersPolicy));
+                //options.Filters.Add(new AuthorizeFilter("checkpointUser"));
             });
         }
 
@@ -75,9 +84,9 @@ namespace ReleaseNotesAdministration
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
-
+            app.UseAuthorization();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

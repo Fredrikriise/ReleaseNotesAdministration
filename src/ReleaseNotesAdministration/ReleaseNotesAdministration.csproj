@@ -9,7 +9,6 @@
     <PackageReference Include="Extended.Wpf.Toolkit" Version="3.8.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
     <PackageReference Include="toastr" Version="2.1.1" />
-    <PackageReference Include="Hrid.Extensions" Version="2.0.1325" />
   </ItemGroup>
 
   <ItemGroup>
