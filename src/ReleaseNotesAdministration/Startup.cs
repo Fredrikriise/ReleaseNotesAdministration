@@ -1,3 +1,4 @@
+using IdentityModel;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System;
 
 namespace ReleaseNotesAdministration
@@ -49,7 +51,24 @@ namespace ReleaseNotesAdministration
                 options.RequireHttpsMetadata = false;
                 options.ClientId = "hrmts-releasenotes-app";
                 options.ClientSecret = "4700825d-92d3-4148-9f39-4a7c81a47b25";
+                
+
+                options.ResponseType = "code";
+                options.UsePkce = true;
+
+                options.Scope.Clear();
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
+                options.Scope.Add("email");
+
+                options.GetClaimsFromUserInfoEndpoint = true;
                 options.SaveTokens = true;
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    NameClaimType = JwtClaimTypes.Name,
+                    RoleClaimType = JwtClaimTypes.Role,
+                };
             });
 
             services.AddMvc(options =>
