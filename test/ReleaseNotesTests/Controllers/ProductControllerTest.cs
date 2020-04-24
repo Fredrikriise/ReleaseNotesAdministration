@@ -37,36 +37,37 @@ namespace test.ReleaseNotes.Controllers
         [Fact]
         public async void Task_List_All_Products_Should_Return_View()
         {
-            //var handlerMock = new Mock<HttpMessageHandler>();
-
-            //handlerMock.Protected().Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-            //    .ReturnsAsync(new HttpResponseMessage()
-            //    {
-            //        StatusCode = HttpStatusCode.OK
-            //    }).Verifiable();
-
-            //// use real http client with mocked handler here
-            //var httpClient = new HttpClient(handlerMock.Object)
-            //{
-            //    BaseAddress = new Uri("https://localhost:44324/")
-            //};
-
-            //// create the mock client factory mock
-            //var httpClientFactoryMock = _mockClientFactory;
-            //var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesApiClient")).Returns(httpClient);
-
-            //var controller = new ProductController(httpClientFactoryMock.Object);
-
-            //-------------------------------------------------------------------------------------------------
             // Arrange
-            var controller = _controller;
+            HttpResponseMessage msg = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent("[{\"productId\":1,\"productName\":\"Talent Recruiter\",\"productImage\":\"pic-recruiter.png\"},{\"productId\":2,\"productName\":\"Talent Manager\",\"productImage\":\"pic-manager.png\"},{\"productId\":3,\"productName\":\"Talmundo\",\"productImage\":\"logo_talmundo.png\"},{\"productId\":10,\"productName\":\"ReachMee\",\"productImage\":\"reachmeelogo.png\"},{\"productId\":12,\"productName\":\"Webrecruiter\",\"productImage\":\"webrecruiter-logo.png\"}]")
+            };
 
-            // 1. Set up json-data (which originally should have come from /Product/
-            var testJson = "[{\"productId\":1,\"productName\":\"Talent Recruiter\",\"productImage\":\"pic-recruiter.png\"},{\"productId\":2,\"productName\":\"Talent Manager\",\"productImage\":\"pic-manager.png\"},{\"productId\":3,\"productName\":\"Talmundo\",\"productImage\":\"logo_talmundo.png\"},{\"productId\":10,\"productName\":\"ReachMee\",\"productImage\":\"reachmeelogo.png\"},{\"productId\":12,\"productName\":\"Webrecruiter\",\"productImage\":\"webrecruiter-logo.png\"}]";
+            // mockHandler
+            var mockHandler = new Mock<HttpMessageHandler>();
+
+            mockHandler.Protected()
+                       .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                       .ReturnsAsync(msg);
+
+
+            var httpClient = new HttpClient(mockHandler.Object)
+            {
+                BaseAddress = new Uri("https://localhost:44324/")
+            };
+            var httpClientResult = await httpClient.GetAsync("/Product/");
+            var content = await httpClientResult.Content.ReadAsStringAsync();
+
+            var httpClientFactoryMock = _mockClientFactory;
+            var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesApiClient")).Returns(httpClient);
+            
+            var controller = new ProductController(httpClientFactoryMock.Object);
 
             // Act
             // 2. dezerialize json data to List<ProductApiModel> 
-            var converted = JsonConvert.DeserializeObject<List<ProductApiModel>>(testJson);
+            var converted = JsonConvert.DeserializeObject<List<ProductApiModel>>(content);
 
             // 3. "map" this to ProductViewModel objects
             var mappedJson = converted.Select(x => new ProductViewModel
