@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Moq.Protected;
-using Newtonsoft.Json;
 using ReleaseNotes.Controllers;
-using ReleaseNotes.Models;
 using ReleaseNotes.ViewModels;
 using System;
 using System.Net;
@@ -40,7 +38,7 @@ namespace test.ReleaseNotesTests.Controllers
                 Content = new StringContent("{\"id\":23909,\"title\":\"Test work item\",\"assignedTo\":\"Fredrik Riise\",\"state\":\"New\"}")
             };
 
-            // mockHandler
+            // mockHandler and mocked httpclient
             var mockHandler = new Mock<HttpMessageHandler>();
 
             mockHandler.Protected()
@@ -61,23 +59,10 @@ namespace test.ReleaseNotesTests.Controllers
             var controller = new WorkItemController(httpClientFactoryMock.Object);
 
             // Act
-            // 2. dezerialize json data to List<ProductApiModel> 
-            var converted = JsonConvert.DeserializeObject<WorkItemApiModel>(content);
-
-            // 3. "map" this to ProductViewModel objects
-            var workItemViewModel = new WorkItemViewModel
-            {
-                Id = converted.Id,
-                Title = converted.Title,
-                AssignedTo = converted.AssignedTo,
-                State = converted.State
-            };
-
             var result = await controller.ListWorkItem(Id);
-            var viewResult = Assert.IsType<ViewResult>(result);
 
             // Assert
-            // 4. Check if returned data is type 
+            var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsAssignableFrom<WorkItemViewModel>(viewResult.ViewData.Model);
         }
 
@@ -94,7 +79,7 @@ namespace test.ReleaseNotesTests.Controllers
                 Content = new StringContent("")
             };
 
-            // mockHandler
+            // mockHandler and mocked httpclient
             var mockHandler = new Mock<HttpMessageHandler>();
 
             mockHandler.Protected()

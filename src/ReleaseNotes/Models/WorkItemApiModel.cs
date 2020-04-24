@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReleaseNotes.ViewModels;
+using System;
 
 namespace ReleaseNotes.Models
 {

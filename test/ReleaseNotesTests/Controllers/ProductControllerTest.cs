@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Moq.Protected;
-using Newtonsoft.Json;
 using ReleaseNotes.Controllers;
-using ReleaseNotes.Models;
 using ReleaseNotes.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -33,23 +30,20 @@ namespace test.ReleaseNotesTests.Controllers
         public async Task ListAllProducts_Should_Return_View_With_List()
         {
             // Arrange
-
             // HttpResponseMessage with a StatusCode of OK (200) and Conent of products
             HttpResponseMessage msg = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
                 Content = new StringContent("[{\"productId\":1,\"productName\":\"Talent Recruiter\",\"productImage\":\"pic-recruiter.png\"},{\"productId\":2,\"productName\":\"Talent Manager\",\"productImage\":\"pic-manager.png\"},{\"productId\":3,\"productName\":\"Talmundo\",\"productImage\":\"logo_talmundo.png\"},{\"productId\":10,\"productName\":\"ReachMee\",\"productImage\":\"reachmeelogo.png\"},{\"productId\":12,\"productName\":\"Webrecruiter\",\"productImage\":\"webrecruiter-logo.png\"}]")
-
             };
 
-            // mockHandler
+            // mockHandler and mocked httpclient
             var mockHandler = new Mock<HttpMessageHandler>();
 
             mockHandler.Protected()
-                       .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
+                       .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), 
+                       ItExpr.IsAny<CancellationToken>())
                        .ReturnsAsync(msg);
-
 
             var httpClient = new HttpClient(mockHandler.Object)
             {
@@ -59,27 +53,16 @@ namespace test.ReleaseNotesTests.Controllers
             var content = await httpClientResult.Content.ReadAsStringAsync();
 
             var httpClientFactoryMock = _mockClientFactory;
-            var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesApiClient")).Returns(httpClient);
+            var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesApiClient"))
+                                    .Returns(httpClient);
 
             var controller = new ProductController(httpClientFactoryMock.Object);
 
             // Act
-            // 2. dezerialize json data to List<ProductApiModel> 
-            var converted = JsonConvert.DeserializeObject<List<ProductApiModel>>(content);
-
-            // 3. "map" this to ProductViewModel objects
-            var mappedJson = converted.Select(x => new ProductViewModel
-            {
-                ProductId = x.ProductId,
-                ProductName = x.ProductName,
-                ProductImage = x.ProductImage
-            }).ToList();
-
             var result = await controller.ListAllProducts();
-            var viewResult = Assert.IsType<ViewResult>(result);
 
             // Assert
-            // 4. Check if returned data is type 
+            var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsAssignableFrom<List<ProductViewModel>>(viewResult.ViewData.Model);
         }
 
@@ -87,7 +70,6 @@ namespace test.ReleaseNotesTests.Controllers
         public async Task ListAllProducts_Should_Return_Exception()
         {
             // Arrange
-
             // HttpResponseMessage with a StatusCode of NotFound and Content of an empty string
             HttpResponseMessage msg = new HttpResponseMessage
             {
@@ -95,7 +77,7 @@ namespace test.ReleaseNotesTests.Controllers
                 Content = new StringContent("")
             };
 
-            // mockHandler
+            // mockHandler and mocked httpclient
             var mockHandler = new Mock<HttpMessageHandler>();
 
             mockHandler.Protected()
