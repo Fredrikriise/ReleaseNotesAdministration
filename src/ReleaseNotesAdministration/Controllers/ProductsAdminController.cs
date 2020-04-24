@@ -62,7 +62,7 @@ namespace ReleaseNotesAdministration.Controllers
                 ModelState.AddModelError("ProductName", "Product may only contain numbers and characters!");
             }
 
-            string productImagePattern = @"([a-zA-Z0-9\s_\\.\-\(\):])+(.jpg|.jpeg|.png)$";
+            string productImagePattern = @"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$";
             var productImageMatch = Regex.Match(product.ProductImage, productImagePattern, RegexOptions.IgnoreCase);
             if (!productImageMatch.Success)
             {
@@ -129,7 +129,7 @@ namespace ReleaseNotesAdministration.Controllers
                     ModelState.AddModelError("ProductName", "Product name is required, and may only contain numbers and characters!");
                 }
 
-                string productImagePattern = @"([a-zA-Z0-9\s_\\.\-\(\):])+(.jpg|.jpeg|.png)$";
+                string productImagePattern = @"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$";
                 var productImageMatch = Regex.Match(product.ProductImage, productImagePattern, RegexOptions.IgnoreCase);
                 if (!productImageMatch.Success)
                 {
