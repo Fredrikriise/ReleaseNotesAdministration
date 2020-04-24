@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using ReleaseNotes.Models;
 using ReleaseNotes.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -38,7 +39,7 @@ namespace ReleaseNotes.Controllers
             {
                 ProductId = x.ProductId,
                 ProductName = x.ProductName,
-                ProductImage = x.ProductImage,
+                ProductImage = x.ProductImage
             }).ToList();
 
             return View(productsList);
