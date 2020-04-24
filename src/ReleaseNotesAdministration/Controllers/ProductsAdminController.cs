@@ -67,7 +67,7 @@ namespace ReleaseNotesAdministration.Controllers
             if (!productImageMatch.Success)
             {
                 ModelState.AddModelError("ProductImage", "Product image must be either .jpg, .jpeg or .png file!");
-            } 
+            }
 
             if (!ModelState.IsValid)
             {
@@ -136,12 +136,13 @@ namespace ReleaseNotesAdministration.Controllers
                     ModelState.AddModelError("ProductImage", "Product image is required, and must be either .jpg, .jpeg or .png file!");
                 }
 
-                if (!ModelState.IsValid) {
+                if (!ModelState.IsValid)
+                {
                     TempData["EditProduct"] = "Failed";
                     return View("EditProduct");
                 }
 
-                
+
                 TempData["EditProduct"] = "Success";
                 return RedirectToAction("ViewProduct", new { id = Id });
             }

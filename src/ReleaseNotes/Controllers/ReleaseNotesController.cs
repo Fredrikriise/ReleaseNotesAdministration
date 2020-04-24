@@ -64,7 +64,6 @@ namespace ReleaseNotes.Controllers
             var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
             var releaseNotes = JsonConvert.DeserializeObject<List<ReleaseNoteApiModel>>(responseStream);
 
-
             var releaseNotesList = releaseNotes.Where(x => x.ProductId == productId).Select(x => new ReleaseNoteViewModel
             {
                 Title = x.Title,

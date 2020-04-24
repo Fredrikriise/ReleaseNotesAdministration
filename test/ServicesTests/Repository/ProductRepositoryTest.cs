@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Options;
-using Moq;
 using Services;
 using Services.Repository.Config;
-using System;
 using System.Threading.Tasks;
 using test.ServicesTests.test_context;
 using Xunit;
@@ -27,9 +25,6 @@ namespace test.ServicesTests.Repository
         public async Task GetAllProducts_Should_ReturnMappedProduct()
         {
 
-           var test = await _productsRepo.GetAllProducts();
-
-           Console.WriteLine(test);
         }
     }
 }

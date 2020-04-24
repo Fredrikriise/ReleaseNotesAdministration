@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Services.Repository.Interfaces;
 using Services.Repository.Models;
 using Services.Repository.Models.DatabaseModels;
@@ -34,14 +33,14 @@ namespace Api.Controllers
 
             var returnedReleaseNotes = await _releaseNoteRepo.GetAllReleaseNotes();
 
-            if(returnedReleaseNotes == null)
+            if (returnedReleaseNotes == null)
             {
                 return NotFound();
             }
 
             var mappedReleaseNotes = _mapper.Map<List<ReleaseNote>>(returnedReleaseNotes);
 
-            if(mappedReleaseNotes == null)
+            if (mappedReleaseNotes == null)
             {
                 return NotFound();
             }
@@ -63,7 +62,7 @@ namespace Api.Controllers
 
             var mappedReleaseNote = _mapper.Map<ReleaseNote>(releaseNote);
 
-            if(mappedReleaseNote == null)
+            if (mappedReleaseNote == null)
             {
                 return NotFound();
             }
@@ -77,14 +76,14 @@ namespace Api.Controllers
         {
             var mappedReleaseNote = _mapper.Map<ReleaseNoteDto>(releaseNote);
 
-            if(mappedReleaseNote == null)
+            if (mappedReleaseNote == null)
             {
                 return NotFound();
             }
 
             await _releaseNoteRepo.CreateReleaseNote(mappedReleaseNote);
 
-            if(releaseNote == null)
+            if (releaseNote == null)
             {
                 return NotFound();
             }
@@ -99,14 +98,14 @@ namespace Api.Controllers
         {
             var mappedReleaseNote = _mapper.Map<ReleaseNoteDto>(releaseNote);
 
-            if(mappedReleaseNote == null)
+            if (mappedReleaseNote == null)
             {
                 return NotFound();
             }
 
             var updatedReleaseNote = await _releaseNoteRepo.UpdateReleaseNote(Id, mappedReleaseNote);
 
-            if(updatedReleaseNote == null)
+            if (updatedReleaseNote == null)
             {
                 return NotFound();
             }

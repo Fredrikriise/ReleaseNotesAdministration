@@ -60,7 +60,7 @@ namespace test.ApiTests.Controllers
                     ProductImage = "testProduct ProductImage 2"
                 }
             };
-            
+
             //Act
             _mockRepo.Setup(x => x.GetAllProducts()).ReturnsAsync(testListProductDto);
             _mapper.Setup(x => x.Map<List<Product>>(testListProductDto)).Returns(testListProducts);
@@ -369,7 +369,7 @@ namespace test.ApiTests.Controllers
                 ProductName = "testProductDtoResult ProductName",
                 ProductImage = "testProductDtoResult ProductImage"
             };
-                
+
             Product testProduct = new Product
             {
                 ProductId = 1,

@@ -5,7 +5,7 @@ namespace ReleaseNotesAdministration.ViewModels
 {
     public class ReleaseNoteAdminViewModel
     {
-       [Required(ErrorMessage = "Title is required!")]
+        [Required(ErrorMessage = "Title is required!")]
         public string Title { get; set; }
         [Required(ErrorMessage = "Body text is required!")]
         public string BodyText { get; set; }

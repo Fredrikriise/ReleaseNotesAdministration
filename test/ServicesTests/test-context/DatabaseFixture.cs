@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace test.ServicesTests.test_context
+﻿namespace test.ServicesTests.test_context
 {
     public class DatabaseFixture
     {

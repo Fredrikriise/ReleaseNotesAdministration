@@ -6,8 +6,6 @@ using ReleaseNotes.Controllers;
 using ReleaseNotes.Models;
 using ReleaseNotes.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -16,30 +14,30 @@ using Xunit;
 
 namespace test.ReleaseNotesTests.Controllers
 {
-    public class ProductControllerTest
+    public class WorkItemControllerTest
     {
         private readonly Mock<IHttpClientFactory> _mockClientFactory;
-        private Mock<HttpClient> _mockProductsClient;
-        private readonly ProductController _controller;
+        private Mock<HttpClient> _mockHttpClient;
+        private readonly WorkItemController _controller;
 
-        public ProductControllerTest()
+        public WorkItemControllerTest()
         {
             _mockClientFactory = new Mock<IHttpClientFactory>();
-            _mockProductsClient = new Mock<HttpClient>();
-            _controller = new ProductController(_mockClientFactory.Object);
+            _mockHttpClient = new Mock<HttpClient>();
+            _controller = new WorkItemController(_mockClientFactory.Object);
         }
 
         [Fact]
-        public async Task ListAllProducts_Should_Return_View_With_List()
+        public async Task ListWorkItem_Should_Return_View_With_WorkItem()
         {
             // Arrange
+            var Id = It.IsAny<int>();
 
-            // HttpResponseMessage with a StatusCode of OK (200) and Conent of products
+            // HttpResponseMessage with a StatusCode of OK (200) and Conent of release notes
             HttpResponseMessage msg = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent("[{\"productId\":1,\"productName\":\"Talent Recruiter\",\"productImage\":\"pic-recruiter.png\"},{\"productId\":2,\"productName\":\"Talent Manager\",\"productImage\":\"pic-manager.png\"},{\"productId\":3,\"productName\":\"Talmundo\",\"productImage\":\"logo_talmundo.png\"},{\"productId\":10,\"productName\":\"ReachMee\",\"productImage\":\"reachmeelogo.png\"},{\"productId\":12,\"productName\":\"Webrecruiter\",\"productImage\":\"webrecruiter-logo.png\"}]")
-
+                Content = new StringContent("{\"id\":23909,\"title\":\"Test work item\",\"assignedTo\":\"Fredrik Riise\",\"state\":\"New\"}")
             };
 
             // mockHandler
@@ -50,45 +48,46 @@ namespace test.ReleaseNotesTests.Controllers
                     ItExpr.IsAny<CancellationToken>())
                        .ReturnsAsync(msg);
 
-
             var httpClient = new HttpClient(mockHandler.Object)
             {
                 BaseAddress = new Uri("https://localhost:44324/")
             };
-            var httpClientResult = await httpClient.GetAsync("/Product/");
+            var httpClientResult = await httpClient.GetAsync($"/WorkItem/{Id}");
             var content = await httpClientResult.Content.ReadAsStringAsync();
 
             var httpClientFactoryMock = _mockClientFactory;
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesApiClient")).Returns(httpClient);
 
-            var controller = new ProductController(httpClientFactoryMock.Object);
+            var controller = new WorkItemController(httpClientFactoryMock.Object);
 
             // Act
             // 2. dezerialize json data to List<ProductApiModel> 
-            var converted = JsonConvert.DeserializeObject<List<ProductApiModel>>(content);
+            var converted = JsonConvert.DeserializeObject<WorkItemApiModel>(content);
 
             // 3. "map" this to ProductViewModel objects
-            var mappedJson = converted.Select(x => new ProductViewModel
+            var workItemViewModel = new WorkItemViewModel
             {
-                ProductId = x.ProductId,
-                ProductName = x.ProductName,
-                ProductImage = x.ProductImage
-            }).ToList();
+                Id = converted.Id,
+                Title = converted.Title,
+                AssignedTo = converted.AssignedTo,
+                State = converted.State
+            };
 
-            var result = await controller.ListAllProducts();
+            var result = await controller.ListWorkItem(Id);
             var viewResult = Assert.IsType<ViewResult>(result);
 
             // Assert
             // 4. Check if returned data is type 
-            Assert.IsAssignableFrom<List<ProductViewModel>>(viewResult.ViewData.Model);
+            Assert.IsAssignableFrom<WorkItemViewModel>(viewResult.ViewData.Model);
         }
 
         [Fact]
-        public async Task ListAllProducts_Should_Return_Exception()
+        public async Task ListWorkItem_Should_Return_Exception()
         {
             // Arrange
+            var Id = It.IsAny<int>();
 
-            // HttpResponseMessage with a StatusCode of NotFound and Content of an empty string
+            // HttpResponseMessage with a StatusCode of OK (200) and Conent of release notes
             HttpResponseMessage msg = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.NotFound,
@@ -103,21 +102,20 @@ namespace test.ReleaseNotesTests.Controllers
                     ItExpr.IsAny<CancellationToken>())
                        .ReturnsAsync(msg);
 
-
             var httpClient = new HttpClient(mockHandler.Object)
             {
                 BaseAddress = new Uri("https://localhost:44324/")
             };
-            var httpClientResult = await httpClient.GetAsync("/Product/");
+            var httpClientResult = await httpClient.GetAsync($"/WorkItem/{Id}");
             var content = await httpClientResult.Content.ReadAsStringAsync();
 
             var httpClientFactoryMock = _mockClientFactory;
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesApiClient")).Returns(httpClient);
 
-            var controller = new ProductController(httpClientFactoryMock.Object);
+            var controller = new WorkItemController(httpClientFactoryMock.Object);
 
             // Act
-            var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.ListAllProducts());
+            var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.ListWorkItem(Id));
         }
     }
 }
