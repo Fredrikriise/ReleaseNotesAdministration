@@ -384,6 +384,19 @@ namespace ReleaseNotesAdministration.Controllers
 
             ViewBag.workItems = workItemList;
 
+
+            var productsResult = await _releaseNotesClient.GetAsync($"/Product/{releaseNote.ProductId}");
+
+            if (!productsResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
+            }
+
+            var responseStreamProduct = await productsResult.Content.ReadAsStringAsync();
+            var product = JsonConvert.DeserializeObject<ProductAdminViewModel>(responseStreamProduct);
+
+            ViewBag.productName = product.ProductName;
+
             return View(releaseNote);
         }
 
