@@ -110,6 +110,7 @@ namespace ReleaseNotesAdministration.Controllers
             if (PickedWorkItemsString == "")
             {
                 PickedWorkItemsString = null;
+                ModelState.AddModelError("PickedWorkItems", "You must select at least one related work item!");
             }
 
             string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]{3,100}$";
@@ -200,8 +201,9 @@ namespace ReleaseNotesAdministration.Controllers
                 LastUpdatedBy = releaseNote.LastUpdatedBy,
                 LastUpdateDate = DateTime.Now,
                 IsDraft = releaseNote.IsDraft,
-                PickedWorkItems = releaseNote.PickedWorkItems
             };
+
+            ViewBag.selectedWorkItems = releaseNote.PickedWorkItems;
 
             // Getting data for Product
             var productsResult = await _releaseNotesClient.GetAsync("/Product/");
@@ -223,33 +225,30 @@ namespace ReleaseNotesAdministration.Controllers
 
             ViewBag.products = productsList;
 
+
+            var workItemResult = await _releaseNotesClient.GetAsync("/WorkItem/");
+            var responseStreamWorkItem = await workItemResult.Content.ReadAsStringAsync();
+            var workItems = JsonConvert.DeserializeObject<List<WorkItemApiModel>>(responseStreamWorkItem);
+
+            var workItemList = workItems.Select(x => new WorkItemViewModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                AssignedTo = x.AssignedTo,
+                State = x.State
+            }).ToList();
+
+            ViewBag.workitems = workItemList;
+
             return View(releaseNoteViewModel);
         }
 
         // Method for posting edit on a release note object
         [HttpPost]
-        public async Task<IActionResult> EditReleaseNote(int? Id, ReleaseNoteAdminViewModel releaseNote, string submitButton)
+        public async Task<IActionResult> EditReleaseNote(int? Id, ReleaseNoteAdminViewModel releaseNote, string submitButton, string[] PickedWorkItems)
         {
             try
             {
-                bool val = false;
-
-                if (submitButton == "Save as draft")
-                {
-                    val = true;
-                }
-                else if (submitButton == "Save and publish")
-                {
-                    val = false;
-                }
-
-                releaseNote.IsDraft = val;
-
-                var jsonString = JsonConvert.SerializeObject(releaseNote);
-                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-                var transportData = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
-
-
                 string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]{3,100}$";
                 var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
                 if (!releaseNoteTitleMatch.Success)
@@ -280,6 +279,42 @@ namespace ReleaseNotesAdministration.Controllers
                 {
                     ModelState.AddModelError("LastUpdatedBy", "Last updated by may only consist of characters!");
                 }
+
+                string PickedWorkItemsString = "";
+
+                for (int i = 0; i < PickedWorkItems.Length; i++)
+                {
+                    if (PickedWorkItems[i] != "false")
+                    {
+                        PickedWorkItemsString += PickedWorkItems[i] + " ";
+                    }
+                }
+
+                if (PickedWorkItemsString == "")
+                {
+                    PickedWorkItemsString = null;
+                    ModelState.AddModelError("PickedWorkItems", "You must select at least one related work item!");
+                }
+
+
+                bool val = false;
+
+                if (submitButton == "Save as draft")
+                {
+                    val = true;
+                }
+                else if (submitButton == "Save and publish")
+                {
+                    val = false;
+                }
+
+                releaseNote.IsDraft = val;
+                releaseNote.PickedWorkItems = PickedWorkItemsString;
+
+                var jsonString = JsonConvert.SerializeObject(releaseNote);
+                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                var transportData = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
+
 
                 if (!ModelState.IsValid)
                 {
@@ -314,7 +349,13 @@ namespace ReleaseNotesAdministration.Controllers
             if (releaseNote.PickedWorkItems != null)
             {
                 PickedWorkItemId = releaseNote.PickedWorkItems.Split(' ');
-                PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
+                for(int i = 0; i < PickedWorkItemId.Length; i++)
+                {
+                    if(PickedWorkItemId[i].Length <= 1)
+                    {
+                       PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
+                    }
+                }
             }
 
             List<WorkItemViewModel> workItemList = new List<WorkItemViewModel>();
@@ -341,7 +382,21 @@ namespace ReleaseNotesAdministration.Controllers
 
                 workItemList.Add(workItemViewModel);
             }
+
             ViewBag.workItems = workItemList;
+
+
+            var productsResult = await _releaseNotesClient.GetAsync($"/Product/{releaseNote.ProductId}");
+
+            if (!productsResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
+            }
+
+            var responseStreamProduct = await productsResult.Content.ReadAsStringAsync();
+            var product = JsonConvert.DeserializeObject<ProductAdminViewModel>(responseStreamProduct);
+
+            ViewBag.productName = product.ProductName;
 
             return View(releaseNote);
         }
