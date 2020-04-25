@@ -83,7 +83,12 @@ namespace ReleaseNotesAdministration.Controllers
 
             var jsonString = JsonConvert.SerializeObject(obj);
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            await _releaseNotesClient.PostAsync("/Product/", content);
+            var result = await _releaseNotesClient.PostAsync("/Product/", content);
+
+            if(!result.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Failed creating product");
+            }
 
             TempData["CreateProduct"] = "Success";
             return RedirectToAction("ListAllProducts");
@@ -141,7 +146,6 @@ namespace ReleaseNotesAdministration.Controllers
                     TempData["EditProduct"] = "Failed";
                     return View("EditProduct");
                 }
-
 
                 TempData["EditProduct"] = "Success";
                 return RedirectToAction("ViewProduct", new { id = Id });

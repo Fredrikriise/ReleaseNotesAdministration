@@ -67,7 +67,7 @@ namespace test.ReleaseNotesTests.Controllers
         }
 
         [Fact]
-        public async Task ListAllProducts_Should_Return_Exception()
+        public async Task ListAllProducts_Should_Throw_Exception()
         {
             // Arrange
             // HttpResponseMessage with a StatusCode of NotFound and Content of an empty string
@@ -84,7 +84,6 @@ namespace test.ReleaseNotesTests.Controllers
                        .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
                     ItExpr.IsAny<CancellationToken>())
                        .ReturnsAsync(msg);
-
 
             var httpClient = new HttpClient(mockHandler.Object)
             {
