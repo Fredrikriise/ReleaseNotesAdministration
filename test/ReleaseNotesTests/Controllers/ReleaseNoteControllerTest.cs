@@ -27,7 +27,7 @@ namespace test.ReleaseNotesTests.Controllers
         }
 
         [Fact]
-        public async Task ListAllReleaseNotes_Should_Return_View()
+        public async Task ListAllReleaseNotes_Should_Return_View_With_List_Of_ReleaseNotes()
         {
             // Arrange
             // HttpResponseMessage with a StatusCode of OK (200) and Conent of release notes
@@ -66,7 +66,7 @@ namespace test.ReleaseNotesTests.Controllers
         }
 
         [Fact]
-        public async Task ListAllReleaseNotes_Should_Return_Exception()
+        public async Task ListAllReleaseNotes_Should_Throw_Exception()
         {
             // Arrange
             // HttpResponseMessage with a StatusCode of NotFound and Content of an empty string
@@ -143,7 +143,7 @@ namespace test.ReleaseNotesTests.Controllers
         }
 
         [Fact]
-        public async Task ListReleaseNotesForProduct_Should_Return_Exception()
+        public async Task ListReleaseNotesForProduct_Should_Throw_Exception()
         {
             // Arrange
             var productId = It.IsAny<int>();

@@ -67,7 +67,7 @@ namespace test.ReleaseNotesTests.Controllers
         }
 
         [Fact]
-        public async Task ListWorkItem_Should_Return_Exception()
+        public async Task ListWorkItem_Should_Throw_Exception()
         {
             // Arrange
             var Id = It.IsAny<int>();
