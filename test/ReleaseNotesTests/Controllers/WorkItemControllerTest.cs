@@ -15,7 +15,7 @@ namespace test.ReleaseNotesTests.Controllers
     public class WorkItemControllerTest
     {
         private readonly Mock<IHttpClientFactory> _mockClientFactory;
-        private Mock<HttpClient> _mockHttpClient;
+        private readonly Mock<HttpClient> _mockHttpClient;
         private readonly WorkItemController _controller;
 
         public WorkItemControllerTest()

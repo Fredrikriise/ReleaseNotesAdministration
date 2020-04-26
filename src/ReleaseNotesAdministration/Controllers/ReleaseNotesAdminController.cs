@@ -17,7 +17,7 @@ namespace ReleaseNotesAdministration.Controllers
     public class ReleaseNotesAdminController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private HttpClient _releaseNotesClient;
+        private readonly HttpClient _releaseNotesClient;
 
         public ReleaseNotesAdminController(IHttpClientFactory httpClientFactory)
         {

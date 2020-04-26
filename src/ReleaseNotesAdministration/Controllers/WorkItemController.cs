@@ -15,7 +15,7 @@ namespace ReleaseNotesAdministration.Controllers
     public class WorkItemAdminController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private HttpClient _workItemsClient;
+        private readonly HttpClient _workItemsClient;
 
         public WorkItemAdminController(IHttpClientFactory httpClientFactory)
         {

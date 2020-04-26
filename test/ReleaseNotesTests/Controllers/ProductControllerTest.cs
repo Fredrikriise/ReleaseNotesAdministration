@@ -16,7 +16,7 @@ namespace test.ReleaseNotesTests.Controllers
     public class ProductControllerTest
     {
         private readonly Mock<IHttpClientFactory> _mockClientFactory;
-        private Mock<HttpClient> _mockProductsClient;
+        private readonly Mock<HttpClient> _mockProductsClient;
         private readonly ProductController _controller;
 
         public ProductControllerTest()

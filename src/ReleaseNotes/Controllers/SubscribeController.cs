@@ -12,7 +12,7 @@ namespace ReleaseNotes.Controllers
     public class SubscribeController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private HttpClient _productsClient;
+        private readonly HttpClient _productsClient;
 
         public SubscribeController(IHttpClientFactory httpClientFactory)
         {

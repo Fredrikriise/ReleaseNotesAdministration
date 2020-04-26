@@ -18,7 +18,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
     public class ProductsAdminControllerTest
     {
         private readonly Mock<IHttpClientFactory> _mockClientFactory;
-        private Mock<HttpClient> _mockHttpClient;
+        private readonly Mock<HttpClient> _mockHttpClient;
         private readonly ProductsAdminController _controller;
 
         public ProductsAdminControllerTest()
