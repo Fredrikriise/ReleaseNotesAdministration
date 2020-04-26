@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace ReleaseNotesAdministration.Controllers
 {
-    public class WorkItemController : Controller
+    public class WorkItemAdminController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private HttpClient _workItemsClient;
 
-        public WorkItemController(IHttpClientFactory httpClientFactory)
+        public WorkItemAdminController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
             _workItemsClient = _httpClientFactory.CreateClient("ReleaseNotesAdminApiClient");

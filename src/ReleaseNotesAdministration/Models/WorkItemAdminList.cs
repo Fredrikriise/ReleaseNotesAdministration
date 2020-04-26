@@ -2,8 +2,8 @@
 
 namespace ReleaseNotesAdministration.Models
 {
-    public class WorkItemList
+    public class WorkItemAdminList
     {
-        public List<WorkItemApiModel> ReleaseNotes { get; set; }
+        public List<WorkItemApiModel> WorkItems { get; set; }
     }
 }
