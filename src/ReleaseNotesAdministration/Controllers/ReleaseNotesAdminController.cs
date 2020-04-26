@@ -348,11 +348,11 @@ namespace ReleaseNotesAdministration.Controllers
             if (releaseNote.PickedWorkItems != null)
             {
                 PickedWorkItemId = releaseNote.PickedWorkItems.Split(' ');
-                for(int i = 0; i < PickedWorkItemId.Length; i++)
+                for (int i = 0; i < PickedWorkItemId.Length; i++)
                 {
-                    if(PickedWorkItemId[i].Length <= 1)
+                    if (PickedWorkItemId[i].Length <= 1)
                     {
-                       PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
+                        PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
                     }
                 }
             }

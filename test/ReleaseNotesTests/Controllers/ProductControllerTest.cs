@@ -41,7 +41,7 @@ namespace test.ReleaseNotesTests.Controllers
             var mockHandler = new Mock<HttpMessageHandler>();
 
             mockHandler.Protected()
-                       .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), 
+                       .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
                        ItExpr.IsAny<CancellationToken>())
                        .ReturnsAsync(msg);
 
