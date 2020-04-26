@@ -244,7 +244,7 @@ namespace ReleaseNotesAdministration.Controllers
 
         // Method for posting edit on a release note object
         [HttpPost]
-        public async Task<IActionResult> EditReleaseNote(int? Id, ReleaseNoteAdminViewModel releaseNote, string submitButton, string[] PickedWorkItems)
+        public async Task<IActionResult> EditReleaseNote(int Id, ReleaseNoteAdminViewModel releaseNote, string submitButton, string[] PickedWorkItems)
         {
             try
             {
@@ -401,7 +401,7 @@ namespace ReleaseNotesAdministration.Controllers
 
         // Method for deleting object
         [HttpPost]
-        public async Task<IActionResult> DeleteReleaseNote(int? Id)
+        public async Task<IActionResult> DeleteReleaseNote(int Id)
         {
             try
             {

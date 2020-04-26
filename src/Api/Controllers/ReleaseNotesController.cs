@@ -12,7 +12,6 @@ namespace Api.Controllers
     [Route("[Controller]")]
     public class ReleaseNotesController : ControllerBase
     {
-        //private readonly ILogger<ReleaseNotesController> _logger;
         private readonly IMapper _mapper;
         private readonly IReleaseNotesRepository _releaseNoteRepo;
 
@@ -26,11 +25,6 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            //if(!ProductId.HasValue)
-            //{
-            //    _logger.LogWarning($"The {nameof(ProductId)} : {ProductId} is not a valid parameter value");
-            //}
-
             var returnedReleaseNotes = await _releaseNoteRepo.GetAllReleaseNotes();
 
             if (returnedReleaseNotes == null)
@@ -51,7 +45,7 @@ namespace Api.Controllers
         // Method for getting release note by Id
         [HttpGet]
         [Route("/ReleaseNotes/{Id}")]
-        public async Task<IActionResult> GetReleaseNoteById(int? Id)
+        public async Task<IActionResult> GetReleaseNoteById(int Id)
         {
             var releaseNote = await _releaseNoteRepo.GetReleaseNoteById(Id);
 
@@ -94,7 +88,7 @@ namespace Api.Controllers
         // Method for editing/updating Release note with Id
         [HttpPut]
         [Route("/ReleaseNotes/{Id}")]
-        public async Task<IActionResult> UpdateReleaseNote(int? Id, ReleaseNote releaseNote)
+        public async Task<IActionResult> UpdateReleaseNote(int Id, ReleaseNote releaseNote)
         {
             var mappedReleaseNote = _mapper.Map<ReleaseNoteDto>(releaseNote);
 
@@ -116,7 +110,7 @@ namespace Api.Controllers
         // Method for deleting relese 
         [HttpDelete]
         [Route("/ReleaseNotes/{Id}")]
-        public async Task<IActionResult> DeleteReleaseNote(int? Id)
+        public async Task<IActionResult> DeleteReleaseNote(int Id)
         {
             var deletedReleaseNote = await _releaseNoteRepo.DeleteReleaseNote(Id);
 

@@ -8,9 +8,9 @@ namespace Services.Repository.Interfaces
     {
         // Methods in repository
         Task<List<ReleaseNoteDto>> GetAllReleaseNotes();
-        Task<ReleaseNoteDto> GetReleaseNoteById(int? Id);
-        Task<int?> CreateReleaseNote(ReleaseNoteDto releaseNoteDto);
-        Task<ReleaseNoteDto> UpdateReleaseNote(int? Id, ReleaseNoteDto releaseNote);
-        Task<bool> DeleteReleaseNote(int? id);
+        Task<ReleaseNoteDto> GetReleaseNoteById(int Id);
+        Task<int> CreateReleaseNote(ReleaseNoteDto releaseNoteDto);
+        Task<ReleaseNoteDto> UpdateReleaseNote(int Id, ReleaseNoteDto releaseNote);
+        Task<bool> DeleteReleaseNote(int id);
     }
 }
