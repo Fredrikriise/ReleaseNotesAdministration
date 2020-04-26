@@ -119,41 +119,39 @@ namespace ReleaseNotesAdministration.Controllers
 
         // Method for posting edit on a product object
         [HttpPost]
-        public async Task<IActionResult> EditProduct(int? Id, ProductAdminViewModel product)
+        public async Task<IActionResult> EditProduct(int Id, ProductAdminViewModel product)
         {
-            try
+            var jsonString = JsonConvert.SerializeObject(product);
+            var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            var transportData = await _releaseNotesClient.PutAsync($"/Product/{Id}", content);
+
+            if(!transportData.IsSuccessStatusCode)
             {
-                var jsonString = JsonConvert.SerializeObject(product);
-                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-                var transportData = await _releaseNotesClient.PutAsync($"/Product/{Id}", content);
-
-                string productNamePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]*$";
-                var productNameMatch = Regex.Match(product.ProductName, productNamePattern, RegexOptions.IgnoreCase);
-                if (!productNameMatch.Success)
-                {
-                    ModelState.AddModelError("ProductName", "Product name is required, and may only contain numbers and characters!");
-                }
-
-                string productImagePattern = @"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$";
-                var productImageMatch = Regex.Match(product.ProductImage, productImagePattern, RegexOptions.IgnoreCase);
-                if (!productImageMatch.Success)
-                {
-                    ModelState.AddModelError("ProductImage", "Product image is required, and must be either .jpg, .jpeg or .png file!");
-                }
-
-                if (!ModelState.IsValid)
-                {
-                    TempData["EditProduct"] = "Failed";
-                    return View("EditProduct");
-                }
-
-                TempData["EditProduct"] = "Success";
-                return RedirectToAction("ViewProduct", new { id = Id });
+                throw new HttpRequestException($"Editing product with id = {Id} failed.");
             }
-            catch (Exception ex)
+
+            string productNamePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]*$";
+            var productNameMatch = Regex.Match(product.ProductName, productNamePattern, RegexOptions.IgnoreCase);
+            if (!productNameMatch.Success)
             {
-                throw new Exception(ex.Message);
+                ModelState.AddModelError("ProductName", "Product name is required, and may only contain numbers and characters!");
             }
+
+            string productImagePattern = @"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$";
+            var productImageMatch = Regex.Match(product.ProductImage, productImagePattern, RegexOptions.IgnoreCase);
+            if (!productImageMatch.Success)
+            {
+                ModelState.AddModelError("ProductImage", "Product image is required, and must be either .jpg, .jpeg or .png file!");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                TempData["EditProduct"] = "Failed";
+                return View("EditProduct");
+            }
+
+            TempData["EditProduct"] = "Success";
+            return RedirectToAction("ViewProduct", new { id = Id });
         }
 
         // Method for getting an product object to view
@@ -173,18 +171,17 @@ namespace ReleaseNotesAdministration.Controllers
 
         // Method for deleting object
         [HttpPost]
-        public async Task<IActionResult> DeleteProduct(int? Id)
+        public async Task<IActionResult> DeleteProduct(int Id)
         {
-            try
+            var transportData = await _releaseNotesClient.DeleteAsync($"/Product/{Id}");
+                
+            if(!transportData.IsSuccessStatusCode)
             {
-                var transportData = await _releaseNotesClient.DeleteAsync($"/Product/{Id}");
-                TempData["DeleteProduct"] = "Success";
-                return RedirectToAction("ListAllProducts");
+                throw new HttpRequestException($"Couldn't delete product with id = {Id}");
             }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+
+            TempData["DeleteProduct"] = "Success";
+            return RedirectToAction("ListAllProducts");
         }
     }
 }

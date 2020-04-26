@@ -225,7 +225,6 @@ namespace ReleaseNotesAdministration.Controllers
 
             ViewBag.products = productsList;
 
-
             var workItemResult = await _releaseNotesClient.GetAsync("/WorkItem/");
             var responseStreamWorkItem = await workItemResult.Content.ReadAsStringAsync();
             var workItems = JsonConvert.DeserializeObject<List<WorkItemApiModel>>(responseStreamWorkItem);
@@ -384,7 +383,6 @@ namespace ReleaseNotesAdministration.Controllers
             }
 
             ViewBag.workItems = workItemList;
-
 
             var productsResult = await _releaseNotesClient.GetAsync($"/Product/{releaseNote.ProductId}");
 

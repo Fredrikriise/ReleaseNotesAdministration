@@ -151,8 +151,10 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var result = await controller.CreateProduct(testProduct);
             
             // Assert
-            Assert.Matches(@"^[A-Za-z0-9\s\-_,\.;:!()+']{3,99}$", testProduct.ProductName);
-            Assert.Matches(@"([a-zA-Z0-9\s_\\.\-\(\):])+(.jpg|.jpeg|.png)$", testProduct.ProductImage);
+            Assert.Matches(@"^[A-Za-z0-9\s\-_,\.;:!()+']{3,99}$", 
+                testProduct.ProductName);
+            Assert.Matches(@"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$",
+                testProduct.ProductImage);
 
             var viewResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.IsType<RedirectToActionResult>(viewResult);
@@ -332,8 +334,10 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var result = await controller.EditProduct(Id, testProduct);
 
             // Assert
-            Assert.Matches(@"^[a-zA-Z0-9, _ - ! ?. ""]*$", testProduct.ProductName);
-            Assert.Matches(@"([a-zA-Z0-9\s_\\.\-\(\):])+(.jpg|.jpeg|.png)$", testProduct.ProductImage);
+            Assert.Matches(@"^[a-zA-Z0-9, _ - ! ?. ""]*$", 
+                testProduct.ProductName);
+            Assert.Matches(@"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$",
+                testProduct.ProductImage);
 
             var viewResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.IsType<RedirectToActionResult>(viewResult);
@@ -343,7 +347,45 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
         [Fact]
         public async Task EditProduct_Should_Throw_Exception()
         {
+            // Arrange
+            var Id = It.IsAny<int>();
 
+            // testProduct 
+            ProductAdminViewModel testProduct = new ProductAdminViewModel
+            {
+                ProductId = 1,
+                ProductName = "Talent Recruiter",
+                ProductImage = "pic-recruiter.png"
+            };
+
+            // HttpResponseMessage with a StatusCode of NotFound and Content of an empty string
+            HttpResponseMessage msg = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.NotFound,
+                Content = new StringContent("")
+            };
+
+            // mockHandler and mocked httpclient
+            var mockHandler = new Mock<HttpMessageHandler>();
+
+            mockHandler.Protected()
+                       .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
+                       ItExpr.IsAny<CancellationToken>())
+                       .ReturnsAsync(msg);
+
+            var httpClient = new HttpClient(mockHandler.Object)
+            {
+                BaseAddress = new Uri("https://localhost:44324/")
+            };
+            var httpClientResult = await httpClient.PutAsync($"/Product/{Id}", msg.Content);
+
+            var httpClientFactoryMock = _mockClientFactory;
+            var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient")).Returns(httpClient);
+
+            var controller = new ProductsAdminController(httpClientFactoryMock.Object);
+
+            // Act
+            var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.EditProduct(Id, testProduct));
         }
 
         [Fact]
@@ -478,7 +520,39 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
         [Fact]
         public async Task DeleteProduct_Should_Throw_Exception()
         {
+            // Arrange
+            var Id = It.IsAny<int>();
 
+            // HttpResponseMessage with a StatusCode of OK (200) and Conent of products
+            HttpResponseMessage msg = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.NotFound,
+                Content = new StringContent("")
+            };
+
+            // mockHandler and mocked httpclient
+            var mockHandler = new Mock<HttpMessageHandler>();
+
+            mockHandler.Protected()
+                       .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
+                       ItExpr.IsAny<CancellationToken>())
+                       .ReturnsAsync(msg);
+
+            var httpClient = new HttpClient(mockHandler.Object)
+            {
+                BaseAddress = new Uri("https://localhost:44324/")
+            };
+            // requesting delete of product with Id
+            var httpClientResult = await httpClient.DeleteAsync($"/Product/{Id}");
+
+            var httpClientFactoryMock = _mockClientFactory;
+            var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
+                                    .Returns(httpClient);
+
+            var controller = new ProductsAdminController(httpClientFactoryMock.Object);
+
+            // Act
+            var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.DeleteProduct(Id));
         }
     }
 }
