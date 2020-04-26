@@ -36,7 +36,7 @@ namespace Services
             }
         }
 
-        public async Task<ProductDto> GetProductById(int? productId)
+        public async Task<ProductDto> GetProductById(int productId)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -50,7 +50,7 @@ namespace Services
             }
         }
 
-        public async Task<int?> CreateProduct(ProductDto productDto)
+        public async Task<int> CreateProduct(ProductDto productDto)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace Services
                                     @ProductName,
                                     @ProductImage
                                 )";
-                    var returnResult = await connection.QueryFirstOrDefaultAsync<int?>(insert, new ProductDto
+                    var returnResult = await connection.QueryFirstOrDefaultAsync<int>(insert, new ProductDto
                     {
                         ProductName = productDto.ProductName,
                         ProductImage = productDto.ProductImage,
@@ -80,7 +80,7 @@ namespace Services
             }
         }
 
-        public async Task<ProductDto> UpdateProduct(int? ProductId, ProductDto product)
+        public async Task<ProductDto> UpdateProduct(int ProductId, ProductDto product)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace Services
             }
         }
 
-        public async Task<bool> DeleteProduct(int? productId)
+        public async Task<bool> DeleteProduct(int productId)
         {
             try
             {

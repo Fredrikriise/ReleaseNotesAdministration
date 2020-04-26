@@ -4,6 +4,6 @@ namespace ReleaseNotes.Models
 {
     public class WorkItemList
     {
-        public List<WorkItemApiModel> ReleaseNotes { get; set; }
+        public List<WorkItemApiModel> WorkItems { get; set; }
     }
 }

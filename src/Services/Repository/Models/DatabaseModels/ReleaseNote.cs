@@ -6,7 +6,7 @@ namespace Services.Repository.Models.DatabaseModels
     {
         public string Title { get; set; }
         public string BodyText { get; set; }
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public int ProductId { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
@@ -15,7 +15,7 @@ namespace Services.Repository.Models.DatabaseModels
         public bool IsDraft { get; set; }
         public string PickedWorkItems { get; set; }
 
-        public void AddReleaseNoteId(int? id)
+        public void AddReleaseNoteId(int id)
         {
             Id = id;
         }

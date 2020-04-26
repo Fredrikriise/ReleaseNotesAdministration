@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using ReleaseNotesAdministration.Models;
 using ReleaseNotesAdministration.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -15,18 +14,18 @@ namespace ReleaseNotesAdministration.Controllers
     public class ProductsAdminController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private HttpClient _releaseNotesClient;
+        private readonly HttpClient _productsClient;
 
         public ProductsAdminController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-            _releaseNotesClient = _httpClientFactory.CreateClient("ReleaseNotesAdminApiClient");
+            _productsClient = _httpClientFactory.CreateClient("ReleaseNotesAdminApiClient");
         }
 
         // Method for listing all products
         public async Task<IActionResult> ListAllProducts()
         {
-            var productsResult = await _releaseNotesClient.GetAsync("/Product/");
+            var productsResult = await _productsClient.GetAsync("/Product/");
 
             if (!productsResult.IsSuccessStatusCode)
             {
@@ -83,9 +82,9 @@ namespace ReleaseNotesAdministration.Controllers
 
             var jsonString = JsonConvert.SerializeObject(obj);
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            var result = await _releaseNotesClient.PostAsync("/Product/", content);
+            var result = await _productsClient.PostAsync("/Product/", content);
 
-            if(!result.IsSuccessStatusCode)
+            if (!result.IsSuccessStatusCode)
             {
                 throw new HttpRequestException("Failed creating product");
             }
@@ -97,7 +96,7 @@ namespace ReleaseNotesAdministration.Controllers
         // Method for getting product object to edit
         public async Task<IActionResult> EditProduct(int Id)
         {
-            var productResult = await _releaseNotesClient.GetAsync($"/Product/{Id}");
+            var productResult = await _productsClient.GetAsync($"/Product/{Id}");
 
             if (!productResult.IsSuccessStatusCode)
             {
@@ -123,9 +122,9 @@ namespace ReleaseNotesAdministration.Controllers
         {
             var jsonString = JsonConvert.SerializeObject(product);
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            var transportData = await _releaseNotesClient.PutAsync($"/Product/{Id}", content);
+            var transportData = await _productsClient.PutAsync($"/Product/{Id}", content);
 
-            if(!transportData.IsSuccessStatusCode)
+            if (!transportData.IsSuccessStatusCode)
             {
                 throw new HttpRequestException($"Editing product with id = {Id} failed.");
             }
@@ -157,7 +156,7 @@ namespace ReleaseNotesAdministration.Controllers
         // Method for getting an product object to view
         public async Task<IActionResult> ViewProduct(int Id)
         {
-            var productsResult = await _releaseNotesClient.GetAsync($"/Product/{Id}");
+            var productsResult = await _productsClient.GetAsync($"/Product/{Id}");
 
             if (!productsResult.IsSuccessStatusCode)
             {
@@ -173,9 +172,9 @@ namespace ReleaseNotesAdministration.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteProduct(int Id)
         {
-            var transportData = await _releaseNotesClient.DeleteAsync($"/Product/{Id}");
-                
-            if(!transportData.IsSuccessStatusCode)
+            var transportData = await _productsClient.DeleteAsync($"/Product/{Id}");
+
+            if (!transportData.IsSuccessStatusCode)
             {
                 throw new HttpRequestException($"Couldn't delete product with id = {Id}");
             }

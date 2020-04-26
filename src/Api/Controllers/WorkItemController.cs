@@ -12,7 +12,6 @@ namespace Api.Controllers
     [Route("[Controller]")]
     public class WorkItemController : Controller
     {
-        //private readonly ILogger<WorkItemController> _logger;
         private readonly IMapper _mapper;
         private readonly IWorkItemRepository _workItemRepo;
 

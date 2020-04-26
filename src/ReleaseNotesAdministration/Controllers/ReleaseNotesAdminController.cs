@@ -17,7 +17,7 @@ namespace ReleaseNotesAdministration.Controllers
     public class ReleaseNotesAdminController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private HttpClient _releaseNotesClient;
+        private readonly HttpClient _releaseNotesClient;
 
         public ReleaseNotesAdminController(IHttpClientFactory httpClientFactory)
         {
@@ -244,7 +244,7 @@ namespace ReleaseNotesAdministration.Controllers
 
         // Method for posting edit on a release note object
         [HttpPost]
-        public async Task<IActionResult> EditReleaseNote(int? Id, ReleaseNoteAdminViewModel releaseNote, string submitButton, string[] PickedWorkItems)
+        public async Task<IActionResult> EditReleaseNote(int Id, ReleaseNoteAdminViewModel releaseNote, string submitButton, string[] PickedWorkItems)
         {
             try
             {
@@ -348,11 +348,11 @@ namespace ReleaseNotesAdministration.Controllers
             if (releaseNote.PickedWorkItems != null)
             {
                 PickedWorkItemId = releaseNote.PickedWorkItems.Split(' ');
-                for(int i = 0; i < PickedWorkItemId.Length; i++)
+                for (int i = 0; i < PickedWorkItemId.Length; i++)
                 {
-                    if(PickedWorkItemId[i].Length <= 1)
+                    if (PickedWorkItemId[i].Length <= 1)
                     {
-                       PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
+                        PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
                     }
                 }
             }
@@ -401,7 +401,7 @@ namespace ReleaseNotesAdministration.Controllers
 
         // Method for deleting object
         [HttpPost]
-        public async Task<IActionResult> DeleteReleaseNote(int? Id)
+        public async Task<IActionResult> DeleteReleaseNote(int Id)
         {
             try
             {
