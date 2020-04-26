@@ -104,6 +104,87 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
         }
 
         [Fact]
+        public async Task ViewProduct_Should_Return_View_With_product()
+        {
+            // Arrange
+            var Id = It.IsAny<int>();
+
+            // HttpResponseMessage with a StatusCode of OK (200) and Conent of products
+            HttpResponseMessage msg = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(
+                    "{\"productId\":1,\"productName\":\"Talent Recruiter\",\"productImage\":\"pic-recruiter.png\"}")
+            };
+
+            // mockHandler and mocked httpclient
+            var mockHandler = new Mock<HttpMessageHandler>();
+
+            mockHandler.Protected()
+                       .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
+                       ItExpr.IsAny<CancellationToken>())
+                       .ReturnsAsync(msg);
+
+            var httpClient = new HttpClient(mockHandler.Object)
+            {
+                BaseAddress = new Uri("https://localhost:44324/")
+            };
+            var httpClientResult = await httpClient.GetAsync($"/Product/{Id}");
+            var content = await httpClientResult.Content.ReadAsStringAsync();
+
+            var httpClientFactoryMock = _mockClientFactory;
+            var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
+                                    .Returns(httpClient);
+
+            var controller = new ProductsAdminController(httpClientFactoryMock.Object);
+
+            // Act
+            var result = await controller.ViewProduct(Id);
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.IsAssignableFrom<ProductAdminViewModel>(viewResult.ViewData.Model);
+        }
+
+        [Fact]
+        public async Task ViewProduct_Should_Throw_Exception()
+        {
+            // Arrange
+            var Id = It.IsAny<int>();
+
+            // HttpResponseMessage with a StatusCode of OK (200) and Conent of products
+            HttpResponseMessage msg = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.NotFound,
+                Content = new StringContent("")
+            };
+
+            // mockHandler and mocked httpclient
+            var mockHandler = new Mock<HttpMessageHandler>();
+
+            mockHandler.Protected()
+                       .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
+                       ItExpr.IsAny<CancellationToken>())
+                       .ReturnsAsync(msg);
+
+            var httpClient = new HttpClient(mockHandler.Object)
+            {
+                BaseAddress = new Uri("https://localhost:44324/")
+            };
+            var httpClientResult = await httpClient.GetAsync($"/Product/{Id}");
+            var content = await httpClientResult.Content.ReadAsStringAsync();
+
+            var httpClientFactoryMock = _mockClientFactory;
+            var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
+                                    .Returns(httpClient);
+
+            var controller = new ProductsAdminController(httpClientFactoryMock.Object);
+
+            // Act
+            var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.ViewProduct(Id));
+        }
+
+        [Fact]
         public async Task CreateProduct_Should_Create_Product()
         {
             // Arrange
@@ -202,9 +283,8 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.CreateProduct(testProduct));
         }
 
-        // EditProduct with only Id as parameter
         [Fact]
-        public async Task EditProduct_IdAsParameter_Should_Return_View_With_Updated_Product()
+        public async Task EditProduct_With_Only_IdAsParameter_Should_Return_View_With_Updated_Product()
         {
             // Arrange
             var Id = It.IsAny<int>();
@@ -238,16 +318,15 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var controller = new ProductsAdminController(httpClientFactoryMock.Object);
 
             // Act
-            var result = await controller.EditProduct(It.IsAny<int>());
+            var result = await controller.EditProduct(Id);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsAssignableFrom<ProductAdminViewModel>(viewResult.ViewData.Model);
         }
 
-        // EditProduct with only Id as parameter
         [Fact]
-        public async Task EditProduct_IdAsParameter_Should_Throw_Exception()
+        public async Task EditProduct_With_Only_IdAsParameter_Should_Throw_Exception()
         {
             // Arrange
             var Id = It.IsAny<int>();
@@ -283,7 +362,6 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.EditProduct(Id));
         }
 
-        // EditProduct with Id and product as parameter
         [Fact]
         public async Task EditProduct_Should_Redirect_To_ViewProduct()
         {
@@ -343,7 +421,6 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             Assert.IsType<RedirectToActionResult>(viewResult);
         }
 
-        // EditProduct with Id and product as parameter
         [Fact]
         public async Task EditProduct_Should_Throw_Exception()
         {
@@ -386,87 +463,6 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
 
             // Act
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.EditProduct(Id, testProduct));
-        }
-
-        [Fact]
-        public async Task ViewProduct_Should_Return_View_With_product()
-        {
-            // Arrange
-            var Id = It.IsAny<int>();
-
-            // HttpResponseMessage with a StatusCode of OK (200) and Conent of products
-            HttpResponseMessage msg = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(
-                    "{\"productId\":1,\"productName\":\"Talent Recruiter\",\"productImage\":\"pic-recruiter.png\"}")
-            };
-
-            // mockHandler and mocked httpclient
-            var mockHandler = new Mock<HttpMessageHandler>();
-
-            mockHandler.Protected()
-                       .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
-                       ItExpr.IsAny<CancellationToken>())
-                       .ReturnsAsync(msg);
-
-            var httpClient = new HttpClient(mockHandler.Object)
-            {
-                BaseAddress = new Uri("https://localhost:44324/")
-            };
-            var httpClientResult = await httpClient.GetAsync($"/Product/{Id}");
-            var content = await httpClientResult.Content.ReadAsStringAsync();
-
-            var httpClientFactoryMock = _mockClientFactory;
-            var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
-                                    .Returns(httpClient);
-
-            var controller = new ProductsAdminController(httpClientFactoryMock.Object);
-
-            // Act
-            var result = await controller.ViewProduct(Id);
-
-            // Assert
-            var viewResult = Assert.IsType<ViewResult>(result);
-            Assert.IsAssignableFrom<ProductAdminViewModel>(viewResult.ViewData.Model);
-        }
-
-        [Fact]
-        public async Task ViewProduct_Should_Throw_Exception()
-        {
-            // Arrange
-            var Id = It.IsAny<int>();
-
-            // HttpResponseMessage with a StatusCode of OK (200) and Conent of products
-            HttpResponseMessage msg = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.NotFound,
-                Content = new StringContent("")
-            };
-
-            // mockHandler and mocked httpclient
-            var mockHandler = new Mock<HttpMessageHandler>();
-
-            mockHandler.Protected()
-                       .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
-                       ItExpr.IsAny<CancellationToken>())
-                       .ReturnsAsync(msg);
-
-            var httpClient = new HttpClient(mockHandler.Object)
-            {
-                BaseAddress = new Uri("https://localhost:44324/")
-            };
-            var httpClientResult = await httpClient.GetAsync($"/Product/{Id}");
-            var content = await httpClientResult.Content.ReadAsStringAsync();
-
-            var httpClientFactoryMock = _mockClientFactory;
-            var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
-                                    .Returns(httpClient);
-
-            var controller = new ProductsAdminController(httpClientFactoryMock.Object);
-
-            // Act
-            var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.ViewProduct(Id));
         }
 
         [Fact]

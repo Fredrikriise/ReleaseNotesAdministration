@@ -46,6 +46,21 @@ namespace ReleaseNotesAdministration.Controllers
             return View(productsList);
         }
 
+        // Method for getting an product object to view
+        public async Task<IActionResult> ViewProduct(int Id)
+        {
+            var productsResult = await _releaseNotesClient.GetAsync($"/Product/{Id}");
+
+            if (!productsResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
+            }
+
+            var responseStream = await productsResult.Content.ReadAsStringAsync();
+            var product = JsonConvert.DeserializeObject<ProductAdminViewModel>(responseStream);
+            return View(product);
+        }
+
         // Method for loading create-view
         public ActionResult Create()
         {
@@ -152,21 +167,6 @@ namespace ReleaseNotesAdministration.Controllers
 
             TempData["EditProduct"] = "Success";
             return RedirectToAction("ViewProduct", new { id = Id });
-        }
-
-        // Method for getting an product object to view
-        public async Task<IActionResult> ViewProduct(int Id)
-        {
-            var productsResult = await _releaseNotesClient.GetAsync($"/Product/{Id}");
-
-            if (!productsResult.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
-            }
-
-            var responseStream = await productsResult.Content.ReadAsStringAsync();
-            var product = JsonConvert.DeserializeObject<ProductAdminViewModel>(responseStream);
-            return View(product);
         }
 
         // Method for deleting object
