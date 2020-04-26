@@ -101,7 +101,7 @@ namespace ReleaseNotesAdministration.Controllers
                 ModelState.AddModelError("AssignedTo", "Assigned to may only consist of characters!");
             }
 
-            
+
             if (!ModelState.IsValid)
             {
                 TempData["CreateWorkItem"] = "Failed";

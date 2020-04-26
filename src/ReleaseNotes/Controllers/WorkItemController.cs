@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ReleaseNotes.Models;
 using ReleaseNotes.ViewModels;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace ReleaseNotes.Controllers
 {
@@ -20,6 +17,7 @@ namespace ReleaseNotes.Controllers
             _httpClientFactory = httpClientFactory;
             _workItemsClient = _httpClientFactory.CreateClient("ReleaseNotesApiClient");
         }
+
         public async Task<IActionResult> ListWorkItem(int Id)
         {
             var workItemResult = await _workItemsClient.GetAsync($"/WorkItem/{Id}");

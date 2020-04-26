@@ -101,13 +101,13 @@ namespace ReleaseNotesAdministration.Controllers
 
             for (int i = 0; i < PickedWorkItems.Length; i++)
             {
-                if(PickedWorkItems[i] != "false")
+                if (PickedWorkItems[i] != "false")
                 {
                     PickedWorkItemsString += PickedWorkItems[i] + " ";
                 }
             }
 
-            if(PickedWorkItemsString == "")
+            if (PickedWorkItemsString == "")
             {
                 PickedWorkItemsString = null;
                 ModelState.AddModelError("PickedWorkItems", "You must select at least one related work item!");
@@ -118,13 +118,13 @@ namespace ReleaseNotesAdministration.Controllers
             if (!releaseNoteTitleMatch.Success)
             {
                 ModelState.AddModelError("Title", "Title must be between three and one hundred characters!");
-            } 
-            
+            }
+
             if (releaseNote.BodyText == null)
             {
                 ModelState.AddModelError("BodyText", "Body text is required, and may not consist of zero characters!");
             }
-            
+
             if (releaseNote.ProductId < 0)
             {
                 ModelState.AddModelError("ProductId", "Product is required!");
@@ -139,7 +139,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!ModelState.IsValid)
             {
-                TempData["CreateRN"] = "Failed"; 
+                TempData["CreateRN"] = "Failed";
                 return View("Create");
             }
 
@@ -148,10 +148,11 @@ namespace ReleaseNotesAdministration.Controllers
 
             bool val = false;
 
-            if(submitButton == "Save as draft")
+            if (submitButton == "Save as draft")
             {
                 val = true;
-            } else if (submitButton == "Save and publish")
+            }
+            else if (submitButton == "Save and publish")
             {
                 val = false;
             }
@@ -223,7 +224,6 @@ namespace ReleaseNotesAdministration.Controllers
             }).ToList();
 
             ViewBag.products = productsList;
-
 
             var workItemResult = await _releaseNotesClient.GetAsync("/WorkItem/");
             var responseStreamWorkItem = await workItemResult.Content.ReadAsStringAsync();
@@ -322,7 +322,7 @@ namespace ReleaseNotesAdministration.Controllers
                 }
 
                 TempData["EditRN"] = "Success";
-                return RedirectToAction("ViewReleaseNote", new { id = Id}); 
+                return RedirectToAction("ViewReleaseNote", new { id = Id });
             }
             catch (Exception ex)
             {
@@ -384,7 +384,6 @@ namespace ReleaseNotesAdministration.Controllers
 
             ViewBag.workItems = workItemList;
 
-
             var productsResult = await _releaseNotesClient.GetAsync($"/Product/{releaseNote.ProductId}");
 
             if (!productsResult.IsSuccessStatusCode)
@@ -409,7 +408,7 @@ namespace ReleaseNotesAdministration.Controllers
                 var transportData = await _releaseNotesClient.DeleteAsync($"/ReleaseNotes/{Id}");
 
                 TempData["DeleteRN"] = "Success";
-                return RedirectToAction("ListAllReleaseNotes"); 
+                return RedirectToAction("ListAllReleaseNotes");
             }
             catch (Exception ex)
             {

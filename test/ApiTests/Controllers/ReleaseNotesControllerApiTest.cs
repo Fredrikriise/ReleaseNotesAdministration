@@ -5,7 +5,6 @@ using Moq;
 using Services.Repository.Interfaces;
 using Services.Repository.Models;
 using Services.Repository.Models.DatabaseModels;
-using Services.Repository.Models.DataTransferObjects;
 using System;
 using System.Collections.Generic;
 using Xunit;

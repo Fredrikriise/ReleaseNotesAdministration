@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Services.Repository.Interfaces;
 using Services.Repository.Models.DatabaseModels;
 using Services.Repository.Models.DataTransferObjects;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -35,7 +34,7 @@ namespace Api.Controllers
 
             var returnedProducts = await _productRepo.GetAllProducts();
 
-            if(returnedProducts == null)
+            if (returnedProducts == null)
             {
                 return NotFound();
             }
@@ -64,7 +63,7 @@ namespace Api.Controllers
 
             var mappedProduct = _mapper.Map<Product>(product);
 
-            if(mappedProduct == null)
+            if (mappedProduct == null)
             {
                 return NotFound();
             }
@@ -78,14 +77,14 @@ namespace Api.Controllers
         {
             var mappedProduct = _mapper.Map<ProductDto>(product);
 
-            if(mappedProduct == null)
+            if (mappedProduct == null)
             {
                 return NotFound();
             }
 
             await _productRepo.CreateProduct(mappedProduct);
 
-            if(product == null)
+            if (product == null)
             {
                 return NotFound();
             }
@@ -107,7 +106,7 @@ namespace Api.Controllers
 
             var updatedProduct = await _productRepo.UpdateProduct(productId, mappedProduct);
 
-            if(updatedProduct == null)
+            if (updatedProduct == null)
             {
                 return NotFound();
             }

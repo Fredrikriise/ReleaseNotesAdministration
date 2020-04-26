@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Services.Repository.Interfaces;
 using Services.Repository.Models.DatabaseModels;
 using Services.Repository.Models.DataTransferObjects;
@@ -29,14 +28,14 @@ namespace Api.Controllers
         {
             var returnedWorkItems = await _workItemRepo.GetAllWorkItems();
 
-            if(returnedWorkItems == null)
+            if (returnedWorkItems == null)
             {
                 return NotFound();
             }
 
             var mappedWorkItems = _mapper.Map<List<WorkItem>>(returnedWorkItems);
 
-            if(mappedWorkItems == null)
+            if (mappedWorkItems == null)
             {
                 return NotFound();
             }
@@ -58,7 +57,7 @@ namespace Api.Controllers
 
             var mappedWorkItem = _mapper.Map<WorkItem>(workItem);
 
-            if(mappedWorkItem == null)
+            if (mappedWorkItem == null)
             {
                 return NotFound();
             }
@@ -72,14 +71,14 @@ namespace Api.Controllers
         {
             var mappedWorkItem = _mapper.Map<WorkItemDto>(workitem);
 
-            if(mappedWorkItem == null)
+            if (mappedWorkItem == null)
             {
                 return NotFound();
             }
 
             await _workItemRepo.CreateWorkItem(mappedWorkItem);
-            
-            if(workitem == null)
+
+            if (workitem == null)
             {
                 return NotFound();
             }
@@ -100,12 +99,12 @@ namespace Api.Controllers
             }
 
             var updatedWorkItem = await _workItemRepo.UpdateWorkItem(Id, mappedWorkItem);
-            
-            if(updatedWorkItem == null)
+
+            if (updatedWorkItem == null)
             {
                 return NotFound();
             }
-            
+
             return Ok();
         }
 

@@ -38,7 +38,7 @@ namespace ReleaseNotes.Controllers
             {
                 ProductId = x.ProductId,
                 ProductName = x.ProductName,
-                ProductImage = x.ProductImage,
+                ProductImage = x.ProductImage
             }).ToList();
 
             return View(productsList);

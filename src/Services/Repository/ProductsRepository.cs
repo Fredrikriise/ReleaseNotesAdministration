@@ -22,6 +22,7 @@ namespace Services
             _connectionString = sqlDbConnection.Value.ConnectionString;
             _mapper = mapper;
         }
+
         public async Task<List<ProductDto>> GetAllProducts()
         {
             using (var connection = new SqlConnection(_connectionString))
