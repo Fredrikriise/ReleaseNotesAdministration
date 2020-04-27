@@ -403,17 +403,15 @@ namespace ReleaseNotesAdministration.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteReleaseNote(int? Id)
         {
-            try
-            {
-                var transportData = await _releaseNotesClient.DeleteAsync($"/ReleaseNotes/{Id}");
+            var transportData = await _releaseNotesClient.DeleteAsync($"/ReleaseNotes/{Id}");
 
-                TempData["DeleteRN"] = "Success";
-                return RedirectToAction("ListAllReleaseNotes");
+            if (!transportData.IsSuccessStatusCode)
+            { 
+                throw new HttpRequestException($"Couldnt delete release note with id = {Id}");
             }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+
+            TempData["DeleteRN"] = "Success";
+            return RedirectToAction("ListAllReleaseNotes");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
