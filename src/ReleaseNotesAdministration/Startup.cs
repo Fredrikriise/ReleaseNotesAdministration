@@ -32,7 +32,7 @@ namespace ReleaseNotesAdministration
                 //Fredrik:  client.BaseAddress = new Uri("https://localhost:44310");
                 //Felix bærbar:  client.BaseAddress = new Uri("https://localhost:44314");
                 //Felix stasjonær:  client.BaseAddress = new Uri("https://localhost:44312");
-                client.BaseAddress = new Uri("https://localhost:44393");
+                client.BaseAddress = new Uri("https://localhost:44349");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
 
@@ -52,7 +52,6 @@ namespace ReleaseNotesAdministration
                 options.ClientId = "hrmts-releasenotes-app";
                 options.ClientSecret = "4700825d-92d3-4148-9f39-4a7c81a47b25";
                 
-
                 options.ResponseType = "code";
                 options.UsePkce = true;
 
