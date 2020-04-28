@@ -10,7 +10,7 @@ namespace ReleaseNotesAdministration.ViewModels
         [Required(ErrorMessage = "Body text is required!")]
         public string BodyText { get; set; }
         [Key]
-        public int? Id { get; set; }
+        public int Id { get; set; }
         [Required(ErrorMessage = "Product id is required!")]
         public int ProductId { get; set; }
         [Required(ErrorMessage = "Author is required!")]

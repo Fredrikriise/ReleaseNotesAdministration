@@ -10,7 +10,7 @@ namespace ReleaseNotes.ViewModels
         public string BodyText { get; set; }
 
         [Key]
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         public int ProductId { get; set; }
 

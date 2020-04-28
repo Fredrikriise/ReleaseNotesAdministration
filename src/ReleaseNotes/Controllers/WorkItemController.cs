@@ -10,7 +10,7 @@ namespace ReleaseNotes.Controllers
     public class WorkItemController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private HttpClient _workItemsClient;
+        private readonly HttpClient _workItemsClient;
 
         public WorkItemController(IHttpClientFactory httpClientFactory)
         {

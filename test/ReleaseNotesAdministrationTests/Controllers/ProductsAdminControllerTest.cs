@@ -18,7 +18,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
     public class ProductsAdminControllerTest
     {
         private readonly Mock<IHttpClientFactory> _mockClientFactory;
-        private Mock<HttpClient> _mockHttpClient;
+        private readonly Mock<HttpClient> _mockHttpClient;
         private readonly ProductsAdminController _controller;
 
         public ProductsAdminControllerTest()
@@ -230,9 +230,9 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             // Act
             controller.TempData = tempDataMock.Object;
             var result = await controller.CreateProduct(testProduct);
-            
+
             // Assert
-            Assert.Matches(@"^[A-Za-z0-9\s\-_,\.;:!()+']{3,99}$", 
+            Assert.Matches(@"^[A-Za-z0-9\s\-_,\.;:!()+']{3,99}$",
                 testProduct.ProductName);
             Assert.Matches(@"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$",
                 testProduct.ProductImage);
@@ -412,7 +412,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var result = await controller.EditProduct(Id, testProduct);
 
             // Assert
-            Assert.Matches(@"^[a-zA-Z0-9, _ - ! ?. ""]*$", 
+            Assert.Matches(@"^[a-zA-Z0-9, _ - ! ?. ""]*$",
                 testProduct.ProductName);
             Assert.Matches(@"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$",
                 testProduct.ProductImage);

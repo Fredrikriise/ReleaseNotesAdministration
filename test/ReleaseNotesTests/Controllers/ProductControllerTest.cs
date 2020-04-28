@@ -16,7 +16,7 @@ namespace test.ReleaseNotesTests.Controllers
     public class ProductControllerTest
     {
         private readonly Mock<IHttpClientFactory> _mockClientFactory;
-        private Mock<HttpClient> _mockProductsClient;
+        private readonly Mock<HttpClient> _mockProductsClient;
         private readonly ProductController _controller;
 
         public ProductControllerTest()
@@ -41,7 +41,7 @@ namespace test.ReleaseNotesTests.Controllers
             var mockHandler = new Mock<HttpMessageHandler>();
 
             mockHandler.Protected()
-                       .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), 
+                       .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
                        ItExpr.IsAny<CancellationToken>())
                        .ReturnsAsync(msg);
 

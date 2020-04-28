@@ -35,7 +35,7 @@ namespace Services
             }
         }
 
-        public async Task<ReleaseNoteDto> GetReleaseNoteById(int? Id)
+        public async Task<ReleaseNoteDto> GetReleaseNoteById(int Id)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -49,7 +49,7 @@ namespace Services
             }
         }
 
-        public async Task<int?> CreateReleaseNote(ReleaseNoteDto releaseNoteDto)
+        public async Task<int> CreateReleaseNote(ReleaseNoteDto releaseNoteDto)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace Services
                                     @IsDraft,
                                     @PickedWorkItems
                                 )";
-                    var returnResult = await connection.QueryFirstOrDefaultAsync<int?>(insert, new ReleaseNoteDto
+                    var returnResult = await connection.QueryFirstOrDefaultAsync<int>(insert, new ReleaseNoteDto
                     {
                         Title = releaseNoteDto.Title,
                         BodyText = releaseNoteDto.BodyText,
@@ -100,7 +100,7 @@ namespace Services
             }
         }
 
-        public async Task<ReleaseNoteDto> UpdateReleaseNote(int? Id, ReleaseNoteDto releaseNote)
+        public async Task<ReleaseNoteDto> UpdateReleaseNote(int Id, ReleaseNoteDto releaseNote)
         {
             try
             {
@@ -131,7 +131,7 @@ namespace Services
             }
         }
 
-        public async Task<bool> DeleteReleaseNote(int? id)
+        public async Task<bool> DeleteReleaseNote(int id)
         {
             try
             {
