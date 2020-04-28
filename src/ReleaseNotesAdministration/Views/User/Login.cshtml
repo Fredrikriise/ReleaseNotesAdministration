@@ -49,16 +49,16 @@
             <form asp-action="Login">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="username" class="control-label">Username</label>
-                    <input asp-for="username" class="form-control" id="username"/>
+                    <label asp-for="Username" class="control-label">Username</label>
+                    <input asp-for="Username" class="form-control" id="username"/>
                     <span id="usernameValidation"></span>
-                    <span asp-validation-for="username" class="text-danger"></span>
+                    <span asp-validation-for="Username" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="password" class="control-label">Password</label>
-                    <input asp-for="password" class="form-control" id="password"/>
+                    <label asp-for="Password" class="control-label">Password</label>
+                    <input asp-for="Password" class="form-control" id="password"/>
                     <span id="passwordValidation"></span>
-                    <span asp-validation-for="password" class="text-danger"></span>
+                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-outline-primary submitButton"><i class="fa fa-user"></i> Log in</button>

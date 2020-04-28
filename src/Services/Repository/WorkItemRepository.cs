@@ -50,7 +50,7 @@ namespace Services.Repository
             }
         }
 
-        public async Task<int?> CreateWorkItem(WorkItemDto workItemDto)
+        public async Task<int> CreateWorkItem(WorkItemDto workItemDto)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace Services.Repository
                                     @AssignedTo,
                                     @State
                                 )";
-                    var returnResult = await connection.QueryFirstOrDefaultAsync<int?>(insert, new WorkItemDto
+                    var returnResult = await connection.QueryFirstOrDefaultAsync<int>(insert, new WorkItemDto
                     {
                         Id = workItemDto.Id,
                         Title = workItemDto.Title,

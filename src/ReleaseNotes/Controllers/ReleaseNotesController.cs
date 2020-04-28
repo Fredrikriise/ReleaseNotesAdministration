@@ -13,7 +13,7 @@ namespace ReleaseNotes.Controllers
     public class ReleaseNotesController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private HttpClient _releaseNotesClient;
+        private readonly HttpClient _releaseNotesClient;
 
         public ReleaseNotesController(IHttpClientFactory httpClientFactory)
         {
@@ -63,7 +63,6 @@ namespace ReleaseNotes.Controllers
 
             var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
             var releaseNotes = JsonConvert.DeserializeObject<List<ReleaseNoteApiModel>>(responseStream);
-
 
             var releaseNotesList = releaseNotes.Where(x => x.ProductId == productId).Select(x => new ReleaseNoteViewModel
             {

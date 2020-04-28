@@ -12,7 +12,7 @@ namespace ReleaseNotes.Controllers
     public class ProductController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private HttpClient _productsClient;
+        private readonly HttpClient _productsClient;
 
         public ProductController(IHttpClientFactory httpClientFactory)
         {
@@ -38,7 +38,7 @@ namespace ReleaseNotes.Controllers
             {
                 ProductId = x.ProductId,
                 ProductName = x.ProductName,
-                ProductImage = x.ProductImage,
+                ProductImage = x.ProductImage
             }).ToList();
 
             return View(productsList);

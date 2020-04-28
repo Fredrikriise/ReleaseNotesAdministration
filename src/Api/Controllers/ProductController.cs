@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Services.Repository.Interfaces;
 using Services.Repository.Models.DatabaseModels;
 using Services.Repository.Models.DataTransferObjects;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,7 +14,6 @@ namespace Api.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IProductsRepository _productRepo;
-        private readonly ILogger<ProductController> _logger;
 
         public ProductController(IProductsRepository productsRepository, IMapper mapper)
         {
@@ -28,14 +25,9 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            //if(!ProductId.HasValue)
-            //{
-            //    _logger.LogWarning($"The {nameof(ProductId)} : {ProductId} is not a valid parameter value");
-            //}
-
             var returnedProducts = await _productRepo.GetAllProducts();
 
-            if(returnedProducts == null)
+            if (returnedProducts == null)
             {
                 return NotFound();
             }
@@ -53,7 +45,7 @@ namespace Api.Controllers
         //Method to get product by id
         [HttpGet]
         [Route("/Product/{productId}")]
-        public async Task<IActionResult> GetProductById(int? productId)
+        public async Task<IActionResult> GetProductById(int productId)
         {
             var product = await _productRepo.GetProductById(productId);
 
@@ -64,7 +56,7 @@ namespace Api.Controllers
 
             var mappedProduct = _mapper.Map<Product>(product);
 
-            if(mappedProduct == null)
+            if (mappedProduct == null)
             {
                 return NotFound();
             }
@@ -78,14 +70,14 @@ namespace Api.Controllers
         {
             var mappedProduct = _mapper.Map<ProductDto>(product);
 
-            if(mappedProduct == null)
+            if (mappedProduct == null)
             {
                 return NotFound();
             }
 
             await _productRepo.CreateProduct(mappedProduct);
 
-            if(product == null)
+            if (product == null)
             {
                 return NotFound();
             }
@@ -96,7 +88,7 @@ namespace Api.Controllers
         //Method for updating product
         [HttpPut]
         [Route("/Product/{productId}")]
-        public async Task<IActionResult> UpdateProduct(int? productId, Product product)
+        public async Task<IActionResult> UpdateProduct(int productId, Product product)
         {
             var mappedProduct = _mapper.Map<ProductDto>(product);
 
@@ -107,7 +99,7 @@ namespace Api.Controllers
 
             var updatedProduct = await _productRepo.UpdateProduct(productId, mappedProduct);
 
-            if(updatedProduct == null)
+            if (updatedProduct == null)
             {
                 return NotFound();
             }
@@ -118,7 +110,7 @@ namespace Api.Controllers
         //Method for deleting product
         [HttpDelete]
         [Route("/Product/{ProductId}")]
-        public async Task<IActionResult> DeleteProduct(int? productId)
+        public async Task<IActionResult> DeleteProduct(int productId)
         {
             var deletedProduct = await _productRepo.DeleteProduct(productId);
 

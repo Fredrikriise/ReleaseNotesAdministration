@@ -1,19 +1,18 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using ReleaseNotes.Models;
+using ReleaseNotes.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using ReleaseNotes.Models;
-using ReleaseNotes.ViewModels;
 
 namespace ReleaseNotes.Controllers
 {
     public class SubscribeController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private HttpClient _productsClient;
+        private readonly HttpClient _productsClient;
 
         public SubscribeController(IHttpClientFactory httpClientFactory)
         {
