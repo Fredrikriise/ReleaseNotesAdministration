@@ -19,13 +19,13 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
     {
         private readonly Mock<IHttpClientFactory> _mockClientFactory;
         private Mock<HttpClient> _mockHttpClient;
-        private readonly WorkItemController _controller;
+        private readonly WorkItemAdminController _controller;
 
         public WorkItemControllerTest()
         {
             _mockClientFactory = new Mock<IHttpClientFactory>();
             _mockHttpClient = new Mock<HttpClient>();
-            _controller = new WorkItemController(_mockClientFactory.Object);
+            _controller = new WorkItemAdminController(_mockClientFactory.Object);
         }
 
         [Fact]
@@ -59,7 +59,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
                                     .Returns(httpClient);
 
-            var controller = new WorkItemController(httpClientFactoryMock.Object);
+            var controller = new WorkItemAdminController(httpClientFactoryMock.Object);
 
             // Act
             var result = await controller.ListAllWorkItems();
@@ -98,7 +98,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var httpClientFactoryMock = _mockClientFactory;
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient")).Returns(httpClient);
 
-            var controller = new WorkItemController(httpClientFactoryMock.Object);
+            var controller = new WorkItemAdminController(httpClientFactoryMock.Object);
 
             // Act
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.ListAllWorkItems());
@@ -137,7 +137,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
                                     .Returns(httpClient);
 
-            var controller = new WorkItemController(httpClientFactoryMock.Object);
+            var controller = new WorkItemAdminController(httpClientFactoryMock.Object);
 
             // Act
             var result = await controller.ViewWorkItem(Id);
@@ -179,7 +179,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
                                     .Returns(httpClient);
 
-            var controller = new WorkItemController(httpClientFactoryMock.Object);
+            var controller = new WorkItemAdminController(httpClientFactoryMock.Object);
 
             // Act
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.ViewWorkItem(Id));
@@ -227,7 +227,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var httpClientFactoryMock = _mockClientFactory;
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient")).Returns(httpClient);
 
-            var controller = new WorkItemController(httpClientFactoryMock.Object);
+            var controller = new WorkItemAdminController(httpClientFactoryMock.Object);
 
             // Act
             controller.TempData = tempDataMock.Object;
@@ -282,7 +282,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var httpClientFactoryMock = _mockClientFactory;
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient")).Returns(httpClient);
 
-            var controller = new WorkItemController(httpClientFactoryMock.Object);
+            var controller = new WorkItemAdminController(httpClientFactoryMock.Object);
 
             // Act
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.CreateWorkItem(testWorkItem));
@@ -320,7 +320,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var httpClientFactoryMock = _mockClientFactory;
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient")).Returns(httpClient);
 
-            var controller = new WorkItemController(httpClientFactoryMock.Object);
+            var controller = new WorkItemAdminController(httpClientFactoryMock.Object);
 
             // Act
             var result = await controller.EditWorkItem(Id);
@@ -361,7 +361,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var httpClientFactoryMock = _mockClientFactory;
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient")).Returns(httpClient);
 
-            var controller = new WorkItemController(httpClientFactoryMock.Object);
+            var controller = new WorkItemAdminController(httpClientFactoryMock.Object);
 
             // Act
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.EditWorkItem(Id));
@@ -411,7 +411,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var httpClientFactoryMock = _mockClientFactory;
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient")).Returns(httpClient);
 
-            var controller = new WorkItemController(httpClientFactoryMock.Object);
+            var controller = new WorkItemAdminController(httpClientFactoryMock.Object);
 
             // Act
             controller.TempData = tempDataMock.Object;
@@ -468,7 +468,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var httpClientFactoryMock = _mockClientFactory;
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient")).Returns(httpClient);
 
-            var controller = new WorkItemController(httpClientFactoryMock.Object);
+            var controller = new WorkItemAdminController(httpClientFactoryMock.Object);
 
             // Act
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.EditWorkItem(Id, testWorkItem));
@@ -509,7 +509,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var httpClientFactoryMock = _mockClientFactory;
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient")).Returns(httpClient);
 
-            var controller = new WorkItemController(httpClientFactoryMock.Object);
+            var controller = new WorkItemAdminController(httpClientFactoryMock.Object);
 
             // Act
             controller.TempData = tempDataMock.Object;
@@ -550,7 +550,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var httpClientFactoryMock = _mockClientFactory;
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient")).Returns(httpClient);
 
-            var controller = new WorkItemController(httpClientFactoryMock.Object);
+            var controller = new WorkItemAdminController(httpClientFactoryMock.Object);
 
             // Act
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.DeleteWorkItem(Id));
