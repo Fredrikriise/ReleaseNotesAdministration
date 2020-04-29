@@ -78,6 +78,12 @@ namespace ReleaseNotesAdministration.Controllers
             //////
 
             var workItemResult = await _releaseNotesClient.GetAsync("/WorkItem/");
+
+            if (!workItemResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/WorkItem/' failed");
+            }
+
             var responseStreamWorkItem = await workItemResult.Content.ReadAsStringAsync();
             var workItems = JsonConvert.DeserializeObject<List<WorkItemApiModel>>(responseStreamWorkItem);
 
@@ -113,7 +119,7 @@ namespace ReleaseNotesAdministration.Controllers
                 ModelState.AddModelError("PickedWorkItems", "You must select at least one related work item!");
             }
 
-            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]{3,100}$";
+            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""-]{3,100}$";
             var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
             if (!releaseNoteTitleMatch.Success)
             {
@@ -171,7 +177,12 @@ namespace ReleaseNotesAdministration.Controllers
 
             var jsonString = JsonConvert.SerializeObject(obj);
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            await _releaseNotesClient.PostAsync("/ReleaseNotes/", content);
+            var result = await _releaseNotesClient.PostAsync("/ReleaseNotes/", content);
+
+            if(!result.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException($"Failed creating Release Note with title; {obj.Title}");
+            }
 
             TempData["CreateRN"] = "Success";
             return RedirectToAction("ListAllReleaseNotes");
@@ -200,7 +211,7 @@ namespace ReleaseNotesAdministration.Controllers
                 CreatedDate = releaseNote.CreatedDate,
                 LastUpdatedBy = releaseNote.LastUpdatedBy,
                 LastUpdateDate = DateTime.Now,
-                IsDraft = releaseNote.IsDraft,
+                IsDraft = releaseNote.IsDraft
             };
 
             ViewBag.selectedWorkItems = releaseNote.PickedWorkItems;
@@ -246,88 +257,84 @@ namespace ReleaseNotesAdministration.Controllers
         [HttpPost]
         public async Task<IActionResult> EditReleaseNote(int Id, ReleaseNoteAdminViewModel releaseNote, string submitButton, string[] PickedWorkItems)
         {
-            try
+            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""-]{3,100}$";
+            var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
+            if (!releaseNoteTitleMatch.Success)
             {
-                string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]{3,100}$";
-                var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
-                if (!releaseNoteTitleMatch.Success)
-                {
-                    ModelState.AddModelError("Title", "Title must be between six and one hundred characters!");
-                }
-
-                if (releaseNote.BodyText == null)
-                {
-                    ModelState.AddModelError("BodyText", "Body text is required, and may not consist of zero characters!");
-                }
-
-                if (releaseNote.ProductId < 0)
-                {
-                    ModelState.AddModelError("ProductId", "Product is required!");
-                }
-
-                string releaseNoteCreatedByPattern = @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
-                var createdByMatch = Regex.Match(releaseNote.CreatedBy, releaseNoteCreatedByPattern, RegexOptions.IgnoreCase);
-                if (!createdByMatch.Success)
-                {
-                    ModelState.AddModelError("CreatedBy", "Author name may only consist of characters!");
-                }
-
-                string releaseNoteLastUpdatedByPattern = @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
-                var lastUpdatedByMatch = Regex.Match(releaseNote.LastUpdatedBy, releaseNoteLastUpdatedByPattern, RegexOptions.IgnoreCase);
-                if (!lastUpdatedByMatch.Success)
-                {
-                    ModelState.AddModelError("LastUpdatedBy", "Last updated by may only consist of characters!");
-                }
-
-                string PickedWorkItemsString = "";
-
-                for (int i = 0; i < PickedWorkItems.Length; i++)
-                {
-                    if (PickedWorkItems[i] != "false")
-                    {
-                        PickedWorkItemsString += PickedWorkItems[i] + " ";
-                    }
-                }
-
-                if (PickedWorkItemsString == "")
-                {
-                    PickedWorkItemsString = null;
-                    ModelState.AddModelError("PickedWorkItems", "You must select at least one related work item!");
-                }
-
-
-                bool val = false;
-
-                if (submitButton == "Save as draft")
-                {
-                    val = true;
-                }
-                else if (submitButton == "Save and publish")
-                {
-                    val = false;
-                }
-
-                releaseNote.IsDraft = val;
-                releaseNote.PickedWorkItems = PickedWorkItemsString;
-
-                var jsonString = JsonConvert.SerializeObject(releaseNote);
-                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-                var transportData = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
-
-
-                if (!ModelState.IsValid)
-                {
-                    TempData["EditRN"] = "Failed";
-                    return View("EditReleaseNote");
-                }
-
-                TempData["EditRN"] = "Success";
-                return RedirectToAction("ViewReleaseNote", new { id = Id });
+                ModelState.AddModelError("Title", "Title must be between six and one hundred characters!");
             }
-            catch (Exception ex)
+
+            if (releaseNote.BodyText == null)
             {
-                throw new Exception(ex.Message);
+                ModelState.AddModelError("BodyText", "Body text is required, and may not consist of zero characters!");
             }
+
+            if (releaseNote.ProductId < 0)
+            {
+                ModelState.AddModelError("ProductId", "Product is required!");
+            }
+
+            string releaseNoteCreatedByPattern = @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+            var createdByMatch = Regex.Match(releaseNote.CreatedBy, releaseNoteCreatedByPattern, RegexOptions.IgnoreCase);
+            if (!createdByMatch.Success)
+            {
+                ModelState.AddModelError("CreatedBy", "Author name may only consist of characters!");
+            }
+
+            string releaseNoteLastUpdatedByPattern = @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+            var lastUpdatedByMatch = Regex.Match(releaseNote.LastUpdatedBy, releaseNoteLastUpdatedByPattern, RegexOptions.IgnoreCase);
+            if (!lastUpdatedByMatch.Success)
+            {
+                ModelState.AddModelError("LastUpdatedBy", "Last updated by may only consist of characters!");
+            }
+
+            string PickedWorkItemsString = "";
+
+            for (int i = 0; i < PickedWorkItems.Length; i++)
+            {
+                if (PickedWorkItems[i] != "false")
+                {
+                    PickedWorkItemsString += PickedWorkItems[i] + " ";
+                }
+            }
+
+            if (PickedWorkItemsString == "")
+            {
+                PickedWorkItemsString = null;
+                ModelState.AddModelError("PickedWorkItems", "You must select at least one related work item!");
+            }
+
+            bool val = false;
+
+            if (submitButton == "Save as draft")
+            {
+                val = true;
+            }
+            else if (submitButton == "Save and publish")
+            {
+                val = false;
+            }
+
+            releaseNote.IsDraft = val;
+            releaseNote.PickedWorkItems = PickedWorkItemsString;
+
+            var jsonString = JsonConvert.SerializeObject(releaseNote);
+            var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            var result = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
+
+            if(!result.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException($"Couldn't edit release note with id = {Id}");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                TempData["EditRN"] = "Failed";
+                return View("EditReleaseNote");
+            }
+
+            TempData["EditRN"] = "Success";
+            return RedirectToAction("ViewReleaseNote", new { id = Id });
         }
 
         // Method for getting an release note object to delete

@@ -241,8 +241,66 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             Assert.Matches(@"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$",
                 testWorkItem.AssignedTo);
 
-            var viewResult = Assert.IsType<RedirectToActionResult>(result);
-            Assert.IsType<RedirectToActionResult>(viewResult);
+            Assert.IsAssignableFrom<RedirectToActionResult>(result);
+        }
+
+        [Fact]
+        public async Task CreateWorkItem_Should_Return_Create_View_Regex_Fails()
+        {
+            // Arrange
+            // mocking TempData 
+            var tempDataMock = new Mock<ITempDataDictionary>();
+            tempDataMock.Setup(x => x.Add("CreateWorkItem", "Failed"));
+
+            // testWorkItem for creation of work item
+            WorkItemApiModel testWorkItem = new WorkItemApiModel
+            {
+                Id = -1,
+                Title = "£2@@fgdjgi@",
+                AssignedTo = "23425€34€$£@",
+                State = "$£€.-.!!#"
+            };
+
+            // HttpResponseMessage with a StatusCode of OK (200) and Content of work item
+            HttpResponseMessage msg = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(
+                    "{\"id\":0,\"title\":\"£2@@fgdjgi@\",\"assignedTo\":\"23425€34€$£@\",\"state\":\"$£€.-.!!#\"}")
+            };
+
+            // mockHandler and mocked httpclient
+            var mockHandler = new Mock<HttpMessageHandler>();
+
+            mockHandler.Protected()
+                       .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                       .ReturnsAsync(msg);
+
+            var httpClient = new HttpClient(mockHandler.Object)
+            {
+                BaseAddress = new Uri("https://localhost:44324/")
+            };
+            var httpClientResult = await httpClient.PostAsync("/WorkItem/", msg.Content);
+
+            var httpClientFactoryMock = _mockClientFactory;
+            var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient")).Returns(httpClient);
+
+            var controller = new WorkItemAdminController(httpClientFactoryMock.Object);
+
+            // Act
+            controller.TempData = tempDataMock.Object;
+            var result = await controller.CreateWorkItem(testWorkItem);
+
+            // Assert
+            Assert.DoesNotMatch(@"^[0-9]{1,99}$",
+                testWorkItem.Id.ToString());
+            Assert.DoesNotMatch(@"^[A-Za-z0-9\s\-_,\.;:!()+']{3,99}$",
+                testWorkItem.Title);
+            Assert.DoesNotMatch(@"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$",
+                testWorkItem.AssignedTo);
+
+            Assert.IsAssignableFrom<ViewResult>(result);
         }
 
         [Fact]
@@ -425,8 +483,68 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             Assert.Matches(@"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$",
                 testWorkItem.AssignedTo);
 
-            var viewResult = Assert.IsType<RedirectToActionResult>(result);
-            Assert.IsType<RedirectToActionResult>(viewResult);
+            Assert.IsAssignableFrom<RedirectToActionResult>(result);
+        }
+
+        [Fact]
+        public async Task EditWorkItem_Should_Return_Edit_View_Regex_Fails()
+        {
+            // Arrange
+            var Id = It.IsAny<int>();
+
+            // mocking TempData 
+            var tempDataMock = new Mock<ITempDataDictionary>();
+            tempDataMock.Setup(x => x.Add("EditWorkItem", "Failed"));
+
+            // testWorkItem for creation of work item
+            WorkItemViewModel testWorkItem = new WorkItemViewModel
+            {
+                Id = -1,
+                Title = "£2@@fgdjgi@",
+                AssignedTo = "23425€34€$£@",
+                State = "$£€.-.!!#"
+            };
+
+            // HttpResponseMessage with a StatusCode of OK (200) and Content of work item
+            HttpResponseMessage msg = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(
+                    "{\"id\":0,\"title\":\"£2@@fgdjgi@\",\"assignedTo\":\"23425€34€$£@\",\"state\":\"$£€.-.!!#\"}")
+            };
+
+            // mockHandler and mocked httpclient
+            var mockHandler = new Mock<HttpMessageHandler>();
+
+            mockHandler.Protected()
+                       .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
+                       ItExpr.IsAny<CancellationToken>())
+                       .ReturnsAsync(msg);
+
+            var httpClient = new HttpClient(mockHandler.Object)
+            {
+                BaseAddress = new Uri("https://localhost:44324/")
+            };
+            var httpClientResult = await httpClient.PutAsync($"/WorkItem/{Id}", msg.Content);
+
+            var httpClientFactoryMock = _mockClientFactory;
+            var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient")).Returns(httpClient);
+
+            var controller = new WorkItemAdminController(httpClientFactoryMock.Object);
+
+            // Act
+            controller.TempData = tempDataMock.Object;
+            var result = await controller.EditWorkItem(Id ,testWorkItem);
+
+            // Assert
+            Assert.DoesNotMatch(@"^[0-9]{1,99}$",
+                testWorkItem.Id.ToString());
+            Assert.DoesNotMatch(@"^[A-Za-z0-9\s\-_,\.;:!()+']{3,99}$",
+                testWorkItem.Title);
+            Assert.DoesNotMatch(@"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$",
+                testWorkItem.AssignedTo);
+
+            Assert.IsAssignableFrom<ViewResult>(result);
         }
 
         [Fact]
@@ -516,8 +634,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var result = await controller.DeleteWorkItem(Id);
 
             // Assert
-            var viewResult = Assert.IsType<RedirectToActionResult>(result);
-            Assert.IsType<RedirectToActionResult>(viewResult);
+            Assert.IsAssignableFrom<RedirectToActionResult>(result);
         }
 
         [Fact]
