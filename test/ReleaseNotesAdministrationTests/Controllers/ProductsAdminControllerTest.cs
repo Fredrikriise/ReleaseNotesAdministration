@@ -195,7 +195,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
 
             // Assert
             Assert.IsAssignableFrom<ViewResult>(result);
-        } 
+        }
 
         [Fact]
         public async Task CreateProduct_Should_Create_Product()
@@ -252,7 +252,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
 
             Assert.IsAssignableFrom<RedirectToActionResult>(result);
         }
-        
+
         [Fact]
         public async Task CreateProduct_Should_Return_Create_View_Regex_Fails()
         {

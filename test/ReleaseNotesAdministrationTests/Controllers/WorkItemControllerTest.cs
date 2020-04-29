@@ -400,7 +400,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
                 StatusCode = HttpStatusCode.NotFound,
                 Content = new StringContent("")
             };
-                
+
             // mockHandler and mocked httpclient
             var mockHandler = new Mock<HttpMessageHandler>();
 
@@ -534,7 +534,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
 
             // Act
             controller.TempData = tempDataMock.Object;
-            var result = await controller.EditWorkItem(Id ,testWorkItem);
+            var result = await controller.EditWorkItem(Id, testWorkItem);
 
             // Assert
             Assert.DoesNotMatch(@"^[0-9]{1,99}$",

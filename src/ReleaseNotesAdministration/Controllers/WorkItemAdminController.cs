@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using ReleaseNotesAdministration.Models;
 using ReleaseNotesAdministration.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -159,7 +158,7 @@ namespace ReleaseNotesAdministration.Controllers
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
             var transportData = await _workItemsClient.PutAsync($"/WorkItem/{Id}", content);
 
-            if(!transportData.IsSuccessStatusCode)
+            if (!transportData.IsSuccessStatusCode)
             {
                 throw new HttpRequestException($"Could edit Work Item with id = {Id}");
             }
@@ -201,7 +200,7 @@ namespace ReleaseNotesAdministration.Controllers
         {
             var transportData = await _workItemsClient.DeleteAsync($"/WorkItem/{Id}");
 
-            if(!transportData.IsSuccessStatusCode)
+            if (!transportData.IsSuccessStatusCode)
             {
                 throw new HttpRequestException($"Couldnt delete work item with id = {Id}");
             }

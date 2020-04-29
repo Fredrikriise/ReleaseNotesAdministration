@@ -179,7 +179,7 @@ namespace ReleaseNotesAdministration.Controllers
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
             var result = await _releaseNotesClient.PostAsync("/ReleaseNotes/", content);
 
-            if(!result.IsSuccessStatusCode)
+            if (!result.IsSuccessStatusCode)
             {
                 throw new HttpRequestException($"Failed creating Release Note with title; {obj.Title}");
             }
@@ -322,7 +322,7 @@ namespace ReleaseNotesAdministration.Controllers
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
             var result = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
 
-            if(!result.IsSuccessStatusCode)
+            if (!result.IsSuccessStatusCode)
             {
                 throw new HttpRequestException($"Couldn't edit release note with id = {Id}");
             }
@@ -413,7 +413,7 @@ namespace ReleaseNotesAdministration.Controllers
             var transportData = await _releaseNotesClient.DeleteAsync($"/ReleaseNotes/{Id}");
 
             if (!transportData.IsSuccessStatusCode)
-            { 
+            {
                 throw new HttpRequestException($"Couldnt delete release note with id = {Id}");
             }
 

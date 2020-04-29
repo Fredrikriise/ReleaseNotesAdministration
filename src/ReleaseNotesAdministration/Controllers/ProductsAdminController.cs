@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using ReleaseNotesAdministration.Models;
 using ReleaseNotesAdministration.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -100,7 +99,7 @@ namespace ReleaseNotesAdministration.Controllers
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
             var result = await _releaseNotesClient.PostAsync("/Product/", content);
 
-            if(!result.IsSuccessStatusCode)
+            if (!result.IsSuccessStatusCode)
             {
                 throw new HttpRequestException("Failed creating product");
             }
@@ -140,7 +139,7 @@ namespace ReleaseNotesAdministration.Controllers
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
             var transportData = await _releaseNotesClient.PutAsync($"/Product/{Id}", content);
 
-            if(!transportData.IsSuccessStatusCode)
+            if (!transportData.IsSuccessStatusCode)
             {
                 throw new HttpRequestException($"Editing product with id = {Id} failed.");
             }
@@ -174,8 +173,8 @@ namespace ReleaseNotesAdministration.Controllers
         public async Task<IActionResult> DeleteProduct(int Id)
         {
             var transportData = await _releaseNotesClient.DeleteAsync($"/Product/{Id}");
-                
-            if(!transportData.IsSuccessStatusCode)
+
+            if (!transportData.IsSuccessStatusCode)
             {
                 throw new HttpRequestException($"Couldn't delete product with id = {Id}");
             }
