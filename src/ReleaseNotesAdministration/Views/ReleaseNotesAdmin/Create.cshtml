@@ -27,7 +27,9 @@
         $(document).ready(function () {
             $(".submitButton").click(function (evt) {
                 var title = document.getElementById('Title').value;
-                var bodyText = document.getElementById('BodyText').value;
+                //var bodyText = document.getElementById('BodyText').value;
+                var bodyText = CKEDITOR.instances['BodyText'].getData();
+                alert(bodyText);
                 var createdBy = document.getElementById('CreatedBy').value;
                 var productId = document.getElementById('ProductId').value;
                 var pickedWorkItems = document.querySelector('input[name="PickedWorkItems"]:checked');
@@ -129,10 +131,10 @@
                 <label class="control-label">Body text</label>
                 <textarea class="form-control" asp-for="BodyText" runat="server" id="BodyText"></textarea>
                 <script>
-                    //Congif to remove paragraph tags
-                    CKEDITOR.config.autoParagraph = false;
                     // Replace the <textarea id="ckeditor"> with a CKEditor
                     CKEDITOR.replace('BodyText');
+                    //Config to remove paragraph tags
+                    CKEDITOR.config.autoParagraph = false;
                     config.extraPlugins = 'simpleuploads,imagesfromword';
                     config.coreStyles_bold = { element: 'b', overrides: 'strong' };
                 </script>
