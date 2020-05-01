@@ -67,6 +67,31 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
 
             //Assert
             var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal(2, ((List<ReleaseNoteAdminViewModel>)viewResult.ViewData.Model).Count);
+
+            var releaseNotes = viewResult.ViewData.Model as IList<ReleaseNoteAdminViewModel>;
+            var createdDateObj1 = new DateTime(2020, 3, 5, 23, 47, 49);
+            var lastUpdatedObj1 = new DateTime(2020, 3, 6, 18, 36, 24);
+            Assert.Equal(24, releaseNotes[0].Id);
+            Assert.Equal("Release note 3.6 - Manager", releaseNotes[0].Title);
+            Assert.Equal("body text test", releaseNotes[0].BodyText);
+            Assert.Equal(1, releaseNotes[0].ProductId);
+            Assert.Equal("Felix", releaseNotes[0].CreatedBy);
+            Assert.Equal(createdDateObj1, releaseNotes[0].CreatedDate);
+            Assert.Equal("Fredrik", releaseNotes[0].LastUpdatedBy);
+            Assert.Equal(lastUpdatedObj1, releaseNotes[0].LastUpdateDate);
+
+            var createdDateObj2 = new DateTime(2020, 3, 7, 23, 47, 49);
+            var lastUpdatedObj2 = new DateTime(2020, 3, 9, 12, 23, 54);
+            Assert.Equal(26, releaseNotes[1].Id);
+            Assert.Equal("Release note 3.7 - Recruiter", releaseNotes[1].Title);
+            Assert.Equal("body text test", releaseNotes[1].BodyText);
+            Assert.Equal(2, releaseNotes[1].ProductId);
+            Assert.Equal("Fredrik", releaseNotes[1].CreatedBy);
+            Assert.Equal(createdDateObj2, releaseNotes[1].CreatedDate);
+            Assert.Equal("Felix", releaseNotes[1].LastUpdatedBy);
+            Assert.Equal(lastUpdatedObj2, releaseNotes[1].LastUpdateDate);
+
             Assert.IsAssignableFrom<List<ReleaseNoteAdminViewModel>>(viewResult.ViewData.Model);
         }
 
@@ -107,10 +132,34 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
         }
 
         [Fact]
+        public async Task ViewReleaseNote_Should_Return_View_With_ViewModel()
+        {
+
+        }
+
+        [Fact]
+        public async Task ViewReleaseNote_Should_Throw_Exception_Getting_ReleaseNote()
+        {
+
+        }
+
+        [Fact]
+        public async Task ViewReleaseNote_Should_Throw_Exception_Getting_WorkItem()
+        {
+
+        }
+
+        [Fact]
+        public async Task ViewReleaseNote_Should_Throw_Exception_Getting_Product()
+        {
+
+        }
+
+        // FUNKER IKKE 
+        [Fact]
         public async Task CreateReleaseNote_NoParameters_Should_Return_View()
         {
             // Arrange
-
             // HttpResponseMessage with a StatusCode of OK (200) and Content of products
             HttpResponseMessage msgProduct = new HttpResponseMessage
             {
@@ -269,6 +318,13 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.Create());
         }
 
+
+
+
+
+
+
+
         [Fact]
         public async Task CreateReleaseNote_With_Parameters_Should_Create_ReleaseNote()
         {
@@ -330,7 +386,11 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             // Assert
             Assert.Matches(@"^[a-zA-Z0-9, _ - ! ?. ""-]{3,100}$", testReleaseNote.Title);
             Assert.Matches(@"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$", testReleaseNote.CreatedBy);
+
             Assert.IsAssignableFrom<RedirectToActionResult>(result);
+
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("ListAllReleaseNotes", viewResult.ActionName);
         }
 
         [Fact]
@@ -394,6 +454,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             // Assert
             Assert.DoesNotMatch(@"^[a-zA-Z0-9, _ - ! ?. ""-]{3,100}$", testReleaseNote.Title);
             Assert.DoesNotMatch(@"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$", testReleaseNote.CreatedBy);
+
             Assert.IsAssignableFrom<ViewResult>(result);
         }
 
@@ -454,9 +515,16 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.CreateReleaseNote(testReleaseNote, submitButton, PickedWorkItems));
         }
 
-        // Funker ikke
+
+
+
+
+
+
+
+        // FUNKER IKKE
         [Fact]
-        public async Task EditReleaseNote_With_Id_As_Parameter_Should_Return_View_With_ViewModel()
+        public async Task EditReleaseNote_With_Only_IdAsParameter_Should_Return_View_With_ViewModel()
         {
             // Arrange
             var Id = It.IsAny<int>();
@@ -532,22 +600,28 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
         }
 
         [Fact]
-        public async Task EditReleaseNote_With_Id_As_Parameter_Should_Throw_Exception_Getting_ReleaseNote()
+        public async Task EditReleaseNote_With_Only_IdAsParameter_Should_Throw_Exception_Getting_ReleaseNote()
         {
 
         }
 
         [Fact]
-        public async Task EditReleaseNote_With_Id_As_Parameter_Should_Throw_Exception_Getting_Products()
+        public async Task EditReleaseNote_With_Only_IdAsParameter_Should_Throw_Exception_Getting_Products()
         {
 
         }
 
         [Fact]
-        public async Task EditReleaseNote_With_Id_As_Parameter_Should_Throw_Exception_Getting_WorkItems()
+        public async Task EditReleaseNote_With_Only_IdAsParameter_Should_Throw_Exception_Getting_WorkItems()
         {
 
         }
+
+
+
+
+
+
 
         [Fact]
         public async Task EditReleaseNote_Post_Should_Edit_ReleaseNote_And_Redirect_To_View()
@@ -615,6 +689,9 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             Assert.Matches(@"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$", testReleaseNote.LastUpdatedBy);
 
             Assert.IsAssignableFrom<RedirectToActionResult>(result);
+
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("ViewReleaseNote", viewResult.ActionName);
         }
 
         [Fact]
@@ -745,30 +822,6 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
         }
 
         [Fact]
-        public async Task ViewReleaseNote_Should_Return_View_With_ViewModel()
-        {
-
-        }
-
-        [Fact]
-        public async Task ViewReleaseNote_Should_Throw_Exception_Getting_ReleaseNote()
-        {
-
-        }
-
-        [Fact]
-        public async Task ViewReleaseNote_Should_Throw_Exception_Getting_WorkItem()
-        {
-
-        }
-
-        [Fact]
-        public async Task ViewReleaseNote_Should_Throw_Exception_Getting_Product()
-        {
-
-        }
-
-        [Fact]
         public async Task DeleteReleaseNote_Post_Should_Delete_WorkItem_And_RedirectToAction()
         {
             // Arrange
@@ -811,6 +864,9 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
 
             // Assert
             Assert.IsAssignableFrom<RedirectToActionResult>(result);
+
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("ListAllReleaseNotes", viewResult.ActionName);
         }
 
         [Fact]

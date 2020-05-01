@@ -54,6 +54,75 @@ namespace ReleaseNotesAdministration.Controllers
             return View(releaseNotesList);
         }
 
+        // Method for getting an release note object to delete
+        public async Task<IActionResult> ViewReleaseNote(int Id)
+        {
+            var releaseNotesResult = await _releaseNotesClient.GetAsync($"/ReleaseNotes/{Id}");
+
+            if (!releaseNotesResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed");
+            }
+
+            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+            var releaseNote = JsonConvert.DeserializeObject<ReleaseNoteAdminViewModel>(responseStream);
+
+            string[] PickedWorkItemId = new string[] { };
+
+            if (releaseNote.PickedWorkItems != null)
+            {
+                PickedWorkItemId = releaseNote.PickedWorkItems.Split(' ');
+                for (int i = 0; i < PickedWorkItemId.Length; i++)
+                {
+                    if (PickedWorkItemId[i].Length <= 1)
+                    {
+                        PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
+                    }
+                }
+            }
+
+            List<WorkItemViewModel> workItemList = new List<WorkItemViewModel>();
+
+            for (int i = 0; i < PickedWorkItemId.Length; i++)
+            {
+                var workItemResult = await _releaseNotesClient.GetAsync($"/WorkItem/{PickedWorkItemId[i]}");
+
+                if (!workItemResult.IsSuccessStatusCode)
+                {
+                    throw new HttpRequestException("Get request to the URL 'API/WorkItem/' failed");
+                }
+
+                var responseStreamWorkItem = await workItemResult.Content.ReadAsStringAsync();
+                var workItem = JsonConvert.DeserializeObject<WorkItemApiModel>(responseStreamWorkItem);
+
+                var workItemViewModel = new WorkItemViewModel
+                {
+                    Id = workItem.Id,
+                    Title = workItem.Title,
+                    AssignedTo = workItem.AssignedTo,
+                    State = workItem.State
+                };
+
+                workItemList.Add(workItemViewModel);
+            }
+
+            ViewBag.workItems = workItemList;
+
+            var productsResult = await _releaseNotesClient.GetAsync($"/Product/{releaseNote.ProductId}");
+
+            if (!productsResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
+            }
+
+            var responseStreamProduct = await productsResult.Content.ReadAsStringAsync();
+            var product = JsonConvert.DeserializeObject<ProductAdminViewModel>(responseStreamProduct);
+
+            ViewBag.productName = product.ProductName;
+
+            return View(releaseNote);
+        }
+
         // Method for loading create-view
         public async Task<ActionResult> Create()
         {
@@ -70,7 +139,7 @@ namespace ReleaseNotesAdministration.Controllers
             var productsList = products.Select(x => new ProductAdminViewModel
             {
                 ProductId = x.ProductId,
-                ProductName = x.ProductName,
+                ProductName = x.ProductName
             }).ToList();
 
             ViewBag.products = productsList;
@@ -335,75 +404,6 @@ namespace ReleaseNotesAdministration.Controllers
 
             TempData["EditRN"] = "Success";
             return RedirectToAction("ViewReleaseNote", new { id = Id });
-        }
-
-        // Method for getting an release note object to delete
-        public async Task<IActionResult> ViewReleaseNote(int Id)
-        {
-            var releaseNotesResult = await _releaseNotesClient.GetAsync($"/ReleaseNotes/{Id}");
-
-            if (!releaseNotesResult.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed");
-            }
-
-            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
-            var releaseNote = JsonConvert.DeserializeObject<ReleaseNoteAdminViewModel>(responseStream);
-
-            string[] PickedWorkItemId = new string[] { };
-
-            if (releaseNote.PickedWorkItems != null)
-            {
-                PickedWorkItemId = releaseNote.PickedWorkItems.Split(' ');
-                for (int i = 0; i < PickedWorkItemId.Length; i++)
-                {
-                    if (PickedWorkItemId[i].Length <= 1)
-                    {
-                        PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
-                    }
-                }
-            }
-
-            List<WorkItemViewModel> workItemList = new List<WorkItemViewModel>();
-
-            for (int i = 0; i < PickedWorkItemId.Length; i++)
-            {
-                var workItemResult = await _releaseNotesClient.GetAsync($"/WorkItem/{PickedWorkItemId[i]}");
-
-                if (!workItemResult.IsSuccessStatusCode)
-                {
-                    throw new HttpRequestException("Get request to the URL 'API/WorkItem/' failed");
-                }
-
-                var responseStreamWorkItem = await workItemResult.Content.ReadAsStringAsync();
-                var workItem = JsonConvert.DeserializeObject<WorkItemApiModel>(responseStreamWorkItem);
-
-                var workItemViewModel = new WorkItemViewModel
-                {
-                    Id = workItem.Id,
-                    Title = workItem.Title,
-                    AssignedTo = workItem.AssignedTo,
-                    State = workItem.State
-                };
-
-                workItemList.Add(workItemViewModel);
-            }
-
-            ViewBag.workItems = workItemList;
-
-            var productsResult = await _releaseNotesClient.GetAsync($"/Product/{releaseNote.ProductId}");
-
-            if (!productsResult.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
-            }
-
-            var responseStreamProduct = await productsResult.Content.ReadAsStringAsync();
-            var product = JsonConvert.DeserializeObject<ProductAdminViewModel>(responseStreamProduct);
-
-            ViewBag.productName = product.ProductName;
-
-            return View(releaseNote);
         }
 
         // Method for deleting object

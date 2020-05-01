@@ -36,7 +36,8 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             HttpResponseMessage msg = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent("[{\"productId\":1,\"productName\":\"Talent Recruiter\",\"productImage\":\"pic-recruiter.png\"},{\"productId\":2,\"productName\":\"Talent Manager\",\"productImage\":\"pic-manager.png\"},{\"productId\":3,\"productName\":\"Talmundo\",\"productImage\":\"logo_talmundo.png\"},{\"productId\":10,\"productName\":\"ReachMee\",\"productImage\":\"reachmeelogo.png\"},{\"productId\":12,\"productName\":\"Webrecruiter\",\"productImage\":\"webrecruiter-logo.png\"}]")
+                Content = new StringContent(
+                    "[{\"productId\":1,\"productName\":\"Talent Recruiter\",\"productImage\":\"pic-recruiter.png\"},{\"productId\":2,\"productName\":\"Talent Manager\",\"productImage\":\"pic-manager.png\"},{\"productId\":3,\"productName\":\"Talmundo\",\"productImage\":\"logo_talmundo.png\"}]")
             };
 
             // mockHandler and mocked httpclient
@@ -65,6 +66,21 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
 
             //Assert
             var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal(3, ((List<ProductAdminViewModel>)viewResult.ViewData.Model).Count);
+
+            var products = viewResult.ViewData.Model as IList<ProductAdminViewModel>;
+            Assert.Equal(1, products[0].ProductId);
+            Assert.Equal("Talent Recruiter", products[0].ProductName);
+            Assert.Equal("pic-recruiter.png", products[0].ProductImage);
+
+            Assert.Equal(2, products[1].ProductId);
+            Assert.Equal("Talent Manager", products[1].ProductName);
+            Assert.Equal("pic-manager.png", products[1].ProductImage);
+
+            Assert.Equal(3, products[2].ProductId);
+            Assert.Equal("Talmundo", products[2].ProductName);
+            Assert.Equal("logo_talmundo.png", products[2].ProductImage);
+
             Assert.IsAssignableFrom<List<ProductAdminViewModel>>(viewResult.ViewData.Model);
         }
 
@@ -113,8 +129,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             HttpResponseMessage msg = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(
-                    "{\"productId\": 1,\"productName\":\"Talent Recruiter\",\"productImage\":\"pic-recruiter.png\"}")
+                Content = new StringContent("{\"productId\": 1,\"productName\":\"Talent Recruiter\",\"productImage\":\"pic-recruiter.png\"}")
             };
 
             // mockHandler and mocked httpclient
@@ -143,6 +158,10 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal(1, ((ProductAdminViewModel)viewResult.ViewData.Model).ProductId);
+            Assert.Equal("Talent Recruiter", ((ProductAdminViewModel)viewResult.ViewData.Model).ProductName);
+            Assert.Equal("pic-recruiter.png", ((ProductAdminViewModel)viewResult.ViewData.Model).ProductImage);
+
             Assert.IsAssignableFrom<ProductAdminViewModel>(viewResult.ViewData.Model);
         }
 
@@ -251,6 +270,9 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
                 testProduct.ProductImage);
 
             Assert.IsAssignableFrom<RedirectToActionResult>(result);
+
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("ListAllProducts", viewResult.ActionName);
         }
 
         [Fact]
@@ -389,6 +411,10 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal(1, ((ProductAdminViewModel)viewResult.ViewData.Model).ProductId);
+            Assert.Equal("Talent Recruiter", ((ProductAdminViewModel)viewResult.ViewData.Model).ProductName);
+            Assert.Equal("pic-recruiter.png", ((ProductAdminViewModel)viewResult.ViewData.Model).ProductImage);
+
             Assert.IsAssignableFrom<ProductAdminViewModel>(viewResult.ViewData.Model);
         }
 
@@ -483,6 +509,9 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
                 testProduct.ProductName);
             Assert.Matches(@"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$",
                 testProduct.ProductImage);
+
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("ViewProduct", viewResult.ActionName);
 
             Assert.IsAssignableFrom<RedirectToActionResult>(result);
         }
@@ -633,6 +662,8 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var result = await controller.DeleteProduct(Id);
 
             // Assert
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("ListAllProducts", viewResult.ActionName);
             Assert.IsAssignableFrom<RedirectToActionResult>(result);
         }
 

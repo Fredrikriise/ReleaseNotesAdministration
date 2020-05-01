@@ -66,6 +66,19 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
 
             //Assert
             var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal(2, ((List<WorkItemViewModel>)viewResult.ViewData.Model).Count);
+
+            var workitems = viewResult.ViewData.Model as IList<WorkItemViewModel>;
+            Assert.Equal(21625, workitems[0].Id);
+            Assert.Equal("Adding the styling to correct file (User module)", workitems[0].Title);
+            Assert.Equal("Fredrik Riise", workitems[0].AssignedTo);
+            Assert.Equal("New", workitems[0].State);
+
+            Assert.Equal(21680, workitems[1].Id);
+            Assert.Equal("Make listing of 'All Release Notes' descending based of publish-date", workitems[1].Title);
+            Assert.Equal("Fredrik Riise", workitems[1].AssignedTo);
+            Assert.Equal("New", workitems[1].State);
+
             Assert.IsAssignableFrom<List<WorkItemViewModel>>(viewResult.ViewData.Model);
         }
 
@@ -144,6 +157,11 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal(21625, ((WorkItemViewModel)viewResult.ViewData.Model).Id);
+            Assert.Equal("Adding the styling to correct file (User module)", ((WorkItemViewModel)viewResult.ViewData.Model).Title);
+            Assert.Equal("Fredrik Riise", ((WorkItemViewModel)viewResult.ViewData.Model).AssignedTo);
+            Assert.Equal("New" ,((WorkItemViewModel)viewResult.ViewData.Model).State);
+
             Assert.IsAssignableFrom<WorkItemViewModel>(viewResult.ViewData.Model);
         }
 
@@ -183,6 +201,19 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
 
             // Act
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.ViewWorkItem(Id));
+        }
+
+        [Fact]
+        public void Create_Should_Return_View()
+        {
+            //Arrange
+            var controller = _controller;
+
+            // Act
+            var result = controller.Create();
+
+            // Assert
+            Assert.IsAssignableFrom<ViewResult>(result);
         }
 
         [Fact]
@@ -241,6 +272,8 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             Assert.Matches(@"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$",
                 testWorkItem.AssignedTo);
 
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("ListAllWorkItems", viewResult.ActionName);
             Assert.IsAssignableFrom<RedirectToActionResult>(result);
         }
 
@@ -385,6 +418,11 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal(21625, ((WorkItemViewModel)viewResult.ViewData.Model).Id);
+            Assert.Equal("Adding the styling to correct file (User module)", ((WorkItemViewModel)viewResult.ViewData.Model).Title);
+            Assert.Equal("Fredrik Riise", ((WorkItemViewModel)viewResult.ViewData.Model).AssignedTo);
+            Assert.Equal("New", ((WorkItemViewModel)viewResult.ViewData.Model).State);
+
             Assert.IsAssignableFrom<WorkItemViewModel>(viewResult.ViewData.Model);
         }
 
@@ -482,6 +520,9 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
                 testWorkItem.Title);
             Assert.Matches(@"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$",
                 testWorkItem.AssignedTo);
+
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("ViewWorkItem", viewResult.ActionName);
 
             Assert.IsAssignableFrom<RedirectToActionResult>(result);
         }
@@ -634,6 +675,9 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var result = await controller.DeleteWorkItem(Id);
 
             // Assert
+            var viewResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("ListAllWorkItems", viewResult.ActionName);
+
             Assert.IsAssignableFrom<RedirectToActionResult>(result);
         }
 
