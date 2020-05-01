@@ -40,14 +40,14 @@
                 <div class="input-group mb-2">
                     <input type="text" class="form-control" id="myInput" placeholder="Search">
                     <div class="input-group-append">
-                        <div class="input-group-text"><i class="fas fa-search"></i></div>
+                        <div class="input-group-text"><span class="fas fa-search"></span></div>
                     </div>
                 </div>
             </div>
 
             <div class="float-right">
                 <a class="btn btn-outline-primary float-left" asp-controller="WorkItemAdmin" asp-action="Create">
-                    <i class="fa fa-plus"></i> Add work item
+                    <span class="fa fa-plus"></span> Add work item
                 </a>
             </div>
         </div>
@@ -62,7 +62,7 @@
                         </div>
                         <div class="float-right btn-group-vertical">
                             <a asp-controller="WorkItemAdmin" asp-action="ViewWorkItem" asp-route-id="@item.Id">
-                                <span class="btn btn-outline-secondary p-1 ml-2" style="white-space: nowrap;"><i class="fa fa-eye"></i> View</span>
+                                <span class="btn btn-outline-secondary p-1 ml-2" style="white-space: nowrap;"><span class="fa fa-eye"></span> View</span>
                             </a>
                         </div>
                     </div>

@@ -40,20 +40,20 @@
             <div class="input-group mb-2">
                 <input type="text" class="form-control" id="myInput" placeholder="Search">
                 <div class="input-group-append">
-                    <div class="input-group-text"><i class="fas fa-search"></i></div>
+                    <div class="input-group-text"><span class="fas fa-search"></span></div>
                 </div>
             </div>
         </div>
 
         <div class="float-right">
             <a class="btn btn-outline-primary float-left" asp-controller="ReleaseNotesAdmin" asp-action="Create">
-                <i class="fa fa-plus"></i> Add release note
+                <span class="fa fa-plus"></span> Add release note
             </a>
         </div>
     </div>
 
     <div class="mb-4 pl-3">
-        <label class="float-left"><span class="fa fa-check-circle text-success"></span> = Published  | <i class="fa fa-minus-circle text-warning"></i> = Saved as draft</label>
+        <label class="float-left"><span class="fa fa-check-circle text-success"></span> = Published  | <span class="fa fa-minus-circle text-warning"></span> = Saved as draft</label>
         <br />
     </div>
 
@@ -74,7 +74,7 @@
                     </div>
                     <div class="float-right">
                         <a asp-controller="ReleaseNotesAdmin" asp-action="ViewReleaseNote" asp-route-id="@item.Id">
-                            <span class="btn btn-outline-secondary ml-2" style="white-space: nowrap;"><i class="fa fa-eye"></i> View</span>
+                            <span class="btn btn-outline-secondary ml-2" style="white-space: nowrap;"><span class="fa fa-eye"></span> View</span>
                         </a>
                     </div>
                 </div>

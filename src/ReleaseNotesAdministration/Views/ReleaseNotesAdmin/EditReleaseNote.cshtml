@@ -99,7 +99,7 @@
  <div>
      <h2>Edit Release Note</h2>
      <div>
-         <a href='javascript:history.go(-1)'><i class="fa fa-arrow-left"></i> Back to release notes</a>
+         <a href='javascript:history.go(-1)'><span class="fa fa-arrow-left"></span> Back to release notes</a>
      </div>
      <hr />
      <div class="row">
@@ -207,7 +207,7 @@
                                      </div>
                                      <div class="float-right">
                                          <a asp-controller="WorkItemAdmin" asp-action="ViewWorkItem" asp-route-id="@item.Id">
-                                             <span class="btn btn-outline-secondary p-1 ml-2" style="white-space: nowrap;"><i class="fa fa-eye"></i> View</span>
+                                             <span class="btn btn-outline-secondary p-1 ml-2" style="white-space: nowrap;"><span class="fa fa-eye"></span> View</span>
                                          </a>
                                      </div>
                                  </div>
@@ -218,10 +218,10 @@
 
                  <div class="d-flex justify-content-between">
                      <div class="justify-content-start">
-                         <button type="submit" value="Save and publish" class="btn btn-outline-success float-left mr-1 submitButton" name="submitButton">Save and publish <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Save and publish will save the release note and publish the new changes to the public."></i></button>
-                         <button type="submit" value="Save as draft" class="btn btn-outline-success float-left submitButton" name="submitButton">Save as draft <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Save as draft will save the release note, but it will no longer be visable for the public."></i></button>
+                         <button type="submit" value="Save and publish" class="btn btn-outline-success float-left mr-1 submitButton" name="submitButton">Save and publish <span class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Save and publish will save the release note and publish the new changes to the public."></span></button>
+                         <button type="submit" value="Save as draft" class="btn btn-outline-success float-left submitButton" name="submitButton">Save as draft <span class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Save as draft will save the release note, but it will no longer be visable for the public."></span></button>
                      </div>
-                     <a class="btn btn-outline-danger float-right" asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes"><i class="fa fa-times"></i> Cancel</a>
+                     <a class="btn btn-outline-danger float-right" asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes"><span class="fa fa-times"></span> Cancel</a>
                  </div>
              </form>
          </div>
