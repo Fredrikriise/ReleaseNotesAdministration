@@ -52,12 +52,24 @@
         </div>
     </div>
 
-    @foreach (var item in Model)
-    {
-        <ul class="mb-2 pl-3" id="myList" style="font-size:18px; list-style-type:none;">
-            <li>
+    <div class="mb-4 pl-3">
+        <label class="float-left"><span class="fa fa-check-circle text-success"></span> = Published  | <i class="fa fa-minus-circle text-warning"></i> = Saved as draft</label>
+        <br />
+    </div>
+
+    <ul class="mb-2 pl-3" id="myList" style="font-size:18px; list-style-type:none;">
+        @foreach (var item in Model)
+        {
+            <li class="mb-2">
                 <div class="d-flex justify-content-between">
                     <div class="float-left">
+                        @if(!item.IsDraft)
+                        {
+                            <span class="fa fa-check-circle text-success"></span>
+                        } else
+                        {
+                            <span class="fa fa-minus-circle text-warning"></span>
+                        }
                         @item.Title
                     </div>
                     <div class="float-right">
@@ -67,8 +79,8 @@
                     </div>
                 </div>
             </li>
+        }
         </ul>
-    }
-</div>
+    </div>
 
 
