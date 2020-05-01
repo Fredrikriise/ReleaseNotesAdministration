@@ -112,7 +112,7 @@
                      <span id="TitleValidation"></span>
                      <span asp-validation-for="Title" class="text-danger"></span>
                  </div>
-                 <div class="form-group">
+                 <div class="form-group" style="padding-left: 1px;">
                      <label class="control-label">Body text</label>
                      <textarea class="form-control" asp-for="BodyText" runat="server" id="BodyText"></textarea>
                      <script>
@@ -177,9 +177,9 @@
                  <span id="PickedWorkItemsValidation"></span>
                  <span asp-validation-for="PickedWorkItems" class="text-danger"></span>
                  <div class="mt-2 mb-2">
-                     @foreach (var item in ViewBag.workitems)
-                     {
-                         <ul class="mb-1 pl-0" id="myList" style="font-size: 16px; list-style-type: none;">
+                     <ul class="mb-1 pl-0" id="myList" style="font-size: 16px; list-style-type: none;">
+                         @foreach (var item in ViewBag.workitems)
+                         {
                              <li>
                                  <div class="d-flex justify-content-between">
                                      <div class="d-flex justify-content-start">
@@ -207,13 +207,13 @@
                                      </div>
                                      <div class="float-right">
                                          <a asp-controller="WorkItemAdmin" asp-action="ViewWorkItem" asp-route-id="@item.Id">
-                                             <span class="btn btn-outline-secondary p-1 ml-1" style="white-space: nowrap;"><i class="fa fa-eye"></i> View</span>
+                                             <span class="btn btn-outline-secondary p-1 ml-2" style="white-space: nowrap;"><i class="fa fa-eye"></i> View</span>
                                          </a>
                                      </div>
                                  </div>
                              </li>
-                         </ul>
-                     }
+                         }
+                     </ul>\
                  </div>
 
                  <div class="d-flex justify-content-between">
