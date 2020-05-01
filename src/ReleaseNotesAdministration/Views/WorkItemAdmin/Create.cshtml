@@ -5,7 +5,6 @@
 }
 
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"></script>
     <script>
             //Client validation
             $(document).ready(function () {
@@ -60,19 +59,19 @@
             <form asp-action="CreateWorkItem">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label class="control-label">Id</label>
+                    <label for="Id" class="control-label">Id</label>
                     <input asp-for="Id" class="form-control" id="Id" />
                     <span id="IdValidation"></span>
                     <span asp-validation-for="Id" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label class="control-label">Title</label>
+                    <label for="Title" class="control-label">Title</label>
                     <input asp-for="Title" class="form-control" id="Title" />
                     <span id="TitleValidation"></span>
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label class="control-label">Assigned to</label>
+                    <label for="AssignedTo" class="control-label">Assigned to</label>
                     <input asp-for="AssignedTo" class="form-control" id="AssignedTo" />
                     <span id="AssignedToValidation"></span>
                     <span asp-validation-for="AssignedTo" class="text-danger"></span>

@@ -6,22 +6,11 @@
 
 <head>
     <style>
-        .card:hover {
-            border: 1px solid;
-            border-color: rgb(42,128,192);
-        }
-
-        .hrTag {
-            margin-top: 6px;
-            margin-bottom: 3px;
-        }
-
         .check:hover {
             cursor: pointer;
         }
     </style>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"></script>
     <script>
         //Client validation
         $(document).ready(function () {
@@ -29,7 +18,6 @@
                 var title = document.getElementById('Title').value;
                 //var bodyText = document.getElementById('BodyText').value;
                 var bodyText = CKEDITOR.instances['BodyText'].getData();
-                alert(bodyText);
                 var createdBy = document.getElementById('CreatedBy').value;
                 var productId = document.getElementById('ProductId').value;
                 var pickedWorkItems = document.querySelector('input[name="PickedWorkItems"]:checked');
@@ -90,16 +78,11 @@
                 }
             });
         });
-    </script>
 
-    <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
-    </script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
         $(document).ready(function () {
             $("#myInput").on("keyup", function () {
                 var value = $(this).val().toLowerCase();
@@ -111,8 +94,6 @@
     </script>
 </head>
 
-
-
 <h2>Create release note</h2>
 <div>
     <a asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes"><span class="fa fa-arrow-left"></span> Back to release notes</a>
@@ -122,13 +103,13 @@
     <div class="col-md-6">
         <form asp-action="CreateReleaseNote" onsubmit="return validation()" method="post">
             <div class="form-group">
-                <label class="control-label">Title</label>
+                <label for="Title" class="control-label">Title</label>
                 <input asp-for="Title" class="form-control" id="Title" />
                 <span id="TitleValidation"></span>
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-            <div class="form-group" style="padding-left: 1px";>
-                <label class="control-label">Body text</label>
+            <div class="form-group" style="padding-left: 2px";>
+                <label for="BodyText" class="control-label">Body text</label>
                 <textarea class="form-control" asp-for="BodyText" runat="server" id="BodyText"></textarea>
                 <script>
                     // Replace the <textarea id="ckeditor"> with a CKEditor
@@ -142,8 +123,7 @@
                 <span asp-validation-for="BodyText" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Product</label>
-                <br />
+                <label for="ProductId" class="control-label">Product</label>
                 <select asp-for="ProductId"
                         asp-items="@(new SelectList(ViewBag.products,"ProductId","ProductName"))" class="form-control required" id="ProductId">
                     <option value="" disabled selected>Select a product</option>
@@ -152,7 +132,7 @@
                 <span asp-validation-for="ProductId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Author</label>
+                <label for="CreatedBy" class="control-label">Author</label>
                 <input asp-for="CreatedBy" class="form-control" id="CreatedBy" />
                 <span id="CreatedByValidation"></span>
                 <span asp-validation-for="CreatedBy" class="text-danger"></span>
@@ -162,7 +142,7 @@
             <div class="input-group mb-2">
                 <input type="text" class="form-control" id="myInput" placeholder="Search">
                 <div class="input-group-append">
-                    <button class="input-group-text"><span class="fas fa-search"></span></button>
+                    <button class="input-group-text" aria-label="Search button"><span class="fas fa-search"></span></button>
                 </div>
             </div>
 

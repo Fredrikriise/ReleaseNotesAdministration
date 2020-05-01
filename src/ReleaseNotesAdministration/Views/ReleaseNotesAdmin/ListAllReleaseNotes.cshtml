@@ -5,7 +5,6 @@
 }
 
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
             $("#myInput").on("keyup", function () {
@@ -15,9 +14,7 @@
                 });
             });
         });
-    </script>
 
-    <script type="text/javascript">
         $(document).ready(function () {
             if ('@TempData["CreateRN"]' == "Success") {
                 window.toastr.success("You have successfully created a new release note");
@@ -40,7 +37,7 @@
             <div class="input-group mb-2">
                 <input type="text" class="form-control" id="myInput" placeholder="Search">
                 <div class="input-group-append">
-                    <div class="input-group-text"><span class="fas fa-search"></span></div>
+                    <div class="input-group-text" aria-label="Search button"><span class="fas fa-search"></span></div>
                 </div>
             </div>
         </div>

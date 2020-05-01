@@ -11,7 +11,7 @@
             $(document).ready(function () {
                 $("#myInput").on("keyup", function () {
                     var value = $(this).val().toLowerCase();
-                    $("#searchResult li").filter(function () {
+                    $(".searchResult li").filter(function () {
                         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
                     });
                 });
@@ -35,7 +35,7 @@
                 <div class="input-group mb-2">
                     <input type="text" class="form-control" id="myInput" placeholder="Search for a keyword">
                     <div class="input-group-append">
-                        <button class="input-group-text"><span class="fas fa-search"></span></button>
+                        <button aria-label="Search button" class="input-group-text"><span class="fas fa-search"></span></button>
                     </div>
                 </div>
             </form>
@@ -43,9 +43,9 @@
 
         @{bool ReleaseNoteFound = false; }
 
-        @foreach (var item in Model)
-        {
-            <ul id="searchResult" class="pl-0" style="list-style-type: none;">
+        <ul class="searchResult pl-0" style="list-style-type: none;">
+            @foreach (var item in Model)
+            {
                 <li>
                     <h5 class="font-weight-bold mt-5">
                         @item.Title
@@ -80,10 +80,10 @@
                     }
                     <hr class="mt-1" />
                 </li>
-            </ul>
-            ReleaseNoteFound = true;
-        }
-
+                ReleaseNoteFound = true;
+            }
+        </ul>
+            
         @if (!ReleaseNoteFound)
         {
             <label>There is currently no release notes published for this product.</label>
