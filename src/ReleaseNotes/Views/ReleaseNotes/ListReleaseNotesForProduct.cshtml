@@ -32,7 +32,7 @@
         <div class="d-flex justify-content-between mb-3">
             <div class="float-left mt-2 mb-4">
                 <a asp-controller="Product" asp-action="ListAllProducts">
-                    <i class="fa fa-arrow-left"></i> Back to products
+                    <span class="fa fa-arrow-left"></span> Back to products
                 </a>
             </div>
 
@@ -40,7 +40,7 @@
                 <div class="input-group mb-2">
                     <input type="text" class="form-control" id="myInput" placeholder="Search for a keyword">
                     <div class="input-group-append">
-                        <button class="input-group-text"><i class="fas fa-search"></i></button>
+                        <button aria-label="Search button" class="input-group-text"><span class="fas fa-search"></span></button>
                     </div>
                 </div>
             </form>
@@ -48,9 +48,9 @@
 
         @{ bool ReleaseNoteFound = false; }
 
-        @foreach (var item in Model)
-        {
-            <ul id="searchResult" class="pl-0" style="list-style-type: none;">
+        <ul id="searchResult" class="pl-0" style="list-style-type: none;">
+            @foreach (var item in Model)
+            {
                 <li>
                     <h5 class="font-weight-bold mt-5">
                         @item.Title
@@ -85,9 +85,10 @@
                     }
                     <hr class="mt-1" />
                 </li>
-            </ul>
-            ReleaseNoteFound = true;
-        }
+                ReleaseNoteFound = true;
+            }
+        </ul>
+     
 
         @if (!ReleaseNoteFound)
         {
