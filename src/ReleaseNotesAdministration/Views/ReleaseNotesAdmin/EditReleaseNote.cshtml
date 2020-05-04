@@ -90,12 +90,17 @@
         </script>
     </head>
 
+    <div class="text-center">
+        <h1 class="display-4">Talentech - Release Notes Administration</h1>
+        <hr class="mb-3 mt-1" />
+    </div>
+
  <div>
      <h2>Edit Release Note</h2>
-     <div>
+     <div class="mb-4">
          <a href='javascript:history.go(-1)'><span class="fa fa-arrow-left"></span> Back to release notes</a>
      </div>
-     <hr />
+
      <div class="row">
          <div class="col-md-6">
              <form asp-action="EditReleaseNote">
@@ -172,7 +177,7 @@
                          @foreach (var item in ViewBag.workitems)
                          {
                              <li>
-                                 <div class="d-flex justify-content-between">
+                                 <div class="d-flex justify-content-between mb-2">
                                      <div class="d-flex justify-content-start">
                                          <div class="btn-group-vertical">
                                              <div class="custom-control custom-checkbox btn-group-vertical">
