@@ -53,13 +53,12 @@ namespace ReleaseNotesAdministration
                 options.ClientSecret = "4700825d-92d3-4148-9f39-4a7c81a47b25";
                 
 
-                options.ResponseType = "code";
+                options.ResponseType = "code id_token";
                 options.UsePkce = true;
 
                 options.Scope.Clear();
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
-                options.Scope.Add("email");
 
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.SaveTokens = true;
@@ -98,7 +97,7 @@ namespace ReleaseNotesAdministration
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
