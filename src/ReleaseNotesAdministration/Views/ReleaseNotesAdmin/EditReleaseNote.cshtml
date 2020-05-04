@@ -90,12 +90,17 @@
         </script>
     </head>
 
+    <div class="text-center">
+        <h1 class="display-4">Talentech - Release Notes Administration</h1>
+        <hr class="mb-3 mt-1" />
+    </div>
+
  <div>
      <h2>Edit Release Note</h2>
-     <div>
+     <div class="mb-4">
          <a href='javascript:history.go(-1)'><span class="fa fa-arrow-left"></span> Back to release notes</a>
      </div>
-     <hr />
+
      <div class="row">
          <div class="col-md-6">
              <form asp-action="EditReleaseNote">
@@ -106,7 +111,7 @@
                      <span id="TitleValidation"></span>
                      <span asp-validation-for="Title" class="text-danger"></span>
                  </div>
-                 <div class="form-group" style="padding-left: 1px;">
+                 <div class="form-group" style="padding-left: 2px;">
                      <label for="BodyText" class="control-label">Body text</label>
                      <textarea class="form-control" asp-for="BodyText" runat="server" id="BodyText"></textarea>
                      <script>
@@ -121,8 +126,7 @@
                      <span asp-validation-for="BodyText" class="text-danger"></span>
                  </div>
                  <div class="form-group">
-                     <label class="control-label">Product</label>
-                     <br />
+                     <label for="ProductId" class="control-label">Product</label>
                      <select asp-for="ProductId"
                              asp-items="@(new SelectList(ViewBag.products,"ProductId","ProductName"))" class="form-control" id="ProductId">
                      </select>
@@ -173,7 +177,7 @@
                          @foreach (var item in ViewBag.workitems)
                          {
                              <li>
-                                 <div class="d-flex justify-content-between">
+                                 <div class="d-flex justify-content-between mb-2">
                                      <div class="d-flex justify-content-start">
                                          <div class="btn-group-vertical">
                                              <div class="custom-control custom-checkbox btn-group-vertical">

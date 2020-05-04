@@ -91,10 +91,9 @@
         <div class="col-sm-3 btn-group-toggle" data-toggle="buttons">
             @foreach (var item in Model)
             {
-                <label class="btn btn-outline-primary mb-1 mt-1 btn-block form-control-lg products">
+                <label for="@item.ProductId" class="btn btn-outline-primary mb-1 mt-1 btn-block form-control-lg products">
                     <input type="checkbox" style="font-size: 18px; " id="@item.ProductId" value="@item.ProductId" name="product" />@item.ProductName
                 </label>
-
                 <br />
             }
         </div>
@@ -109,7 +108,7 @@
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <a asp-controller="Subscribe" asp-action="Subscribe" id="subscribeButton">
-                            <span class="fa fa-bell-o"></span> Subscribe
+                            <span class="fa fa-bell"></span> Subscribe
                         </a>
                     </div>
                 </div>

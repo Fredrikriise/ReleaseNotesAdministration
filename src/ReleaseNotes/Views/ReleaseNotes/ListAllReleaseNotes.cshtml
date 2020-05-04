@@ -4,24 +4,28 @@
     ViewData["Title"] = "All Release Notes";
 }
 
-    <head>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $("#myInput").on("keyup", function () {
-                    var value = $(this).val().toLowerCase();
-                    $(".searchResult li").filter(function () {
-                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                    });
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $(".searchResult li").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
                 });
             });
-        </script>
-    </head>
+        });
+    </script>
+</head>
+
+<div class="text-center mb-3">
+    <label class="display-4">Talentech - Release Notes</label>
+    <hr />
+</div>
 
 <div class="main">
-    <h2 class="mb-3 font-weight-bolder">All published release notes</h2>
-
+    <label for="myInput" class="mb-3" style="font-size:22px;"><strong>All published release notes</strong></label>
 
     <div class="content">
         <div class="d-flex justify-content-between mb-3">
