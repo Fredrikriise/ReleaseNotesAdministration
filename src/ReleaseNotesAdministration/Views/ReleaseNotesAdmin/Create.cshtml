@@ -138,8 +138,8 @@
                 <span asp-validation-for="CreatedBy" class="text-danger"></span>
             </div>
 
-            <label class="mb-1">Which work items are related to the release note you would like to publish?</label>
             <div class="input-group mb-2">
+                <label for="myInput" class="mb-1">Which work items are related to the release note you would like to publish?</label>
                 <input type="text" class="form-control" id="myInput" placeholder="Search">
                 <div class="input-group-append">
                     <button class="input-group-text" aria-label="Search button"><span class="fas fa-search"></span></button>
@@ -162,7 +162,7 @@
                                         </div>
                                     </div>
                                     <div class="float-left m-auto" id="result">
-                                        @item.Id - @item.Title
+                                        <label for="@item.Id">@item.Id - @item.Title</label>
                                     </div>
                                 </div>
                                 <div class="float-right btn-group-vertical">

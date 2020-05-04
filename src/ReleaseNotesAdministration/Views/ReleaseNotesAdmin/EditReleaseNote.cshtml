@@ -106,7 +106,7 @@
                      <span id="TitleValidation"></span>
                      <span asp-validation-for="Title" class="text-danger"></span>
                  </div>
-                 <div class="form-group" style="padding-left: 1px;">
+                 <div class="form-group" style="padding-left: 2px;">
                      <label for="BodyText" class="control-label">Body text</label>
                      <textarea class="form-control" asp-for="BodyText" runat="server" id="BodyText"></textarea>
                      <script>
@@ -121,8 +121,7 @@
                      <span asp-validation-for="BodyText" class="text-danger"></span>
                  </div>
                  <div class="form-group">
-                     <label class="control-label">Product</label>
-                     <br />
+                     <label for="ProductId" class="control-label">Product</label>
                      <select asp-for="ProductId"
                              asp-items="@(new SelectList(ViewBag.products,"ProductId","ProductName"))" class="form-control" id="ProductId">
                      </select>

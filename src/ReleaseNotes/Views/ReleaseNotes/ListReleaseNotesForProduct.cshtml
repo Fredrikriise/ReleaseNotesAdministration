@@ -25,9 +25,13 @@
     }
 </style>
 
-<div class="main">
-    <h2 class="mb-3 font-weight-bolder">Published release notes</h2>
+<div class="text-center mb-3">
+    <label class="display-4">Talentech - Release Notes</label>
+    <hr />
+</div>
 
+<div class="main">
+    <label for="myInput" class="mb-3" style="font-size:22px;"><strong>Published release notes @ViewBag.productResult</strong></label>
     <div class="content">
         <div class="d-flex justify-content-between mb-3">
             <div class="float-left mt-2 mb-4">
@@ -88,7 +92,6 @@
                 ReleaseNoteFound = true;
             }
         </ul>
-     
 
         @if (!ReleaseNoteFound)
         {
