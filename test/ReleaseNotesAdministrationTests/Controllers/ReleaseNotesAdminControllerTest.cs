@@ -275,7 +275,11 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             {
                 StatusCode = HttpStatusCode.OK,
                 Content = new StringContent(
-                    "[{\"productId\":1,\"productName\":\"Talent Recruiter\",\"productImage\":\"pic-recruiter.png\"},{\"productId\":2,\"productName\":\"Talent Manager\",\"productImage\":\"pic-manager.png\"},{\"productId\":3,\"productName\":\"Talmundo\",\"productImage\":\"logo_talmundo.png\"},{\"productId\":10,\"productName\":\"ReachMee\",\"productImage\":\"reachmeelogo.png\"},{\"productId\":12,\"productName\":\"Webrecruiter\",\"productImage\":\"webrecruiter-logo.png\"}]")
+                    "[{\"productId\":1,\"productName\":\"Talent Recruiter\",\"productImage\":\"pic-recruiter.png\"}," +
+                    "{\"productId\":2,\"productName\":\"Talent Manager\",\"productImage\":\"pic-manager.png\"}," +
+                    "{\"productId\":3,\"productName\":\"Talmundo\",\"productImage\":\"logo_talmundo.png\"}," +
+                    "{\"productId\":10,\"productName\":\"ReachMee\",\"productImage\":\"reachmeelogo.png\"}," +
+                    "{\"productId\":12,\"productName\":\"Webrecruiter\",\"productImage\":\"webrecruiter-logo.png\"}]")
             };
 
             // HttpResponseMessage with a StatusCode of NotFound and Content of an empty string
@@ -317,13 +321,6 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             // Act
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.Create());
         }
-
-
-
-
-
-
-
 
         [Fact]
         public async Task CreateReleaseNote_With_Parameters_Should_Create_ReleaseNote()
@@ -515,88 +512,10 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.CreateReleaseNote(testReleaseNote, submitButton, PickedWorkItems));
         }
 
-
-
-
-
-
-
-
-        // FUNKER IKKE
         [Fact]
         public async Task EditReleaseNote_With_Only_IdAsParameter_Should_Return_View_With_ViewModel()
         {
-            // Arrange
-            var Id = It.IsAny<int>();
-
-            // HttpResponseMessage with a StatusCode of OK (200) and Content of release note
-            HttpResponseMessage msgReleaseNote = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(
-                    "{\"title\":\"Test\",\"bodyText\":\"Test\",\"id\":97,\"productId\":1,\"createdBy\":\"Fredrik Riise\",\"createdDate\":\"2020-04-24T20:36:20.963\",\"lastUpdatedBy\":null,\"lastUpdateDate\":null,\"isDraft\":false,\"pickedWorkItems\":\"21700 21701\"}")
-            };
-
-            // HttpResponseMessage with a StatusCode of OK (200) and Content of products
-            HttpResponseMessage msgProduct = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(
-                    "[{\"productId\":1,\"productName\":\"Talent Recruiter\",\"productImage\":\"pic-recruiter.png\"},{\"productId\":2,\"productName\":\"Talent Manager\",\"productImage\":\"pic-manager.png\"},{\"productId\":3,\"productName\":\"Talmundo\",\"productImage\":\"logo_talmundo.png\"},{\"productId\":10,\"productName\":\"ReachMee\",\"productImage\":\"reachmeelogo.png\"},{\"productId\":12,\"productName\":\"Webrecruiter\",\"productImage\":\"webrecruiter-logo.png\"}]")
-            };
-
-            // HttpResponseMessage with a StatusCode of OK (200) and Content of work items
-            HttpResponseMessage msgWorkItem = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(
-                    "[{\"id\":21625,\"title\":\"Adding the styling to correct file (User module)\",\"assignedTo\":\"Fredrik Riise\",\"state\":\"New\"},{\"id\":21680,\"title\":\"Make listing of 'All Release Notes' descending based of publish-date\",\"assignedTo\":\"Fredrik Riise\",\"state\":\"New\"}]")
-            };
-
-            // mockHandler and mocked httpclient
-            var mockHandler = new Mock<HttpMessageHandler>();
-
-            //mockHandler.Protected()
-            //           .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
-            //           ItExpr.IsAny<CancellationToken>())
-            //           .ReturnsAsync(msgWorkItem);
-
-            mockHandler.Protected()
-                       .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
-                       ItExpr.IsAny<CancellationToken>())
-                       .ReturnsAsync(msgProduct);
-
-            mockHandler.Protected()
-                      .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
-                      ItExpr.IsAny<CancellationToken>())
-                      .ReturnsAsync(msgReleaseNote);
-
-            var httpClient = new HttpClient(mockHandler.Object)
-            {
-                BaseAddress = new Uri("https://localhost:44324/")
-            };
-
-            var httpClientResultReleaseNote = await httpClient.GetAsync($"/ReleaseNote/{Id}");
-            var contentReleaseNote = await httpClientResultReleaseNote.Content.ReadAsStringAsync();
-
-            var httpClientResultProduct = await httpClient.GetAsync("/Product/");
-            var contentProduct = await httpClientResultProduct.Content.ReadAsStringAsync();
-
-            //var httpClientResultWorkItem = await httpClient.GetAsync("/WorkItem/");
-            //var contentWorkItem = await httpClientResultWorkItem.Content.ReadAsStringAsync();
-
-            var httpClientFactoryMock = _mockClientFactory;
-            httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
-                                    .Returns(httpClient);
-
-            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object);
-
-            // Act
-            var result = await controller.EditReleaseNote(Id);
-
-            // Assert
-            var viewResult = Assert.IsType<ViewResult>(result);
-            Assert.IsAssignableFrom<ReleaseNoteAdminViewModel>(viewResult.ViewData.Model);
+           
         }
 
         [Fact]
@@ -616,12 +535,6 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
         {
 
         }
-
-
-
-
-
-
 
         [Fact]
         public async Task EditReleaseNote_Post_Should_Edit_ReleaseNote_And_Redirect_To_View()

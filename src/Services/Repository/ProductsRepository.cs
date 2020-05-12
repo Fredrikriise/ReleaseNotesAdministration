@@ -25,28 +25,41 @@ namespace Services
 
         public async Task<List<ProductDto>> GetAllProducts()
         {
-            using (var connection = new SqlConnection(_connectionString))
+            try
             {
-                var query = @"SELECT *
-                FROM [Products]";
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    var query = @"SELECT *
+                    FROM [Products]";
 
-                var product = await connection.QueryAsync<Product>(query);
-                var productMapped = _mapper.Map<List<ProductDto>>(product);
-                return productMapped;
+                    var product = await connection.QueryAsync<Product>(query);
+                    var productMapped = _mapper.Map<List<ProductDto>>(product);
+                    return productMapped;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 
         public async Task<ProductDto> GetProductById(int productId)
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                string query = @"SELECT *
-                FROM [Products]
-                WHERE [ProductId] = @ProductId";
+            try { 
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    string query = @"SELECT *
+                    FROM [Products]
+                    WHERE [ProductId] = @ProductId";
 
-                var product = await connection.QueryFirstOrDefaultAsync<Product>(query, new Product { @ProductId = productId });
-                var mappedProduct = _mapper.Map<ProductDto>(product);
-                return mappedProduct;
+                    var product = await connection.QueryFirstOrDefaultAsync<Product>(query, new Product { @ProductId = productId });
+                    var mappedProduct = _mapper.Map<ProductDto>(product);
+                    return mappedProduct;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 
@@ -84,7 +97,7 @@ namespace Services
         {
             try
             {
-                using (var connection = new SqlConnection(_connectionString))
+                using (var connection = new SqlConnection(_connectionString))   
                 {
                     var updateDb = @"UPDATE [Products]
                     SET
