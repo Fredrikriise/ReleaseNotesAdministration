@@ -5,14 +5,12 @@
 }
 
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"></script>
     <script>
             //Client validation
             $(document).ready(function () {
                 $(".submitButton").click(function (evt) {
                     var ProductName = document.getElementById('ProductName').value;
                     var ProductImage = document.getElementById('ProductImage').value;
-
 
                     if (ProductName.length == 0) {
                         evt.preventDefault();
@@ -27,7 +25,7 @@
 
                     if (ProductImage.length == 0) {
                         evt.preventDefault();
-                        document.getElementById('ProductImageValidation').innerHTML = "*Product image is required to create a product!";
+                        document.getElementById('ProductImageValidation').innerHTML = "*Product image is required to create a product! (example: test-image1.png)";
                         document.getElementById('ProductImageValidation').style.color = "red";
 
                         $("#ProductImage").on('keyup', function () {
@@ -42,29 +40,28 @@
 
 <div>
     <h2>Create product</h2>
-    <a asp-controller="ProductsAdmin" asp-action="ListAllProducts"><i class="fas fa-arrow-left"></i> Back to products</a>
+    <a asp-controller="ProductsAdmin" asp-action="ListAllProducts"><span class="fas fa-arrow-left"></span> Back to products</a>
     <hr />
     <div class="row">
         <div class="col-md-6">
             <form asp-action="CreateProduct">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label class="control-label">Product name</label>
+                    <label for="ProductName" class="control-label">Product name</label>
                     <input asp-for="ProductName" class="form-control" id="ProductName"/>
                     <span id="ProductNameValidation"></span>
                     <span asp-validation-for="ProductName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label class="control-label">Product image</label>
+                    <label for="ProductImage" class="control-label">Product image</label>
                     <input asp-for="ProductImage" class="form-control" id="ProductImage"/>
                     <span id="ProductImageValidation"></span>
                     <span asp-validation-for="ProductImage" class="text-danger"></span>
                 </div>
                 <div class="d-flex justify-content-between">
-                    <input type="submit" value="Create product" class="btn btn-outline-success float-left submitButton" />
-                    <a class="btn btn-outline-danger float-right" asp-controller="ProductsAdmin" asp-action="ListAllProducts"><i class="fa fa-times"></i> Cancel</a>
+                    <button type="submit" class="btn btn-outline-success float-left submitButton"><span class="fa fa-plus"></span> Create product</button>
+                    <a class="btn btn-outline-danger float-right" asp-controller="ProductsAdmin" asp-action="ListAllProducts"><span class="fa fa-times"></span> Cancel</a>
                 </div>
-
             </form>
         </div>
     </div>
