@@ -515,7 +515,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
         [Fact]
         public async Task EditReleaseNote_With_Only_IdAsParameter_Should_Return_View_With_ViewModel()
         {
-           
+
         }
 
         [Fact]

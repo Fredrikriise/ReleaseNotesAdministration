@@ -32,7 +32,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!releaseNotesResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed");
+                throw new HttpRequestException("Failed getting release notes from API...");
             }
 
             var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
@@ -61,7 +61,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!releaseNotesResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed");
+                throw new HttpRequestException($"Failed getting data to view work item with id = {Id}");
             }
 
             var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
@@ -89,7 +89,7 @@ namespace ReleaseNotesAdministration.Controllers
 
                 if (!workItemResult.IsSuccessStatusCode)
                 {
-                    throw new HttpRequestException("Get request to the URL 'API/WorkItem/' failed");
+                    throw new HttpRequestException("Failed getting data to view work items...");
                 }
 
                 var responseStreamWorkItem = await workItemResult.Content.ReadAsStringAsync();
@@ -112,7 +112,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!productsResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
+                throw new HttpRequestException("Failed getting data to view product-list...");
             }
 
             var responseStreamProduct = await productsResult.Content.ReadAsStringAsync();
@@ -130,7 +130,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!productsResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
+                throw new HttpRequestException("Getting data for products failed...");
             }
 
             var responseStream = await productsResult.Content.ReadAsStringAsync();
@@ -150,7 +150,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!workItemResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Get request to the URL 'API/WorkItem/' failed");
+                throw new HttpRequestException("Getting data for work items failed...");
             }
 
             var responseStreamWorkItem = await workItemResult.Content.ReadAsStringAsync();
@@ -265,7 +265,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!releaseNotesResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed");
+                throw new HttpRequestException($"Could not get release note with id = {Id}");
             }
 
             var responseStreamReleaseNote = await releaseNotesResult.Content.ReadAsStringAsync();
@@ -290,7 +290,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!productsResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
+                throw new HttpRequestException("Getting data for products failed...");
             }
 
             var responseStreamProduct = await productsResult.Content.ReadAsStringAsync();
@@ -306,6 +306,12 @@ namespace ReleaseNotesAdministration.Controllers
             ViewBag.products = productsList;
 
             var workItemResult = await _releaseNotesClient.GetAsync("/WorkItem/");
+
+            if (!productsResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Getting data for work items failed...");
+            }
+
             var responseStreamWorkItem = await workItemResult.Content.ReadAsStringAsync();
             var workItems = JsonConvert.DeserializeObject<List<WorkItemApiModel>>(responseStreamWorkItem);
 

@@ -29,7 +29,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!productsResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
+                throw new HttpRequestException("Getting data for products failed...");
             }
 
             var responseStream = await productsResult.Content.ReadAsStringAsync();
@@ -52,7 +52,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!productsResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
+                throw new HttpRequestException($"Failed getting data to view product with id = {Id}");
             }
 
             var responseStream = await productsResult.Content.ReadAsStringAsync();
@@ -101,7 +101,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!result.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Failed creating product");
+                throw new HttpRequestException($"Failed creating product with ProductId = {obj.ProductId}");
             }
 
             TempData["CreateProduct"] = "Success";
@@ -115,7 +115,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!productResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
+                throw new HttpRequestException($"Could not get product with id = {Id}");
             }
 
             var responseStream = await productResult.Content.ReadAsStringAsync();
@@ -141,7 +141,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!transportData.IsSuccessStatusCode)
             {
-                throw new HttpRequestException($"Editing product with id = {Id} failed.");
+                throw new HttpRequestException($"Editing product with id = {Id} failed...");
             }
 
             string productNamePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]*$";

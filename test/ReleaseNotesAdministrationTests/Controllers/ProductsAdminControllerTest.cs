@@ -32,12 +32,14 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
         public async Task ListAllProducts_Should_Return_List_With_Products()
         {
             // Arrange
-            // HttpResponseMessage with a StatusCode of OK (200) and Conent of products
+            // HttpResponseMessage with a StatusCode of OK (200) and Content of products
             HttpResponseMessage msg = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
                 Content = new StringContent(
-                    "[{\"productId\":1,\"productName\":\"Talent Recruiter\",\"productImage\":\"pic-recruiter.png\"},{\"productId\":2,\"productName\":\"Talent Manager\",\"productImage\":\"pic-manager.png\"},{\"productId\":3,\"productName\":\"Talmundo\",\"productImage\":\"logo_talmundo.png\"}]")
+                    "[{\"productId\":1,\"productName\":\"Talent Recruiter\",\"productImage\":\"pic-recruiter.png\"}," +
+                    "{\"productId\":2,\"productName\":\"Talent Manager\",\"productImage\":\"pic-manager.png\"}," +
+                    "{\"productId\":3,\"productName\":\"Talmundo\",\"productImage\":\"logo_talmundo.png\"}]")
             };
 
             // mockHandler and mocked httpclient
@@ -125,11 +127,12 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             // Arrange
             var Id = It.IsAny<int>();
 
-            // HttpResponseMessage with a StatusCode of OK (200) and Conent of products
+            // HttpResponseMessage with a StatusCode of OK (200) and Content of products
             HttpResponseMessage msg = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent("{\"productId\": 1,\"productName\":\"Talent Recruiter\",\"productImage\":\"pic-recruiter.png\"}")
+                Content = new StringContent(
+                    "{\"productId\": 1,\"productName\":\"Talent Recruiter\",\"productImage\":\"pic-recruiter.png\"}")
             };
 
             // mockHandler and mocked httpclient

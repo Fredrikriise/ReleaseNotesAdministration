@@ -7,7 +7,6 @@ using Services.Repository.Models.DatabaseModels;
 using Services.Repository.Models.DataTransferObjects;
 using System;
 using System.Collections.Generic;
-using System.IO.Compression;
 using System.Threading.Tasks;
 using test.ServicesTests.test_context;
 using Xunit;
@@ -62,12 +61,22 @@ namespace test.ServicesTests.Repository
         }
 
         [Fact]
+        public async Task GetAllProducts_Should_Throw_Exception_Mapping_Fails()
+        {
+            // Arrange
+            var repo = _productsRepo;
+
+            // Act
+            var ex = await Assert.ThrowsAsync<Exception>(() => repo.GetAllProducts());
+        }
+
+        [Fact]
         public async Task GetProductById_Should_ReturnMappedProduct()
         {
             // Arrange
             var repo = _productsRepo;
 
-            var productId = 1;
+            var productId = 2;
 
             ProductDto testProductDto = new ProductDto()
             {
@@ -83,6 +92,17 @@ namespace test.ServicesTests.Repository
             // Assert
             var test = Assert.IsType<ProductDto>(result);
             Assert.IsAssignableFrom<ProductDto>(test);
+        }
+
+        [Fact]
+        public async Task GetProductById_Should_Throw_Exception_Mapping_Fails()
+        {
+            // Arrange
+            var repo = _productsRepo;
+            var productId = 2;
+
+            // Act
+            var ex = await Assert.ThrowsAsync<Exception>(() => repo.GetProductById(productId));
         }
 
         [Fact]
@@ -104,6 +124,24 @@ namespace test.ServicesTests.Repository
             // Assert
             var test = Assert.IsType<int>(result);
             Assert.IsAssignableFrom<int>(test);
+        }
+
+        [Fact]
+        public async Task CreateProduct_Should_Throw_Exception_Product_Is_Null()
+        {
+            // Arrange
+            var repo = _productsRepo;
+
+            ProductDto testProductDto = new ProductDto()
+            {
+                ProductId = 1,
+                ProductName = "testProductDto ProductName 1",
+                ProductImage = "testProductDto ProductImage 1"
+            };
+            testProductDto = null;
+
+            // Act
+            var ex = await Assert.ThrowsAsync<Exception>(() => repo.CreateProduct(testProductDto));
         }
 
         [Fact]
@@ -130,11 +168,30 @@ namespace test.ServicesTests.Repository
 
             // Act
             _mapper.Setup(x => x.Map<Product>(It.IsAny<ProductDto>())).Returns(testProduct);
-            var result = await repo.UpdateProduct(productId ,testProductDto);
+            var result = await repo.UpdateProduct(productId, testProductDto);
 
             // Assert
             var test = Assert.IsType<ProductDto>(result);
             Assert.IsAssignableFrom<ProductDto>(test);
+        }
+
+        [Fact]
+        public async Task UpdateProduct_Should_Throw_Exception_productMapped()
+        {
+            // Arrange
+            var repo = _productsRepo;
+
+            var productId = 1;
+
+            ProductDto testProductDto = new ProductDto()
+            {
+                ProductId = 1,
+                ProductName = "testProductDto ProductName 1",
+                ProductImage = "testProductDto ProductImage 1"
+            };
+
+            // Act
+            var ex = await Assert.ThrowsAsync<Exception>(() => repo.UpdateProduct(productId, testProductDto));
         }
 
         [Fact]

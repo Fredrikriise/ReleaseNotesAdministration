@@ -25,41 +25,52 @@ namespace Services
 
         public async Task<List<ProductDto>> GetAllProducts()
         {
-            try
+            using (var connection = new SqlConnection(_connectionString))
             {
-                using (var connection = new SqlConnection(_connectionString))
-                {
-                    var query = @"SELECT *
-                    FROM [Products]";
+                var query = @"SELECT *
+                FROM [Products]";
 
-                    var product = await connection.QueryAsync<Product>(query);
-                    var productMapped = _mapper.Map<List<ProductDto>>(product);
-                    return productMapped;
+                var product = await connection.QueryAsync<Product>(query);
+
+                if(product == null)
+                {
+                    throw new Exception("Something happend while getting data from database...");
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
+
+                var productMapped = _mapper.Map<List<ProductDto>>(product);
+
+                if(productMapped == null)
+                {
+                    throw new Exception("Something went wrong with mapping of products...");
+                }
+
+                return productMapped;
             }
         }
 
         public async Task<ProductDto> GetProductById(int productId)
         {
-            try { 
-                using (var connection = new SqlConnection(_connectionString))
-                {
-                    string query = @"SELECT *
-                    FROM [Products]
-                    WHERE [ProductId] = @ProductId";
-
-                    var product = await connection.QueryFirstOrDefaultAsync<Product>(query, new Product { @ProductId = productId });
-                    var mappedProduct = _mapper.Map<ProductDto>(product);
-                    return mappedProduct;
-                }
-            }
-            catch (Exception ex)
+            using (var connection = new SqlConnection(_connectionString))
             {
-                throw new Exception(ex.Message);
+                string query = @"SELECT *
+                FROM [Products]
+                WHERE [ProductId] = @ProductId";
+
+                var product = await connection.QueryFirstOrDefaultAsync<Product>(query, new Product { @ProductId = productId });
+
+                if (product == null)
+                {
+                    throw new Exception("Something happend while getting data from database...");
+                }
+
+                var mappedProduct = _mapper.Map<ProductDto>(product);
+
+                if (mappedProduct == null)
+                {
+                    throw new Exception("Something went wrong with mapping of product...");
+                }
+
+                return mappedProduct;
             }
         }
 
@@ -104,10 +115,12 @@ namespace Services
                         [ProductName] = @ProductName,
                         [ProductImage] = @ProductImage
                     WHERE [ProductId] = @ProductId";
+
                     var productMapped = _mapper.Map<Product>(product);
                     productMapped.AddProductId(ProductId);
 
                     var result = await connection.ExecuteAsync(updateDb, productMapped);
+
                     return product;
                 }
             }

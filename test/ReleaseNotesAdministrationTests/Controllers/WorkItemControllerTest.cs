@@ -37,7 +37,8 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             {
                 StatusCode = HttpStatusCode.OK,
                 Content = new StringContent(
-                    "[{\"id\":21625,\"title\":\"Adding the styling to correct file (User module)\",\"assignedTo\":\"Fredrik Riise\",\"state\":\"New\"},{\"id\":21680,\"title\":\"Make listing of 'All Release Notes' descending based of publish-date\",\"assignedTo\":\"Fredrik Riise\",\"state\":\"New\"}]")
+                    "[{\"id\":21625,\"title\":\"Adding the styling to correct file (User module)\",\"assignedTo\":\"Fredrik Riise\",\"state\":\"New\"}," +
+                    "{\"id\":21680,\"title\":\"Make listing of 'All Release Notes' descending based of publish-date\",\"assignedTo\":\"Fredrik Riise\",\"state\":\"New\"}]")
             };
 
             // mockHandler and mocked httpclient
@@ -160,7 +161,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             Assert.Equal(21625, ((WorkItemViewModel)viewResult.ViewData.Model).Id);
             Assert.Equal("Adding the styling to correct file (User module)", ((WorkItemViewModel)viewResult.ViewData.Model).Title);
             Assert.Equal("Fredrik Riise", ((WorkItemViewModel)viewResult.ViewData.Model).AssignedTo);
-            Assert.Equal("New" ,((WorkItemViewModel)viewResult.ViewData.Model).State);
+            Assert.Equal("New", ((WorkItemViewModel)viewResult.ViewData.Model).State);
 
             Assert.IsAssignableFrom<WorkItemViewModel>(viewResult.ViewData.Model);
         }
@@ -473,7 +474,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var tempDataMock = new Mock<ITempDataDictionary>();
             tempDataMock.Setup(x => x.Add("EditWorkItem", "Success"));
 
-            // testWorkItem
+            // testWorkItem for editing work item
             WorkItemViewModel testWorkItem = new WorkItemViewModel
             {
                 Id = 21123,
@@ -551,7 +552,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             {
                 StatusCode = HttpStatusCode.OK,
                 Content = new StringContent(
-                    "{\"id\":0,\"title\":\"£2@@fgdjgi@\",\"assignedTo\":\"23425€34€$£@\",\"state\":\"$£€.-.!!#\"}")
+                    "{\"id\":-1,\"title\":\"£2@@fgdjgi@\",\"assignedTo\":\"23425€34€$£@\",\"state\":\"$£€.-.!!#\"}")
             };
 
             // mockHandler and mocked httpclient

@@ -22,16 +22,36 @@ namespace Services
             _connectionString = sqlDbConnection.Value.ConnectionString;
             _mapper = mapper;
         }
+
         public async Task<List<ReleaseNoteDto>> GetAllReleaseNotes()
         {
-            using (var connection = new SqlConnection(_connectionString))
+            try
             {
-                var query = @"SELECT *
-                FROM [ReleaseNotes]";
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    var query = @"SELECT *
+                    FROM [ReleaseNotes]";
 
-                var releaseNotes = await connection.QueryAsync<ReleaseNote>(query);
-                var releaseNotesMapped = _mapper.Map<List<ReleaseNoteDto>>(releaseNotes);
-                return releaseNotesMapped;
+                    var releaseNotes = await connection.QueryAsync<ReleaseNote>(query);
+
+                    if (releaseNotes == null)
+                    {
+                        throw new Exception("Something happend while getting data from database...");
+                    }
+
+                    var releaseNotesMapped = _mapper.Map<List<ReleaseNoteDto>>(releaseNotes);
+
+                    if (releaseNotesMapped == null)
+                    {
+                        throw new Exception("Something went wrong with mapping of release notes...");
+                    }
+
+                    return releaseNotesMapped;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 
@@ -44,7 +64,19 @@ namespace Services
                 WHERE [Id] = @Id";
 
                 var releaseNote = await connection.QueryFirstOrDefaultAsync<ReleaseNote>(query, new ReleaseNote { @Id = Id });
+
+                if (releaseNote == null)
+                {
+                    throw new Exception("Something happend while getting data from database...");
+                }
+
                 var mappedReleaseNote = _mapper.Map<ReleaseNoteDto>(releaseNote);
+
+                if (mappedReleaseNote == null)
+                {
+                    throw new Exception("Something went wrong with mapping of release note...");
+                }
+
                 return mappedReleaseNote;
             }
         }

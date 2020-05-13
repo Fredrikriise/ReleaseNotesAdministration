@@ -29,7 +29,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!workItemResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Get request to the URL 'API/WorkItem/' failed");
+                throw new HttpRequestException("Failed getting work items from API...");
             }
 
             var responseStream = await workItemResult.Content.ReadAsStringAsync();
@@ -46,13 +46,14 @@ namespace ReleaseNotesAdministration.Controllers
             return View(workItemList);
         }
 
+        // Views work item
         public async Task<IActionResult> ViewWorkItem(int Id)
         {
             var workItemResult = await _workItemsClient.GetAsync($"/WorkItem/{Id}");
 
             if (!workItemResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Get request to the URL 'API/WorkItem/' failed");
+                throw new HttpRequestException($"Failed getting data to view work item with id = {Id}");
             }
 
             var responseStream = await workItemResult.Content.ReadAsStringAsync();
@@ -119,7 +120,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!result.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Failed creating work item");
+                throw new HttpRequestException($"Failed creating work item with id = {obj.Id}");
             }
 
             TempData["CreateWorkItem"] = "Success";
@@ -133,7 +134,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!workItemResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Get request to the URL 'API/WorkItem/' failed");
+                throw new HttpRequestException($"Could not get Work Item with id = {Id}");
             }
 
             var responseStream = await workItemResult.Content.ReadAsStringAsync();
@@ -160,7 +161,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!transportData.IsSuccessStatusCode)
             {
-                throw new HttpRequestException($"Could edit Work Item with id = {Id}");
+                throw new HttpRequestException($"Could not edit Work Item with id = {Id}");
             }
 
             string workItemIdPattern = @"^[0-9]{1,99}$";
@@ -202,7 +203,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!transportData.IsSuccessStatusCode)
             {
-                throw new HttpRequestException($"Couldnt delete work item with id = {Id}");
+                throw new HttpRequestException($"Could not delete work item with id = {Id}");
             }
 
             TempData["DeleteWorkitem"] = "Success";
