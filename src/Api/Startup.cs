@@ -1,4 +1,5 @@
 using AutoMapper;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +9,8 @@ using Services;
 using Services.Repository;
 using Services.Repository.Config;
 using Services.Repository.Interfaces;
+using System;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Api
 {

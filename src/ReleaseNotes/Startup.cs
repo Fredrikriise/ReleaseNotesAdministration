@@ -1,12 +1,16 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 
-
-namespace ReleaseNotes
+namespace ReleaseNotes 
 {
     public class Startup
     {
@@ -23,6 +27,9 @@ namespace ReleaseNotes
             services.AddControllersWithViews();
             services.AddHttpClient("ReleaseNotesApiClient", client =>
             {
+                //Fredrik:  client.BaseAddress = new Uri("https://localhost:44310");
+                //Felix bærbar:  client.BaseAddress = new Uri("https://localhost:44314");
+                //Felix stasjonær:  client.BaseAddress = new Uri("https://localhost:44312");
                 client.BaseAddress = new Uri("https://localhost:44312");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
