@@ -5,7 +5,6 @@
 }
 
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"></script>
     <script>
             //Client validation
             $(document).ready(function () {
@@ -13,7 +12,6 @@
                     var Id = document.getElementById('Id').value;
                     var Title = document.getElementById('Title').value;
                     var AssignedTo = document.getElementById('AssignedTo').value;
-
 
                     if (Id.length == 0) {
                         evt.preventDefault();
@@ -54,32 +52,32 @@
 
 <div>
     <h2>Create work item</h2>
-    <a asp-controller="WorkItemAdmin" asp-action="ListAllWorkItems"><i class="fas fa-arrow-left"></i> Back to work items</a>
+    <a asp-controller="WorkItemAdmin" asp-action="ListAllWorkItems"><span class="fas fa-arrow-left"></span> Back to work items</a>
     <hr />
     <div class="row">
         <div class="col-md-6">
             <form asp-action="CreateWorkItem">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label class="control-label">Id</label>
+                    <label for="Id" class="control-label">Id</label>
                     <input asp-for="Id" class="form-control" id="Id" />
                     <span id="IdValidation"></span>
                     <span asp-validation-for="Id" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label class="control-label">Title</label>
+                    <label for="Title" class="control-label">Title</label>
                     <input asp-for="Title" class="form-control" id="Title" />
                     <span id="TitleValidation"></span>
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label class="control-label">Assigned to</label>
+                    <label for="AssignedTo" class="control-label">Assigned to</label>
                     <input asp-for="AssignedTo" class="form-control" id="AssignedTo" />
                     <span id="AssignedToValidation"></span>
                     <span asp-validation-for="AssignedTo" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label class="control-label">State</label>
+                    <label for="State" class="control-label">State</label>
                     <select asp-for="State" class="form-control" id="State">
                         <option value="New">New</option>
                         <option value="Active">Active</option>
@@ -90,12 +88,10 @@
                     <span asp-validation-for="State" class="text-danger"></span>
                 </div>
 
-
                 <div class="d-flex justify-content-between">
-                    <input type="submit" value="Create work item" class="btn btn-outline-success float-left submitButton" />
-                    <a class="btn btn-outline-danger float-right" asp-controller="WorkItemAdmin" asp-action="ListAllWorkItems"><i class="fa fa-times"></i> Cancel</a>
+                    <button type="submit" class="btn btn-outline-success float-left submitButton"><span class="fa fa-plus"></span> Create work item</button>
+                    <a class="btn btn-outline-danger float-right" asp-controller="WorkItemAdmin" asp-action="ListAllWorkItems"><span class="fa fa-times"></span> Cancel</a>
                 </div>
-
             </form>
         </div>
     </div>

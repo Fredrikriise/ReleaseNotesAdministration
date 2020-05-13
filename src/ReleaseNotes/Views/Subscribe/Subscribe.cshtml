@@ -6,18 +6,14 @@
 
 <head>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
     <script>
         $(document).ready(function () {
             $("#subscribeButton").click(function (evt){
-
                 var inputEmail = document.getElementById('inlineFormInputGroup').value;
 
                 //Checks if input i empty
                 if (inputEmail.length == 0) {
-                    alert("ja")
-                    evt.preventDefault;
+                    evt.preventDefault();
                     document.getElementById('emailValidation').innerHTML = "*Email is required!";
                     document.getElementById('emailValidation').style.color = "red";
 
@@ -35,7 +31,7 @@
 
                     //Checks if any products are choosen
                     if (selectedProducts.length == 0) {
-                        evt.preventDefault;
+                        evt.preventDefault();
                         document.getElementById('emailValidation').innerHTML = "*You must choose one or more products to subscribe to!";
                         document.getElementById('emailValidation').style.color = "red";
                     }
@@ -78,10 +74,10 @@
         color: inherit;
     }
 
-        a:hover {
-            text-decoration: none;
-            color: inherit;
-        }
+    a:hover {
+        text-decoration: none;
+        color: inherit;
+    }
 </style>
 
 <div class="text-center">
@@ -95,10 +91,9 @@
         <div class="col-sm-3 btn-group-toggle" data-toggle="buttons">
             @foreach (var item in Model)
             {
-                <label class="btn btn-outline-primary mb-1 mt-1 btn-block form-control-lg products">
+                <label for="@item.ProductId" class="btn btn-outline-primary mb-1 mt-1 btn-block form-control-lg products">
                     <input type="checkbox" style="font-size: 18px; " id="@item.ProductId" value="@item.ProductId" name="product" />@item.ProductName
                 </label>
-
                 <br />
             }
         </div>
@@ -113,7 +108,7 @@
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <a asp-controller="Subscribe" asp-action="Subscribe" id="subscribeButton">
-                            <i class="fa fa-bell-o"></i> Subscribe
+                            <span class="fa fa-bell"></span> Subscribe
                         </a>
                     </div>
                 </div>

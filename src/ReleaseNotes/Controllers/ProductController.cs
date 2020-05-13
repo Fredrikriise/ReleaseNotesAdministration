@@ -17,7 +17,6 @@ namespace ReleaseNotes.Controllers
         public ProductController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-
             _productsClient = _httpClientFactory.CreateClient("ReleaseNotesApiClient");
         }
 
