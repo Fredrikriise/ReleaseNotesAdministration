@@ -62,7 +62,15 @@ namespace test.ReleaseNotesTests.Controllers
             var result = await controller.ListWorkItem(Id);
 
             // Assert
+
             var viewResult = Assert.IsType<ViewResult>(result);
+
+            var workItem = viewResult.ViewData.Model as WorkItemViewModel;
+            Assert.Equal(23909, workItem.Id);
+            Assert.Equal("Test work item", workItem.Title);
+            Assert.Equal("Fredrik Riise", workItem.AssignedTo);
+            Assert.Equal("New", workItem.State);
+
             Assert.IsAssignableFrom<WorkItemViewModel>(viewResult.ViewData.Model);
         }
 

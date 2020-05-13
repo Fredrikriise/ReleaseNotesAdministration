@@ -5,7 +5,6 @@
 }
 
     <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script>
             $(document).ready(function () {
                 $("#myInput").on("keyup", function () {
@@ -15,9 +14,7 @@
                     });
                 });
             });
-        </script>
 
-        <script type="text/javascript">
             $(document).ready(function () {
                 if ('@TempData["CreateWorkItem"]' == "Success") {
                     window.toastr.success("You have successfully created a new work item");
@@ -30,45 +27,47 @@
         </script>
     </head>
 
-<div class="text-center">
-    <h1 class="display-4">Talentech - Release Notes Administration</h1>
-    <hr class="mb-5 mt-1"/>
+    <div class="text-center">
+        <h1 class="display-4">Talentech - Release Notes Administration</h1>
+        <hr class="mb-3 mt-1" />
 
-    <div class="d-flex justify-content-between mb-3">
-        <!-- Temporary code for search function -->
-        <div class="col-6 d-inline-block float-left">
-            <div class="input-group mb-2">
-                <input type="text" class="form-control" id="myInput" placeholder="Search">
-                <div class="input-group-append">
-                    <div class="input-group-text"><i class="fas fa-search"></i></div>
+        <label class="float-left mb-2 pl-3" for="myInput"><strong style="font-size: 22px;">All work items</strong></label>
+        <br />
+
+        <div class="d-flex justify-content-between mb-3 mt-4">
+            <div class="col-6 d-inline-block float-left">
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" id="myInput" placeholder="Search">
+                    <div class="input-group-append">
+                        <div class="input-group-text" aria-label="Search button"><span class="fas fa-search"></span></div>
+                    </div>
                 </div>
+            </div>
+
+            <div class="float-right">
+                <a class="btn btn-outline-primary float-left" asp-controller="WorkItemAdmin" asp-action="Create">
+                    <span class="fa fa-plus"></span> Add work item
+                </a>
             </div>
         </div>
 
-        <div class="float-right">
-            <a class="btn btn-outline-primary float-left" asp-controller="WorkItemAdmin" asp-action="Create">
-                <i class="fa fa-plus"></i> Add work item
-            </a>
-        </div>
-    </div>
-
-    @foreach (var item in Model)
-    {
         <ul class="mb-2 pl-3" id="myList" style="font-size:18px; list-style-type:none;">
-            <li>
-                <div class="d-flex justify-content-between">
-                    <div class="float-left">
-                        @item.Id - @item.Title
+            @foreach (var item in Model)
+            {
+                <li class="mb-2">
+                    <div class="d-flex justify-content-between">
+                        <div class="float-left">
+                            @item.Id - @item.Title
+                        </div>
+                        <div class="float-right btn-group-vertical">
+                            <a asp-controller="WorkItemAdmin" asp-action="ViewWorkItem" asp-route-id="@item.Id">
+                                <span class="btn btn-outline-secondary p-1 ml-2" style="white-space: nowrap;"><span class="fa fa-eye"></span> View</span>
+                            </a>
+                        </div>
                     </div>
-                    <div class="float-right">
-                        <a asp-controller="WorkItemAdmin" asp-action="ViewWorkItem" asp-route-id="@item.Id">
-                            <span class="btn btn-outline-secondary p-1" style="white-space: nowrap;"><i class="fa fa-eye"></i> View</span>
-                        </a>
-                    </div>
-                </div>
-            </li>
+                </li>
+            }
         </ul>
-    }
-</div>
+    </div>
 
 
