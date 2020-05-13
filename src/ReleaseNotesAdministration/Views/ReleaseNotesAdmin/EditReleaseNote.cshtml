@@ -1,224 +1,232 @@
 ﻿@model ReleaseNotesAdministration.ViewModels.ReleaseNoteAdminViewModel
 
 @{
-    ViewData["Title"] = "Edit Release note";
+  ViewData["Title"] = "Edit Release note";
 }
-<head>
-    <script>
-        //Client validation
-        $(document).ready(function () {
-            $(".submitButton").click(function (evt) {
-                var lastUpdatedBy = document.getElementById('LastUpdatedBy').value;
-                var title = document.getElementById('Title').value;
-                var bodyText = document.getElementById('BodyText').value;
-                var productId = document.getElementById('ProductId').value;
-                var createdBy = document.getElementById('CreatedBy').value;
-                var productId = document.getElementById('ProductId').value;
-                var pickedWorkItems = document.querySelector('input[name="PickedWorkItems"]:checked');
 
-                if (!pickedWorkItems) {
-                    evt.preventDefault();
-                    document.getElementById('PickedWorkItemsValidation').innerHTML = "*Related work items are required to update a release note!";
-                    document.getElementById('PickedWorkItemsValidation').style.color = "red";
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"></script>
+        <script>
+            //Client validation
+            $(document).ready(function () {
+                $(".submitButton").click(function (evt) {
+                    var lastUpdatedBy = document.getElementById('LastUpdatedBy').value;
+                    var title = document.getElementById('Title').value;
+                    var bodyText = document.getElementById('BodyText').value;
+                    var productId = document.getElementById('ProductId').value;
+                    var createdBy = document.getElementById('CreatedBy').value;
+                    var productId = document.getElementById('ProductId').value;
+                    var pickedWorkItems = document.querySelector('input[name="PickedWorkItems"]:checked');
 
-                    $(".PickedWorkItems").on('change', function () {
-                        var ok = "";
-                        $("#PickedWorkItemsValidation").html(ok);
-                    });
-                }
+                    if (!pickedWorkItems) {
+                        evt.preventDefault();
+                        document.getElementById('PickedWorkItemsValidation').innerHTML = "*Related work items are required to update a release note!";
+                        document.getElementById('PickedWorkItemsValidation').style.color = "red";
 
-                if (lastUpdatedBy.length == 0) {
-                    evt.preventDefault();
-                    document.getElementById('LastUpdatedByValidation').innerHTML = "*Last updated by is required to update a release note!";
-                    document.getElementById('LastUpdatedByValidation').style.color = "red";
-
-                    $("#LastUpdatedBy").on('keyup', function () {
-                        var ok = "";
-                        $("#LastUpdatedByValidation").html(ok);
-                    });
-                }
-
-                if (title.length == 0) {
-                    evt.preventDefault();
-                    document.getElementById('TitleValidation').innerHTML = "*Title is required to update a release note!";
-                    document.getElementById('TitleValidation').style.color = "red";
-
-                    $("#Title").on('keyup', function () {
-                        var ok = "";
-                        $("#TitleValidation").html(ok);
-                    });
-                }
-
-                if (bodyText.length == 0) {
-                    evt.preventDefault();
-                    document.getElementById('BodyTextValidation').innerHTML = "*Body text is required to update a release note!";
-                    document.getElementById('BodyTextValidation').style.color = "red";
-
-                    $("#BodyText").on('keyup', function () {
-                        var ok = "";
-                        $("#BodyTextValidation").html(ok);
-                    });
-                }
-
-                if (productId.length == 0) {
-                    evt.preventDefault();
-                    document.getElementById('ProductIdValidation').innerHTML = "*Product is required to update a release note!";
-                    document.getElementById('ProductIdValidation').style.color = "red";
-
-                    $("#ProductId").on('keyup', function () {
-                        var ok = "";
-                        $("#ProductIdValidation").html(ok);
-                    });
-                }
-
-                if (createdBy.length == 0) {
-                    evt.preventDefault();
-                    document.getElementById('CreatedByValidation').innerHTML = "*Last updated by is required to update a release note!";
-                    document.getElementById('CreatedByValidation').style.color = "red";
-
-                    $("#CreatedBy").on('keyup', function () {
-                        var ok = "";
-                        $("#CreatedByValidation").html(ok);
-                    });
-                }
-            });
-        });
-
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
-</head>
-
-<div class="text-center">
-    <h1 class="display-4">Talentech - Release Notes Administration</h1>
-    <hr class="mb-3 mt-1" />
-</div>
-
-<div>
-    <h2>Edit Release Note</h2>
-    <div class="mb-4">
-        <a href='javascript:history.go(-1)'><span class="fa fa-arrow-left"></span> Back to release notes</a>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <form asp-action="EditReleaseNote">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label for="Title" class="control-label">Title</label>
-                    <input asp-for="Title" class="form-control" id="Title" />
-                    <span id="TitleValidation"></span>
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
-                <div class="form-group" style="padding-left: 2px;">
-                    <label for="BodyText" class="control-label">Body text</label>
-                    <textarea class="form-control" asp-for="BodyText" runat="server" id="BodyText"></textarea>
-                    <script>
-                        //Congif to remove paragraph tags
-                        CKEDITOR.config.autoParagraph = false;
-                        // Replace the <textarea id="ckeditor"> with a CKEditor
-                        CKEDITOR.replace('BodyText');
-                        config.extraPlugins = 'simpleuploads,imagesfromword';
-                        config.coreStyles_bold = { element: 'b', overrides: 'strong' };
-                    </script>
-                    <span id="BodyTextValidation"></span>
-                    <span asp-validation-for="BodyText" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label for="ProductId" class="control-label">Product</label>
-                    <select asp-for="ProductId"
-                            asp-items="@(new SelectList(ViewBag.products,"ProductId","ProductName"))" class="form-control" id="ProductId">
-                    </select>
-                    <span id="ProductIdValidation"></span>
-                    <span asp-validation-for="ProductId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input asp-for="CreatedBy" type="hidden" class="form-control" id="CreatedBy" />
-                    <span id="CreatedByValidation"></span>
-                    <span asp-validation-for="CreatedBy" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input asp-for="CreatedDate" type="hidden" class="form-control" />
-                    <span asp-validation-for="CreatedDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label for="LastUpdatedBy" class="control-label">Last updated by</label>
-                    <input asp-for="LastUpdatedBy" class="form-control" id="LastUpdatedBy" />
-                    <span id="LastUpdatedByValidation"></span>
-                    <span asp-validation-for="LastUpdatedBy" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input asp-for="LastUpdateDate" type="hidden" class="form-control" />
-                    <span asp-validation-for="LastUpdateDate" class="text-danger"></span>
-                </div>
-
-                @{
-                    string[] PickedWorkItemId = new string[] { };
-
-                    if (ViewBag.selectedWorkItems != null)
-                    {
-                        PickedWorkItemId = ViewBag.selectedWorkItems.Split(' ');
-
-                        for (int i = 0; i < PickedWorkItemId.Length; i++)
-                        {
-                            if (PickedWorkItemId[i].Length <= 1)
-                            {
-                                PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
-                            }
-                        }
+                        $(".PickedWorkItems").on('change', function () {
+                            var ok = "";
+                            $("#PickedWorkItemsValidation").html(ok);
+                        });
                     }
-                }
 
-                <span id="PickedWorkItemsValidation"></span>
-                <span asp-validation-for="PickedWorkItems" class="text-danger"></span>
-                <div class="mt-2 mb-2">
-                    <ul class="mb-1 pl-0" id="myList" style="font-size: 16px; list-style-type: none;">
-                        @foreach (var item in ViewBag.workitems)
-                        {
-                            <li>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <div class="d-flex justify-content-start">
-                                        <div class="btn-group-vertical">
-                                            <div class="custom-control custom-checkbox btn-group-vertical">
+                    if (lastUpdatedBy.length == 0) {
+                        evt.preventDefault();
+                        document.getElementById('LastUpdatedByValidation').innerHTML = "*Last updated by is required to update a release note!";
+                        document.getElementById('LastUpdatedByValidation').style.color = "red";
 
-                                                @if (PickedWorkItemId.Any(x => x == (item.Id).ToString()))
-                                                {
-                                                    <input asp-for="PickedWorkItems" type="checkbox" id="@item.Id" class="custom-control-input" value="@item.Id" name="PickedWorkItems" checked="checked">
-                                                }
-                                                else
-                                                {
-                                                    <input asp-for="PickedWorkItems" type="checkbox" id="@item.Id" class="custom-control-input" value="@item.Id" name="PickedWorkItems">
-                                                }
-                                                <label class="custom-control-label" for="@item.Id"></label>
-                                            </div>
-                                        </div>
-                                        <div class="float-left m-auto" id="result">
-                                            @item.Id - @item.Title
-                                        </div>
-                                    </div>
-                                    <div class="float-right">
-                                        <a asp-controller="WorkItemAdmin" asp-action="ViewWorkItem" asp-route-id="@item.Id">
-                                            <span class="btn btn-outline-secondary p-1 ml-2" style="white-space: nowrap;"><span class="fa fa-eye"></span> View</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-                        }
-                    </ul>
-                </div>
+                        $("#LastUpdatedBy").on('keyup', function () {
+                            var ok = "";
+                            $("#LastUpdatedByValidation").html(ok);
+                        });
+                    }
 
-                <div class="d-flex justify-content-between">
-                    <div class="justify-content-start">
-                        <button type="submit" value="Save and publish" class="btn btn-outline-success float-left mr-1 submitButton" name="submitButton">Save and publish <span class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Save and publish will save the release note and publish the new changes to the public."></span></button>
-                        <button type="submit" value="Save as draft" class="btn btn-outline-success float-left submitButton" name="submitButton">Save as draft <span class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Save as draft will save the release note, but it will no longer be visable for the public."></span></button>
-                    </div>
-                    <a class="btn btn-outline-danger float-right" asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes"><span class="fa fa-times"></span> Cancel</a>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+                    if (title.length == 0) {
+                        evt.preventDefault();
+                        document.getElementById('TitleValidation').innerHTML = "*Title is required to update a release note!";
+                        document.getElementById('TitleValidation').style.color = "red";
+
+                        $("#Title").on('keyup', function () {
+                            var ok = "";
+                            $("#TitleValidation").html(ok);
+                        });
+                    }
+
+                    if (bodyText.length == 0) {
+                        evt.preventDefault();
+                        document.getElementById('BodyTextValidation').innerHTML = "*Body text is required to update a release note!";
+                        document.getElementById('BodyTextValidation').style.color = "red";
+
+                        $("#BodyText").on('keyup', function () {
+                            var ok = "";
+                            $("#BodyTextValidation").html(ok);
+                        });
+                    }
+
+                    if (productId.length == 0) {
+                        evt.preventDefault();
+                        document.getElementById('ProductIdValidation').innerHTML = "*Product is required to update a release note!";
+                        document.getElementById('ProductIdValidation').style.color = "red";
+
+                        $("#ProductId").on('keyup', function () {
+                            var ok = "";
+                            $("#ProductIdValidation").html(ok);
+                        });
+                    }
+
+                    if (createdBy.length == 0) {
+                        evt.preventDefault();
+                        document.getElementById('CreatedByValidation').innerHTML = "*Last updated by is required to update a release note!";
+                        document.getElementById('CreatedByValidation').style.color = "red";
+
+                        $("#CreatedBy").on('keyup', function () {
+                            var ok = "";
+                            $("#CreatedByValidation").html(ok);
+                        });
+                    }
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
+
+
+    </head>
+
+ <div>
+     <h2>Edit Release Note</h2>
+     <div>
+         <a href='javascript:history.go(-1)'><i class="fa fa-arrow-left"></i> Back to release notes</a>
+     </div>
+     <hr />
+     <div class="row">
+         <div class="col-md-6">
+             <form asp-action="EditReleaseNote">
+                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                 <div class="form-group">
+                     <label class="control-label">Title</label>
+                     <input asp-for="Title" class="form-control" id="Title" />
+                     <span id="TitleValidation"></span>
+                     <span asp-validation-for="Title" class="text-danger"></span>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label">Body text</label>
+                     <textarea class="form-control" asp-for="BodyText" runat="server" id="BodyText"></textarea>
+                     <script>
+                         //Congif to remove paragraph tags
+                         CKEDITOR.config.autoParagraph = false;
+                         // Replace the <textarea id="ckeditor"> with a CKEditor
+                         CKEDITOR.replace('BodyText');
+                         config.extraPlugins = 'simpleuploads,imagesfromword';
+                         config.coreStyles_bold = { element: 'b', overrides: 'strong' };
+                     </script>
+                     <span id="BodyTextValidation"></span>
+                     <span asp-validation-for="BodyText" class="text-danger"></span>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label">Product</label>
+                     <br />
+                     <select asp-for="ProductId"
+                             asp-items="@(new SelectList(ViewBag.products,"ProductId","ProductName"))" class="form-control" id="ProductId">
+                     </select>
+                     <span id="ProductIdValidation"></span>
+                     <span asp-validation-for="ProductId" class="text-danger"></span>
+                 </div>
+                 <div class="form-group">
+                     <input asp-for="CreatedBy" type="hidden" class="form-control" id="CreatedBy" />
+                     <span id="CreatedByValidation"></span>
+                     <span asp-validation-for="CreatedBy" class="text-danger"></span>
+                 </div>
+                 <div class="form-group">
+                     <input asp-for="CreatedDate" type="hidden" class="form-control" />
+                     <span asp-validation-for="CreatedDate" class="text-danger"></span>
+                 </div>
+                 <div class="form-group">
+                     <label class="control-label">Last updated by</label>
+                     <input asp-for="LastUpdatedBy" class="form-control" id="LastUpdatedBy" />
+                     <span id="LastUpdatedByValidation"></span>
+                     <span asp-validation-for="LastUpdatedBy" class="text-danger"></span>
+                 </div>
+                 <div class="form-group">
+                     <input asp-for="LastUpdateDate" type="hidden" class="form-control" />
+                     <span asp-validation-for="LastUpdateDate" class="text-danger"></span>
+                 </div>
+
+                 @{
+                     string[] PickedWorkItemId = new string[] { };
+
+
+                     if (ViewBag.selectedWorkItems != null)
+                     {
+                         PickedWorkItemId = ViewBag.selectedWorkItems.Split(' ');
+
+                         for (int i = 0; i < PickedWorkItemId.Length; i++)
+                         {
+                             if (PickedWorkItemId[i].Length <= 1)
+                             {
+                                 PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
+                             }
+                         }
+
+                     }
+                 }
+
+                 <span id="PickedWorkItemsValidation"></span>
+                 <span asp-validation-for="PickedWorkItems" class="text-danger"></span>
+                 <div class="mt-2 mb-2">
+                     @foreach (var item in ViewBag.workitems)
+                     {
+                         <ul class="mb-1 pl-0" id="myList" style="font-size: 16px; list-style-type: none;">
+                             <li>
+                                 <div class="d-flex justify-content-between">
+                                     <div class="d-flex justify-content-start">
+                                         <div class="btn-group-vertical">
+                                             <div class="custom-control custom-checkbox btn-group-vertical">
+
+                                                 @for (var i = 0; i < PickedWorkItemId.Length; i++)
+                                                 {
+                                                     if (PickedWorkItemId[i] != (item.Id).ToString())
+                                                     {
+                                                         <input asp-for="PickedWorkItems" type="checkbox" class="custom-control-input" id="@item.Id" value="@item.Id" name="PickedWorkItems">
+                                                     }
+                                                     else
+                                                     {
+                                                         <input asp-for="PickedWorkItems" type="checkbox" class="custom-control-input" id="@item.Id" value="@item.Id" name="PickedWorkItems" checked="checked">
+                                                     }
+                                                 }
+
+                                                 <label class="custom-control-label" for="@item.Id"></label>
+                                             </div>
+                                         </div>
+                                         <div class="float-left m-auto" id="result">
+                                             @item.Id - @item.Title
+                                         </div>
+                                     </div>
+                                     <div class="float-right">
+                                         <a asp-controller="WorkItemAdmin" asp-action="ViewWorkItem" asp-route-id="@item.Id">
+                                             <span class="btn btn-outline-secondary p-1 ml-1" style="white-space: nowrap;"><i class="fa fa-eye"></i> View</span>
+                                         </a>
+                                     </div>
+                                 </div>
+                             </li>
+                         </ul>
+                     }
+                 </div>
+
+                 <div class="d-flex justify-content-between">
+                     <div class="justify-content-start">
+                         <button type="submit" value="Save and publish" class="btn btn-outline-success float-left mr-1 submitButton" name="submitButton">Save and publish <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Save and publish will save the release note and publish the new changes to the public."></i></button>
+                         <button type="submit" value="Save as draft" class="btn btn-outline-success float-left submitButton" name="submitButton">Save as draft <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="Save as draft will save the release note, but it will no longer be visable for the public."></i></button>
+                     </div>
+                     <a class="btn btn-outline-danger float-right" asp-controller="ReleaseNotesAdmin" asp-action="ListAllReleaseNotes"><i class="fa fa-times"></i> Cancel</a>
+                 </div>
+             </form>
+         </div>
+     </div>
+ </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
