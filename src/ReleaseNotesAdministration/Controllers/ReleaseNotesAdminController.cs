@@ -34,7 +34,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!releaseNotesResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Failed getting release notes from API...");
+                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed");
             }
 
             var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
@@ -56,75 +56,6 @@ namespace ReleaseNotesAdministration.Controllers
             return View(releaseNotesList);
         }
 
-        // Method for getting an release note object to delete
-        public async Task<IActionResult> ViewReleaseNote(int Id)
-        {
-            var releaseNotesResult = await _releaseNotesClient.GetAsync($"/ReleaseNotes/{Id}");
-
-            if (!releaseNotesResult.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException($"Failed getting data to view work item with id = {Id}");
-            }
-
-            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
-            var releaseNote = JsonConvert.DeserializeObject<ReleaseNoteAdminViewModel>(responseStream);
-
-            string[] PickedWorkItemId = new string[] { };
-
-            if (releaseNote.PickedWorkItems != null)
-            {
-                PickedWorkItemId = releaseNote.PickedWorkItems.Split(' ');
-                for (int i = 0; i < PickedWorkItemId.Length; i++)
-                {
-                    if (PickedWorkItemId[i].Length <= 1)
-                    {
-                        PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
-                    }
-                }
-            }
-
-            List<WorkItemViewModel> workItemList = new List<WorkItemViewModel>();
-
-            for (int i = 0; i < PickedWorkItemId.Length; i++)
-            {
-                var workItemResult = await _releaseNotesClient.GetAsync($"/WorkItem/{PickedWorkItemId[i]}");
-
-                if (!workItemResult.IsSuccessStatusCode)
-                {
-                    throw new HttpRequestException("Failed getting data to view work items...");
-                }
-
-                var responseStreamWorkItem = await workItemResult.Content.ReadAsStringAsync();
-                var workItem = JsonConvert.DeserializeObject<WorkItemApiModel>(responseStreamWorkItem);
-
-                var workItemViewModel = new WorkItemViewModel
-                {
-                    Id = workItem.Id,
-                    Title = workItem.Title,
-                    AssignedTo = workItem.AssignedTo,
-                    State = workItem.State
-                };
-
-                workItemList.Add(workItemViewModel);
-            }
-
-            ViewBag.workItems = workItemList;
-
-            var productsResult = await _releaseNotesClient.GetAsync($"/Product/{releaseNote.ProductId}");
-
-            if (!productsResult.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException("Failed getting data to view product-list...");
-            }
-
-            var responseStreamProduct = await productsResult.Content.ReadAsStringAsync();
-            var product = JsonConvert.DeserializeObject<ProductAdminViewModel>(responseStreamProduct);
-
-            ViewBag.productName = product.ProductName;
-
-            return View(releaseNote);
-        }
-
         // Method for loading create-view
         public async Task<ActionResult> Create()
         {
@@ -132,7 +63,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!productsResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Getting data for products failed...");
+                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
             }
 
             var responseStream = await productsResult.Content.ReadAsStringAsync();
@@ -141,7 +72,7 @@ namespace ReleaseNotesAdministration.Controllers
             var productsList = products.Select(x => new ProductAdminViewModel
             {
                 ProductId = x.ProductId,
-                ProductName = x.ProductName
+                ProductName = x.ProductName,
             }).ToList();
 
             ViewBag.products = productsList;
@@ -149,12 +80,6 @@ namespace ReleaseNotesAdministration.Controllers
             //////
 
             var workItemResult = await _releaseNotesClient.GetAsync("/WorkItem/");
-
-            if (!workItemResult.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException("Getting data for work items failed...");
-            }
-
             var responseStreamWorkItem = await workItemResult.Content.ReadAsStringAsync();
             var workItems = JsonConvert.DeserializeObject<List<WorkItemApiModel>>(responseStreamWorkItem);
 
@@ -190,7 +115,7 @@ namespace ReleaseNotesAdministration.Controllers
                 ModelState.AddModelError("PickedWorkItems", "You must select at least one related work item!");
             }
 
-            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""-]{3,100}$";
+            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]{3,100}$";
             var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
             if (!releaseNoteTitleMatch.Success)
             {
@@ -248,12 +173,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             var jsonString = JsonConvert.SerializeObject(obj);
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            var result = await _releaseNotesClient.PostAsync("/ReleaseNotes/", content);
-
-            if (!result.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException($"Failed creating Release Note with title; {obj.Title}");
-            }
+            await _releaseNotesClient.PostAsync("/ReleaseNotes/", content);
 
             TempData["CreateRN"] = "Success";
             return RedirectToAction("ListAllReleaseNotes");
@@ -267,7 +187,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!releaseNotesResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException($"Could not get release note with id = {Id}");
+                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed");
             }
 
             var responseStreamReleaseNote = await releaseNotesResult.Content.ReadAsStringAsync();
@@ -282,7 +202,7 @@ namespace ReleaseNotesAdministration.Controllers
                 CreatedDate = releaseNote.CreatedDate,
                 LastUpdatedBy = releaseNote.LastUpdatedBy,
                 LastUpdateDate = DateTime.Now,
-                IsDraft = releaseNote.IsDraft
+                IsDraft = releaseNote.IsDraft,
             };
 
             ViewBag.selectedWorkItems = releaseNote.PickedWorkItems;
@@ -292,7 +212,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!productsResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Getting data for products failed...");
+                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
             }
 
             var responseStreamProduct = await productsResult.Content.ReadAsStringAsync();
@@ -308,12 +228,6 @@ namespace ReleaseNotesAdministration.Controllers
             ViewBag.products = productsList;
 
             var workItemResult = await _releaseNotesClient.GetAsync("/WorkItem/");
-
-            if (!productsResult.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException("Getting data for work items failed...");
-            }
-
             var responseStreamWorkItem = await workItemResult.Content.ReadAsStringAsync();
             var workItems = JsonConvert.DeserializeObject<List<WorkItemApiModel>>(responseStreamWorkItem);
 
@@ -334,99 +248,174 @@ namespace ReleaseNotesAdministration.Controllers
         [HttpPost]
         public async Task<IActionResult> EditReleaseNote(int Id, ReleaseNoteAdminViewModel releaseNote, string submitButton, string[] PickedWorkItems)
         {
-            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""-]{3,100}$";
-            var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
-            if (!releaseNoteTitleMatch.Success)
+            try
             {
-                ModelState.AddModelError("Title", "Title must be between six and one hundred characters!");
-            }
-
-            if (releaseNote.BodyText == null)
-            {
-                ModelState.AddModelError("BodyText", "Body text is required, and may not consist of zero characters!");
-            }
-
-            if (releaseNote.ProductId < 0)
-            {
-                ModelState.AddModelError("ProductId", "Product is required!");
-            }
-
-            string releaseNoteCreatedByPattern = @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
-            var createdByMatch = Regex.Match(releaseNote.CreatedBy, releaseNoteCreatedByPattern, RegexOptions.IgnoreCase);
-            if (!createdByMatch.Success)
-            {
-                ModelState.AddModelError("CreatedBy", "Author name may only consist of characters!");
-            }
-
-            string releaseNoteLastUpdatedByPattern = @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
-            var lastUpdatedByMatch = Regex.Match(releaseNote.LastUpdatedBy, releaseNoteLastUpdatedByPattern, RegexOptions.IgnoreCase);
-            if (!lastUpdatedByMatch.Success)
-            {
-                ModelState.AddModelError("LastUpdatedBy", "Last updated by may only consist of characters!");
-            }
-
-            string PickedWorkItemsString = "";
-
-            for (int i = 0; i < PickedWorkItems.Length; i++)
-            {
-                if (PickedWorkItems[i] != "false")
+                string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]{3,100}$";
+                var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
+                if (!releaseNoteTitleMatch.Success)
                 {
-                    PickedWorkItemsString += PickedWorkItems[i] + " ";
+                    ModelState.AddModelError("Title", "Title must be between six and one hundred characters!");
+                }
+
+                if (releaseNote.BodyText == null)
+                {
+                    ModelState.AddModelError("BodyText", "Body text is required, and may not consist of zero characters!");
+                }
+
+                if (releaseNote.ProductId < 0)
+                {
+                    ModelState.AddModelError("ProductId", "Product is required!");
+                }
+
+                string releaseNoteCreatedByPattern = @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+                var createdByMatch = Regex.Match(releaseNote.CreatedBy, releaseNoteCreatedByPattern, RegexOptions.IgnoreCase);
+                if (!createdByMatch.Success)
+                {
+                    ModelState.AddModelError("CreatedBy", "Author name may only consist of characters!");
+                }
+
+                string releaseNoteLastUpdatedByPattern = @"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+                var lastUpdatedByMatch = Regex.Match(releaseNote.LastUpdatedBy, releaseNoteLastUpdatedByPattern, RegexOptions.IgnoreCase);
+                if (!lastUpdatedByMatch.Success)
+                {
+                    ModelState.AddModelError("LastUpdatedBy", "Last updated by may only consist of characters!");
+                }
+
+                string PickedWorkItemsString = "";
+
+                for (int i = 0; i < PickedWorkItems.Length; i++)
+                {
+                    if (PickedWorkItems[i] != "false")
+                    {
+                        PickedWorkItemsString += PickedWorkItems[i] + " ";
+                    }
+                }
+
+                if (PickedWorkItemsString == "")
+                {
+                    PickedWorkItemsString = null;
+                    ModelState.AddModelError("PickedWorkItems", "You must select at least one related work item!");
+                }
+
+
+                bool val = false;
+
+                if (submitButton == "Save as draft")
+                {
+                    val = true;
+                }
+                else if (submitButton == "Save and publish")
+                {
+                    val = false;
+                }
+
+                releaseNote.IsDraft = val;
+                releaseNote.PickedWorkItems = PickedWorkItemsString;
+
+                var jsonString = JsonConvert.SerializeObject(releaseNote);
+                var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                var transportData = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
+
+
+                if (!ModelState.IsValid)
+                {
+                    TempData["EditRN"] = "Failed";
+                    return View("EditReleaseNote");
+                }
+
+                TempData["EditRN"] = "Success";
+                return RedirectToAction("ViewReleaseNote", new { id = Id });
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        // Method for getting an release note object to delete
+        public async Task<IActionResult> ViewReleaseNote(int Id)
+        {
+            var releaseNotesResult = await _releaseNotesClient.GetAsync($"/ReleaseNotes/{Id}");
+
+            if (!releaseNotesResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/ReleaseNotes/' failed");
+            }
+
+            var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
+            var releaseNote = JsonConvert.DeserializeObject<ReleaseNoteAdminViewModel>(responseStream);
+
+            string[] PickedWorkItemId = new string[] { };
+
+            if (releaseNote.PickedWorkItems != null)
+            {
+                PickedWorkItemId = releaseNote.PickedWorkItems.Split(' ');
+                for (int i = 0; i < PickedWorkItemId.Length; i++)
+                {
+                    if (PickedWorkItemId[i].Length <= 1)
+                    {
+                        PickedWorkItemId = PickedWorkItemId.Take(PickedWorkItemId.Count() - 1).ToArray();
+                    }
                 }
             }
 
-            if (PickedWorkItemsString == "")
+            List<WorkItemViewModel> workItemList = new List<WorkItemViewModel>();
+
+            for (int i = 0; i < PickedWorkItemId.Length; i++)
             {
-                PickedWorkItemsString = null;
-                ModelState.AddModelError("PickedWorkItems", "You must select at least one related work item!");
+                var workItemResult = await _releaseNotesClient.GetAsync($"/WorkItem/{PickedWorkItemId[i]}");
+
+                if (!workItemResult.IsSuccessStatusCode)
+                {
+                    throw new HttpRequestException("Get request to the URL 'API/WorkItem/' failed");
+                }
+
+                var responseStreamWorkItem = await workItemResult.Content.ReadAsStringAsync();
+                var workItem = JsonConvert.DeserializeObject<WorkItemApiModel>(responseStreamWorkItem);
+
+                var workItemViewModel = new WorkItemViewModel
+                {
+                    Id = workItem.Id,
+                    Title = workItem.Title,
+                    AssignedTo = workItem.AssignedTo,
+                    State = workItem.State
+                };
+
+                workItemList.Add(workItemViewModel);
             }
 
-            bool val = false;
+            ViewBag.workItems = workItemList;
 
-            if (submitButton == "Save as draft")
+            var productsResult = await _releaseNotesClient.GetAsync($"/Product/{releaseNote.ProductId}");
+
+            if (!productsResult.IsSuccessStatusCode)
             {
-                val = true;
-            }
-            else if (submitButton == "Save and publish")
-            {
-                val = false;
+                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
             }
 
-            releaseNote.IsDraft = val;
-            releaseNote.PickedWorkItems = PickedWorkItemsString;
+            var responseStreamProduct = await productsResult.Content.ReadAsStringAsync();
+            var product = JsonConvert.DeserializeObject<ProductAdminViewModel>(responseStreamProduct);
 
-            var jsonString = JsonConvert.SerializeObject(releaseNote);
-            var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            var result = await _releaseNotesClient.PutAsync($"/ReleaseNotes/{Id}", content);
+            ViewBag.productName = product.ProductName;
 
-            if (!result.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException($"Couldn't edit release note with id = {Id}");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                TempData["EditRN"] = "Failed";
-                return View("EditReleaseNote");
-            }
-
-            TempData["EditRN"] = "Success";
-            return RedirectToAction("ViewReleaseNote", new { id = Id });
+            return View(releaseNote);
         }
 
         // Method for deleting object
         [HttpPost]
         public async Task<IActionResult> DeleteReleaseNote(int Id)
         {
-            var transportData = await _releaseNotesClient.DeleteAsync($"/ReleaseNotes/{Id}");
-
-            if (!transportData.IsSuccessStatusCode)
+            try
             {
-                throw new HttpRequestException($"Couldnt delete release note with id = {Id}");
-            }
+                var transportData = await _releaseNotesClient.DeleteAsync($"/ReleaseNotes/{Id}");
 
-            TempData["DeleteRN"] = "Success";
-            return RedirectToAction("ListAllReleaseNotes");
+                TempData["DeleteRN"] = "Success";
+                return RedirectToAction("ListAllReleaseNotes");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public IActionResult Logout()

@@ -5,6 +5,7 @@
 }
 
     <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"></script>
         <script>
             //Client validation
             $(document).ready(function () {
@@ -26,7 +27,7 @@
 
                     if (ProductImage.length == 0) {
                         evt.preventDefault();
-                        document.getElementById('ProductImageValidation').innerHTML = "*Product image is required to update a product, and must be a png, jpeg or jpg file! (example: test-image1.png)";
+                        document.getElementById('ProductImageValidation').innerHTML = "*Product image is required to update a product, and must be a png, jpeg or jpg file!";
                         document.getElementById('ProductImageValidation').style.color = "red";
 
                         $("#ProductImage").on('keyup', function () {
@@ -39,36 +40,31 @@
         </script>
     </head>
 
-<div class="text-center">
-    <h1 class="display-4">Talentech - Release Notes Administration</h1>
-    <hr class="mb-3 mt-1" />
-</div>
-
 <div>
     <h2>Edit Product</h2>
-    <div class="mb-4">
-        <a href='javascript:history.go(-1)'><span class="fa fa-arrow-left"></span> Back to product</a>
+    <div>
+        <a href='javascript:history.go(-1)'><i class="fa fa-arrow-left"></i> Back to product</a>
     </div>
-
+    <hr />
     <div class="row">
         <div class="col-md-6">
             <form asp-action="EditProduct">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label for="ProductName" class="control-label">Product name</label>
+                    <label asp-for="ProductName" class="control-label">Product name</label>
                     <input asp-for="ProductName" class="form-control" id="ProductName"/>
                     <span id="ProductNameValidation"></span>
                     <span asp-validation-for="ProductName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label for="ProductImage" class="control-label">Product image name (example: test-image1.png)</label>
+                    <label asp-for="ProductImage" class="control-label">Product image name (example: test-image1.png)</label>
                     <input asp-for="ProductImage" class="form-control" id="ProductImage"/>
                     <span id="ProductImageValidation"></span>
                     <span asp-validation-for="ProductImage" class="text-danger"></span>
                 </div>
                 <div class="d-flex justify-content-between">
-                    <button class="btn btn-outline-success float-left submitButton"><span class="fa fa-check"></span> Save product</button>
-                    <a class="btn btn-outline-danger float-right" asp-controller="ProductsAdmin" asp-action="ListAllProducts"><span class="fa fa-times"></span> Cancel</a>
+                    <input class="btn btn-outline-success float-left submitButton" type="submit" value="Save product"  />
+                    <a class="btn btn-outline-danger float-right" asp-controller="ProductsAdmin" asp-action="ListAllProducts"><i class="fa fa-times"></i> Cancel</a>
                 </div>
             </form>
         </div>

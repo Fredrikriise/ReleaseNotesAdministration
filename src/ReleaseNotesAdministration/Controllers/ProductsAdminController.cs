@@ -14,22 +14,22 @@ namespace ReleaseNotesAdministration.Controllers
     public class ProductsAdminController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private HttpClient _releaseNotesClient;
+        private readonly HttpClient _productsClient;
 
         public ProductsAdminController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-            _releaseNotesClient = _httpClientFactory.CreateClient("ReleaseNotesAdminApiClient");
+            _productsClient = _httpClientFactory.CreateClient("ReleaseNotesAdminApiClient");
         }
 
         // Method for listing all products
         public async Task<IActionResult> ListAllProducts()
         {
-            var productsResult = await _releaseNotesClient.GetAsync("/Product/");
+            var productsResult = await _productsClient.GetAsync("/Product/");
 
             if (!productsResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException("Getting data for products failed...");
+                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
             }
 
             var responseStream = await productsResult.Content.ReadAsStringAsync();
@@ -43,21 +43,6 @@ namespace ReleaseNotesAdministration.Controllers
             }).ToList();
 
             return View(productsList);
-        }
-
-        // Method for getting an product object to view
-        public async Task<IActionResult> ViewProduct(int Id)
-        {
-            var productsResult = await _releaseNotesClient.GetAsync($"/Product/{Id}");
-
-            if (!productsResult.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException($"Failed getting data to view product with id = {Id}");
-            }
-
-            var responseStream = await productsResult.Content.ReadAsStringAsync();
-            var product = JsonConvert.DeserializeObject<ProductAdminViewModel>(responseStream);
-            return View(product);
         }
 
         // Method for loading create-view
@@ -97,11 +82,11 @@ namespace ReleaseNotesAdministration.Controllers
 
             var jsonString = JsonConvert.SerializeObject(obj);
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            var result = await _releaseNotesClient.PostAsync("/Product/", content);
+            var result = await _productsClient.PostAsync("/Product/", content);
 
             if (!result.IsSuccessStatusCode)
             {
-                throw new HttpRequestException($"Failed creating product with ProductId = {obj.ProductId}");
+                throw new HttpRequestException("Failed creating product");
             }
 
             TempData["CreateProduct"] = "Success";
@@ -111,11 +96,11 @@ namespace ReleaseNotesAdministration.Controllers
         // Method for getting product object to edit
         public async Task<IActionResult> EditProduct(int Id)
         {
-            var productResult = await _releaseNotesClient.GetAsync($"/Product/{Id}");
+            var productResult = await _productsClient.GetAsync($"/Product/{Id}");
 
             if (!productResult.IsSuccessStatusCode)
             {
-                throw new HttpRequestException($"Could not get product with id = {Id}");
+                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
             }
 
             var responseStream = await productResult.Content.ReadAsStringAsync();
@@ -137,11 +122,11 @@ namespace ReleaseNotesAdministration.Controllers
         {
             var jsonString = JsonConvert.SerializeObject(product);
             var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            var transportData = await _releaseNotesClient.PutAsync($"/Product/{Id}", content);
+            var transportData = await _productsClient.PutAsync($"/Product/{Id}", content);
 
             if (!transportData.IsSuccessStatusCode)
             {
-                throw new HttpRequestException($"Editing product with id = {Id} failed...");
+                throw new HttpRequestException($"Editing product with id = {Id} failed.");
             }
 
             string productNamePattern = @"^[a-zA-Z0-9, _ - ! ?. ""]*$";
@@ -168,11 +153,26 @@ namespace ReleaseNotesAdministration.Controllers
             return RedirectToAction("ViewProduct", new { id = Id });
         }
 
+        // Method for getting an product object to view
+        public async Task<IActionResult> ViewProduct(int Id)
+        {
+            var productsResult = await _productsClient.GetAsync($"/Product/{Id}");
+
+            if (!productsResult.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException("Get request to the URL 'API/Product/' failed");
+            }
+
+            var responseStream = await productsResult.Content.ReadAsStringAsync();
+            var product = JsonConvert.DeserializeObject<ProductAdminViewModel>(responseStream);
+            return View(product);
+        }
+
         // Method for deleting object
         [HttpPost]
         public async Task<IActionResult> DeleteProduct(int Id)
         {
-            var transportData = await _releaseNotesClient.DeleteAsync($"/Product/{Id}");
+            var transportData = await _productsClient.DeleteAsync($"/Product/{Id}");
 
             if (!transportData.IsSuccessStatusCode)
             {
