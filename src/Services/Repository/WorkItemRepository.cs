@@ -31,22 +31,53 @@ namespace Services.Repository
                 FROM [WorkItems]";
 
                 var workItems = await connection.QueryAsync<WorkItem>(query);
+
+                if (workItems == null)
+                {
+                    throw new Exception("Something happend while getting data from database...");
+                }
+
                 var workItemsMapped = _mapper.Map<List<WorkItemDto>>(workItems);
+
+                if (workItemsMapped == null)
+                {
+                    throw new Exception("Something went wrong with mapping of work items...");
+                }
+
                 return workItemsMapped;
             }
         }
 
         public async Task<WorkItemDto> GetWorkItemById(int Id)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            try
             {
-                string query = @" SELECT * 
-                FROM [WorkItems]
-                WHERE [Id] = @Id";
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    string query = @" SELECT * 
+                    FROM [WorkItems]
+                    WHERE [Id] = @Id";
 
-                var workItem = await connection.QueryFirstOrDefaultAsync<WorkItem>(query, new WorkItem { Id = Id });
-                var mappedWorkItem = _mapper.Map<WorkItemDto>(workItem);
-                return mappedWorkItem;
+                    var workItem = await connection.QueryFirstOrDefaultAsync<WorkItem>(query, new WorkItem { Id = Id });
+
+                    if (workItem == null)
+                    {
+                        throw new Exception("Something happend while getting data from database...");
+                    }
+
+                    var mappedWorkItem = _mapper.Map<WorkItemDto>(workItem);
+
+                    if (mappedWorkItem == null)
+                    {
+                        throw new Exception("Something went wrong with mapping of work item...");
+                    }
+
+                    return mappedWorkItem;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 

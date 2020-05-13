@@ -31,7 +31,19 @@ namespace Services
                 FROM [Products]";
 
                 var product = await connection.QueryAsync<Product>(query);
+
+                if(product == null)
+                {
+                    throw new Exception("Something happend while getting data from database...");
+                }
+
                 var productMapped = _mapper.Map<List<ProductDto>>(product);
+
+                if(productMapped == null)
+                {
+                    throw new Exception("Something went wrong with mapping of products...");
+                }
+
                 return productMapped;
             }
         }
@@ -45,7 +57,19 @@ namespace Services
                 WHERE [ProductId] = @ProductId";
 
                 var product = await connection.QueryFirstOrDefaultAsync<Product>(query, new Product { @ProductId = productId });
+
+                if (product == null)
+                {
+                    throw new Exception("Something happend while getting data from database...");
+                }
+
                 var mappedProduct = _mapper.Map<ProductDto>(product);
+
+                if (mappedProduct == null)
+                {
+                    throw new Exception("Something went wrong with mapping of product...");
+                }
+
                 return mappedProduct;
             }
         }
@@ -84,17 +108,19 @@ namespace Services
         {
             try
             {
-                using (var connection = new SqlConnection(_connectionString))
+                using (var connection = new SqlConnection(_connectionString))   
                 {
                     var updateDb = @"UPDATE [Products]
                     SET
                         [ProductName] = @ProductName,
                         [ProductImage] = @ProductImage
                     WHERE [ProductId] = @ProductId";
+
                     var productMapped = _mapper.Map<Product>(product);
                     productMapped.AddProductId(ProductId);
 
                     var result = await connection.ExecuteAsync(updateDb, productMapped);
+
                     return product;
                 }
             }
