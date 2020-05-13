@@ -111,7 +111,6 @@ namespace ReleaseNotesAdministration
                     name: "default",
                     pattern: "{controller=ReleaseNotesAdmin}/{action=ListAllReleaseNotes}/{id?}");
             });
-
         }
     }
 }
