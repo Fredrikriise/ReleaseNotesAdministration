@@ -4,43 +4,43 @@
     ViewData["Title"] = "Edit Product";
 }
 
-    <head>
-        <script>
-            //Client validation
-            $(document).ready(function () {
-                $(".submitButton").click(function (evt) {
-                    var ProductName = document.getElementById('ProductName').value;
-                    var ProductImage = document.getElementById('ProductImage').value;
+<head>
+    <script>
+        //Client validation
+        $(document).ready(function () {
+            $(".submitButton").click(function (evt) {
+                var ProductName = document.getElementById('ProductName').value;
+                var ProductImage = document.getElementById('ProductImage').value;
 
-                    if (ProductName.length == 0 || ProductImage.length == 0) {
-                        window.toastr.error("An error occured when trying to update a product");
-                    }
+                if (ProductName.length == 0 || ProductImage.length == 0) {
+                    window.toastr.error("An error occured when trying to update a product");
+                }
 
-                    if (ProductName.length == 0) {
-                        evt.preventDefault();
-                        document.getElementById('ProductNameValidation').innerHTML = "*Product name is required to update a product!";
-                        document.getElementById('ProductNameValidation').style.color = "red";
+                if (ProductName.length == 0) {
+                    evt.preventDefault();
+                    document.getElementById('ProductNameValidation').innerHTML = "*Product name is required to update a product!";
+                    document.getElementById('ProductNameValidation').style.color = "red";
 
-                        $("#ProductName").on('keyup', function () {
-                            var ok = "";
-                            $("#ProductNameValidation").html(ok);
-                        });
-                    }
+                    $("#ProductName").on('keyup', function () {
+                        var ok = "";
+                        $("#ProductNameValidation").html(ok);
+                    });
+                }
 
-                    if (ProductImage.length == 0) {
-                        evt.preventDefault();
-                        document.getElementById('ProductImageValidation').innerHTML = "*Product image is required to update a product, and must be a png, jpeg or jpg file! (example: test-image1.png)";
-                        document.getElementById('ProductImageValidation').style.color = "red";
+                if (ProductImage.length == 0) {
+                    evt.preventDefault();
+                    document.getElementById('ProductImageValidation').innerHTML = "*Product image is required to update a product, and must be a png, jpeg or jpg file! (example: test-image1.png)";
+                    document.getElementById('ProductImageValidation').style.color = "red";
 
-                        $("#ProductImage").on('keyup', function () {
-                            var ok = "";
-                            $("#ProductImageValidation").html(ok);
-                        });
-                    }
-                });
+                    $("#ProductImage").on('keyup', function () {
+                        var ok = "";
+                        $("#ProductImageValidation").html(ok);
+                    });
+                }
             });
-        </script>
-    </head>
+        });
+    </script>
+</head>
 
 <div class="text-center">
     <h1 class="display-4">Talentech - Release Notes Administration</h1>
@@ -59,13 +59,13 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label for="ProductName" class="control-label">Product name</label>
-                    <input asp-for="ProductName" class="form-control" id="ProductName"/>
+                    <input asp-for="ProductName" class="form-control" id="ProductName" />
                     <span id="ProductNameValidation"></span>
                     <span asp-validation-for="ProductName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label for="ProductImage" class="control-label">Product image name (example: test-image1.png)</label>
-                    <input asp-for="ProductImage" class="form-control" id="ProductImage"/>
+                    <input asp-for="ProductImage" class="form-control" id="ProductImage" />
                     <span id="ProductImageValidation"></span>
                     <span asp-validation-for="ProductImage" class="text-danger"></span>
                 </div>
