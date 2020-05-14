@@ -6,54 +6,70 @@
 
 <head>
     <script>
-            //Client validation
-            $(document).ready(function () {
-                $(".submitButton").click(function (evt) {
-                    var Id = document.getElementById('Id').value;
-                    var Title = document.getElementById('Title').value;
-                    var AssignedTo = document.getElementById('AssignedTo').value;
+        //Client validation
+        $(document).ready(function () {
+            $(".submitButton").click(function (evt) {
+                var Id = document.getElementById('Id').value;
+                var Title = document.getElementById('Title').value;
+                var AssignedTo = document.getElementById('AssignedTo').value;
 
-                    if (Id.length == 0) {
-                        evt.preventDefault();
-                        document.getElementById('IdValidation').innerHTML = "*Id is required to create a work item!";
-                        document.getElementById('IdValidation').style.color = "red";
+                if (Id.length == 0) {
+                    evt.preventDefault();
+                    document.getElementById('IdValidation').innerHTML = "*Id is required to create a work item!";
+                    document.getElementById('IdValidation').style.color = "red";
 
-                        $("#Id").on('keyup', function () {
-                            var ok = "";
-                            $("#IdValidation").html(ok);
-                        });
-                    }
+                    $("#Id").on('keyup', function () {
+                        var ok = "";
+                        $("#IdValidation").html(ok);
+                    });
+                }
 
-                    if (Title.length == 0) {
-                        evt.preventDefault();
-                        document.getElementById('TitleValidation').innerHTML = "*Title is required to create a work item!";
-                        document.getElementById('TitleValidation').style.color = "red";
+                if (Title.length == 0) {
+                    evt.preventDefault();
+                    document.getElementById('TitleValidation').innerHTML = "*Title is required to create a work item!";
+                    document.getElementById('TitleValidation').style.color = "red";
 
-                        $("#Title").on('keyup', function () {
-                            var ok = "";
-                            $("#TitleValidation").html(ok);
-                        });
-                    }
+                    $("#Title").on('keyup', function () {
+                        var ok = "";
+                        $("#TitleValidation").html(ok);
+                    });
+                }
 
-                    if (AssignedTo.length == 0) {
-                        evt.preventDefault();
-                        document.getElementById('AssignedToValidation').innerHTML = "*Assigned to is required to create a work item!";
-                        document.getElementById('AssignedToValidation').style.color = "red";
+                if (AssignedTo.length == 0) {
+                    evt.preventDefault();
+                    document.getElementById('AssignedToValidation').innerHTML = "*Assigned to is required to create a work item!";
+                    document.getElementById('AssignedToValidation').style.color = "red";
 
-                        $("#AssignedTo").on('keyup', function () {
-                            var ok = "";
-                            $("#AssignedToValidation").html(ok);
-                        });
-                    }
-                });
+                    $("#AssignedTo").on('keyup', function () {
+                        var ok = "";
+                        $("#AssignedToValidation").html(ok);
+                    });
+                }
             });
+        });
+
+        $(document).ready(function () {
+            if ('@TempData["CreateWorkItem"]' == "Failed") {
+                window.toastr.error("An error occured when trying to create a new work item");
+            }
+        });
     </script>
 </head>
 
+<div class="text-center">
+    <h1 class="display-4">Talentech - Release Notes Administration</h1>
+    <hr class="mb-3 mt-1" />
+</div>
+
 <div>
-    <h2>Create work item</h2>
-    <a asp-controller="WorkItemAdmin" asp-action="ListAllWorkItems"><span class="fas fa-arrow-left"></span> Back to work items</a>
-    <hr />
+    <label class="float-left mb-2"><strong style="font-size: 22px;">Create work item</strong></label>,
+    <br />
+
+    <div class="mt-4 mb-3">
+        <a asp-controller="WorkItemAdmin" asp-action="ListAllWorkItems"><span class="fas fa-arrow-left"></span> Back to work items</a>
+    </div>
+    
+    
     <div class="row">
         <div class="col-md-6">
             <form asp-action="CreateWorkItem">

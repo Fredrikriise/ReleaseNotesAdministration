@@ -13,6 +13,10 @@
                     var Title = document.getElementById('Title').value;
                     var AssignedTo = document.getElementById('AssignedTo').value;
 
+                    if (Id.length == 0 || Title.length == 0 || AssignedTo.length == 0) {
+                        window.toastr.error("An error occured when trying to update a release note");
+                    }
+
                     if (Id.length == 0) {
                         evt.preventDefault();
                         document.getElementById('IdValidation').innerHTML = "*Id is required to update a work item!";
@@ -47,6 +51,12 @@
                     }
                 });
             });
+
+            $(document).ready(function () {
+            if ('@TempData["EditWorkItem"]' == "Failed") {
+                window.toastr.error("An error occured when trying to update a work item");
+            }
+        });
         </script>
     </head>
 

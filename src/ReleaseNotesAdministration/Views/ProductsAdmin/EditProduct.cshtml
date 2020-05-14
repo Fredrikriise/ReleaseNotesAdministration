@@ -12,6 +12,9 @@
                     var ProductName = document.getElementById('ProductName').value;
                     var ProductImage = document.getElementById('ProductImage').value;
 
+                    if (ProductName.length == 0 || ProductImage.length == 0) {
+                        window.toastr.error("An error occured when trying to update a product");
+                    }
 
                     if (ProductName.length == 0) {
                         evt.preventDefault();

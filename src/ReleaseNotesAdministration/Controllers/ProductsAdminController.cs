@@ -73,7 +73,7 @@ namespace ReleaseNotesAdministration.Controllers
             var productNameMatch = Regex.Match(product.ProductName, productNamePattern, RegexOptions.IgnoreCase);
             if (!productNameMatch.Success)
             {
-                ModelState.AddModelError("ProductName", "Product may only contain numbers and characters!");
+                ModelState.AddModelError("ProductName", "Product name must con sists of at least three characters!");
             }
 
             string productImagePattern = @"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$";

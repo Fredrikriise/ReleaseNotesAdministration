@@ -16,6 +16,10 @@
                 var productId = document.getElementById('ProductId').value;
                 var pickedWorkItems = document.querySelector('input[name="PickedWorkItems"]:checked');
 
+                if (!pickedWorkItems || lastUpdatedBy.length == 0 || title.length == 0 || bodyText.length == 0 || productId.length == 0 || createdBy.length == 0) {
+                    window.toastr.error("An error occured when trying to update a release note");
+                }
+
                 if (!pickedWorkItems) {
                     evt.preventDefault();
                     document.getElementById('PickedWorkItemsValidation').innerHTML = "*Related work items are required to update a release note!";
@@ -87,6 +91,7 @@
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
+
     </script>
 </head>
 
