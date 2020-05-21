@@ -16,11 +16,12 @@
         $(document).ready(function () {
             $(".submitButton").click(function (evt) {
                 var title = document.getElementById('Title').value;
+                //var bodyText = document.getElementById('BodyText').value;
                 var bodyText = CKEDITOR.instances['BodyText'].getData();
                 var createdBy = document.getElementById('CreatedBy').value;
                 var productId = document.getElementById('ProductId').value;
                 var pickedWorkItems = document.querySelector('input[name="PickedWorkItems"]:checked');
- 
+
                 if (!pickedWorkItems) {
                     evt.preventDefault();
                     document.getElementById('PickedWorkItemsValidation').innerHTML = "*Related work items are required to create a new release note!";

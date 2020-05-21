@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -21,13 +20,11 @@ namespace ReleaseNotesAdministration.Controllers
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly HttpClient _releaseNotesClient;
-        private readonly IMapper _mapper;
 
-        public ReleaseNotesAdminController(IHttpClientFactory httpClientFactory, IMapper mapper)
+        public ReleaseNotesAdminController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
             _releaseNotesClient = _httpClientFactory.CreateClient("ReleaseNotesAdminApiClient");
-            _mapper = mapper;
         }
 
         // Lists all release notes for all products
@@ -43,22 +40,20 @@ namespace ReleaseNotesAdministration.Controllers
             var responseStream = await releaseNotesResult.Content.ReadAsStringAsync();
             var releaseNotes = JsonConvert.DeserializeObject<List<ReleaseNoteAdminApiModel>>(responseStream);
 
-            //var releaseNotesList = releaseNotes.Select(x => new ReleaseNoteAdminViewModel
-            //{
-            //    Title = x.Title,
-            //    BodyText = x.BodyText,
-            //    Id = x.Id,
-            //    ProductId = x.ProductId,
-            //    CreatedBy = x.CreatedBy,
-            //    CreatedDate = x.CreatedDate,
-            //    LastUpdatedBy = x.LastUpdatedBy,
-            //    LastUpdateDate = x.LastUpdateDate,
-            //    IsDraft = x.IsDraft
-            //}).ToList();
+            var releaseNotesList = releaseNotes.Select(x => new ReleaseNoteAdminViewModel
+            {
+                Title = x.Title,
+                BodyText = x.BodyText,
+                Id = x.Id,
+                ProductId = x.ProductId,
+                CreatedBy = x.CreatedBy,
+                CreatedDate = x.CreatedDate,
+                LastUpdatedBy = x.LastUpdatedBy,
+                LastUpdateDate = x.LastUpdateDate,
+                IsDraft = x.IsDraft
+            }).ToList();
 
-           var mappedReleaseNotes = _mapper.Map<List<ReleaseNoteAdminViewModel>>(releaseNotes);
-
-            return View(mappedReleaseNotes);
+            return View(releaseNotesList);
         }
 
         // Method for getting an release note object to delete
