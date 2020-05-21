@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using Moq.Protected;
+using ReleaseNotes.Models;
 using ReleaseNotesAdministration.Controllers;
 using ReleaseNotesAdministration.Models;
 using ReleaseNotesAdministration.ViewModels;
@@ -20,12 +22,14 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
         private readonly Mock<IHttpClientFactory> _mockClientFactory;
         private Mock<HttpClient> _mockHttpClient;
         private readonly ReleaseNotesAdminController _controller;
+        private readonly Mock<IMapper> _mapper;
 
         public ReleaseNotesAdminControllerTest()
         {
             _mockClientFactory = new Mock<IHttpClientFactory>();
             _mockHttpClient = new Mock<HttpClient>();
-            _controller = new ReleaseNotesAdminController(_mockClientFactory.Object);
+            _mapper = new Mock<IMapper>();
+            _controller = new ReleaseNotesAdminController(_mockClientFactory.Object, _mapper.Object);
         }
 
         [Fact]
@@ -60,13 +64,15 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
                                     .Returns(httpClient);
 
-            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object);
+            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object, _mapper.Object);
 
             // Act
+            _mapper.Setup(x => x.Map<List<ReleaseNoteAdminViewModel>>(It.IsAny<List<ReleaseNoteApiModel>>())).Returns(It.IsAny<List<ReleaseNoteAdminViewModel>>);
             var result = await controller.ListAllReleaseNotes();
-
+            
             //Assert
             var viewResult = Assert.IsType<ViewResult>(result);
+
             Assert.Equal(2, ((List<ReleaseNoteAdminViewModel>)viewResult.ViewData.Model).Count);
 
             var releaseNotes = viewResult.ViewData.Model as IList<ReleaseNoteAdminViewModel>;
@@ -125,7 +131,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
                                     .Returns(httpClient);
 
-            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object);
+            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object, _mapper.Object);
 
             // Act
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.ListAllReleaseNotes());
@@ -203,7 +209,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
                                     .Returns(httpClient);
 
-            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object);
+            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object, _mapper.Object);
 
             // Act
             var result = await controller.Create();
@@ -259,7 +265,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
                                     .Returns(httpClient);
 
-            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object);
+            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object, _mapper.Object);
 
             // Act
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.Create());
@@ -316,7 +322,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
                                     .Returns(httpClient);
 
-            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object);
+            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object, _mapper.Object);
 
             // Act
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.Create());
@@ -356,7 +362,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
                                     .Returns(httpClient);
 
-            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object);
+            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object, _mapper.Object);
 
             ReleaseNoteAdminApiModel testReleaseNote = new ReleaseNoteAdminApiModel
             {
@@ -424,7 +430,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
                                     .Returns(httpClient);
 
-            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object);
+            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object, _mapper.Object);
 
             ReleaseNoteAdminApiModel testReleaseNote = new ReleaseNoteAdminApiModel
             {
@@ -488,7 +494,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
                                     .Returns(httpClient);
 
-            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object);
+            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object, _mapper.Object);
 
             ReleaseNoteAdminApiModel testReleaseNote = new ReleaseNoteAdminApiModel
             {
@@ -572,7 +578,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
                                     .Returns(httpClient);
 
-            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object);
+            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object, _mapper.Object);
 
             ReleaseNoteAdminViewModel testReleaseNote = new ReleaseNoteAdminViewModel
             {
@@ -643,7 +649,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
                                     .Returns(httpClient);
 
-            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object);
+            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object, _mapper.Object);
 
             ReleaseNoteAdminViewModel testReleaseNote = new ReleaseNoteAdminViewModel
             {
@@ -710,7 +716,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
                                     .Returns(httpClient);
 
-            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object);
+            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object, _mapper.Object);
 
             ReleaseNoteAdminViewModel testReleaseNote = new ReleaseNoteAdminViewModel
             {
@@ -769,7 +775,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var httpClientFactoryMock = _mockClientFactory;
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient")).Returns(httpClient);
 
-            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object);
+            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object, _mapper.Object);
 
             // Act
             controller.TempData = tempDataMock.Object;
@@ -812,7 +818,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var httpClientFactoryMock = _mockClientFactory;
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient")).Returns(httpClient);
 
-            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object);
+            var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object, _mapper.Object);
 
             // Act
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.DeleteReleaseNote(Id));

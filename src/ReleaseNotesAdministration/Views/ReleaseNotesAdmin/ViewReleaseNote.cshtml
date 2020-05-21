@@ -5,13 +5,13 @@
 }
 
 <script type="text/javascript">
-$(document).ready(function () {
-    if ('@TempData["EditRN"]' == "Success") {
-        window.toastr.success("Release note was successfully edited!");
-    } else if ('@TempData["EditRN"]' == "Failed") {
-        window.toastr.error("An error occured when trying to edit the release note. Please try again.");
-    }
-});
+    $(document).ready(function () {
+        if ('@TempData["EditRN"]' == "Success") {
+            window.toastr.success("Release note was successfully edited!");
+        } else if ('@TempData["EditRN"]' == "Failed") {
+            window.toastr.error("An error occured when trying to edit the release note. Please try again.");
+        }
+    });
 </script>
 
 <div class="text-center">

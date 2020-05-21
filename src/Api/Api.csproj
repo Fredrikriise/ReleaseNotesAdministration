@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ReleaseNotesAdministration\ReleaseNotesAdministration.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
 

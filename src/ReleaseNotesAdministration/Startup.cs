@@ -1,3 +1,4 @@
+using AutoMapper;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -29,9 +30,6 @@ namespace ReleaseNotesAdministration
             services.AddControllersWithViews();
             services.AddHttpClient("ReleaseNotesAdminApiClient", client =>
             {
-                //Fredrik:  client.BaseAddress = new Uri("https://localhost:44310");
-                //Felix bærbar:  client.BaseAddress = new Uri("https://localhost:44314");
-                //Felix stasjonær:  client.BaseAddress = new Uri("https://localhost:44312");
                 client.BaseAddress = new Uri("https://localhost:44312");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
@@ -77,6 +75,8 @@ namespace ReleaseNotesAdministration
                 options.Filters.Add(new AuthorizeFilter(requireAuthenticatedUsersPolicy));
                 //options.Filters.Add(new AuthorizeFilter("checkpointUser"));
             });
+
+            services.AddAutoMapper(typeof(Startup));
         }
 
         public static string GetEnvironmentName()

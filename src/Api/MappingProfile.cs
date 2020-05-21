@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using ReleaseNotesAdministration.Models;
+using ReleaseNotesAdministration.ViewModels;
 using Services.Repository.Models;
 using Services.Repository.Models.DatabaseModels;
 using Services.Repository.Models.DataTransferObjects;
@@ -17,6 +19,7 @@ namespace Api
             CreateMap<ReleaseNoteDto, ReleaseNote>();
             CreateMap<WorkItem, WorkItemDto>();
             CreateMap<WorkItemDto, WorkItem>();
+            CreateMap<List<ReleaseNoteAdminApiModel>, ReleaseNoteAdminViewModel>();
         }
     }
 }
