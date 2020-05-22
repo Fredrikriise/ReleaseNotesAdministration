@@ -4,8 +4,8 @@
     ViewData["Title"] = "All Products";
 }
 
-    <head>
-        <script>
+<head>
+    <script>
             $(document).ready(function () {
                 $("#myInput").on("keyup", function () {
                     var value = $(this).val().toLowerCase();
@@ -24,65 +24,65 @@
                     window.toastr.success("Product was successfully deleted");
                 }
             });
-        </script>
-    </head>
+    </script>
+</head>
 
-    <div>
-        <div class="text-center">
-            <h1 class="display-4">Talentech - Release Notes Administration</h1>
-            <hr class="mb-3 mt-1"/>
-        </div>
-            <label for="myInput" class="mb-3"><strong style="font-size: 22px;">All products</strong></label>
-            <div class="d-flex justify-content-between mb-3">
-                <form class="col-6 d-inline-block float-left pl-0">
-                    <div class="input-group mb-2">
-                        <input type="text" class="form-control" id="myInput" placeholder="Search">
-                        <div class="input-group-append">
-                            <button class="input-group-text" aria-label="Search button"><span class="fas fa-search"></span></button>
-                        </div>
-                    </div>
-                </form>
-
-                <div class="float-right">
-                    <a asp-controller="ProductsAdmin" asp-action="Create">
-                        <span class="btn btn-outline-primary float-right"><span class="fa fa-plus"></span> Add new product</span>
-                    </a>
+<div>
+    <div class="text-center">
+        <h1 class="display-4">Talentech - Release Notes Administration</h1>
+        <hr class="mb-3 mt-1" />
+    </div>
+    <label for="myInput" class="mb-3"><strong style="font-size: 22px;">All products</strong></label>
+    <div class="d-flex justify-content-between mb-3">
+        <form class="col-6 d-inline-block float-left pl-0">
+            <div class="input-group mb-2">
+                <input type="text" class="form-control" id="myInput" placeholder="Search">
+                <div class="input-group-append">
+                    <button class="input-group-text" aria-label="Search button"><span class="fas fa-search"></span></button>
                 </div>
             </div>
-            <table class="table">
-                <thead style="border-top: 0px;">
-                    <tr>
-                        <th class="border-0">
-                            Product Name
-                        </th>
-                        <th class="border-0">
-                            Product Image
-                        </th>
-                        <th class="border-0">
-                            Product Image Url
-                        </th>
-                    </tr>
-                </thead>
-                <tbody id="myTable">
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @item.ProductName
-                                </td>
-                                <td>
-                                    <img src="~/@item.ProductImage" alt="@item.ProductName product icon" height="70" width="90" />
-                                </td>
-                                <td>
-                                    @item.ProductImage
-                                </td>
-                                <td>
-                                    <a asp-controller="ProductsAdmin" asp-action="ViewProduct" asp-route-id="@item.ProductId">
-                                        <span class="btn btn-outline-secondary ml-2"><span class="fa fa-eye"></span> View</span>
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                </tbody>
-            </table>
+        </form>
+
+        <div class="float-right">
+            <a asp-controller="ProductsAdmin" asp-action="Create">
+                <span class="btn btn-outline-primary float-right"><span class="fa fa-plus"></span> Add new product</span>
+            </a>
         </div>
+    </div>
+    <table class="table">
+        <thead style="border-top: 0px;">
+            <tr>
+                <th class="border-0">
+                    Product Name
+                </th>
+                <th class="border-0">
+                    Product Image
+                </th>
+                <th class="border-0">
+                    Product Image Url
+                </th>
+            </tr>
+        </thead>
+        <tbody id="myTable">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.ProductName
+                    </td>
+                    <td>
+                        <img src="~/@item.ProductImage" alt="@item.ProductName product icon" height="70" width="90" />
+                    </td>
+                    <td>
+                        @item.ProductImage
+                    </td>
+                    <td>
+                        <a asp-controller="ProductsAdmin" asp-action="ViewProduct" asp-route-id="@item.ProductId">
+                            <span class="btn btn-outline-secondary ml-2"><span class="fa fa-eye"></span> View</span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

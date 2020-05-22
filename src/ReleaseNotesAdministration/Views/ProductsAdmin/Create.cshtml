@@ -6,55 +6,70 @@
 
 <head>
     <script>
-            //Client validation
-            $(document).ready(function () {
-                $(".submitButton").click(function (evt) {
-                    var ProductName = document.getElementById('ProductName').value;
-                    var ProductImage = document.getElementById('ProductImage').value;
+        //Client validation
+        $(document).ready(function () {
+            $(".submitButton").click(function (evt) {
+                var ProductName = document.getElementById('ProductName').value;
+                var ProductImage = document.getElementById('ProductImage').value;
 
-                    if (ProductName.length == 0) {
-                        evt.preventDefault();
-                        document.getElementById('ProductNameValidation').innerHTML = "*Product name is required to create a product!";
-                        document.getElementById('ProductNameValidation').style.color = "red";
+                if (ProductName.length == 0) {
+                    evt.preventDefault();
+                    document.getElementById('ProductNameValidation').innerHTML = "*Product name is required to create a product!";
+                    document.getElementById('ProductNameValidation').style.color = "red";
 
-                        $("#ProductName").on('keyup', function () {
-                            var ok = "";
-                            $("#ProductNameValidation").html(ok);
-                        });
-                    }
+                    $("#ProductName").on('keyup', function () {
+                        var ok = "";
+                        $("#ProductNameValidation").html(ok);
+                    });
+                }
 
-                    if (ProductImage.length == 0) {
-                        evt.preventDefault();
-                        document.getElementById('ProductImageValidation').innerHTML = "*Product image is required to create a product! (example: test-image1.png)";
-                        document.getElementById('ProductImageValidation').style.color = "red";
+                if (ProductImage.length == 0) {
+                    evt.preventDefault();
+                    document.getElementById('ProductImageValidation').innerHTML = "*Product image is required to create a product! (example: test-image1.png)";
+                    document.getElementById('ProductImageValidation').style.color = "red";
 
-                        $("#ProductImage").on('keyup', function () {
-                            var ok = "";
-                            $("#ProductImageValidation").html(ok);
-                        });
-                    }
-                });
+                    $("#ProductImage").on('keyup', function () {
+                        var ok = "";
+                        $("#ProductImageValidation").html(ok);
+                    });
+                }
             });
+        });
+
+        $(document).ready(function () {
+            if ('@TempData["CreateProduct"]' == "Failed") {
+                window.toastr.error("An error occured when trying to create a new product");
+            }
+        });
     </script>
 </head>
 
+<div class="text-center">
+    <h1 class="display-4">Talentech - Release Notes Administration</h1>
+    <hr class="mb-3 mt-1" />
+</div>
+
 <div>
-    <h2>Create product</h2>
-    <a asp-controller="ProductsAdmin" asp-action="ListAllProducts"><span class="fas fa-arrow-left"></span> Back to products</a>
-    <hr />
+    <label class="float-left mb-2"><strong style="font-size: 22px;">Create product</strong></label>
+    <br />
+
+    <div class="mt-4 mb-3">
+        <a asp-controller="ProductsAdmin" asp-action="ListAllProducts"><span class="fas fa-arrow-left"></span> Back to products</a>
+    </div>
+
     <div class="row">
         <div class="col-md-6">
             <form asp-action="CreateProduct">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label for="ProductName" class="control-label">Product name</label>
-                    <input asp-for="ProductName" class="form-control" id="ProductName"/>
+                    <input asp-for="ProductName" class="form-control" id="ProductName" />
                     <span id="ProductNameValidation"></span>
                     <span asp-validation-for="ProductName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label for="ProductImage" class="control-label">Product image</label>
-                    <input asp-for="ProductImage" class="form-control" id="ProductImage"/>
+                    <input asp-for="ProductImage" class="form-control" id="ProductImage" />
                     <span id="ProductImageValidation"></span>
                     <span asp-validation-for="ProductImage" class="text-danger"></span>
                 </div>

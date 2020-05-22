@@ -216,7 +216,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!ModelState.IsValid)
             {
-                TempData["CreateRN"] = "Failed";
+                TempData["CreateReleaseNote"] = "Failed";
                 return View("Create");
             }
 
@@ -406,7 +406,7 @@ namespace ReleaseNotesAdministration.Controllers
 
             if (!ModelState.IsValid)
             {
-                TempData["EditRN"] = "Failed";
+                TempData["EditReleaseNote"] = "Failed";
                 return View("EditReleaseNote");
             }
 

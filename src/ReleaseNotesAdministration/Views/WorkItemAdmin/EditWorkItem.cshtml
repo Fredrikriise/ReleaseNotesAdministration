@@ -4,14 +4,18 @@
     ViewData["Title"] = "Edit Work Item";
 }
 
-    <head>
-        <script>
+<head>
+    <script>
             //Client validation
             $(document).ready(function () {
                 $(".submitButton").click(function (evt) {
                     var Id = document.getElementById('Id').value;
                     var Title = document.getElementById('Title').value;
                     var AssignedTo = document.getElementById('AssignedTo').value;
+
+                    if (Id.length == 0 || Title.length == 0 || AssignedTo.length == 0) {
+                        window.toastr.error("An error occured when trying to update a release note");
+                    }
 
                     if (Id.length == 0) {
                         evt.preventDefault();
@@ -47,8 +51,14 @@
                     }
                 });
             });
-        </script>
-    </head>
+
+            $(document).ready(function () {
+            if ('@TempData["EditWorkItem"]' == "Failed") {
+                window.toastr.error("An error occured when trying to update a work item");
+            }
+        });
+    </script>
+</head>
 
 <div class="text-center">
     <h1 class="display-4">Talentech - Release Notes Administration</h1>

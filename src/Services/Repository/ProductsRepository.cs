@@ -32,14 +32,14 @@ namespace Services
 
                 var product = await connection.QueryAsync<Product>(query);
 
-                if(product == null)
+                if (product == null)
                 {
                     throw new Exception("Something happend while getting data from database...");
                 }
 
                 var productMapped = _mapper.Map<List<ProductDto>>(product);
 
-                if(productMapped == null)
+                if (productMapped == null)
                 {
                     throw new Exception("Something went wrong with mapping of products...");
                 }
@@ -108,7 +108,7 @@ namespace Services
         {
             try
             {
-                using (var connection = new SqlConnection(_connectionString))   
+                using (var connection = new SqlConnection(_connectionString))
                 {
                     var updateDb = @"UPDATE [Products]
                     SET

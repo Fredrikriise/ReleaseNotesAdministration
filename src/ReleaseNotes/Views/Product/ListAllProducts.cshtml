@@ -9,8 +9,6 @@
         border: 1px solid;
         border-color: rgb(42,128,192);
     }
-
-
 </style>
 
 <div class="text-center">
@@ -27,8 +25,8 @@
                 <div class="card mb-3">
                     <a asp-controller="ReleaseNotes" asp-action="ListReleaseNotesForProduct" asp-route-productId="@item.ProductId">
                         <div class="card-body">
-                            <img src="@item.ProductImage" alt="@item.ProductName product icon" height="120" width="140"/>
-                            <hr class="mt-3 mb-3"/>
+                            <img src="@item.ProductImage" alt="@item.ProductName product icon" height="120" width="140" />
+                            <hr class="mt-3 mb-3" />
                             <h4 class="card-title">@item.ProductName</h4>
                         </div>
                     </a>
