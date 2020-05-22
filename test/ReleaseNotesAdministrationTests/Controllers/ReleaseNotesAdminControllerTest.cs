@@ -131,31 +131,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.ListAllReleaseNotes());
         }
 
-        [Fact]
-        public async Task ViewReleaseNote_Should_Return_View_With_ViewModel()
-        {
-
-        }
-
-        [Fact]
-        public async Task ViewReleaseNote_Should_Throw_Exception_Getting_ReleaseNote()
-        {
-
-        }
-
-        [Fact]
-        public async Task ViewReleaseNote_Should_Throw_Exception_Getting_WorkItem()
-        {
-
-        }
-
-        [Fact]
-        public async Task ViewReleaseNote_Should_Throw_Exception_Getting_Product()
-        {
-
-        }
-
-        // FUNKER IKKE 
+        
         [Fact]
         public async Task CreateReleaseNote_NoParameters_Should_Return_View()
         {
@@ -510,30 +486,6 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
 
             // Act
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.CreateReleaseNote(testReleaseNote, submitButton, PickedWorkItems));
-        }
-
-        [Fact]
-        public async Task EditReleaseNote_With_Only_IdAsParameter_Should_Return_View_With_ViewModel()
-        {
-
-        }
-
-        [Fact]
-        public async Task EditReleaseNote_With_Only_IdAsParameter_Should_Throw_Exception_Getting_ReleaseNote()
-        {
-
-        }
-
-        [Fact]
-        public async Task EditReleaseNote_With_Only_IdAsParameter_Should_Throw_Exception_Getting_Products()
-        {
-
-        }
-
-        [Fact]
-        public async Task EditReleaseNote_With_Only_IdAsParameter_Should_Throw_Exception_Getting_WorkItems()
-        {
-
         }
 
         [Fact]
