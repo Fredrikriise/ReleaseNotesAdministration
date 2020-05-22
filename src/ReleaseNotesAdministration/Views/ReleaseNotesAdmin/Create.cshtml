@@ -125,11 +125,7 @@
                 <script>
                     // Replace the <textarea id="ckeditor"> with a CKEditor
                     CKEDITOR.replace('BodyText');
-                    CKEDITOR.config.extraPlugins = 'pastebase64';
                     CKEDITOR.config.extraPlugins = 'base64image';
-                    //CKEDITOR.config.removePlugins = 'easyimage';
-                    //CKEDITOR.config.extraPlugins = 'imagepaste';
-                    //CKEDITOR.config.filebrowserUploadUrl = "base64";
                     //Config to remove paragraph tags
                     CKEDITOR.config.autoParagraph = false;
                     config.extraPlugins = 'simpleuploads,imagesfromword';
