@@ -190,11 +190,11 @@ namespace ReleaseNotesAdministration.Controllers
                 ModelState.AddModelError("PickedWorkItems", "You must select at least one related work item!");
             }
 
-            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""-]{3,100}$";
+            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""-]$";
             var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
             if (!releaseNoteTitleMatch.Success)
             {
-                ModelState.AddModelError("Title", "Title must be between three and one hundred characters!");
+                ModelState.AddModelError("Title", "Title is required, and may not consist of zero characters!");
             }
 
             if (releaseNote.BodyText == null)

@@ -7,10 +7,20 @@
     <script>
         //Client validation
         $(document).ready(function () {
+            var lastUpdatedBy = document.getElementById('LastUpdatedBy').value;
+
+            if (lastUpdatedBy == 0) {
+                document.getElementById('LastUpdatedBy').style.borderColor = "orange";
+
+                $("#LastUpdatedBy").on('keyup', function () {
+                    document.getElementById('LastUpdatedBy').style.borderColor = "rgb(206, 212, 218)";
+                });
+            }
+
             $(".submitButton").click(function (evt) {
                 var lastUpdatedBy = document.getElementById('LastUpdatedBy').value;
                 var title = document.getElementById('Title').value;
-                var bodyText = document.getElementById('BodyText').value;
+                var bodyText = CKEDITOR.instances['BodyText'].getData();
                 var productId = document.getElementById('ProductId').value;
                 var createdBy = document.getElementById('CreatedBy').value;
                 var productId = document.getElementById('ProductId').value;
@@ -58,7 +68,7 @@
                     document.getElementById('BodyTextValidation').innerHTML = "*Body text is required to update a release note!";
                     document.getElementById('BodyTextValidation').style.color = "red";
 
-                    $("#BodyText").on('keyup', function () {
+                    CKEDITOR.instances['BodyText'].on('change', function () {
                         var ok = "";
                         $("#BodyTextValidation").html(ok);
                     });
@@ -69,7 +79,7 @@
                     document.getElementById('ProductIdValidation').innerHTML = "*Product is required to update a release note!";
                     document.getElementById('ProductIdValidation').style.color = "red";
 
-                    $("#ProductId").on('keyup', function () {
+                    $("#ProductId").on('change', function () {
                         var ok = "";
                         $("#ProductIdValidation").html(ok);
                     });
@@ -90,6 +100,15 @@
 
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
+        });
+
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myList li").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
         });
 
     </script>
@@ -175,6 +194,14 @@
                         }
                     }
                 }
+
+                <div class="input-group mb-2">
+                    <label for="myInput" class="mb-1">Which work items are related to the release note you would like to publish?</label>
+                    <input type="text" class="form-control" id="myInput" placeholder="Search">
+                    <div class="input-group-append">
+                        <button class="input-group-text" aria-label="Search button"><span class="fas fa-search"></span></button>
+                    </div>
+                </div>
 
                 <span id="PickedWorkItemsValidation"></span>
                 <span asp-validation-for="PickedWorkItems" class="text-danger"></span>
