@@ -120,6 +120,7 @@
                     <label for="BodyText" class="control-label">Body text</label>
                     <textarea class="form-control" asp-for="BodyText" runat="server" id="BodyText"></textarea>
                     <script>
+                        CKEDITOR.config.extraPlugins = 'base64image';
                         //Congif to remove paragraph tags
                         CKEDITOR.config.autoParagraph = false;
                         // Replace the <textarea id="ckeditor"> with a CKEditor
