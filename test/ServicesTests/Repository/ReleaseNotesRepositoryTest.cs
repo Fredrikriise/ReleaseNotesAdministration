@@ -89,7 +89,7 @@ namespace test.ServicesTests.Repository
             // Arrange
             var repo = _releaseNotesRepo;
 
-            var Id = 23;
+            var Id = 1;
 
             ReleaseNoteDto testReleaseNoteDto = new ReleaseNoteDto()
             {
@@ -107,6 +107,7 @@ namespace test.ServicesTests.Repository
 
             // Act
             _mapper.Setup(x => x.Map<ReleaseNoteDto>(It.IsAny<ReleaseNote>())).Returns(testReleaseNoteDto);
+            await repo.CreateReleaseNote(testReleaseNoteDto);
             var result = await repo.GetReleaseNoteById(Id);
 
             // Assert
@@ -250,7 +251,7 @@ namespace test.ServicesTests.Repository
         }
 
         [Fact]
-        public async Task DeleteWorkItem_Should_Execute_Async()
+        public async Task DeleteReleaseNote_Should_Execute_Async()
         {
             // Arrange
             var repo = _releaseNotesRepo;

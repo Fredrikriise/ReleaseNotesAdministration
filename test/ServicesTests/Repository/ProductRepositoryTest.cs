@@ -76,7 +76,7 @@ namespace test.ServicesTests.Repository
             // Arrange
             var repo = _productsRepo;
 
-            var productId = 2;
+            var productId = 1;
 
             ProductDto testProductDto = new ProductDto()
             {
@@ -87,6 +87,7 @@ namespace test.ServicesTests.Repository
 
             // Act
             _mapper.Setup(x => x.Map<ProductDto>(It.IsAny<Product>())).Returns(testProductDto);
+            await repo.CreateProduct(testProductDto);
             var result = await repo.GetProductById(productId);
 
             // Assert

@@ -90,6 +90,7 @@ namespace test.ServicesTests.Repository
 
             // Act
             _mapper.Setup(x => x.Map<WorkItemDto>(It.IsAny<WorkItem>())).Returns(testWorkItemDto);
+            await repo.CreateWorkItem(testWorkItemDto);
             var result = await repo.GetWorkItemById(Id);
 
             // Assert
@@ -116,7 +117,7 @@ namespace test.ServicesTests.Repository
 
             WorkItemDto testWorkItemDto = new WorkItemDto()
             {
-                Id = 1,
+                Id = 21674,
                 Title = "21674 - WorkItemDto",
                 AssignedTo = "Felix",
                 State = "Active"
@@ -155,20 +156,20 @@ namespace test.ServicesTests.Repository
             // Arrange
             var repo = _workItemRepo;
 
-            var Id = 1;
+            var Id = 21542;
 
             WorkItem testWorkItem = new WorkItem()
             {
-                Id = 1,
-                Title = "21674 - WorkItemDto",
+                Id = 21674,
+                Title = "WorkItemDto",
                 AssignedTo = "Felix",
                 State = "Active"
             };
 
             WorkItemDto testWorkItemDto = new WorkItemDto()
             {
-                Id = 2,
-                Title = "21542 - WorkItemDto",
+                Id = 21542,
+                Title = "WorkItemDto",
                 AssignedTo = "Fredrik",
                 State = "New"
             };
@@ -192,8 +193,8 @@ namespace test.ServicesTests.Repository
 
             WorkItemDto testWorkItemDto = new WorkItemDto()
             {
-                Id = 2,
-                Title = "21542 - WorkItemDto",
+                Id = 21542,
+                Title = "WorkItemDto",
                 AssignedTo = "Fredrik",
                 State = "New"
             };
@@ -208,7 +209,7 @@ namespace test.ServicesTests.Repository
             // Arrange
             var repo = _workItemRepo;
 
-            var Id = 1;
+            var Id = 21432;
 
             // Act
             var result = await repo.DeleteWorkItem(Id);

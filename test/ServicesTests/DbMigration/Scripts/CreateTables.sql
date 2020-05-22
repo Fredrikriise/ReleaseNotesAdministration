@@ -5,6 +5,14 @@ CREATE TABLE Products (
     [ProductImage] varchar(max)
 );
 
+----------------------------------------------------
+CREATE TABLE WorkItems (
+    [Id] [int] NOT NULL PRIMARY KEY,
+    [Title] varchar(max),
+    [AssignedTo] varchar(max),
+    [State] varchar(50)
+);
+
 -----------------------------------------------------
 CREATE TABLE ReleaseNotes (
     [Title] varchar(64) NOT NULL,
@@ -14,19 +22,7 @@ CREATE TABLE ReleaseNotes (
     [CreatedBy] varchar(max),
     [CreatedDate] datetime NOT NULL DEFAULT (GETUTCDATE()),
     [LastUpdatedBy] varchar(max),
-    [LastUpdatedDate] datetime NOT NULL DEFAULT (GETUTCDATE()),
+    [LastUpdateDate] datetime NOT NULL DEFAULT (GETUTCDATE()),
     [isDraft] [bit] NOT NULL,
     [PickedWorkItems] varchar(max)
-
-    CONSTRAINT FK_ReleaseNotes_Products
-    FOREIGN KEY (ProductId)
-    REFERENCES Products (ProductId)
-);
-
-----------------------------------------------------
-CREATE TABLE WorkItems (
-    [Id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
-    [Title] varchar(max),
-    [AssignedTo] varchar(max),
-    [State] varchar(50)
 );
