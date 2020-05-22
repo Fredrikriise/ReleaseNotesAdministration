@@ -16,7 +16,6 @@
         $(document).ready(function () {
             $(".submitButton").click(function (evt) {
                 var title = document.getElementById('Title').value;
-                //var bodyText = document.getElementById('BodyText').value;
                 var bodyText = CKEDITOR.instances['BodyText'].getData();
                 var createdBy = document.getElementById('CreatedBy').value;
                 var productId = document.getElementById('ProductId').value;
@@ -120,12 +119,13 @@
                 <span id="TitleValidation"></span>
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-            <div class="form-group" style="padding-left: 2px; padding-right: 2px; padding-top: 2px;">
+            <div class="form-group" style="padding-left: 2px; padding-right: 2px; padding-top: 3px;">
                 <label for="BodyText" class="control-label">Body text</label>
                 <textarea class="form-control" asp-for="BodyText" runat="server" id="BodyText"></textarea>
                 <script>
                     // Replace the <textarea id="ckeditor"> with a CKEditor
                     CKEDITOR.replace('BodyText');
+                    CKEDITOR.config.extraPlugins = 'base64image';
                     //Config to remove paragraph tags
                     CKEDITOR.config.autoParagraph = false;
                     config.extraPlugins = 'simpleuploads,imagesfromword';
