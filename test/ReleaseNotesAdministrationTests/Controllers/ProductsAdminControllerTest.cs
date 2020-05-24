@@ -269,7 +269,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             // Assert
             Assert.Matches(@"^[A-Za-z0-9\s\-_,\.;:!()+']{3,99}$",
                 testProduct.ProductName);
-            Assert.Matches(@"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$",
+            Assert.Matches(@"^([a-zA-Z0-9\s_\\.\-\(\):])+(.jpg|.JPG|.jpeg|.JPEG|.png|.PNG|.gif|.GIF)$",
                 testProduct.ProductImage);
 
             Assert.IsAssignableFrom<RedirectToActionResult>(result);
@@ -327,7 +327,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             // Assert
             Assert.DoesNotMatch(@"^[A-Za-z0-9\s\-_,\.;:!()+']{3,99}$",
                 testProduct.ProductName);
-            Assert.DoesNotMatch(@"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$",
+            Assert.DoesNotMatch(@"^([a-zA-Z0-9\s_\\.\-\(\):])+(.jpg|.JPG|.jpeg|.JPEG|.png|.PNG|.gif|.GIF)$",
                 testProduct.ProductImage);
 
             Assert.IsAssignableFrom<ViewResult>(result);
@@ -510,7 +510,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             // Assert
             Assert.Matches(@"^[a-zA-Z0-9, _ - ! ?. ""]*$",
                 testProduct.ProductName);
-            Assert.Matches(@"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$",
+            Assert.Matches(@"^([a-zA-Z0-9\s_\\.\-\(\):])+(.jpg|.JPG|.jpeg|.JPEG|.png|.PNG|.gif|.GIF)$",
                 testProduct.ProductImage);
 
             var viewResult = Assert.IsType<RedirectToActionResult>(result);
@@ -571,7 +571,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             // Assert
             Assert.DoesNotMatch(@"^[a-zA-Z0-9, _ - ! ?. ""]*$",
                 testProduct.ProductName);
-            Assert.DoesNotMatch(@"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$",
+            Assert.DoesNotMatch(@"^([a-zA-Z0-9\s_\\.\-\(\):])+(.jpg|.JPG|.jpeg|.JPEG|.png|.PNG|.gif|.GIF)$",
                 testProduct.ProductImage);
 
             Assert.IsAssignableFrom<ViewResult>(result);

@@ -357,7 +357,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var result = await controller.CreateReleaseNote(testReleaseNote, submitButton, PickedWorkItems);
 
             // Assert
-            Assert.Matches(@"^[a-zA-Z0-9, _ - ! ?. ""-]{3,100}$", testReleaseNote.Title);
+            Assert.Matches(@"^[a-zA-Z0-9, _ - ! ?. ""-]{1,100}$", testReleaseNote.Title);
             Assert.Matches(@"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$", testReleaseNote.CreatedBy);
 
             Assert.IsAssignableFrom<RedirectToActionResult>(result);
@@ -425,7 +425,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var result = await controller.CreateReleaseNote(testReleaseNote, submitButton, PickedWorkItems);
 
             // Assert
-            Assert.DoesNotMatch(@"^[a-zA-Z0-9, _ - ! ?. ""-]{3,100}$", testReleaseNote.Title);
+            Assert.DoesNotMatch(@"^[a-zA-Z0-9, _ - ! ?. ""-]{1,100}$", testReleaseNote.Title);
             Assert.DoesNotMatch(@"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$", testReleaseNote.CreatedBy);
 
             Assert.IsAssignableFrom<ViewResult>(result);
@@ -549,7 +549,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var result = await controller.EditReleaseNote(Id, testReleaseNote, submitButton, PickedWorkItems);
 
             // Assert
-            Assert.Matches(@"^[a-zA-Z0-9, _ - ! ?. ""-]{3,100}$", testReleaseNote.Title);
+            Assert.Matches(@"^[a-zA-Z0-9, _ - ! ?. ""-]{1,100}$", testReleaseNote.Title);
             Assert.Matches(@"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$", testReleaseNote.CreatedBy);
             Assert.Matches(@"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$", testReleaseNote.LastUpdatedBy);
 
@@ -620,7 +620,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var result = await controller.EditReleaseNote(Id, testReleaseNote, submitButton, PickedWorkItems);
 
             // Assert
-            Assert.DoesNotMatch(@"^[a-zA-Z0-9, _ - ! ?. ""-]{3,100}$", testReleaseNote.Title);
+            Assert.DoesNotMatch(@"^[a-zA-Z0-9, _ - ! ?. ""-]{1,100}$", testReleaseNote.Title);
             Assert.DoesNotMatch(@"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$", testReleaseNote.CreatedBy);
             Assert.DoesNotMatch(@"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$", testReleaseNote.LastUpdatedBy);
 

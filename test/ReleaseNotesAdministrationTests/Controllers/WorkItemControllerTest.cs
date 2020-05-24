@@ -419,7 +419,6 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            Assert.Equal(21625, ((WorkItemViewModel)viewResult.ViewData.Model).Id);
             Assert.Equal("Adding the styling to correct file (User module)", ((WorkItemViewModel)viewResult.ViewData.Model).Title);
             Assert.Equal("Fredrik Riise", ((WorkItemViewModel)viewResult.ViewData.Model).AssignedTo);
             Assert.Equal("New", ((WorkItemViewModel)viewResult.ViewData.Model).State);
