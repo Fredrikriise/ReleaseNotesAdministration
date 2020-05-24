@@ -21,6 +21,7 @@ namespace test.ServicesTests.Repository
         public ReleaseNotesRepositoryTest()
         {
             DatabaseFixture database = new DatabaseFixture();
+
             _mapper = new Mock<IMapper>();
             _releaseNotesRepo = new ReleaseNotesRepository(Options.Create(new SqlDbConnection
             {

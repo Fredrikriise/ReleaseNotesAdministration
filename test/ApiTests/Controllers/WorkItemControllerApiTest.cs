@@ -164,7 +164,7 @@ namespace test.ApiTests.Controllers
             };
 
             // Act
-            _mockRepo.Setup(x => x.GetWorkItemById(Id)).ReturnsAsync(testWorkItemDto);
+            _mockRepo.Setup(x => x.GetWorkItemById(It.IsAny<int>())).ReturnsAsync(testWorkItemDto);
             _mapper.Setup(x => x.Map<WorkItem>(testWorkItemDto)).Returns(testWorkItem);
             var result = await sut.GetWorkItemById(Id);
 
@@ -190,7 +190,7 @@ namespace test.ApiTests.Controllers
             testWorkItemDto = null;
 
             // Act
-            _mockRepo.Setup(x => x.GetWorkItemById(Id)).ReturnsAsync(testWorkItemDto);
+            _mockRepo.Setup(x => x.GetWorkItemById(It.IsAny<int>())).ReturnsAsync(testWorkItemDto);
             var result = await sut.GetWorkItemById(Id);
 
             //Assert
@@ -214,7 +214,7 @@ namespace test.ApiTests.Controllers
             };
 
             // Act
-            _mockRepo.Setup(x => x.GetWorkItemById(Id)).ReturnsAsync(testWorkItemDto);
+            _mockRepo.Setup(x => x.GetWorkItemById(It.IsAny<int>())).ReturnsAsync(testWorkItemDto);
             var result = await sut.GetWorkItemById(Id);
 
             //Assert
@@ -364,7 +364,7 @@ namespace test.ApiTests.Controllers
 
             //Act
             _mapper.Setup(x => x.Map<WorkItemDto>(testWorkItem)).Returns(testWorkItemDto);
-            _mockRepo.Setup(x => x.UpdateWorkItem(Id, testWorkItemDto)).ReturnsAsync(testWorkItemDtoResult);
+            _mockRepo.Setup(x => x.UpdateWorkItem(It.IsAny<int>(), testWorkItemDto)).ReturnsAsync(testWorkItemDtoResult);
             var result = await sut.UpdateWorkItem(Id, testWorkItem);
 
             //Assert
@@ -404,7 +404,7 @@ namespace test.ApiTests.Controllers
             };
 
             //Act
-            _mockRepo.Setup(x => x.UpdateWorkItem(Id, testWorkItemDto)).ReturnsAsync(testWorkItemDtoResult);
+            _mockRepo.Setup(x => x.UpdateWorkItem(It.IsAny<int>(), testWorkItemDto)).ReturnsAsync(testWorkItemDtoResult);
             var result = await sut.UpdateWorkItem(Id, testWorkItem);
 
             //Assert
@@ -446,7 +446,7 @@ namespace test.ApiTests.Controllers
 
             //Act
             _mapper.Setup(x => x.Map<WorkItemDto>(testWorkItem)).Returns(testWorkItemDto);
-            _mockRepo.Setup(x => x.UpdateWorkItem(Id, testWorkItemDto)).ReturnsAsync(testWorkItemDtoResult);
+            _mockRepo.Setup(x => x.UpdateWorkItem(It.IsAny<int>(), testWorkItemDto)).ReturnsAsync(testWorkItemDtoResult);
             var result = await sut.UpdateWorkItem(Id, testWorkItem);
 
             //Assert
@@ -462,7 +462,7 @@ namespace test.ApiTests.Controllers
             int Id = 1;
 
             //Act
-            _mockRepo.Setup(x => x.DeleteWorkItem(Id)).ReturnsAsync(true);
+            _mockRepo.Setup(x => x.DeleteWorkItem(It.IsAny<int>())).ReturnsAsync(true);
             var result = await sut.DeleteWorkItem(Id);
 
             //Assert
@@ -478,7 +478,7 @@ namespace test.ApiTests.Controllers
             int Id = 0;
 
             //Act
-            _mockRepo.Setup(x => x.DeleteWorkItem(Id)).ReturnsAsync(false);
+            _mockRepo.Setup(x => x.DeleteWorkItem(It.IsAny<int>())).ReturnsAsync(false);
             var result = await sut.DeleteWorkItem(Id);
 
             //Assert

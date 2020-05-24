@@ -155,7 +155,7 @@ namespace test.ApiTests.Controllers
             };
 
             // Act
-            _mockRepo.Setup(x => x.GetProductById(productId)).ReturnsAsync(testProductDto);
+            _mockRepo.Setup(x => x.GetProductById(It.IsAny<int>())).ReturnsAsync(testProductDto);
             _mapper.Setup(x => x.Map<Product>(testProductDto)).Returns(testProduct);
             var result = await sut.GetProductById(productId);
 
@@ -169,7 +169,7 @@ namespace test.ApiTests.Controllers
             //Arrange
             var sut = _controller;
 
-            var productId = 0;
+            var productId = 1;
 
             ProductDto testProductDto = new ProductDto
             {
@@ -180,7 +180,7 @@ namespace test.ApiTests.Controllers
             testProductDto = null;
 
             // Act
-            _mockRepo.Setup(x => x.GetProductById(productId)).ReturnsAsync(testProductDto);
+            _mockRepo.Setup(x => x.GetProductById(It.IsAny<int>())).ReturnsAsync(testProductDto);
             var result = await sut.GetProductById(productId);
 
             //Assert
@@ -203,7 +203,7 @@ namespace test.ApiTests.Controllers
             };
 
             // Act
-            _mockRepo.Setup(x => x.GetProductById(productId)).ReturnsAsync(testProductDto);
+            _mockRepo.Setup(x => x.GetProductById(It.IsAny<int>())).ReturnsAsync(testProductDto);
             var result = await sut.GetProductById(productId);
 
             //Assert
@@ -342,7 +342,7 @@ namespace test.ApiTests.Controllers
 
             //Act
             _mapper.Setup(x => x.Map<ProductDto>(testProduct)).Returns(testProductDto);
-            _mockRepo.Setup(x => x.UpdateProduct(productId, testProductDto)).ReturnsAsync(testProductDtoResult);
+            _mockRepo.Setup(x => x.UpdateProduct(It.IsAny<int>(), testProductDto)).ReturnsAsync(testProductDtoResult);
             var result = await sut.UpdateProduct(productId, testProduct);
 
             //Assert
@@ -379,7 +379,7 @@ namespace test.ApiTests.Controllers
             };
 
             //Act
-            _mockRepo.Setup(x => x.UpdateProduct(productId, testProductDto)).ReturnsAsync(testProductDtoResult);
+            _mockRepo.Setup(x => x.UpdateProduct(It.IsAny<int>(), testProductDto)).ReturnsAsync(testProductDtoResult);
             var result = await sut.UpdateProduct(productId, testProduct);
 
             //Assert
@@ -418,7 +418,7 @@ namespace test.ApiTests.Controllers
 
             //Act
             _mapper.Setup(x => x.Map<ProductDto>(testProduct)).Returns(testProductDto);
-            _mockRepo.Setup(x => x.UpdateProduct(productId, testProductDto)).ReturnsAsync(testProductDtoResult);
+            _mockRepo.Setup(x => x.UpdateProduct(It.IsAny<int>(), testProductDto)).ReturnsAsync(testProductDtoResult);
             var result = await sut.UpdateProduct(productId, testProduct);
 
             //Assert
@@ -434,7 +434,7 @@ namespace test.ApiTests.Controllers
             int productId = 1;
 
             //Act
-            _mockRepo.Setup(x => x.DeleteProduct(productId)).ReturnsAsync(true);
+            _mockRepo.Setup(x => x.DeleteProduct(It.IsAny<int>())).ReturnsAsync(true);
             var result = await sut.DeleteProduct(productId);
 
             //Assert
@@ -450,7 +450,7 @@ namespace test.ApiTests.Controllers
             int productId = 0;
 
             //Act
-            _mockRepo.Setup(x => x.DeleteProduct(productId)).ReturnsAsync(false);
+            _mockRepo.Setup(x => x.DeleteProduct(It.IsAny<int>())).ReturnsAsync(false);
             var result = await sut.DeleteProduct(productId);
 
             //Assert
