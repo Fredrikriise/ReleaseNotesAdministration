@@ -10,7 +10,6 @@ namespace test.ServicesTests.test_context
 
         public DatabaseFixture()
         {
-            //ConnectionString = $"Server=(localdb)\\MSSQLLocalDB;Database=TestDatabase_{Guid.NewGuid()}; Integrated Security=SSPI; Connection Timeout=60";
             ConnectionString = $"Server=(localdb)\\MSSQLLocalDB;Database=ReleaseNotesDb_{Guid.NewGuid()};Integrated Security=SSPI;Connection Timeout=60";
             DbMigrator.Migrate(ConnectionString);
         }

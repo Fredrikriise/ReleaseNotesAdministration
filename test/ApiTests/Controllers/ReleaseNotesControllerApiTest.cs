@@ -193,7 +193,6 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
             var Id = 1;
 
             ReleaseNoteDto testReleaseNoteDto = new ReleaseNoteDto
@@ -238,7 +237,6 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
             var Id = 1;
 
             ReleaseNoteDto testReleaseNoteDto = new ReleaseNoteDto
@@ -269,7 +267,6 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
             var Id = 1;
 
             ReleaseNoteDto testReleaseNoteDto = new ReleaseNoteDto
@@ -456,8 +453,7 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
-            int Id = 1;
+            var Id = 1;
 
             ReleaseNote testReleaseNote = new ReleaseNote
             {
@@ -515,8 +511,7 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
-            int Id = 1;
+            var Id = 1;
 
             ReleaseNote testReleaseNote = new ReleaseNote
             {
@@ -573,8 +568,7 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
-            int Id = 1;
+            var Id = 1;
 
             ReleaseNote testReleaseNote = new ReleaseNote
             {
@@ -633,8 +627,7 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
-            int Id = 1;
+            var Id = 1;
 
             //Act
             _mockRepo.Setup(x => x.DeleteReleaseNote(It.IsAny<int>())).ReturnsAsync(true);
@@ -649,8 +642,7 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
-            int Id = 0;
+            var Id = 0;
 
             //Act
             _mockRepo.Setup(x => x.DeleteReleaseNote(It.IsAny<int>())).ReturnsAsync(false);

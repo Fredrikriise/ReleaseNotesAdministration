@@ -144,7 +144,6 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
             var Id = 1;
 
             WorkItemDto testWorkItemDto = new WorkItemDto
@@ -177,7 +176,6 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
             var Id = 0;
 
             WorkItemDto testWorkItemDto = new WorkItemDto
@@ -202,7 +200,6 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
             var Id = 1;
 
             WorkItemDto testWorkItemDto = new WorkItemDto
@@ -335,8 +332,7 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
-            int Id = 1;
+            var Id = 1;
 
             WorkItemDto testWorkItemDto = new WorkItemDto
             {
@@ -376,8 +372,7 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
-            int Id = 1;
+            var Id = 1;
 
             WorkItemDto testWorkItemDto = new WorkItemDto
             {
@@ -416,8 +411,7 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
-            int Id = 1;
+            var Id = 1;
 
             WorkItemDto testWorkItemDto = new WorkItemDto
             {
@@ -458,8 +452,7 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
-            int Id = 1;
+            var Id = 1;
 
             //Act
             _mockRepo.Setup(x => x.DeleteWorkItem(It.IsAny<int>())).ReturnsAsync(true);
@@ -474,8 +467,7 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
-            int Id = 0;
+            var Id = 0;
 
             //Act
             _mockRepo.Setup(x => x.DeleteWorkItem(It.IsAny<int>())).ReturnsAsync(false);

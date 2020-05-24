@@ -89,7 +89,6 @@ namespace test.ServicesTests.Repository
         {
             // Arrange
             var repo = _releaseNotesRepo;
-
             var Id = 1;
 
             ReleaseNoteDto testReleaseNoteDto = new ReleaseNoteDto()
@@ -185,7 +184,6 @@ namespace test.ServicesTests.Repository
         {
             // Arrange
             var repo = _releaseNotesRepo;
-
             var Id = 1;
 
             ReleaseNote testReleaseNote = new ReleaseNote()
@@ -230,7 +228,6 @@ namespace test.ServicesTests.Repository
         {
             // Arrange
             var repo = _releaseNotesRepo;
-
             var Id = 1;
 
             ReleaseNoteDto testReleaseNoteDto = new ReleaseNoteDto()
@@ -256,7 +253,6 @@ namespace test.ServicesTests.Repository
         {
             // Arrange
             var repo = _releaseNotesRepo;
-
             var Id = 1;
 
             // Act

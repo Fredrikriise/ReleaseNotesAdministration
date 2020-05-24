@@ -29,9 +29,6 @@ namespace ReleaseNotesAdministration
             services.AddControllersWithViews();
             services.AddHttpClient("ReleaseNotesAdminApiClient", client =>
             {
-                //Fredrik:  client.BaseAddress = new Uri("https://localhost:44310");
-                //Felix bærbar:  client.BaseAddress = new Uri("https://localhost:44314");
-                //Felix stasjonær:  client.BaseAddress = new Uri("https://localhost:44312");
                 client.BaseAddress = new Uri("http://localhost:55683");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
@@ -51,15 +48,11 @@ namespace ReleaseNotesAdministration
                 options.RequireHttpsMetadata = false;
                 options.ClientId = "hrmts-releasenotes-app";
                 options.ClientSecret = "4700825d-92d3-4148-9f39-4a7c81a47b25";
-
-
                 options.ResponseType = "code id_token";
                 options.UsePkce = true;
-
                 options.Scope.Clear();
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
-
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.SaveTokens = true;
 
@@ -75,7 +68,6 @@ namespace ReleaseNotesAdministration
                 // Add global filter to make sure we require authenticated users for everything!
                 var requireAuthenticatedUsersPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 options.Filters.Add(new AuthorizeFilter(requireAuthenticatedUsersPolicy));
-                //options.Filters.Add(new AuthorizeFilter("checkpointUser"));
             });
         }
 
@@ -97,14 +89,11 @@ namespace ReleaseNotesAdministration
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            //app.UseHttpsRedirection();
+
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

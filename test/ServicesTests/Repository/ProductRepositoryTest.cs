@@ -75,7 +75,6 @@ namespace test.ServicesTests.Repository
         {
             // Arrange
             var repo = _productsRepo;
-
             var productId = 1;
 
             ProductDto testProductDto = new ProductDto()
@@ -150,7 +149,6 @@ namespace test.ServicesTests.Repository
         {
             // Arrange
             var repo = _productsRepo;
-
             var productId = 1;
 
             Product testProduct = new Product()
@@ -181,7 +179,6 @@ namespace test.ServicesTests.Repository
         {
             // Arrange
             var repo = _productsRepo;
-
             var productId = 1;
 
             ProductDto testProductDto = new ProductDto()
@@ -200,7 +197,6 @@ namespace test.ServicesTests.Repository
         {
             // Arrange
             var repo = _productsRepo;
-
             var productId = 1;
 
             // Act

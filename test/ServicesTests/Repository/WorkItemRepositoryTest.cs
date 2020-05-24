@@ -21,7 +21,6 @@ namespace test.ServicesTests.Repository
         public WorkItemRepositoryTest()
         {
             DatabaseFixture database = new DatabaseFixture();
-
             _mapper = new Mock<IMapper>();
             _workItemRepo = new WorkItemRepository(Options.Create(new SqlDbConnection
             {
@@ -77,7 +76,6 @@ namespace test.ServicesTests.Repository
         {
             // Arrange
             var repo = _workItemRepo;
-
             var Id = 1;
 
             WorkItemDto testWorkItemDto = new WorkItemDto()
@@ -155,7 +153,6 @@ namespace test.ServicesTests.Repository
         {
             // Arrange
             var repo = _workItemRepo;
-
             var Id = 21542;
 
             WorkItem testWorkItem = new WorkItem()
@@ -188,7 +185,6 @@ namespace test.ServicesTests.Repository
         {
             // Arrange
             var repo = _workItemRepo;
-
             var Id = 1;
 
             WorkItemDto testWorkItemDto = new WorkItemDto()
@@ -208,7 +204,6 @@ namespace test.ServicesTests.Repository
         {
             // Arrange
             var repo = _workItemRepo;
-
             var Id = 21432;
 
             // Act

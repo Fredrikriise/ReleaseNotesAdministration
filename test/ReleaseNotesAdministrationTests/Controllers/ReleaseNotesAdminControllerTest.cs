@@ -72,6 +72,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var releaseNotes = viewResult.ViewData.Model as IList<ReleaseNoteAdminViewModel>;
             var createdDateObj1 = new DateTime(2020, 3, 5, 23, 47, 49);
             var lastUpdatedObj1 = new DateTime(2020, 3, 6, 18, 36, 24);
+
             Assert.Equal(24, releaseNotes[0].Id);
             Assert.Equal("Release note 3.6 - Manager", releaseNotes[0].Title);
             Assert.Equal("body text test", releaseNotes[0].BodyText);
@@ -83,6 +84,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
 
             var createdDateObj2 = new DateTime(2020, 3, 7, 23, 47, 49);
             var lastUpdatedObj2 = new DateTime(2020, 3, 9, 12, 23, 54);
+
             Assert.Equal(26, releaseNotes[1].Id);
             Assert.Equal("Release note 3.7 - Recruiter", releaseNotes[1].Title);
             Assert.Equal("body text test", releaseNotes[1].BodyText);
@@ -91,7 +93,6 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             Assert.Equal(createdDateObj2, releaseNotes[1].CreatedDate);
             Assert.Equal("Felix", releaseNotes[1].LastUpdatedBy);
             Assert.Equal(lastUpdatedObj2, releaseNotes[1].LastUpdateDate);
-
             Assert.IsAssignableFrom<List<ReleaseNoteAdminViewModel>>(viewResult.ViewData.Model);
         }
 
@@ -124,7 +125,6 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var httpClientFactoryMock = _mockClientFactory;
             var client = httpClientFactoryMock.Setup(x => x.CreateClient("ReleaseNotesAdminApiClient"))
                                     .Returns(httpClient);
-
             var controller = new ReleaseNotesAdminController(httpClientFactoryMock.Object);
 
             // Act

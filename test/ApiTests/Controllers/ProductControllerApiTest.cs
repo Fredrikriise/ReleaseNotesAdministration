@@ -137,7 +137,6 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
             var productId = 1;
 
             ProductDto testProductDto = new ProductDto
@@ -168,7 +167,6 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
             var productId = 1;
 
             ProductDto testProductDto = new ProductDto
@@ -192,7 +190,6 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
             var productId = 1;
 
             ProductDto testProductDto = new ProductDto
@@ -316,8 +313,7 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
-            int productId = 1;
+            var productId = 1;
 
             Product testProduct = new Product
             {
@@ -354,8 +350,7 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
-            int productId = 1;
+            var productId = 1;
 
             ProductDto testProductDto = new ProductDto
             {
@@ -391,8 +386,7 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
-            int productId = 1;
+            var productId = 1;
 
             ProductDto testProductDto = new ProductDto
             {
@@ -430,8 +424,7 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
-            int productId = 1;
+            var productId = 1;
 
             //Act
             _mockRepo.Setup(x => x.DeleteProduct(It.IsAny<int>())).ReturnsAsync(true);
@@ -446,8 +439,7 @@ namespace test.ApiTests.Controllers
         {
             //Arrange
             var sut = _controller;
-
-            int productId = 0;
+            var productId = 0;
 
             //Act
             _mockRepo.Setup(x => x.DeleteProduct(It.IsAny<int>())).ReturnsAsync(false);

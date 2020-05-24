@@ -23,7 +23,6 @@ namespace test.ServicesTests.DbMigration
                 {
                     throw result.Error;
                 }
-
             }
             catch (Exception ex)
             {
