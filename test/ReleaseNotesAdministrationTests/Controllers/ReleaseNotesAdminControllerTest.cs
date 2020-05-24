@@ -131,7 +131,7 @@ namespace test.ReleaseNotesAdministrationTests.Controllers
             var ex = await Assert.ThrowsAsync<HttpRequestException>(() => controller.ListAllReleaseNotes());
         }
 
-        
+
         [Fact]
         public async Task CreateReleaseNote_NoParameters_Should_Return_View()
         {

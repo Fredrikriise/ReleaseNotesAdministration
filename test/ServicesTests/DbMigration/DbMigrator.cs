@@ -19,7 +19,7 @@ namespace test.ServicesTests.DbMigration
                     .Build();
                 var result = upgrader.PerformUpgrade();
 
-                if(result.Successful == false)
+                if (result.Successful == false)
                 {
                     throw result.Error;
                 }
