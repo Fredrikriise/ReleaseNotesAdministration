@@ -76,11 +76,12 @@ namespace ReleaseNotesAdministration.Controllers
                 ModelState.AddModelError("ProductName", "Product name must consist of at least three characters!");
             }
 
-            string productImagePattern = @"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$";
+            string productImagePattern =
+                @"^([a-zA-Z0-9\s_\\.\-\(\):])+(.jpg|.JPG|.jpeg|.JPEG|.png|.PNG|.gif|.GIF)$";
             var productImageMatch = Regex.Match(product.ProductImage, productImagePattern, RegexOptions.IgnoreCase);
             if (!productImageMatch.Success)
             {
-                ModelState.AddModelError("ProductImage", "Product image must be either .jpg, .jpeg or .png file!");
+                ModelState.AddModelError("ProductImage", "Product image must be either .jpg, .jpeg, .png or .gif file!");
             }
 
             if (!ModelState.IsValid)
@@ -151,11 +152,12 @@ namespace ReleaseNotesAdministration.Controllers
                 ModelState.AddModelError("ProductName", "Product name is required, and may only contain numbers and characters!");
             }
 
-            string productImagePattern = @"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$";
+            string productImagePattern =
+                @"^([a-zA-Z0-9\s_\\.\-\(\):])+(.jpg|.JPG|.jpeg|.JPEG|.png|.PNG|.gif|.GIF)$";
             var productImageMatch = Regex.Match(product.ProductImage, productImagePattern, RegexOptions.IgnoreCase);
             if (!productImageMatch.Success)
             {
-                ModelState.AddModelError("ProductImage", "Product image is required, and must be either .jpg, .jpeg or .png file!");
+                ModelState.AddModelError("ProductImage", "Product image is required, and must be either .jpg, .jpeg, .png or .gif file!");
             }
 
             if (!ModelState.IsValid)

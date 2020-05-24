@@ -190,7 +190,7 @@ namespace ReleaseNotesAdministration.Controllers
                 ModelState.AddModelError("PickedWorkItems", "You must select at least one related work item!");
             }
 
-            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""-]$";
+            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""-]{1,100}$";
             var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
             if (!releaseNoteTitleMatch.Success)
             {
@@ -219,9 +219,6 @@ namespace ReleaseNotesAdministration.Controllers
                 TempData["CreateReleaseNote"] = "Failed";
                 return View("Create");
             }
-
-            //Encodes the bodytext so not raw html tags are inserted into the database
-            //var EncodedBodyText = HttpUtility.HtmlEncode(releaseNote.BodyText);
 
             bool val = false;
 
@@ -280,7 +277,6 @@ namespace ReleaseNotesAdministration.Controllers
                 ProductId = releaseNote.ProductId,
                 CreatedBy = releaseNote.CreatedBy,
                 CreatedDate = releaseNote.CreatedDate,
-                LastUpdatedBy = releaseNote.LastUpdatedBy,
                 LastUpdateDate = DateTime.Now,
                 IsDraft = releaseNote.IsDraft
             };
@@ -334,7 +330,7 @@ namespace ReleaseNotesAdministration.Controllers
         [HttpPost]
         public async Task<IActionResult> EditReleaseNote(int Id, ReleaseNoteAdminViewModel releaseNote, string submitButton, string[] PickedWorkItems)
         {
-            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""-]{3,100}$";
+            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""-]{1,100}$";
             var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
             if (!releaseNoteTitleMatch.Success)
             {

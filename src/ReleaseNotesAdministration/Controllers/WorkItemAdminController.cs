@@ -142,7 +142,6 @@ namespace ReleaseNotesAdministration.Controllers
 
             var workItemViewModel = new WorkItemViewModel
             {
-                Id = workItem.Id,
                 Title = workItem.Title,
                 AssignedTo = workItem.AssignedTo,
                 State = workItem.State

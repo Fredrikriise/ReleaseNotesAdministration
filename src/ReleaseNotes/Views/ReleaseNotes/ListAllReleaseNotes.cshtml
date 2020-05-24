@@ -28,69 +28,74 @@
     <label for="myInput" class="mb-3" style="font-size:22px;"><strong>All published release notes</strong></label>
 
     <div class="content">
-        <div class="d-flex justify-content-between mb-3">
-            <div class="float-left mt-2 mb-4">
+        <div class="d-flex justify-content-between mt-2 mb-2">
+            <div class="float-left mr-4">
                 <a asp-controller="Product" asp-action="ListAllProducts">
                     <span class="fa fa-arrow-left"></span> Back to products
                 </a>
             </div>
-
-            <form class="col-6 d-inline-block float-right">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="myInput" placeholder="Search for a keyword">
-                    <div class="input-group-append">
-                        <button aria-label="Search button" class="input-group-text"><span class="fas fa-search"></span></button>
-                    </div>
-                </div>
-            </form>
+            <div class="float-right">
+                <label class="mb-1">Do you wish to subscribe to new release notes? Click <a asp-controller="Subscribe" asp-action="Subscribe">here</a></label>
+                <hr class="mb-4 mt-0 col-9 float-left" />
+            </div>
         </div>
+
+        <form class="col-md-6 d-inline-block float-left pl-0 mb-2">
+            <div class="input-group">
+                <input type="text" class="form-control" id="myInput" placeholder="Search for a keyword">
+                <div class="input-group-append">
+                    <button aria-label="Search button" class="input-group-text"><span class="fas fa-search"></span></button>
+                </div>
+            </div>
+        </form>
+        <br />
 
         @{bool ReleaseNoteFound = false; }
 
         <ul class="searchResult pl-0" style="list-style-type: none;">
             @foreach (var item in Model)
             {
-                <li>
-                    <h5 class="font-weight-bold mt-5">
-                        @item.Title
-                    </h5>
+            <li>
+                <h5 class="font-weight-bold mt-5">
+                    @item.Title
+                </h5>
 
-                    <label>Posted by <span class="font-weight-bold font-italic">@item.CreatedBy</span> on @item.CreatedDate.ToString().Split()[0]</label>
-                    <hr class="mb-1 mt-auto" />
+                <label>Posted by <span class="font-weight-bold font-italic">@item.CreatedBy</span> on @item.CreatedDate.ToString().Split()[0]</label>
+                <hr class="mb-1 mt-auto" />
 
-                    <!-- Decodes html tags that are made by cdkeditor -->
-                    @Html.Raw(System.Web.HttpUtility.HtmlDecode(item.BodyText))
-                    <br />
+                <!-- Decodes html tags that are made by cdkeditor -->
+                @Html.Raw(System.Web.HttpUtility.HtmlDecode(item.BodyText))
+                <br />
 
-                    @if (item.PickedWorkItems != null)
-                    {
-                        <label class="mt-3">Related work items: </label>
+                @if (item.PickedWorkItems != null)
+                {
+                <label class="mt-3">Related work items: </label>
 
-                        string[] PickedWorkItemsId = item.PickedWorkItems.Split(' ');
-                        PickedWorkItemsId = PickedWorkItemsId.Take(PickedWorkItemsId.Count() - 1).ToArray();
+                string[] PickedWorkItemsId = item.PickedWorkItems.Split(' ');
+                PickedWorkItemsId = PickedWorkItemsId.Take(PickedWorkItemsId.Count() - 1).ToArray();
 
-                        foreach (var id in PickedWorkItemsId)
-                        {
-                            <a asp-controller="WorkItem" asp-action="ListWorkItem" asp-route-id="@id">#@id</a>
-                        }
-                    }
+                foreach (var id in PickedWorkItemsId)
+                {
+                <a asp-controller="WorkItem" asp-action="ListWorkItem" asp-route-id="@id">#@id</a>
+                }
+                }
 
-                    <!-- if loop to check if the releasenotes has been updated -->
-                    @if (item.LastUpdatedBy != null)
-                    {
-                        <div class="mt-3">
-                            <label>Last updated by <span class="font-weight-bold font-italic">@item.LastUpdatedBy</span> on @item.LastUpdateDate.ToString().Split()[0]</label>
-                        </div>
-                    }
-                    <hr class="mt-1" />
-                </li>
-                ReleaseNoteFound = true;
+                <!-- if loop to check if the releasenotes has been updated -->
+                @if (item.LastUpdatedBy != null)
+                {
+                <div class="mt-3">
+                    <label>Last updated by <span class="font-weight-bold font-italic">@item.LastUpdatedBy</span> on @item.LastUpdateDate.ToString().Split()[0]</label>
+                </div>
+                }
+                <hr class="mt-1" />
+            </li>
+            ReleaseNoteFound = true;
             }
         </ul>
 
         @if (!ReleaseNoteFound)
         {
-            <label>There is currently no release notes published.</label>
+        <label>There is currently no release notes published.</label>
         }
     </div>
 </div>
