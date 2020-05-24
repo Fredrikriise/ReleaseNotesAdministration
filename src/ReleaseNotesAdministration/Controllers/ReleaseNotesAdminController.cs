@@ -190,7 +190,7 @@ namespace ReleaseNotesAdministration.Controllers
                 ModelState.AddModelError("PickedWorkItems", "You must select at least one related work item!");
             }
 
-            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""-]$";
+            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""-]{1,100}$";
             var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
             if (!releaseNoteTitleMatch.Success)
             {
@@ -334,7 +334,7 @@ namespace ReleaseNotesAdministration.Controllers
         [HttpPost]
         public async Task<IActionResult> EditReleaseNote(int Id, ReleaseNoteAdminViewModel releaseNote, string submitButton, string[] PickedWorkItems)
         {
-            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""-]{3,100}$";
+            string releaseNoteTitlePattern = @"^[a-zA-Z0-9, _ - ! ?. ""-]{1,100}$";
             var releaseNoteTitleMatch = Regex.Match(releaseNote.Title, releaseNoteTitlePattern, RegexOptions.IgnoreCase);
             if (!releaseNoteTitleMatch.Success)
             {

@@ -225,7 +225,7 @@ namespace test.ApiTests.Controllers
             };
 
             // Act
-            _mockRepo.Setup(x => x.GetReleaseNoteById(Id)).ReturnsAsync(testReleaseNoteDto);
+            _mockRepo.Setup(x => x.GetReleaseNoteById(It.IsAny<int>())).ReturnsAsync(testReleaseNoteDto);
             _mapper.Setup(x => x.Map<ReleaseNote>(testReleaseNoteDto)).Returns(testReleaseNote);
             var result = await sut.GetReleaseNoteById(Id);
 
@@ -239,7 +239,7 @@ namespace test.ApiTests.Controllers
             //Arrange
             var sut = _controller;
 
-            var Id = 0;
+            var Id = 1;
 
             ReleaseNoteDto testReleaseNoteDto = new ReleaseNoteDto
             {
@@ -257,7 +257,7 @@ namespace test.ApiTests.Controllers
             testReleaseNoteDto = null;
 
             // Act
-            _mockRepo.Setup(x => x.GetReleaseNoteById(Id)).ReturnsAsync(testReleaseNoteDto);
+            _mockRepo.Setup(x => x.GetReleaseNoteById(It.IsAny<int>())).ReturnsAsync(testReleaseNoteDto);
             var result = await sut.GetReleaseNoteById(Id);
 
             //Assert
@@ -287,7 +287,7 @@ namespace test.ApiTests.Controllers
             };
 
             // Act
-            _mockRepo.Setup(x => x.GetReleaseNoteById(Id)).ReturnsAsync(testReleaseNoteDto);
+            _mockRepo.Setup(x => x.GetReleaseNoteById(It.IsAny<int>())).ReturnsAsync(testReleaseNoteDto);
             var result = await sut.GetReleaseNoteById(Id);
 
             //Assert
@@ -503,7 +503,7 @@ namespace test.ApiTests.Controllers
 
             //Act
             _mapper.Setup(x => x.Map<ReleaseNoteDto>(testReleaseNote)).Returns(testReleaseNoteDto);
-            _mockRepo.Setup(x => x.UpdateReleaseNote(Id, testReleaseNoteDto)).ReturnsAsync(testReleaseNoteDtoResult);
+            _mockRepo.Setup(x => x.UpdateReleaseNote(It.IsAny<int>(), testReleaseNoteDto)).ReturnsAsync(testReleaseNoteDtoResult);
             var result = await sut.UpdateReleaseNote(Id, testReleaseNote);
 
             //Assert
@@ -561,7 +561,7 @@ namespace test.ApiTests.Controllers
             };
 
             //Act
-            _mockRepo.Setup(x => x.UpdateReleaseNote(Id, testReleaseNoteDto)).ReturnsAsync(testReleaseNoteDtoResult);
+            _mockRepo.Setup(x => x.UpdateReleaseNote(It.IsAny<int>(), testReleaseNoteDto)).ReturnsAsync(testReleaseNoteDtoResult);
             var result = await sut.UpdateReleaseNote(Id, testReleaseNote);
 
             //Assert
@@ -621,7 +621,7 @@ namespace test.ApiTests.Controllers
 
             //Act
             _mapper.Setup(x => x.Map<ReleaseNoteDto>(testReleaseNote)).Returns(testReleaseNoteDto);
-            _mockRepo.Setup(x => x.UpdateReleaseNote(Id, testReleaseNoteDto)).ReturnsAsync(testReleaseNoteDtoResult);
+            _mockRepo.Setup(x => x.UpdateReleaseNote(It.IsAny<int>(), testReleaseNoteDto)).ReturnsAsync(testReleaseNoteDtoResult);
             var result = await sut.UpdateReleaseNote(Id, testReleaseNote);
 
             //Assert
@@ -637,7 +637,7 @@ namespace test.ApiTests.Controllers
             int Id = 1;
 
             //Act
-            _mockRepo.Setup(x => x.DeleteReleaseNote(Id)).ReturnsAsync(true);
+            _mockRepo.Setup(x => x.DeleteReleaseNote(It.IsAny<int>())).ReturnsAsync(true);
             var result = await sut.DeleteReleaseNote(Id);
 
             //Assert
@@ -653,7 +653,7 @@ namespace test.ApiTests.Controllers
             int Id = 0;
 
             //Act
-            _mockRepo.Setup(x => x.DeleteReleaseNote(Id)).ReturnsAsync(false);
+            _mockRepo.Setup(x => x.DeleteReleaseNote(It.IsAny<int>())).ReturnsAsync(false);
             var result = await sut.DeleteReleaseNote(Id);
 
             //Assert
